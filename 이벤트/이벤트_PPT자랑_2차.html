@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ミーキャンPPTで私の○○自慢 — MiriCanvasユーザー自慢コンテスト">
+<title>ミーキャンPPTで私の○○自慢 | MiriCanvas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MiriCanvas 자慢 콘테스트 — v2 (Modern, Brand-blue)
+   ※ 브랜드 hex 확정 시 --brand 한 줄만 교체하면 전체 반영
+   ============================================================ */
+:root{
+  /* Brand */
+  --brand:#4A6CF7;        /* MiriCanvas vibrant blue (요확인) */
+  --brand-deep:#3A55D8;
+  --brand-soft:#EEF2FF;
+  --brand-bright:#6B86FF;
+  --brand-gradient:linear-gradient(135deg,#4A6CF7 0%,#6B86FF 100%);
+
+  /* Neutrals */
+  --bg:#FAFBFD;
+  --surface:#FFFFFF;
+  --surface-2:#F4F6FB;
+  --border:#E5E8EE;
+  --border-strong:#CFD4DE;
+  --text:#0F172A;
+  --text-sub:#475569;
+  --text-mute:#94A3B8;
+
+  /* Accents */
+  --gold:#E0B341;
+  --silver:#A7B0BD;
+  --bronze:#C68A4E;
+  --success:#10B981;
+
+  /* Shadows */
+  --shadow-sm:0 1px 2px rgba(15,23,42,.05);
+  --shadow-md:0 2px 8px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-lg:0 20px 48px -20px rgba(74,108,247,.25),0 4px 16px rgba(15,23,42,.06);
+
+  /* Layout */
+  --max:1200px;
+  --radius:10px;
+  --radius-sm:6px;
+  --radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans JP',system-ui,-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit;border:none;background:none}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+@media (max-width:640px){.container{padding:0 20px}}
+
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ===== Header ===== */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(250,251,253,.85);
+  backdrop-filter:saturate(180%) blur(16px);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.site-header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;gap:16px;
+}
+.brand{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:17px;font-weight:700;letter-spacing:-.01em;
+}
+.brand-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:8px;
+  background:var(--brand-gradient);color:#fff;
+  font-weight:800;font-size:14px;letter-spacing:-.05em;
+}
+.brand .jp{font-size:13px;color:var(--text-sub);font-weight:500}
+.header-nav{display:flex;align-items:center;gap:10px}
+.series-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--text-sub);font-weight:500;
+  background:var(--surface);border:1px solid var(--border);
+  padding:8px 14px;border-radius:999px;
+  transition:all .15s;
+}
+.series-pill:hover{border-color:var(--brand);color:var(--brand)}
+.series-pill .arrow{font-size:9px;opacity:.6}
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--brand);color:#fff;
+  padding:11px 22px;font-size:13px;font-weight:600;
+  border-radius:999px;letter-spacing:-.01em;
+  transition:all .18s;
+  box-shadow:0 1px 2px rgba(74,108,247,.2);
+}
+.cta:hover{background:var(--brand-deep);transform:translateY(-1px);box-shadow:0 4px 12px rgba(74,108,247,.3)}
+.cta-outline{
+  background:transparent;color:var(--text);
+  border:1px solid var(--border-strong);box-shadow:none;
+}
+.cta-outline:hover{background:var(--text);color:#fff;border-color:var(--text);transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,23,42,.15)}
+.cta-ghost{background:var(--brand-soft);color:var(--brand);box-shadow:none}
+.cta-ghost:hover{background:var(--brand);color:#fff}
+
+@media (max-width:640px){
+  .brand .jp{display:none}
+  .series-pill .label-full{display:none}
+  .header-cta-text{display:none}
+  .cta-mobile-icon{display:inline}
+  .header-nav .cta{padding:0;width:40px;height:40px;font-size:20px}
+}
+.cta-mobile-icon{display:none}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;overflow:hidden;
+  padding:96px 0 88px;text-align:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:-20% -10% auto -10%;height:70%;
+  background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(74,108,247,.12),transparent 70%);
+  z-index:0;pointer-events:none;
+}
+.hero > .container{position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--brand-soft);color:var(--brand);
+  padding:6px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:.02em;
+  margin-bottom:24px;
+}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--brand);border-radius:50%;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+
+.hero-title{
+  font-size:clamp(36px,6vw,64px);
+  line-height:1.15;
+  font-weight:800;
+  letter-spacing:-.03em;
+  margin-bottom:20px;
+}
+.hero-title .gradient{
+  background:var(--brand-gradient);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-desc{
+  font-size:16px;color:var(--text-sub);max-width:580px;
+  margin:0 auto 40px;line-height:1.8;
+}
+.hero-stats{
+  display:inline-flex;gap:0;
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  margin-bottom:40px;
+  box-shadow:var(--shadow-md);
+}
+.hero-stat{
+  padding:18px 32px;
+  border-right:1px solid var(--border);
+  text-align:left;
+}
+.hero-stat:last-child{border-right:none}
+.hero-stat-label{font-size:11px;color:var(--text-mute);font-weight:500;letter-spacing:.05em;margin-bottom:4px;text-transform:uppercase}
+.hero-stat-value{font-size:22px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.hero-stat-value small{font-size:12px;color:var(--text-sub);font-weight:500;margin-left:3px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-actions .cta{padding:14px 28px;font-size:14px}
+
+@media (max-width:640px){
+  .hero{padding:64px 0 56px}
+  .hero-stats{flex-direction:column;width:100%;max-width:320px}
+  .hero-stat{border-right:none;border-bottom:1px solid var(--border);text-align:center;padding:14px 20px}
+  .hero-stat:last-child{border-bottom:none}
+  .hero-stat-value{font-size:18px}
+}
+
+/* ===== Section ===== */
+.section{padding:80px 0}
+@media (max-width:640px){.section{padding:56px 0}}
+.section-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:36px;gap:24px;flex-wrap:wrap;
+}
+.section-eyebrow{
+  font-size:11px;color:var(--brand);font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;
+}
+.section-title{
+  font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.2;
+}
+.section-sub{font-size:14px;color:var(--text-sub);margin-top:8px}
+
+/* ===== Ranking ===== */
+.ranking-section{background:linear-gradient(180deg,var(--surface-2),var(--bg))}
+.ranking-tabs{
+  display:inline-flex;background:var(--surface);
+  border:1px solid var(--border);border-radius:999px;padding:4px;
+  box-shadow:var(--shadow-sm);
+}
+.ranking-tab{
+  padding:9px 20px;font-size:13px;
+  color:var(--text-sub);font-weight:600;
+  border-radius:999px;
+  transition:all .2s;
+}
+.ranking-tab.active{background:var(--text);color:#fff}
+
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:24px}
+@media (max-width:900px){.podium{grid-template-columns:1fr}}
+.podium-card{
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;position:relative;
+  transition:all .25s;
+  box-shadow:var(--shadow-sm);
+}
+.podium-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--brand-bright)}
+.podium-card[data-rank="1"]{
+  background:linear-gradient(180deg,#FFFBEF 0%,var(--surface) 60%);
+  border-color:rgba(224,179,65,.3);
+}
+.podium-rank{
+  position:absolute;top:16px;left:16px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold);color:#fff;
+  padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:-.01em;
+  box-shadow:0 2px 8px rgba(224,179,65,.3);
+}
+.podium-rank-icon{font-size:14px}
+.podium-card[data-rank="2"] .podium-rank{background:var(--silver);box-shadow:0 2px 8px rgba(167,176,189,.3)}
+.podium-card[data-rank="3"] .podium-rank{background:var(--bronze);box-shadow:0 2px 8px rgba(198,138,78,.3)}
+.podium-card .thumb{
+  aspect-ratio:16/10;background:var(--surface-2);
+  border-radius:var(--radius);overflow:hidden;
+  margin-bottom:20px;margin-top:36px;
+}
+.podium-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.podium-card:hover .thumb img{transform:scale(1.04)}
+.podium-card .title{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.4;letter-spacing:-.01em}
+.podium-card .author{font-size:12px;color:var(--text-mute);margin-bottom:18px;font-weight:500}
+.podium-card .votes{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.votes-left{display:flex;align-items:baseline;gap:4px}
+.votes-num{font-size:24px;font-weight:800;color:var(--brand);line-height:1;letter-spacing:-.03em}
+.votes-unit{font-size:12px;color:var(--text-sub);font-weight:500}
+.votes-badge{
+  font-size:11px;padding:4px 10px;border-radius:999px;
+  background:var(--brand-soft);color:var(--brand);font-weight:600;
+}
+
+.rank-list{
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.rank-item{
+  display:grid;grid-template-columns:40px 64px 1fr auto;
+  align-items:center;gap:16px;
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.rank-item:last-child{border-bottom:none}
+.rank-item:hover{background:var(--surface-2)}
+.rank-item .num-cell{font-size:15px;font-weight:700;color:var(--text-mute);text-align:center;letter-spacing:-.02em}
+.rank-item .mini-thumb{width:64px;height:44px;background:var(--surface-2);border-radius:var(--radius-sm);overflow:hidden}
+.rank-item .mini-thumb img{width:100%;height:100%;object-fit:cover}
+.rank-item .meta .t{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:2px;letter-spacing:-.01em}
+.rank-item .meta .a{font-size:11px;color:var(--text-mute);font-weight:500}
+.rank-item .v{
+  font-size:14px;font-weight:700;color:var(--brand);
+  display:inline-flex;align-items:baseline;gap:3px;
+}
+.rank-item .v small{font-size:11px;color:var(--text-mute);font-weight:500}
+
+@media (max-width:640px){
+  .rank-item{grid-template-columns:32px 52px 1fr auto;gap:10px;padding:12px 14px}
+  .rank-item .mini-thumb{width:52px;height:36px}
+}
+
+/* ===== Gallery ===== */
+.gallery-controls{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:28px;flex-wrap:wrap;gap:16px;
+}
+.sort-tabs{display:inline-flex;gap:4px;background:var(--surface);border:1px solid var(--border);padding:4px;border-radius:999px}
+.sort-tab{
+  padding:8px 16px;font-size:13px;font-weight:600;
+  color:var(--text-sub);border-radius:999px;
+  transition:all .2s;
+}
+.sort-tab.active{background:var(--text);color:#fff}
+.gallery-count{font-size:13px;color:var(--text-mute);font-weight:500}
+.gallery-count strong{color:var(--text);font-weight:700}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:1024px){.gallery{grid-template-columns:repeat(2,1fr);gap:20px}}
+@media (max-width:600px){.gallery{grid-template-columns:1fr;gap:16px}}
+
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .25s ease;
+  box-shadow:var(--shadow-sm);
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--brand-bright)}
+.card .thumb{aspect-ratio:16/10;background:var(--surface-2);overflow:hidden;position:relative}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover .thumb img{transform:scale(1.06)}
+.card .rank-badge{
+  position:absolute;top:12px;left:12px;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  font-size:11px;font-weight:700;color:var(--text);
+  padding:5px 11px;border-radius:999px;
+  display:none;letter-spacing:-.01em;
+  box-shadow:var(--shadow-sm);
+}
+.card.is-ranked .rank-badge{display:inline-flex;align-items:center;gap:4px}
+.card.is-ranked[data-rank="1"] .rank-badge{background:var(--gold);color:#fff}
+.card.is-ranked[data-rank="2"] .rank-badge{background:var(--silver);color:#fff}
+.card.is-ranked[data-rank="3"] .rank-badge{background:var(--bronze);color:#fff}
+.card .body{padding:18px;flex:1;display:flex;flex-direction:column}
+.card .title{font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.4;letter-spacing:-.01em}
+.card .author{font-size:12px;color:var(--text-mute);margin-bottom:16px;font-weight:500}
+.card .footer{
+  margin-top:auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:14px;border-top:1px solid var(--border);
+}
+.vote-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:999px;
+  font-size:13px;font-weight:600;
+  background:var(--surface-2);color:var(--text-sub);
+  transition:all .2s;
+}
+.vote-btn:hover{background:var(--brand-soft);color:var(--brand)}
+.vote-btn .heart{font-size:16px;line-height:1;transition:transform .25s}
+.vote-btn:hover .heart{transform:scale(1.2)}
+.vote-btn.voted{background:var(--brand);color:#fff}
+.vote-btn.voted .heart{animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1)}}
+.vote-btn .count{font-weight:700;letter-spacing:-.01em}
+.card .date{font-size:11px;color:var(--text-mute);font-weight:500}
+
+/* ===== Themes ===== */
+.themes-section{background:var(--surface)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:900px){.themes{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:500px){.themes{grid-template-columns:1fr}}
+.theme-card{
+  background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:24px;
+  display:flex;flex-direction:column;gap:8px;min-height:170px;
+  transition:all .25s;
+}
+.theme-card:hover{border-color:var(--brand);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.theme-card .vol{font-size:11px;font-weight:700;color:var(--brand);letter-spacing:.05em}
+.theme-card .name{font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.01em;margin-top:4px}
+.theme-card .status{
+  font-size:11px;color:var(--text-mute);
+  margin-top:auto;padding-top:12px;font-weight:600;letter-spacing:.02em;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.theme-card.live .status{color:var(--brand)}
+.theme-card.live .status::before{content:'';width:6px;height:6px;background:var(--brand);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+.theme-card.current{background:var(--brand-gradient);color:#fff;border-color:transparent;box-shadow:var(--shadow-lg)}
+.theme-card.current .vol,.theme-card.current .status,.theme-card.current .name{color:#fff}
+.theme-card.current .status::before{background:#fff}
+.theme-card.current:hover{transform:translateY(-3px)}
+
+/* ===== Footer ===== */
+.site-footer{
+  border-top:1px solid var(--border);
+  padding:48px 0 40px;background:var(--surface);
+}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.footer-brand{font-size:13px;color:var(--text-sub);font-weight:600}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{color:var(--text-mute);font-size:12px;font-weight:500;transition:color .15s}
+.footer-links a:hover{color:var(--brand)}
+
+/* ===== Modal ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(15,23,42,.4);
+  display:none;align-items:center;justify-content:center;
+  z-index:100;padding:20px;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+  background:var(--surface);max-width:480px;width:100%;
+  border-radius:var(--radius-lg);padding:36px;position:relative;
+  max-height:90vh;overflow-y:auto;
+  animation:slideUp .25s ease;
+  box-shadow:0 24px 60px rgba(15,23,42,.18);
+}
+.modal.modal-lg{max-width:580px}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  font-size:22px;color:var(--text-mute);
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.modal-close:hover{background:var(--surface-2);color:var(--text)}
+.modal-eyebrow{font-size:11px;letter-spacing:.15em;color:var(--brand);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.modal-title{font-size:24px;margin-bottom:10px;font-weight:800;line-height:1.3;letter-spacing:-.02em}
+.modal-desc{font-size:14px;color:var(--text-sub);margin-bottom:24px;line-height:1.7}
+.form-field{margin-bottom:18px}
+.form-label{display:block;font-size:12px;color:var(--text);margin-bottom:6px;font-weight:600;letter-spacing:-.01em}
+.form-label .req{color:var(--brand);margin-left:4px}
+.form-input,.form-textarea{
+  width:100%;padding:12px 14px;
+  border:1px solid var(--border-strong);border-radius:var(--radius);
+  font-size:14px;font-family:inherit;background:var(--surface);
+  transition:all .15s;color:var(--text);
+}
+.form-input:focus,.form-textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.form-textarea{min-height:84px;resize:vertical}
+.form-hint{font-size:11px;color:var(--text-mute);margin-top:6px;font-weight:500}
+.modal-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.modal-actions .cta{flex:1;min-width:120px}
+
+.modal-result{display:none;margin-top:24px}
+.modal-result.show{display:block}
+.find-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px;
+  display:grid;grid-template-columns:80px 1fr;gap:14px;
+  margin-bottom:12px;
+}
+.find-card .ft{width:80px;height:54px;background:var(--surface-2);border-radius:var(--radius-sm);overflow:hidden}
+.find-card .ft img{width:100%;height:100%;object-fit:cover}
+.find-card .fd-title{font-size:14px;font-weight:700;margin-bottom:4px;line-height:1.4;letter-spacing:-.01em}
+.find-card .fd-meta{font-size:11px;color:var(--text-mute);margin-bottom:8px;font-weight:500}
+.find-card .fd-stats{display:flex;gap:14px;font-size:12px}
+.find-card .fd-stats strong{font-size:14px;color:var(--brand);font-weight:800;letter-spacing:-.01em}
+
+.theme-picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+@media (max-width:480px){.theme-picker-grid{grid-template-columns:1fr}}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;bottom:32px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--text);color:#fff;
+  padding:13px 22px;font-size:13px;font-weight:500;
+  border-radius:999px;z-index:200;opacity:0;
+  transition:all .25s;pointer-events:none;
+  box-shadow:0 8px 24px rgba(15,23,42,.25);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a href="#" class="brand">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span>MiriCanvas</span>
+      <span class="jp">自慢コンテスト</span>
+    </a>
+    <nav class="header-nav">
+      <button class="series-pill" onclick="openModal('themeModal')">
+        <span class="label-full">Vol.3 「私の推しスポット自慢」</span>
+        <span class="arrow">▼</span>
+      </button>
+      <button class="cta" onclick="openModal('submitModal')">
+        <span class="header-cta-text">応募する</span>
+        <span class="cta-mobile-icon">+</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Vol.3 開催中 · あと11日</div>
+    <h1 class="hero-title">
+      ミーキャンPPTで<br>
+      <span class="gradient">私の推しスポット</span>自慢
+    </h1>
+    <p class="hero-desc">あなたの心に残る場所を、ミーキャンのPPTで自由に表現しよう。<br>気に入った作品にいいねして、月間チャンピオンを決めよう。</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-label">期間</div>
+        <div class="hero-stat-value num">05.01<small> — </small>05.31</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">応募数</div>
+        <div class="hero-stat-value num">87<small>件</small></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">投票数</div>
+        <div class="hero-stat-value num">2,341<small>票</small></div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="cta" onclick="openModal('submitModal')">作品を応募する</button>
+      <button class="cta cta-outline" onclick="openModal('findModal')">自分の作品をさがす</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RANKING ============ -->
+<section class="section ranking-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Ranking</div>
+        <h2 class="section-title">注目の作品</h2>
+        <div class="section-sub">上位入賞者にはリワードを進呈します</div>
+      </div>
+      <div class="ranking-tabs">
+        <button class="ranking-tab active" data-rank-tab="total">累計ランキング</button>
+        <button class="ranking-tab" data-rank-tab="month">今月のランキング</button>
+      </div>
+    </div>
+
+    <div class="podium" id="podium"></div>
+    <div class="rank-list" id="rankList"></div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Gallery</div>
+        <h2 class="section-title">すべての応募作品</h2>
+      </div>
+    </div>
+    <div class="gallery-controls">
+      <div class="sort-tabs">
+        <button class="sort-tab active" data-sort="popular">人気順</button>
+        <button class="sort-tab" data-sort="newest">新着順</button>
+      </div>
+      <div class="gallery-count num">全 <strong>87</strong> 件中 <strong id="visibleCount">12</strong> 件表示</div>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<!-- ============ OTHER THEMES ============ -->
+<section class="section themes-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Other Themes</div>
+        <h2 class="section-title">他のテーマも見てみる</h2>
+      </div>
+    </div>
+    <div class="themes">
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.01</div>
+        <div class="name">47都道府県<br>隠れ観光スポット自慢</div>
+        <div class="status">終了 · 142件応募</div>
+      </a>
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.02</div>
+        <div class="name">私のオフィスデスク<br>自慢</div>
+        <div class="status">終了 · 98件応募</div>
+      </a>
+      <a href="#" class="theme-card current live">
+        <div class="vol">Vol.03</div>
+        <div class="name">私の推しスポット<br>自慢</div>
+        <div class="status">開催中 · あと11日</div>
+      </a>
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.04</div>
+        <div class="name">私の手作りレシピ<br>自慢</div>
+        <div class="status">近日開催</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">© MiriCanvas Japan · 自慢コンテスト</div>
+    <div class="footer-links">
+      <a href="#">応募規約</a>
+      <a href="#">よくある質問</a>
+      <a href="#">お問い合わせ</a>
+      <a href="#">プライバシー</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-overlay" id="submitModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('submitModal')" aria-label="閉じる">×</button>
+    <div class="modal-eyebrow">Submit</div>
+    <h3 class="modal-title">作品を応募する</h3>
+    <p class="modal-desc">ミーキャンで作成したPPTのリンクを貼り付けてください。応募確定のために、入力いただいたメールアドレスに確認メールをお送りします。</p>
+    <form onsubmit="event.preventDefault();showToast('シェル版では送信されません');closeModal('submitModal');">
+      <div class="form-field">
+        <label class="form-label">ミーキャンPPTのリンク<span class="req">*</span></label>
+        <input class="form-input" type="url" placeholder="https://www.miricanvas.com/v2/ja/design2/v/..." required>
+        <div class="form-hint">ミーキャンで「リンクで共有」から取得したURLを貼り付けてください</div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">作品タイトル<span class="req">*</span></label>
+        <input class="form-input" type="text" placeholder="例: 京都・嵐山の秘密の小道" maxlength="40" required>
+      </div>
+      <div class="form-field">
+        <label class="form-label">メールアドレス<span class="req">*</span></label>
+        <input class="form-input" type="email" placeholder="your@email.com" required>
+        <div class="form-hint">確認用 · サイトには公開されません</div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">表示名 (ニックネーム)</label>
+        <input class="form-input" type="text" placeholder="空欄の場合「匿名」になります" maxlength="20">
+      </div>
+      <div class="form-field">
+        <label class="form-label">作品の説明</label>
+        <textarea class="form-textarea" placeholder="どんな作品か、こだわりポイントなど (任意・200文字以内)" maxlength="200"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="cta cta-outline" onclick="closeModal('submitModal')">キャンセル</button>
+        <button type="submit" class="cta">確認メールを送信</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="findModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('findModal')" aria-label="閉じる">×</button>
+    <div class="modal-eyebrow">Find</div>
+    <h3 class="modal-title">自分の作品をさがす</h3>
+    <p class="modal-desc">応募時に入力したメールアドレスを入力してください。あなたの応募作品と現在の順位を表示します。</p>
+    <div class="form-field">
+      <label class="form-label">メールアドレス<span class="req">*</span></label>
+      <input class="form-input" type="email" id="findEmail" placeholder="your@email.com">
+    </div>
+    <div class="modal-actions">
+      <button class="cta" onclick="findMyWork()">確認する</button>
+    </div>
+    <div class="modal-result" id="findResult">
+      <div style="font-size:11px;letter-spacing:.1em;color:var(--text-sub);margin:8px 0 12px;font-weight:600;text-transform:uppercase">あなたの応募作品 (1件)</div>
+      <div class="find-card">
+        <div class="ft"><img src="https://picsum.photos/seed/myspot/160/108" alt=""></div>
+        <div>
+          <div class="fd-title">京都・嵐山の秘密の小道</div>
+          <div class="fd-meta">Vol.3 · 2026/05/12 応募</div>
+          <div class="fd-stats">
+            <span>累計順位 <strong>1位</strong></span>
+            <span>♥ <strong>342</strong></span>
+          </div>
+        </div>
+      </div>
+      <button class="cta cta-ghost" style="width:100%;margin-top:8px" onclick="showToast('作品ページのURLをコピーしました')">作品ページのURLをコピーして共有</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="themeModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" onclick="closeModal('themeModal')" aria-label="閉じる">×</button>
+    <div class="modal-eyebrow">Themes</div>
+    <h3 class="modal-title">テーマを選ぶ</h3>
+    <p class="modal-desc">「ミーキャンPPTで私の○○自慢」 はシリーズで開催されています。気になるテーマを選んでください。</p>
+    <div class="theme-picker-grid">
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.01</div>
+        <div class="name">47都道府県<br>隠れ観光スポット自慢</div>
+        <div class="status">終了</div>
+      </a>
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.02</div>
+        <div class="name">私のオフィスデスク<br>自慢</div>
+        <div class="status">終了</div>
+      </a>
+      <a href="#" class="theme-card current live">
+        <div class="vol">Vol.03</div>
+        <div class="name">私の推しスポット<br>自慢</div>
+        <div class="status">開催中</div>
+      </a>
+      <a href="#" class="theme-card">
+        <div class="vol">Vol.04</div>
+        <div class="name">私の手作りレシピ<br>自慢</div>
+        <div class="status">近日開催</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUBMISSIONS = [
+  {id:1, title:'京都・嵐山の秘密の小道', author:'ハル', votes:342, monthVotes:48, date:'5/02', seed:'arashiyama'},
+  {id:2, title:'沖縄・古宇利島の絶景ビーチ', author:'ミナミ', votes:318, monthVotes:62, date:'5/03', seed:'okinawa'},
+  {id:3, title:'屋久島・縄文杉までの森', author:'カナ', votes:287, monthVotes:34, date:'5/04', seed:'yakushima'},
+  {id:4, title:'鎌倉・あじさい寺の朝', author:'アヤ', votes:241, monthVotes:156, date:'5/15', seed:'kamakura'},
+  {id:5, title:'福岡・糸島サンセット', author:'リン', votes:228, monthVotes:142, date:'5/12', seed:'itoshima'},
+  {id:6, title:'渋谷の隠れ家カフェ巡り', author:'ユキ', votes:215, monthVotes:128, date:'5/10', seed:'shibuya'},
+  {id:7, title:'北海道・美瑛の四季', author:'ソラ', votes:198, monthVotes:88, date:'5/06', seed:'biei'},
+  {id:8, title:'金沢・ひがし茶屋街の夜', author:'モモ', votes:176, monthVotes:72, date:'5/08', seed:'kanazawa'},
+  {id:9, title:'長野・上高地ハイキング', author:'ケン', votes:154, monthVotes:54, date:'5/09', seed:'kamikochi'},
+  {id:10, title:'横浜・赤レンガ倉庫の夕暮れ', author:'ヒロ', votes:138, monthVotes:96, date:'5/14', seed:'yokohama'},
+  {id:11, title:'神戸・北野異人館街さんぽ', author:'エミ', votes:112, monthVotes:67, date:'5/16', seed:'kobe'},
+  {id:12, title:'大阪・天王寺の下町ごはん', author:'タロウ', votes:94, monthVotes:58, date:'5/17', seed:'tennoji'},
+];
+const RANKINGS = {
+  total: [...SUBMISSIONS].sort((a,b)=>b.votes-a.votes),
+  month: [...SUBMISSIONS].sort((a,b)=>b.monthVotes-a.monthVotes),
+};
+let currentTab='total', currentSort='popular';
+const voted = new Set();
+const medalIcon = {1:'🏆', 2:'🥈', 3:'🥉'};
+
+function renderRanking(){
+  const list = RANKINGS[currentTab];
+  const isMonth = currentTab === 'month';
+  const voteKey = isMonth ? 'monthVotes' : 'votes';
+  document.getElementById('podium').innerHTML = list.slice(0,3).map((s,i)=>`
+    <div class="podium-card" data-rank="${i+1}">
+      <div class="podium-rank"><span class="podium-rank-icon">${medalIcon[i+1]}</span>${isMonth?'今月':'累計'} ${i+1}位</div>
+      <div class="thumb"><img src="https://picsum.photos/seed/${s.seed}/600/400" alt="" loading="lazy"></div>
+      <div class="title">${s.title}</div>
+      <div class="author">by ${s.author}</div>
+      <div class="votes">
+        <div class="votes-left">
+          <span class="votes-num num">${s[voteKey]}</span>
+          <span class="votes-unit">いいね</span>
+        </div>
+        <span class="votes-badge">${isMonth?'今月':'累計'}</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('rankList').innerHTML = list.slice(3,10).map((s,i)=>`
+    <div class="rank-item">
+      <div class="num-cell num">${i+4}</div>
+      <div class="mini-thumb"><img src="https://picsum.photos/seed/${s.seed}/120/80" alt="" loading="lazy"></div>
+      <div class="meta">
+        <div class="t">${s.title}</div>
+        <div class="a">by ${s.author}</div>
+      </div>
+      <div class="v"><span class="num">${s[voteKey]}</span><small>票</small></div>
+    </div>
+  `).join('');
+}
+
+function renderGallery(){
+  let list;
+  if(currentSort === 'popular'){
+    list = [...SUBMISSIONS].sort((a,b)=>b.votes-a.votes);
+  } else {
+    list = [...SUBMISSIONS].sort((a,b)=>parseInt(b.date.split('/')[1])-parseInt(a.date.split('/')[1]));
+  }
+  document.getElementById('gallery').innerHTML = list.map(s=>{
+    const rankIdx = RANKINGS.total.findIndex(x=>x.id===s.id);
+    const isRanked = rankIdx < 3;
+    const rankBadge = isRanked ? `<div class="rank-badge">${medalIcon[rankIdx+1]} No.${rankIdx+1}</div>` : '';
+    const isVoted = voted.has(s.id);
+    return `
+      <article class="card ${isRanked?'is-ranked':''}" ${isRanked?`data-rank="${rankIdx+1}"`:''}>
+        <div class="thumb">
+          ${rankBadge}
+          <img src="https://picsum.photos/seed/${s.seed}/800/500" alt="" loading="lazy">
+        </div>
+        <div class="body">
+          <div class="title">${s.title}</div>
+          <div class="author">by ${s.author}</div>
+          <div class="footer">
+            <button class="vote-btn ${isVoted?'voted':''}" onclick="toggleVote(${s.id}, this)">
+              <span class="heart">${isVoted?'♥':'♡'}</span>
+              <span class="count num">${s.votes + (isVoted?1:0)}</span>
+            </button>
+            <span class="date num">${s.date}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function toggleVote(id, btn){
+  const s = SUBMISSIONS.find(x=>x.id===id);
+  if(voted.has(id)){
+    voted.delete(id);
+    btn.classList.remove('voted');
+    btn.querySelector('.heart').textContent = '♡';
+    btn.querySelector('.count').textContent = s.votes;
+  } else {
+    voted.add(id);
+    btn.classList.add('voted');
+    btn.querySelector('.heart').textContent = '♥';
+    btn.querySelector('.count').textContent = s.votes + 1;
+    showToast('いいねしました');
+  }
+}
+
+document.querySelectorAll('[data-rank-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-rank-tab]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.rankTab;
+    renderRanking();
+  });
+});
+document.querySelectorAll('[data-sort]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-sort]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSort = btn.dataset.sort;
+    renderGallery();
+  });
+});
+
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+  if(id === 'findModal') document.getElementById('findResult').classList.remove('show');
+}
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click', e=>{ if(e.target === el) closeModal(el.id); });
+});
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(el=>closeModal(el.id));
+  }
+});
+function findMyWork(){
+  const email = document.getElementById('findEmail').value.trim();
+  if(!email){ showToast('メールアドレスを入力してください'); return; }
+  document.getElementById('findResult').classList.add('show');
+}
+
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+renderRanking();
+renderGallery();
+</script>
+</body>
+</html>
