@@ -1,0 +1,1745 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grow with Braze Seoul 2026 — 종합 리포트</title>
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --paper:#FFFFFF;
+    --ink:#1A1F2E;
+    --ink-2:#3A4458;
+    --muted:#6B7280;
+    --line:#E4E2DD;
+    --line-2:#EEEDE8;
+    --navy:#1E2A4A;
+    --navy-2:#2E3D63;
+    --accent:#C24A2C;
+    --accent-soft:#FBEEE9;
+    --hl:#FFF8E1;
+    --quote-bg:#F5F3EE;
+    --good:#2E7D52;
+    --bad:#B83A3A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    font-size:16px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  /* Layout */
+  .layout{display:flex;min-height:100vh}
+  .sidebar{
+    width:300px;flex-shrink:0;
+    background:#F2F0EA;
+    border-right:1px solid var(--line);
+    position:sticky;top:0;align-self:flex-start;
+    height:100vh;overflow-y:auto;
+    padding:28px 22px;
+  }
+  .main{flex:1;min-width:0;padding:56px 64px 120px;max-width:980px}
+  .brand{font-size:13px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .sidebar h1{font-size:18px;line-height:1.45;margin:0 0 4px;color:var(--navy);font-weight:700}
+  .sidebar .meta{font-size:12.5px;color:var(--muted);margin-bottom:22px}
+  .toc{list-style:none;padding:0;margin:0;font-size:13.5px}
+  .toc a{
+    display:block;text-decoration:none;color:var(--ink-2);
+    padding:7px 10px;border-radius:6px;
+    border-left:2px solid transparent;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .toc a:hover{background:#E9E6DE;color:var(--navy)}
+  .toc a .time{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px;margin-right:8px}
+  .toc .group{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:18px 6px 6px}
+  .toc .badge{
+    display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;
+    margin-left:6px;vertical-align:1px;font-weight:600;letter-spacing:.02em
+  }
+  .b-memo{background:#E0E9F7;color:#2B4675}
+  .b-photo{background:#F4E7DF;color:#86391E}
+  .b-mix{background:#EAE6D5;color:#6A5A1F}
+  .b-none{background:#ECECEC;color:#666}
+
+  /* Headings */
+  h2.section-title{
+    font-size:28px;line-height:1.3;margin:0 0 6px;font-weight:700;color:var(--navy);
+    letter-spacing:-.01em
+  }
+  .session-header{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:24px
+  }
+  .session-no{
+    font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.08em
+  }
+  .session-time{
+    font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums
+  }
+  .speaker{
+    margin:-4px 0 18px;color:var(--ink-2);font-size:15px
+  }
+  .speaker .tier{
+    display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:3px;
+    background:#EBE9E1;color:#5A5848;margin-left:8px;letter-spacing:.04em
+  }
+
+  /* Report header */
+  .report-hero{
+    margin-bottom:48px;padding:36px 0 28px;border-bottom:2px solid var(--navy)
+  }
+  .report-hero .kicker{font-size:13px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .report-hero h1{font-size:40px;line-height:1.2;margin:0 0 14px;color:var(--navy);font-weight:800;letter-spacing:-.015em}
+  .report-hero .lead{font-size:17px;color:var(--ink-2);max-width:640px;line-height:1.7;margin-bottom:18px}
+  .report-hero .facts{display:flex;flex-wrap:wrap;gap:24px;font-size:13.5px;color:var(--muted)}
+  .report-hero .facts span strong{color:var(--ink-2);font-weight:600}
+
+  /* Section */
+  section.session{margin-bottom:72px;scroll-margin-top:24px}
+  section.session p{margin:0 0 14px;color:var(--ink-2)}
+  section.session ul{margin:0 0 16px;padding-left:22px}
+  section.session ul li{margin-bottom:6px;color:var(--ink-2)}
+  section.session h3{
+    font-size:18px;color:var(--navy);margin:28px 0 12px;font-weight:700;
+    padding-left:12px;border-left:3px solid var(--accent)
+  }
+  section.session h4{
+    font-size:15px;color:var(--ink);margin:20px 0 10px;font-weight:700
+  }
+  .lead-para{font-size:16.5px;color:var(--ink);line-height:1.8;margin-bottom:20px}
+
+  /* Visual components */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:22px 0}
+  .stat{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;
+    padding:22px 18px;text-align:center
+  }
+  .stat .num{font-size:34px;font-weight:800;color:var(--navy);line-height:1.1;letter-spacing:-.02em}
+  .stat .num.accent{color:var(--accent)}
+  .stat .label{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .stat .sub{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+  .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+  .ba-box{
+    border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--paper)
+  }
+  .ba-box.before{background:#FAF9F7}
+  .ba-box.after{background:#F4F8FB;border-color:#D5DEE9}
+  .ba-box .ba-label{
+    font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    margin-bottom:8px;color:var(--muted)
+  }
+  .ba-box.before .ba-label{color:#9A8A78}
+  .ba-box.after .ba-label{color:#2E4D78}
+  .ba-box .ba-text{font-size:14.5px;line-height:1.6;color:var(--ink)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px
+  }
+  .card .card-title{font-weight:700;color:var(--navy);font-size:15.5px;margin-bottom:8px}
+  .card .card-body{font-size:14px;color:var(--ink-2);line-height:1.65}
+
+  .quote{
+    margin:22px 0;padding:18px 22px;background:var(--quote-bg);
+    border-left:3px solid var(--navy);border-radius:0 6px 6px 0;
+    font-size:16px;color:var(--ink);line-height:1.7
+  }
+  .quote .src{display:block;font-size:12.5px;color:var(--muted);margin-top:8px}
+
+  .callout{
+    margin:18px 0;padding:14px 18px;background:var(--accent-soft);
+    border-radius:8px;border-left:3px solid var(--accent);font-size:14.5px;color:var(--ink-2);line-height:1.7
+  }
+  .callout strong{color:var(--accent)}
+
+  .pill-list{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .pill{display:inline-block;background:#EFEDE6;color:var(--ink-2);padding:5px 12px;border-radius:999px;font-size:13px}
+  .pill.dark{background:var(--navy);color:#fff}
+
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0;font-size:14px;color:var(--ink-2)}
+  .flow .step{padding:8px 14px;border:1px solid var(--line);background:var(--paper);border-radius:6px}
+  .flow .arrow{color:var(--muted)}
+
+  .table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  .table th,.table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .table th{background:#F4F2EC;font-weight:700;color:var(--ink);font-size:13px}
+  .table td.num{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600;text-align:right;white-space:nowrap}
+
+  .insight{
+    margin:14px 0;padding:14px 18px;background:#F8F7F2;border-radius:6px;
+    font-size:14.5px;color:var(--ink-2);line-height:1.7
+  }
+
+  /* Nested sub-block (예시·세부지표 등 상위 개념의 하위 요소) */
+  .sub-block{
+    margin:16px 0 6px 0;
+    padding:2px 0 0 22px;
+    border-left:3px solid var(--line);
+    position:relative;
+  }
+  .sub-block-label{
+    font-size:12.5px;font-weight:700;color:var(--ink-2);
+    letter-spacing:.03em;margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .sub-block-label::before{
+    content:"↳";color:var(--accent);font-size:15px;font-weight:400;
+    line-height:1;
+  }
+  .sub-block .cards,.sub-block .ba-grid{margin-top:6px}
+
+  /* Best Pick 강조 (오담인·김찬희·Baden·윤범중·조경섭 5개 세션) */
+  .session-no.best{
+    background:linear-gradient(135deg,#C8954E,#A87729);
+    color:#fff;padding:3px 10px;border-radius:4px;
+    letter-spacing:.06em
+  }
+  .best-badge{
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:11px;font-weight:700;letter-spacing:.08em;
+    color:#8B6914;background:#FBEFC7;
+    padding:3px 10px;border-radius:3px;
+    margin-left:auto
+  }
+  .best-quote{
+    margin:0 0 28px;padding:14px 18px;
+    background:#FCF6E7;border-left:3px solid #C8954E;
+    border-radius:0 6px 6px 0;
+    font-size:14.5px;color:var(--ink);line-height:1.7
+  }
+  .best-quote::before{
+    content:"✦ \"이 세션이 인상적이었던 이유\"";
+    display:block;
+    font-size:11px;font-weight:700;letter-spacing:.08em;
+    color:#8B6914;margin-bottom:6px;text-transform:uppercase
+  }
+  /* Sidebar Best Pick 표시 */
+  .toc a.best{
+    background:linear-gradient(90deg,rgba(200,149,78,0.10) 0%,transparent 70%);
+    color:var(--navy);font-weight:600
+  }
+  .toc a.best:hover{background:#F1EAD7}
+  .toc a.best::after{
+    content:"★";color:#C8954E;font-size:11px;
+    margin-left:4px;font-weight:400
+  }
+  /* Overview Best Picks 큐레이션 박스 */
+  .best-picks{
+    margin:32px 0 8px;padding:22px 24px;
+    background:#FCF6E7;border:1px solid #ECDFB7;border-radius:10px
+  }
+  .best-picks-title{
+    font-size:13px;font-weight:700;letter-spacing:.1em;
+    color:#8B6914;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:6px
+  }
+  .best-picks-title::before{content:"★";font-size:14px}
+  .best-picks ol{margin:0;padding:0;list-style:none;counter-reset:bp}
+  .best-picks ol li{
+    counter-increment:bp;
+    padding:10px 0 10px 38px;border-top:1px solid #ECDFB7;position:relative;
+    font-size:14.5px;line-height:1.6;color:var(--ink-2)
+  }
+  .best-picks ol li:first-child{border-top:0}
+  .best-picks ol li::before{
+    content:counter(bp,decimal-leading-zero);
+    position:absolute;left:0;top:12px;
+    font-size:12px;font-weight:700;color:#A87729;
+    font-variant-numeric:tabular-nums;letter-spacing:.04em
+  }
+  .best-picks ol li a{
+    color:var(--navy);text-decoration:none;font-weight:700
+  }
+  .best-picks ol li a:hover{text-decoration:underline}
+  .best-picks ol li .bp-meta{
+    color:var(--muted);font-size:12.5px;margin-left:6px;font-weight:400
+  }
+
+  /* Headline metric (상위 지표 강조용) */
+  .headline-metric{
+    margin:14px 0 8px;padding:16px 20px;background:#F0F3F8;
+    border-radius:8px;border-left:4px solid var(--navy)
+  }
+  .headline-metric .hm-label{
+    font-size:11.5px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:4px
+  }
+  .headline-metric .hm-value{
+    font-size:18px;font-weight:700;color:var(--navy)
+  }
+  .headline-metric .hm-desc{
+    font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.65
+  }
+
+  /* Gallery */
+  .gallery-title{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:28px 0 10px;font-weight:700}
+  .gallery{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:8px
+  }
+  .gallery a{display:block;line-height:0;border-radius:5px;overflow:hidden;background:#000;border:1px solid var(--line);cursor:zoom-in;position:relative}
+  .gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .25s,opacity .2s}
+  .gallery a:hover img{opacity:.88;transform:scale(1.04)}
+  .gallery.single{grid-template-columns:1fr;max-width:380px}
+  .gallery.single img{aspect-ratio:16/10}
+  .gallery.duo{grid-template-columns:1fr 1fr;max-width:420px}
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(15,18,28,.94);
+    display:none;align-items:center;justify-content:center;
+    z-index:1000;padding:24px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .lightbox.open{display:flex}
+  .lightbox-stage{
+    position:relative;max-width:100%;max-height:100%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox-img{
+    max-width:92vw;max-height:88vh;
+    border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5);
+    display:block;
+  }
+  .lb-btn{
+    position:fixed;background:rgba(255,255,255,.1);color:#fff;
+    border:0;width:48px;height:48px;border-radius:50%;
+    font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:background .15s;backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    user-select:none;
+  }
+  .lb-btn:hover{background:rgba(255,255,255,.22)}
+  .lb-btn:disabled{opacity:.25;cursor:default}
+  .lb-prev{left:24px;top:50%;transform:translateY(-50%)}
+  .lb-next{right:24px;top:50%;transform:translateY(-50%)}
+  .lb-close{right:24px;top:24px;width:40px;height:40px;font-size:24px;line-height:1}
+  .lb-counter{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+    color:#fff;font-size:13px;letter-spacing:.06em;
+    background:rgba(0,0,0,.35);padding:6px 14px;border-radius:999px;
+    font-variant-numeric:tabular-nums;
+  }
+  body.lb-active{overflow:hidden}
+  @media (max-width:700px){
+    .lb-prev{left:8px}.lb-next{right:8px}.lb-close{right:8px;top:8px}
+    .lb-btn{width:42px;height:42px}
+    .lightbox-img{max-width:96vw}
+  }
+
+  /* Mini section (lunch, networking) */
+  .mini{
+    background:#F5F3EE;border-radius:10px;padding:24px;margin-bottom:48px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:20px
+  }
+  .mini .mini-text{flex:1;min-width:200px}
+  .mini h3{margin:0 0 6px;padding:0;border:0;font-size:17px;color:var(--navy)}
+  .mini p{margin:0;color:var(--ink-2);font-size:14px}
+  .mini .mini-img{flex:0 0 220px}
+  .mini img{width:100%;border-radius:6px;display:block}
+
+  /* TOC numbering */
+  .toc-num{display:inline-block;width:20px;color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px}
+
+  /* Responsive */
+  @media (max-width: 900px){
+    .layout{flex-direction:column}
+    .sidebar{position:static;height:auto;width:100%;border-right:0;border-bottom:1px solid var(--line)}
+    .main{padding:32px 22px 80px}
+    .report-hero h1{font-size:30px}
+    .ba-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="sidebar">
+    <div class="brand">Conference Report</div>
+    <h1>Grow with Braze<br/>Seoul 2026</h1>
+    <div class="meta">2026.04.08 · 웨스틴 서울 파르나스 B1 · 정이제</div>
+
+    <ul class="toc">
+      <li><a href="#overview"><span class="time">overview</span>행사 개요</a></li>
+
+      <div class="group">04.08 (Wed) — Day 1</div>
+      <li><a href="#s-ab180" class="best"><span class="time">10:40</span>AB180 오담인</a></li>
+      <li><a href="#s-cj"><span class="time">11:00</span>CJ 조현정</a></li>
+      <li><a href="#s-martinee" class="best"><span class="time">11:20</span>Martinee 김찬희</a></li>
+      <li><a href="#s-brazeai"><span class="time">11:40</span>Braze AI 김상우</a></li>
+      <li><a href="#s-lunch"><span class="time">12:00</span>Lunch</a></li>
+      <li><a href="#s-canva" class="best"><span class="time">13:15</span>Canva — Jess Baden</a></li>
+      <li><a href="#s-cjenm" class="best"><span class="time">13:50</span>CJ ENM 윤범중</a></li>
+      <li><a href="#s-babitalk"><span class="time">14:30</span>Babitalk 박찬희</a></li>
+      <li><a href="#s-braze-pilot"><span class="time">14:30</span>Braze 정기수</a></li>
+      <li><a href="#s-amplitude"><span class="time">14:50</span>Amplitude</a></li>
+      <li><a href="#s-customer"><span class="time">15:10</span>11번가 · Martinee</a></li>
+      <li><a href="#s-nnt" class="best"><span class="time">15:30</span>NNT 조경섭</a></li>
+      <li><a href="#s-closing"><span class="time">15:50</span>Closing — 박재항</a></li>
+      <li><a href="#s-networking"><span class="time">16:00</span>Networking</a></li>
+
+      <div class="group">04.09 (Thu) — Day 2</div>
+      <li><a href="#s-ab180-edu"><span class="time">at AB180</span>실무자 세션</a></li>
+    </ul>
+
+    <div style="margin-top:24px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.6">
+      <span style="color:#A87729;font-weight:600">★ Best Pick — 특히 인상적</span>
+    </div>
+  </aside>
+
+  <!-- ============== MAIN ============== -->
+  <main class="main">
+
+    <!-- HERO -->
+    <header class="report-hero" id="overview">
+      <div class="kicker">Conference Report</div>
+      <h1>Grow with Braze Seoul 2026</h1>
+      <p class="lead">
+        2026년 4월 8일, 웨스틴 서울 파르나스에서 열린 Grow with Braze Seoul 행사 참석 노트와 발표자료 사진을 결합해 정리한 종합 리포트. 다음날(4/9) AB180 오피스에서 진행된 실무자 세션 노트가 더해져 있다.
+      </p>
+      <div class="facts">
+        <span><strong>일시</strong> 2026-04-08 (Wed) 09:00–17:00</span>
+        <span><strong>장소</strong> 웨스틴 서울 파르나스 B1 하모니볼룸</span>
+        <span><strong>세션</strong> 13개 + 실무자 세션 1개</span>
+        <span><strong>사진</strong> 101장</span>
+      </div>
+
+      <h3 style="margin-top:36px;border-left-color:var(--navy)">행사가 관통한 3개의 축</h3>
+      <p style="margin-top:0">박재항 (Braze Head of Korea Enterprise) 의 클로징이 행사 전체를 깔끔하게 요약한다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">Trust</div>
+          <div class="card-body">안심하고 시작할 수 있는 기반 — Seoul Data Center · Kakao · Responsible AI</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Context &amp; Timing</div>
+          <div class="card-body">고객의 상황과 타이밍을 읽는 운영 — AB180 · Babitalk · CJ ENM · Canva · 11st</div>
+        </div>
+        <div class="card">
+          <div class="card-title">AI-Powered Action</div>
+          <div class="card-body">사람 손은 덜고 더 빨리 움직이는 방식 — Smarter Messaging · Marketing Auto-Pilot · AI Operator</div>
+        </div>
+      </div>
+      <div class="quote" style="margin-top:24px">
+        공통 트렌드를 한 단어로 요약하면 — <strong>"고객 맥락 읽기"</strong>. 무조건적인 개인화가 아니라, "고객이 나를 알고 있구나"를 느끼게끔 메시지를 보냅니다.
+        <span class="src">— CJ 조현정 세션 인용</span>
+      </div>
+
+      <div class="best-picks">
+        <div class="best-picks-title">Best Picks · 특히 인상적이었던 5개 세션</div>
+        <ol>
+          <li>
+            <a href="#s-ab180">AB180 오담인</a><span class="bp-meta">· 10:40 · 행동 데이터 뒤에는 사람이 있습니다</span><br>
+            행동 데이터(<em>what</em>) 위에 의도(<em>why</em>)와 시점(<em>when</em>)을 더해 '사람'을 보는 관점 전환. <strong>F·E·S 세 층위 제품 이야기 프레임</strong>이 즉시 적용 가능.
+          </li>
+          <li>
+            <a href="#s-martinee">Martinee 김찬희</a><span class="bp-meta">· 11:20 · 2026 CRM Trend</span><br>
+            39개 사례에서 뽑은 <strong>'So what이 아닌 Next Action'</strong>의 실전 공식 — UX Gap 채우기 · 멤버십 Lock-in · UX Writing (혜택 수치화/의도적 덜어내기).
+          </li>
+          <li>
+            <a href="#s-canva">Canva — Jess Baden</a><span class="bp-meta">· 13:15 · How first-party data turns into actionable signals</span><br>
+            글로벌 라이프사이클 마케팅의 실전 다이제스트 — <strong>클릭→전환·진행 트래커 온보딩·12시간 뉴스레터 자동화</strong> 3사례. 디자인 마일스톤 인증서로 SNS 1만 공유까지 이어진 설계의 위력.
+          </li>
+          <li>
+            <a href="#s-cjenm">CJ ENM 윤범중</a><span class="bp-meta">· 13:50 · The Full-Stack CRM Formula</span><br>
+            <strong>12% / 56% / ×1.6배</strong>. 5W1H 프레임 × 코호트 정의 × 실제 케이스 3개로 정리한 풀스택 마케터의 캠페인 설계 공식. 메모 한 줄을 풀어낼 만한 양의 인사이트가 사진에 가득.
+          </li>
+          <li>
+            <a href="#s-nnt">NNT 조경섭</a><span class="bp-meta">· 15:30 · Algorithm + Creative</span><br>
+            WHO·WHEN·WHAT을 <strong>McAuley(Stanford)·Pinterest·Duolingo</strong> 케이스로 증명. "알고리즘은 비교만, 인간이 명령을 만든다"는 NNT Architecture (Brain · Factory · Masterpiece) — 가장 구조적인 통찰.
+          </li>
+        </ol>
+      </div>
+    </header>
+
+    <!-- ====================================================== -->
+    <!-- AB180 오담인 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-ab180">
+      <div class="session-header">
+        <span class="session-no best">PARTNER SPOTLIGHT</span>
+        <span class="session-time">10:40 – 11:00</span>
+        <span class="best-badge">★ Top Pick</span>
+      </div>
+      <h2 class="section-title">행동 데이터 뒤에는 사람이 있습니다</h2>
+      <p class="speaker">오담인 (Damin Oh) · AB180 Solution Architect <span class="tier">Co-organiser</span></p>
+
+      <div class="best-quote">행동 데이터(<em>what</em>) 위에 의도(<em>why</em>)와 시점(<em>when</em>)을 더해 '사람'을 보는 관점 전환. F·E·S 세 층위 제품 이야기 프레임이 즉시 적용 가능.</div>
+
+      <p class="lead-para">단순 행동 이력에만 집중하면 유저의 심리를 이해하기 힘듭니다. <strong>화려한 기술적 변화 없이도 성과가 개선된 사례의 공통점</strong>은, 행동 이력만 보는 데서 그치지 않고 그 행동 뒤에 있는 사람의 맥락까지 읽으려는 시도였다.</p>
+
+      <div class="callout">
+        <strong>출발점</strong> · '장바구니에 담았지만 구매하지 않은 유저'를 어떻게 볼 것인가. <br>
+        컨퍼런스용 구두, 동생 생일선물용 신발, 러닝용 신발을 본 사람 — 상품을 봤지만 장바구니에 담지 않은 유저에게 "방금 본 상품 10% 할인"은 무의미하다. 행동 뒤의 맥락·상황을 이해해야 한다.
+      </div>
+
+      <h3>전략 1. 행동 이력에 맥락을 더하세요</h3>
+      <p>행동 데이터(<em>what</em>) 위에 <strong>의도(why)</strong> 와 <strong>시점(when)</strong> 을 더하면 사람(<em>Who</em>)이 보이고, 이것이 AI가 똑똑하게 일할 수 있는 맥락 정보가 된다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">방법 ① 유저에게 직접 물어보세요</div>
+          <div class="card-body">
+            의외의 신호를 강한 맥락으로 연결. 모든 유저가 응답하지는 않아도 응답한 데이터가 쌓이면 세그먼트를 나누는 새로운 기준 마련. 유저 인터뷰·앱 리뷰·CS 로그·동료의 관찰·감도 활용. "이 사람이 우리 서비스를 찾은 이유가 뭘까?" — Jobs to be Done 프레임워크가 질문 설계 시 도움.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">방법 ② 이미 있는 행동 데이터를 시그널로 다시 읽으세요</div>
+          <div class="card-body">
+            검색 패턴, 반복 방문 주기를 거래 완료 여부가 아니라 맥락의 단서로 살펴보기. 같은 세션에서 남성 신발과 여성 러닝화를 봤다면 → "본인 쇼핑과 선물 쇼핑을 동시에 하는 사람일까?"
+          </div>
+        </div>
+      </div>
+
+      <h3>전략 2. 맥락에 맞는 우리 제품의 이야기를 찾아주세요</h3>
+      <p>단순 스펙을 넘어 Unique Selling Point와 사용 사례까지 담아 제품 정보를 세 층위로 정리. <strong>Braze Catalog + AI Agent Console</strong>로 유저 맥락에 맞는 정보를 카탈로그에 업데이트할 수 있다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">F · Functional (기능적)</div>
+          <div class="card-body">체형별 핏, 옷감 질, 세탁 후 변형, 구김, 방음, 유아 편의 등 실제 사용 정보</div>
+        </div>
+        <div class="card">
+          <div class="card-title">E · Emotional (감정적)</div>
+          <div class="card-body">비즈니스 미팅에도 괜찮은, 선물용으로 좋은 등 유저의 감성적 니즈 매칭</div>
+        </div>
+        <div class="card">
+          <div class="card-title">S · Situational (상황적)</div>
+          <div class="card-body">"걸을 수 있는 자라", "쉬기 좋은", "비즈니스 출장에 적합" 등 상황 맥락에 맞는 추천</div>
+        </div>
+      </div>
+
+      <h3>전략 3. 보내고 나서 돌아보세요</h3>
+      <p>타이밍과 소재 단위 분석으로 — 언제·누구·어떤 목적의 메시지를·어떤 소재와 혜택으로 반응했는지 요소별로 나누기.</p>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">As-Is</div>
+          <div class="ba-text">프로모션은 아침 10시에 일괄적으로 보내는 게 좋다.</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">To-Be</div>
+          <div class="ba-text">개인 특징마다 최적화된 타이밍에 메시지 전달.</div>
+        </div>
+      </div>
+      <div class="sub-block">
+        <div class="sub-block-label">To-Be 예시 · 개인 특징별 최적 타이밍</div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">앱 지속 접속자</div>
+            <div class="card-body">나를 위한 시간을 갖고 싶은 <strong>늦은 밤에</strong></div>
+          </div>
+          <div class="card">
+            <div class="card-title">최근 구매자</div>
+            <div class="card-body">내가 잘 샀는지 되돌아보게 되는 <strong>한낮에</strong></div>
+          </div>
+          <div class="card">
+            <div class="card-title">고구매력 유저</div>
+            <div class="card-body">"나한테 좀 써도 되겠다" 싶은 여유로운 <strong>퇴근 직후에</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <h3>분석 방법 두 가지</h3>
+      <ul>
+        <li>방법 1) Braze MCP 혹은 리포트빌더의 AI 오퍼레이터로 분석</li>
+        <li>방법 2) 커런츠로 어떤 메시지와 어떤 시간에 인터랙션했는지 출력해서 내부 DB에 붙여 분석</li>
+      </ul>
+
+      <div class="callout"><strong>Canvas Re-entry 패턴</strong> · Users re-enter Canvas every 30 days → Context Step checks catalog → Records content to be served → Message Step sends content.</div>
+
+      <h3>Braze가 줄여줄 실행 시간</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">Canva / Figma 연동</div><div class="card-body">소재 이미지를 Braze로 바로 전송</div></div>
+        <div class="card"><div class="card-title">Canvas 일괄 수정</div><div class="card-body">AI Operator로 캔버스 일괄 수정 가능</div></div>
+        <div class="card"><div class="card-title">Content Optimizer (BETA)</div><div class="card-body">Multi armed bandit으로 다양한 제목과 내용 조합 적합한 문구 테스트 (현재는 Email만 지원)</div></div>
+        <div class="card"><div class="card-title">AI Operator</div><div class="card-body">가이드를 읽지 않아도 원하는 캠페인 구현 및 트러블슈팅에 필요한 사항 확인 가능</div></div>
+      </div>
+
+      <div class="gallery-title">발표 자료 (14장)</div>
+      <div class="gallery">
+        <a href="01_AB180_오담인/20260408_105024.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105024.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105123.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105123.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105145.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105145.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105309.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105309.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105607.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105607.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105741.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105741.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_105844.jpg" target="_blank"><img src="01_AB180_오담인/20260408_105844.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110010.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110010.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110129.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110129.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110333.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110333.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110433.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110433.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110503.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110503.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110654.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110654.jpg" alt=""></a>
+        <a href="01_AB180_오담인/20260408_110754.jpg" target="_blank"><img src="01_AB180_오담인/20260408_110754.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- CJ 조현정 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-cj">
+      <div class="session-header">
+        <span class="session-no">PARTNER SPOTLIGHT</span>
+        <span class="session-time">11:00 – 11:20</span>
+      </div>
+      <h2 class="section-title">Discover it or Design it? — 충성고객의 재정의</h2>
+      <p class="speaker">조현정 (Hyeonjeong Cho) · CJ 올리브네트웍스 Maxonomy팀 CSM <span class="tier">Co-organiser</span></p>
+
+      <p class="lead-para">로열티 = 충성심, 의리 = 확고하고 변하지 않음. 충성고객 = 확고하고 변하지 않는 고객. 그러나 그 정의는 기업과 소비자에게서 같지 않다.</p>
+
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">기업이 보는 충성고객</div>
+          <div class="ba-text">기업의 자산 = 계속 돈을 쓰는 고객. 재구매, 리텐션, LTV 등을 기준으로 정의. CRM은 저비용으로 이탈 방지하고 거래규모를 키우는 수단.</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">소비자 입장</div>
+          <div class="ba-text">브랜드에 돈을 얼마나 썼는지를 생각하지 않음. 브랜드에 대한 심리, 브랜드와의 관계, 브랜드와 함께 하는 문화가 영향을 미침. 수많은 정보 속에서 '자신만의 기준으로 나와 잘 맞는 브랜드'를 선택.</div>
+        </div>
+      </div>
+
+      <h3>기업 관점의 한계</h3>
+      <ul>
+        <li>싸니까 사는데, 정은 안 감</li>
+        <li>그럴듯해 보이는데 왜 필요한지 모르겠음</li>
+        <li>간만에 들어왔는데 전혀 기억도 못하고 대우 안 해줌</li>
+      </ul>
+
+      <h3>"Forever Customer"가 되게 하는 요소들</h3>
+      <p>Medallia Market Research July 2024 Consumer Loyalty Survey 기준 — 'forever customer'를 만드는 요인 Top 3 응답률.</p>
+      <table class="table">
+        <thead><tr><th>요인</th><th>응답률</th></tr></thead>
+        <tbody>
+          <tr><td>Price</td><td class="num">46%</td></tr>
+          <tr><td>Product quality</td><td class="num">39%</td></tr>
+          <tr><td>Product selection</td><td class="num">30%</td></tr>
+          <tr><td>Experience &amp; service</td><td class="num">29%</td></tr>
+          <tr><td>Location</td><td class="num">15%</td></tr>
+          <tr><td>Identity &amp; core values</td><td class="num">7%</td></tr>
+        </tbody>
+      </table>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="num accent">2.7×</div>
+          <div class="label">직원을 잘 대우하는 브랜드일수록 로열티 형성 가능성</div>
+        </div>
+        <div class="stat">
+          <div class="num accent">69%</div>
+          <div class="label">"직원이 잘 대우받고 있다고 느낄 때 더 충성한다"고 응답한 고객</div>
+        </div>
+      </div>
+
+      <h3>브랜드 충성도를 만드는 4P</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">Principle · 가치정렬</div><div class="card-body">내가 믿는 걸 대변하는가?</div></div>
+        <div class="card"><div class="card-title">Potential</div><div class="card-body">이 브랜드와의 관계가 나를 더 나아지게 하는가?</div></div>
+        <div class="card"><div class="card-title">Culture · 문화적합성</div><div class="card-body">내 라이프스타일과 잘 맞는가?</div></div>
+        <div class="card"><div class="card-title">Community</div><div class="card-body">나와 비슷한 사람들과 연결될 수 있는가?</div></div>
+      </div>
+
+      <div class="callout">
+        <strong>핵심</strong> · 충성도는 있다/없다가 아니라, 연속적인 값이고 시간경과에 따라 달라진다. 브랜드 이미지를 잘 구축한다면, 처음 만난 유저도 이미 충성할 준비가 된 상태로 들어올 수 있다. 가격과 품질이 기본이지만, "잘 대우받는다고 느낀다면" 훨씬 충성도가 높아진다.
+      </div>
+
+      <div class="quote">
+        고객이 기대하지 못한 순간에 만나는 한끗 차이의 배려를 설계해야 한다. <strong>감흥을 일으켜야 자발적으로 지갑을 열게 된다.</strong>
+      </div>
+
+      <div class="gallery-title">발표 자료 (3장)</div>
+      <div class="gallery">
+        <a href="02_CJ_조현정/20260408_111911.jpg" target="_blank"><img src="02_CJ_조현정/20260408_111911.jpg" alt=""></a>
+        <a href="02_CJ_조현정/20260408_111938.jpg" target="_blank"><img src="02_CJ_조현정/20260408_111938.jpg" alt=""></a>
+        <a href="02_CJ_조현정/20260408_112306.jpg" target="_blank"><img src="02_CJ_조현정/20260408_112306.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Martinee 김찬희 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-martinee">
+      <div class="session-header">
+        <span class="session-no best">PARTNER SPOTLIGHT</span>
+        <span class="session-time">11:20 – 11:40</span>
+        <span class="best-badge">★ Top Pick</span>
+      </div>
+      <h2 class="section-title">2026 CRM Trend — leading brands의 3가지 공통점</h2>
+      <p class="speaker">김찬희 (Chanhee Kim) · Martinee CRM Part Lead <span class="tier">Gold</span></p>
+
+      <div class="best-quote">39개 사례에서 뽑은 '<strong>So what이 아닌 Next Action</strong>'의 실전 공식 — UX Gap 채우기 · 멤버십 Lock-in · UX Writing(혜택 수치화/의도적 덜어내기).</div>
+
+      <p class="lead-para">39개 회사와 CRM 협업 — 11번가, 예스24, 오늘의집, 스타벅스, 마이리얼트립 등. 정교한 개인화보다 <strong>고객의 맥락을 읽은 캠페인이 성공</strong>한다.</p>
+
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">Before · 그래서 어쩌라고?</div>
+          <div class="ba-text">"[이름]님을 못 본지 [N]일째 [A쿠폰]이 기다려요!"</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">After · 아 맞다, 사야 했는데!</div>
+          <div class="ba-text">"[이름]님이 관심 있는 [립스틱] [A쿠폰]으로 구매 고민 덜어보세요!" <br><span style="color:var(--accent);font-weight:600">실제 발송 시 CG 대비 구매 ▲230%</span></div>
+        </div>
+      </div>
+      <div class="quote">맥락을 읽으면 <strong>So what이 아닌 Next Action</strong>이 만들어진다.</div>
+
+      <!-- 01 UX Gap -->
+      <h3>01. CRM × UX 개선 — UX Gap, CRM으로 채우기</h3>
+      <p>UX Gap이란 — <em>UI가 의도한 행동 vs 실제 유저 행동 간의 간극이 발생하는 지점.</em> UI에서 챙기지 못한 빈틈을 CRM으로 채울 수 있다.</p>
+
+      <h4>케이스 ① 도서 플랫폼 · 작가 알림 신청 유도</h4>
+      <p>의도한 행동은 종 아이콘이지만, 실제로는 기능을 인지 못 한 채 이탈. CRM 메시지 추가 후 — <strong>관심 작가 알림 신청 ▲287%</strong></p>
+
+      <h4>케이스 ② 카셰어링 · 면허 등록 유도</h4>
+      <p>"가입하신 김찬희님, 면허증을 등록해 보세요 → 2,000포인트 드려요". CRM 메시지 추가 후 — <strong>면허 등록 ▲20%</strong></p>
+
+      <h4>케이스 ③ F&amp;B · 업셀링 유도</h4>
+      <p>"1,000원만 담으면 배달비가 무료에요" — 할인까지 남은 금액 노출. CRM 메시지 추가 후 — <strong>3.5만원 이상 구매 ▲40%</strong></p>
+
+      <!-- 02 Membership -->
+      <h3>02. Membership — 인지를 넘어 Lock-in까지</h3>
+      <p>성숙기에 접어들면서 많은 기업이 멤버십에 집중. 초반 LTV는 낮으나, 구매 빈도의 증가로 Month 3부터 LTV가 증가한다.</p>
+      <div class="stat-grid">
+        <div class="stat"><div class="num" style="color:var(--bad)">▼16%</div><div class="label">멤버십 구독자 결제 금액 (초반)</div></div>
+        <div class="stat"><div class="num" style="color:var(--good)">▲130%</div><div class="label">멤버십 구독자 구매 빈도</div></div>
+        <div class="stat"><div class="num">8%</div><div class="label">첫 대여자 중 14일 내 멤버십 페이지 조회자 (낮은 인지도)</div></div>
+      </div>
+      <div class="callout"><strong>Solution</strong> · 첫 대여 후 다음 진입 시 '대여 감사 멤버십 쿠폰 IAM' 노출 — 안정화되는 포인트를 찾아 그 지점까지 반복 유도(Lock-in).</div>
+
+      <!-- 03 UX Writing -->
+      <h3>03. UX Writing — 고객의 언어로 재해석</h3>
+
+      <h4>혜택 수치화 · 고객이 계산하게 만들지 않는다</h4>
+      <div class="ba-grid">
+        <div class="ba-box before"><div class="ba-label">Before</div><div class="ba-text">"최대 혜택 받아보세요"</div></div>
+        <div class="ba-box after"><div class="ba-label">After</div><div class="ba-text">"4,800원 돌려드려요"</div></div>
+      </div>
+      <p style="font-size:14px;color:var(--muted)">F&amp;B 수신 동의 유도 예시 — "김찬희 사장님 9,980원 할인 받으셨네요" → <strong>푸시 수신 동의 ▲481%</strong> (타사 레퍼런스 평균 증분 52%)</p>
+
+      <h4>의도적 덜어내기 · 정보를 감추는 것이 호기심을 부른다</h4>
+      <div class="ba-grid">
+        <div class="ba-box before"><div class="ba-label">Before</div><div class="ba-text">"지금 가장 많이 찾는 {상품명}"</div></div>
+        <div class="ba-box after"><div class="ba-label">After</div><div class="ba-text">"지금 가장 많이 찾는 이 제품"</div></div>
+      </div>
+      <p style="font-size:14px;color:var(--muted)">F&amp;B 장바구니 넛지 — "아 맞다 주문! 내가 담은 '이 상품' 결제 전이에요" → <strong>3일 내 구매 ▲24%</strong></p>
+
+      <h3>앞으로의 활용 방향</h3>
+      <p>브랜드 가이드를 Braze AI에 먹이기 — CRM Writing Guide를 Create Brand Guideline에 인풋으로 제공하면, 브랜드 톤에 맞는 소재를 자동 생성할 수 있다.</p>
+
+      <h3>오늘 세션 한 장 정리</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">01</div><div class="card-body">UI가 닿지 못하는 곳, CRM 기회가 있다 — 보편적 UI 흐름에서 이탈하거나 길 잃은 고객에게 CRM으로 방향 제시</div></div>
+        <div class="card"><div class="card-title">02</div><div class="card-body">멤버십, 인지를 넘어 Lock-in 시점까지 확인한다 — 반복 구매가 안정화되는 지점까지 CRM으로 소프트랜딩</div></div>
+        <div class="card"><div class="card-title">03</div><div class="card-body">고객의 언어로 재해석하여 인지 부하를 줄인다 — 혜택은 숫자로 번역, 의도적으로 덜어내어 호기심 유발</div></div>
+      </div>
+
+      <div class="quote">
+        "아 해야겠다"는 Next Action 트리거를 만드는 것 — UX Gap · Membership · UX Writing 세 키워드의 공통점은 그것이다.
+      </div>
+
+      <h3>참고 · Source Credibility Theory</h3>
+      <p>우리는 나를 잘 아는 <strong>브랜드</strong>의 말을 따른다. 나를 잘 알고(Expertise) 나를 위한 말을 하는(Trustworthy) 사람을 신뢰한다는 이론. CRM 맥락에서는 '이 브랜드가 내 상황과 맥락을 정확히 알고 있구나'를 느끼게 하면 메시지 신뢰도가 올라간다.</p>
+
+      <div class="gallery-title">발표 자료 (26장)</div>
+      <div class="gallery">
+        <a href="03_Martinee_김찬희/20260408_113443.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113443.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113519.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113519.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113628.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113628.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113633.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113633.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113719.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113719.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113735.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113735.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113804.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113804.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113833.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113833.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113935.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113935.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_113953.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_113953.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114012.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114012.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114055.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114055.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114124.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114124.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114207.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114207.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114316.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114316.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114353.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114353.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114628.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114628.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114650.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114650.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114720.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114720.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114813.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114813.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114857.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114857.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_114959.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_114959.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_115109.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_115109.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_115157.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_115157.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_115219.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_115219.jpg" alt=""></a>
+        <a href="03_Martinee_김찬희/20260408_115237.jpg" target="_blank"><img src="03_Martinee_김찬희/20260408_115237.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- BrazeAI 김상우 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-brazeai">
+      <div class="session-header">
+        <span class="session-no">BRAZE</span>
+        <span class="session-time">11:40 – 12:00</span>
+      </div>
+      <h2 class="section-title">Smarter Messaging with Braze AI</h2>
+      <p class="speaker">김상우 (Sang Kim) · Senior Customer &amp; Partner Trainer, Braze</p>
+
+      <p class="lead-para">Braze AI는 <strong>실행을 빠르게, 예측과 제안, 개인화 추천, 핵심지표 극대화를 위한 메시지·스케줄 최적화</strong>를 돕는다. 큰 그림은 3축으로 정리된다.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">Accelerate</div>
+          <div class="card-body">AI Copywriting Assistant · Liquid AI Assistant · AI Operator — 의미 있는 카피(Copy)를 신속하게 제작할 수 있다.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Personalize</div>
+          <div class="card-body">Personalized Paths · AI Item Recommendation — 각 사용자가 가장 크게 공감할 수 있는 고객 여정(Journey)으로 유도하고, 개인화된 맞춤형 맛집을 추천한다.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Optimize</div>
+          <div class="card-body">Intelligent Suite (Timing, Channel, Selection) — 최적의 채널과 타이밍에 맞춰 후속 메시지(Follow-up)를 자동으로 발송한다.</div>
+        </div>
+      </div>
+
+      <h3>캔버스를 만든다고 했을 때 활용 흐름</h3>
+      <ul>
+        <li>위치·취향·예산 등 유저 정보 → 예산 기반으로 분기 처리</li>
+        <li>메시지 단계: AI 카피라이팅, AI 리퀴드 어시스턴트</li>
+        <li>기타: AI 이미지 생성, AI 콘텐츠 QA, Braze AI 오퍼레이터</li>
+        <li>개인화: 메시지 / 상품추천(카탈로그 연동) / 시간(intelligent timing) / variant</li>
+      </ul>
+      <div class="callout"><strong>액션 아이템</strong> · 캔버스의 <em>개인화 Path</em> 기능 확인해보기.</div>
+
+      <div class="gallery-title">발표 자료 (1장)</div>
+      <div class="gallery single">
+        <a href="04_BrazeAI_김상우/20260408_120201.jpg" target="_blank"><img src="04_BrazeAI_김상우/20260408_120201.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- LUNCH -->
+    <!-- ====================================================== -->
+    <div class="mini" id="s-lunch">
+      <div class="mini-img"><a href="05_점심/20260408_121913.jpg" target="_blank"><img src="05_점심/20260408_121913.jpg" alt=""></a></div>
+      <div class="mini-text">
+        <h3>Lunch · 12:00 – 13:15</h3>
+        <p>웨스틴 서울 파르나스 도시락. 본격적인 오후 세션을 위한 휴식.</p>
+      </div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- Canva — Jess Baden -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-canva">
+      <div class="session-header">
+        <span class="session-no best">GLOBAL CUSTOMER SPOTLIGHT</span>
+        <span class="session-time">13:15 – 13:50</span>
+        <span class="best-badge">★ Top Pick</span>
+      </div>
+      <h2 class="section-title">Canva — How first-party and behavioural data turns into actionable signals</h2>
+      <p class="speaker">Jess Baden · Lifecycle Marketing Lead, Canva</p>
+
+      <div class="best-quote">글로벌 라이프사이클 마케팅의 실전 다이제스트 — <strong>클릭→전환·진행 트래커 온보딩·12시간 뉴스레터 자동화</strong> 3사례. 디자인 마일스톤 인증서로 SNS 1만 공유까지 이어진 설계의 위력.</div>
+
+      <p class="lead-para">Canva 라이프사이클 리드. 리텐션과 수익화를 위해 온보딩·시트 확장·재활성화·유료구독 등을 다루며, 니즈 예측과 여정 설계로 3개의 캠페인을 소개.</p>
+
+      <div class="cards">
+        <div class="card"><div class="card-title">캠페인 1</div><div class="card-body">클릭을 전환(세일즈 대화)으로 바꾸기</div></div>
+        <div class="card"><div class="card-title">캠페인 2</div><div class="card-body">진행상태 트래커로 온보딩 개선</div></div>
+        <div class="card"><div class="card-title">캠페인 3</div><div class="card-body">12시간 뉴스레터 제작 → 개인화 엔진으로 전환</div></div>
+      </div>
+
+      <!-- 캠페인 1 -->
+      <h3>① 클릭을 전환으로</h3>
+      <p>엔터프라이즈 성장이 중요. 첫 진입에 만나는 컨택 세일즈 페이지 폼 제출이 핵심. 컨택 세일즈 CTA를 삽입했으나 페이지 이탈이 많아 다음과 같이 대응.</p>
+      <ul>
+        <li><strong>클릭 여부 가시화</strong> — 링크 Aliasing 기능으로 어떤 링크를 눌렀는지 식별</li>
+        <li><strong>1시간 뒤 폼 제출 여부 체크</strong> → 팔로업 이메일</li>
+        <li><strong>사용자에게 맥락 제공</strong> — 메일에서 어떤 서비스인지 설명 → 랜딩페이지에도 개인화 적용. 회사명을 고유식별자로, 리퀴드 + 카탈로그 ID와 매치해서 개인화된 랜딩페이지를 불러옴 (기업 맞춤 페이지)</li>
+        <li><strong>링크 클릭은 의도를 나타내는 시그널</strong> — 이걸 재활용(일종의 리타게팅)</li>
+      </ul>
+
+      <!-- 캠페인 2 -->
+      <h3>② 온보딩 — 진행상태 트래커</h3>
+      <p>프로그레스 트래킹이 중요. 도파민 분비를 촉진하고, 무언가가 진행된다는 인지가 긍정적 감정을 형성해 지속하게 만든다.</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">습관의 연속성</div><div class="card-body">연속적 기록이 시각화되면 끊고 싶지 않다</div></div>
+        <div class="card"><div class="card-title">장기 목표 쪼개기</div><div class="card-body">네이버 블챌, 카뱅 26주 적금 — 큰 목표를 쉽게 만들기</div></div>
+      </div>
+      <p>디자인 플랫폼은 부담스러운 시작점. 몇 가지 핵심 행동이 장기적 리텐션에 도움된다는 걸 알게 됨.</p>
+      <div class="pill-list">
+        <span class="pill dark">브랜드 키트</span>
+        <span class="pill dark">AI 툴</span>
+        <span class="pill dark">디자인 생성</span>
+        <span class="pill dark">협업</span>
+      </div>
+      <p style="font-size:14px;color:var(--muted)">제품에 대한 신선함이 사라지기 전, 빠른 시일 내에 모든 곳에서 이 4가지를 노출시킨다. 현재 위치를 알게 하고, 다음 위치를 보여주면 실제로 그렇게 된다.</p>
+
+      <h4>Results — uplift</h4>
+      <div class="stat-grid">
+        <div class="stat"><div class="num">1%</div><div class="label">Team collaboration uplift</div></div>
+        <div class="stat"><div class="num">2%</div><div class="label">Designs created uplift</div></div>
+        <div class="stat"><div class="num">4%</div><div class="label">Brand Kit set up uplift</div></div>
+        <div class="stat"><div class="num accent">8%</div><div class="label">AI tool adoption uplift</div></div>
+      </div>
+
+      <h4>추가 공유 · 유저를 인정해주기 = 성취의 순간을 공략하기</h4>
+      <p>핵심적인 디자인 마일스톤 달성 시마다 <strong>디자인 마스터 인증서</strong> 발급. 개인화를 통해 관련 있는 마일스톤으로 보냄 — <strong>1만 개 SNS 공유</strong> 발생.</p>
+
+      <!-- 캠페인 3 -->
+      <h3>③ 뉴스레터 자동화</h3>
+      <p>온보딩 이후 뉴스레터는 2개월에 한 번씩 발송. 1인이 10개 배리언트를 만들려면 12시간 이상 소요 → <strong>오토컴파일</strong>로 적절한 유저에게 적절한 콘텐츠 발송. 속성·행동 기반.</p>
+      <ul>
+        <li><strong>상호작용</strong> — 유저가 어디서 인게이지되었는지 등을 어레이로 구성</li>
+        <li><strong>각 유저가 무슨 콘텐츠를 받았는가</strong> — 받고 전환되면 대상에서 제외, 전환 안 됐으면 팔로업 메일 발송</li>
+        <li><strong>카탈로그 셀렉션</strong> — 유저에게 맞춰 콘텐츠 블록을 만들 수 있음</li>
+      </ul>
+      <p style="font-size:14px;color:var(--muted)">10개의 세그먼트 · 30일 주기로 캔버스 re-entry. 최종적으로 깔끔한 HTML + 간단한 리퀴드 개인화.</p>
+
+      <div class="quote">목표: <strong>의도, 활성화, 리텐션</strong> · 솔루션: <strong>클릭, 마일스톤, 뉴스레터</strong></div>
+
+      <div class="gallery-title">발표 자료 (3장)</div>
+      <div class="gallery">
+        <a href="06_Canva_JessBaden/20260408_133413.jpg" target="_blank"><img src="06_Canva_JessBaden/20260408_133413.jpg" alt=""></a>
+        <a href="06_Canva_JessBaden/20260408_133552.jpg" target="_blank"><img src="06_Canva_JessBaden/20260408_133552.jpg" alt=""></a>
+        <a href="06_Canva_JessBaden/20260408_134527.jpg" target="_blank"><img src="06_Canva_JessBaden/20260408_134527.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- CJ ENM 윤범중 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-cjenm">
+      <div class="session-header">
+        <span class="session-no best">CUSTOMER SPOTLIGHT</span>
+        <span class="session-time">13:50 – 14:30</span>
+        <span class="best-badge">★ Top Pick</span>
+      </div>
+      <h2 class="section-title">The Full-Stack CRM Formula</h2>
+      <p class="speaker">윤범중 (Beomjoong Yoon) · CJ ENM Growth Marketer</p>
+
+      <div class="best-quote"><strong>12% / 56% / ×1.6배</strong>. 5W1H 프레임 × 코호트 정의 × 실제 케이스 3개로 정리한 풀스택 마케터의 캠페인 설계 공식 — 메모 한 줄("풀스택CRM, 기획→설계→실행→분석")을 풀어낼 만한 양의 인사이트가 사진에 가득.</div>
+
+      <p class="lead-para">캠페인의 기획 → 설계 → 실행 → 분석까지 전부 다루는 <strong>풀스택 CRM 마케터</strong>의 작동 원리. 잘 기획된 풀스택 CRM이 만들어낸 숫자 변화부터.</p>
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="num accent">12%</div>
+          <div class="label">App Push Direct Open Rate</div>
+          <div class="sub">통상 2% → 5W1H 캠페인 기반 6배 상승</div>
+        </div>
+        <div class="stat">
+          <div class="num accent">56%</div>
+          <div class="label">팝업 클릭율</div>
+          <div class="sub">MASS 30% → 개인화+Connected Contents+Liquid문 통해 56%</div>
+        </div>
+        <div class="stat">
+          <div class="num accent">×1.6</div>
+          <div class="label">CVR LIFT</div>
+          <div class="sub">캠페인 수신군이 대조군 比 주문전환율 평균 1.6배 증가</div>
+        </div>
+      </div>
+      <div class="quote">알맞은 고객에게 적시에 좋은 메시지를 보내면 <strong>CVR이 높아진다</strong>. — 세그먼트+타이밍 · 콘텐츠+채널 · 목적설계+방법구현</div>
+
+      <h3>전통적 마케터 vs FULL STACK 마케터</h3>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">전통적 마케터</div>
+          <div class="ba-text">
+            ✗ 느낌과 경험으로 타겟을 잡는다<br>
+            ✗ 성공지표가 클릭율/오픈율에 그친다<br>
+            ✗ 캠페인을 즉흥적으로 설계한다<br>
+            ✗ 기본 템플릿에 문구만 입력한다<br>
+            ✗ 가지고 있는 컬럼 값만 활용한다<br>
+            ✗ 실행한 CONVERSION이 곧 성과이다
+          </div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">FULL STACK 마케터</div>
+          <div class="ba-text">
+            ✓ 가설을 세우고 코호트로 타겟을 정의한다<br>
+            ✓ 성공지표와 보조지표를 설정한다<br>
+            ✓ 5W1H 기반 캠페인을 설계한다<br>
+            ✓ HTML / 리퀴드 / 커넥티드 콘텐츠를 활용한다<br>
+            ✓ TAXONOMY를 마케터가 구성한다<br>
+            ✓ 대조군과의 CVR 증분 차이로 캠페인 유효성을 증명한다
+          </div>
+        </div>
+      </div>
+      <p>CRM/그로스 마케터의 역할이 기획 → 설계 → 실행 → 분석을 진행하는 FULL STACK으로 확대 가능한 이유는 <strong>BRAZE가 중요한 세 가지 기능을 제공</strong>하기 때문.</p>
+
+      <div class="cards">
+        <div class="card"><div class="card-title">개인화</div><div class="card-body">고객의 개인 행동·속성·구매이력 기반의 한 맞춤형 캠페인 가능</div></div>
+        <div class="card"><div class="card-title">실시간 감지</div><div class="card-body">고객의 행동과 각 회사의 재화의 실시간 현황을 반영한 캠페인 가능</div></div>
+        <div class="card"><div class="card-title">콘텐츠·커뮤니케이션 자유</div><div class="card-body">커뮤니케이팅·디자인·타이밍·채널을 메타데이터에 직접 반영한 캠페인 가능</div></div>
+      </div>
+
+      <h3>캠페인 기획의 KEY — 5W1H</h3>
+      <p>각 단계를 잘못 선정하면 결과가 흐려진다. WHY 실패 → 캠페인의 방향이 틀려진다 · WHO 실패 → 잘못된 결과가 도출된다 · WHEN/WHERE 실패 → 캠페인 효과가 희석된다 · WHAT/HOW 실패 → 잘못된 커뮤니케이션이 나간다.</p>
+      <div class="flow">
+        <span class="step">WHY · 목적/성공지표 정의</span><span class="arrow">→</span>
+        <span class="step">WHO · 타겟 세그먼트/코호트</span><span class="arrow">→</span>
+        <span class="step">WHEN · 타이밍 선정</span><span class="arrow">→</span>
+        <span class="step">WHERE · 채널 선정</span><span class="arrow">→</span>
+        <span class="step">WHAT · 콘텐츠 선정</span><span class="arrow">→</span>
+        <span class="step">HOW · 메시지 구현</span>
+      </div>
+
+      <h3>WHY · 성공지표 정의</h3>
+      <p>어떤 것을 바꾸기를 원하고 어떤 지표로 증명할 것인가?</p>
+      <div class="headline-metric">
+        <div class="hm-label">Success Metric</div>
+        <div class="hm-value">CVR (Conversion Rate)</div>
+        <div class="hm-desc">우리는 [어떠한] 추가 전환을 일으키기 위해 캠페인을 진행함. 전환은 [방문]/[참여]/[주문] 등이 될 수 있음.</div>
+      </div>
+      <p style="font-style:italic;color:var(--muted);margin-top:10px">"그런데 CVR만 좋으면 성공한 캠페인이라고 할 수 있을까?"</p>
+      <div class="sub-block">
+        <div class="sub-block-label">CVR을 보강하는 2개의 KEY METRIC</div>
+        <div class="cards">
+          <div class="card"><div class="card-title">KEY METRIC 1 · 소재 오픈/클릭율</div><div class="card-body">양질의 커뮤니케이션을 진행했는가? <br><span style="color:var(--muted);font-size:13px">CVR을 만들기 위해서는 고객이 클릭해야 한다.</span></div></div>
+          <div class="card"><div class="card-title">KEY METRIC 2 · 오픈/클릭 고객의 전환율</div><div class="card-body">커뮤니케이션이 유효했는가? <br><span style="color:var(--muted);font-size:13px">그리고 그 고객이 행위로 전환되어야 한다.</span></div></div>
+        </div>
+      </div>
+
+      <h3>WHO · 타겟 세그먼트·코호트 선정</h3>
+      <p>알맞은 고객을 선택하지 않으면 고객은 [NOISE]가 되며, 캠페인 효과에도 영향을 줄 수 있다. <strong>S 뷰티브랜드의 매출 확대 캠페인</strong> 사례.</p>
+      <table class="table">
+        <thead><tr><th>등급</th><th>노출 모수</th><th>대조군 대비 추가전환율</th></tr></thead>
+        <tbody>
+          <tr><td>우수등급</td><td>1만 명</td><td class="num">×1.5배</td></tr>
+          <tr><td>중간등급</td><td>3만 명</td><td class="num">×1.2배</td></tr>
+          <tr><td>일반등급</td><td>40만 명</td><td class="num">×1.01배</td></tr>
+          <tr><th colspan="2">전체 44만 명 대상</th><th class="num" style="color:var(--bad);text-align:right">×1.05배 (DROP)</th></tr>
+        </tbody>
+      </table>
+      <div class="callout"><strong>일반등급 고객의 모수가 많아 캠페인 Impact가 흐려짐.</strong> 코호트를 고려했다면 우수/중간등급은 캠페인 유지가 정답.</div>
+
+      <h4>브랜드 구매 확률에 따른 코호트 분배</h4>
+      <table class="table">
+        <thead><tr><th>순위</th><th>그룹</th><th>평균 LIFT</th></tr></thead>
+        <tbody>
+          <tr><td>1위</td><td>재구매 그룹</td><td class="num">×1.34배</td></tr>
+          <tr><td>2위</td><td>장바구니 그룹</td><td class="num">×1.56배</td></tr>
+          <tr><td>3위</td><td>다회조회 그룹</td><td class="num">×1.23배</td></tr>
+          <tr><td>4위</td><td>연관상품 그룹</td><td class="num">×1.03배</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:13.5px;color:var(--muted)">그룹 내에서도 +/- 는 확연하게 나뉘기에 코호트 구성은 중요하다.</p>
+
+      <h3>WHEN · 타이밍 선정</h3>
+      <p>고객이 A상품 PDP를 조회하고 이탈했을 때 언제 리마인드 푸시를 보내는 것이 최적인가? 정답은 없지만 관심도와 상품 특성에 따라 다르다.</p>
+      <div class="flow">
+        <span class="step">행위 발생</span><span class="arrow">→</span>
+        <span class="step">30분 뒤<br><small style="color:var(--muted)">저관여/저단가 리마인드 유효</small></span><span class="arrow">→</span>
+        <span class="step">3시간 뒤<br><small style="color:var(--muted)">외부 유입 고객 비교탐색 마무리</small></span><span class="arrow">→</span>
+        <span class="step">D+1<br><small style="color:var(--muted)">고단가/고관여 상품 해외에서도 유효</small></span><span class="arrow">→</span>
+        <span class="step">D+3<br><small style="color:var(--muted)">재방문 있다면 관심 변경단계</small></span>
+      </div>
+
+      <h4>CASE · 설날 할인쿠폰 다운 후 미구매 고객 대상 리마인드</h4>
+      <div class="ba-grid">
+        <div class="ba-box after">
+          <div class="ba-label">1차 행사 (1/30 – 2/5) — D+5일 뒤 운영</div>
+          <div class="ba-text">실행군 구매율 <strong style="color:var(--good)">1.22배 증가</strong></div>
+        </div>
+        <div class="ba-box before">
+          <div class="ba-label">2차 행사 (2/6 – 2/12) — D+3일 뒤 운영</div>
+          <div class="ba-text">실행군 구매율 <strong style="color:var(--bad)">0.99배로 NOISE</strong> · 충분히 탐색하고 구매하는 고객들로 인한 캠페인 효과 감소</div>
+        </div>
+      </div>
+
+      <h3>WHERE · 채널 선정</h3>
+      <p>APP-PUSH와 IN-APP MESSAGE는 운영 목적이 다르다.</p>
+      <div class="ba-grid">
+        <div class="ba-box after">
+          <div class="ba-label">APP-PUSH 채널</div>
+          <div class="ba-text">밖에 있는 고객도 가능 · 수신동의 필수 · 푸시 동의율 높은 우수·일반고객 · '최근 행동 있는' 고객 대상 전환 유효 · 재방문/재구매 유도 위주.<br><br>→ 양질의 개인화 콘텐츠 전달로 <strong>NOISE 제거가 KEY</strong></div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">IN-APP MESSAGE 채널</div>
+          <div class="ba-text">안에 있는 고객만 가능 · 푸시 동의율 낮은 휴면/신규 고객 · '오랜만에 온' 고객 대상 전환 유효 · 동의 전환/즉시 구매 유도.<br><br>→ 푸시 미동의 고객에게 가장 강력한 채널 · <strong>GOLDEN TIME</strong></div>
+        </div>
+      </div>
+
+      <h3>WHAT · 콘텐츠 선정</h3>
+      <div class="ba-grid">
+        <div class="ba-box before"><div class="ba-label">일반 카피</div><div class="ba-text">"고객님 A상품 재구매 할 때 되었어요!"</div></div>
+        <div class="ba-box after"><div class="ba-label">개인화 카피</div><div class="ba-text">"A상품 구매하신지 183일 경과되었어요!" <br><span style="color:var(--accent);font-weight:600">팝업 클릭률 56% — 약 2.2배 증가</span></div></div>
+      </div>
+      <div class="ba-grid">
+        <div class="ba-box before"><div class="ba-label">일반 혜택</div><div class="ba-text">"6,000원 할인 쿠폰이 있어요!"</div></div>
+        <div class="ba-box after"><div class="ba-label">실질 혜택</div><div class="ba-text">"고객님이 본 상품 [36,000원]에 구매 가능해요!" <br><span style="color:var(--accent);font-weight:600">푸시 구매전환율 1.6배 증가 · DIRECT OPEN RATE 12% (+10%p)</span></div></div>
+      </div>
+
+      <h3>HOW · 메시지 구현</h3>
+      <p>고객에게 개인화된 FIT한 커뮤니케이션을 위해서는 <strong>'정확한 값'</strong>이 필요하다. 잘못된 정보로 가면 — 쿠폰 적용불가 / 쿠폰 사용완료 / 재고 없음 / 가격 다름 → 고객경험 훼손 + 브랜드 신뢰도 하락.</p>
+      <h4>캠페인 중단 원칙</h4>
+      <div class="pill-list">
+        <span class="pill">쿠폰 미보유 (API)</span>
+        <span class="pill">조회상품 주문 (Attribute)</span>
+        <span class="pill">쿠폰 적용불가 (Catalog)</span>
+        <span class="pill">가격 상승 (API)</span>
+        <span class="pill">재고 품절 (API)</span>
+        <span class="pill">중복 캠페인 (Retargeting)</span>
+      </div>
+
+      <h3>캠페인 구현 CASE — 3개</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">CASE 1 · 신규/휴면 & 푸시미동의</div>
+          <div class="card-body">
+            <strong>WHY</strong> 휴면/신규 고객 구매전환 및 푸시/마케팅동의 확보<br>
+            <strong>WHO</strong> 신규/휴면 & 푸시미동의 고객<br>
+            <strong>WHEN</strong> 10만원 이상의 상품 조회 시점 (체리피커 최소화)<br>
+            <strong>WHERE</strong> 인앱 메시지 운영<br>
+            <strong>WHAT</strong> 조회상품 10,000원 할인 노출<br>
+            <strong>HOW</strong> 고객 조회상품 / 프로모션 참여이력<br>
+            <span style="color:var(--accent);font-weight:600;display:block;margin-top:6px">→ 팝업클릭률 36%, 이벤트 참여 x8배</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">CASE 2 · 유아동 쇼핑패스 가입 확보</div>
+          <div class="card-body">
+            <strong>WHO</strong> 유아동 상품 조회 & 장바구니 담은 고객 (3-40대 여성, 휴면/신규)<br>
+            <strong>WHEN</strong> 조회 시점 즉시 노출 & 타 플랫폼 가격비교 활발할 +30M<br>
+            <strong>WHERE</strong> 인앱 메시지 주요 운영<br>
+            <strong>WHAT</strong> 유아동 쇼핑패스 6,000원 할인 쿠폰 기반 노출<br>
+            <strong>HOW</strong> 가입확인 / 적용가능상품 / 조회가격 확인<br>
+            <span style="color:var(--accent);font-weight:600;display:block;margin-top:6px">→ 푸시오픈율 12%, 구매전환율 x1.6배</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">CASE 3 · 뷰티 S브랜드 구매고객</div>
+          <div class="card-body">
+            <strong>WHO</strong> 장바구니에 S브랜드 상품 보유고객<br>
+            <strong>WHEN</strong> 마이존 방문 시점 (활동성 있는 영역)<br>
+            <strong>WHERE</strong> 인앱 메시지 중심 운영 (추가혜택 연계)<br>
+            <strong>WHAT</strong> 개인화 행동 & S브랜드 상품 추가 할인 쿠폰 소구<br>
+            <strong>HOW</strong> 장바구니 보유API / 경과일수 활용<br>
+            <span style="color:var(--accent);font-weight:600;display:block;margin-top:6px">→ 팝업클릭율 56%, 구매전환율 x1.6배</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-title">발표 자료 (15장)</div>
+      <div class="gallery">
+        <a href="07_CJENM_윤범중/20260408_135347.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135347.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_135359.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135359.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_135522.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135522.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_135647.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135647.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_135757.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135757.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_135953.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_135953.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140142.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140142.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140215.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140215.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140453.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140453.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140548.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140548.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140644.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140644.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140751.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140751.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_140903.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_140903.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_141004.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_141004.jpg" alt=""></a>
+        <a href="07_CJENM_윤범중/20260408_141020.jpg" target="_blank"><img src="07_CJENM_윤범중/20260408_141020.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Babitalk 박찬희 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-babitalk">
+      <div class="session-header">
+        <span class="session-no">CUSTOMER SPOTLIGHT</span>
+        <span class="session-time">14:30 – 14:50</span>
+      </div>
+      <h2 class="section-title">Engineered Serendipity — How Braze delivers the message on the day users are ready to return</h2>
+      <p class="speaker">박찬희 (Chanhui Park) · Babitalk CRM Team Lead</p>
+
+      <p class="lead-para">CRM 마케팅을 잘하는 곳 = 미용실. 성형은 일회성, 시술은 반복성. 재시술 넛징을 시도했지만 <strong>직감에 의존한 주기로 발송</strong>한 결과 위닝 실험군 발굴에 실패.</p>
+
+      <div class="callout">
+        기존 방식 — 일괄 N주 주기로 카카오톡 발송. "마지막 시술로부터 N주가 지났네요. 슬슬 재시술 받아보시는 건 어떨까요?" → 리소스 이슈로 전체 일괄 발송.<br>
+        그러나 실제 시술별 권장 재시술 주기는 천차만별 — <strong>레이저 제모 2~4주 · 보톡스 3개월 · 필러 6개월 · 고강도 리프팅 6개월 이상</strong>.
+      </div>
+
+      <h3>이런 고민이 있다면, 예측형 CRM이 정답</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">다품종 운영</div><div class="card-body">상품군이 많고 재구매 유도가 필요한 경우 — 카테고리별 캠페인을 일일이 만들기에는 리소스가 부족하고 자동화가 막막하다</div></div>
+        <div class="card"><div class="card-title">리텐션 중심</div><div class="card-body">재구매 리텐션이 사업의 핵심 지표인 경우 — 1회 구매로 끝나는 유저가 너무 많다. 재구매 주기를 어떻게 정의하고 관리해야 할지 감이 잡히지 않는다</div></div>
+        <div class="card"><div class="card-title">개인화 타이밍</div><div class="card-body">유저마다 다른 타이밍에 개인화된 넛징이 필요한 경우 — 일찌감치 다른 타이밍에 개인화된 넛징을 보내고 싶다</div></div>
+      </div>
+
+      <h3>예측형 CRM을 위한 준비물 — 아이디어 + 모델링 + 파이프라인</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">CRM Marketer</div><div class="card-body">언제, 누구에게, 어떤 메시지를 — 캠페인 구조/목표 설정 · Braze Campaign 설계 · A/B Test 실험 기획</div></div>
+        <div class="card"><div class="card-title">AI/ML Engineer</div><div class="card-body">그 누구를 데이터로 특정 — 재구매 예측 모델 개발 · 유저별 개인화 모델링 · 모델 지속 개선</div></div>
+        <div class="card"><div class="card-title">Data Engineer</div><div class="card-body">결과를 실시간으로 Braze에 연결 — 모델 결과 → Braze 파이프라인 · Catalog API 자동 업데이트 · 실시간 데이터 동기화</div></div>
+      </div>
+
+      <h3>구조 — AI 예측 모델 → Braze Catalog → 유저별 개인화 메시지</h3>
+      <div class="flow">
+        <span class="step"><strong>01</strong> AI/ML 예측 모델링<br><small style="color:var(--muted)">유저별 재구매 가능성·시술 예측</small></span><span class="arrow">→</span>
+        <span class="step"><strong>02</strong> Catalog에 적재<br><small style="color:var(--muted)">User id 기준 추천 자동 업데이트</small></span><span class="arrow">→</span>
+        <span class="step"><strong>03</strong> 메시지 설계<br><small style="color:var(--muted)">Catalog Selection + 개인화 태그</small></span><span class="arrow">→</span>
+        <span class="step"><strong>04</strong> 메시지 발송<br><small style="color:var(--muted)">Webhook × Liquid · 자동 전송</small></span>
+      </div>
+
+      <h3>바비톡의 특이점 — Catalog 재설계</h3>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">일반적인 Catalog 사용</div>
+          <div class="ba-text">id · product_name · price · category — 상품 ID 기준으로 상품 정보를 저장하고 추천 상품을 불러오는 일반적 용도.</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">바비톡의 Catalog 재설계</div>
+          <div class="ba-text">id (= user_id) · rec_category · rec_hospital — <strong>유저 ID 기준으로 개인화 데이터를 저장</strong>, 유저별 재구매 추천 카테고리·구매처를 자동으로 불러옴.</div>
+        </div>
+      </div>
+
+      <div class="callout"><strong>꿀팁</strong> · ABT할 때 캔버스의 Context 기능으로 허수를 사전 필터링 → 어보트된 유저를 걸러낸다.</div>
+
+      <h3>바비톡의 예측형 CRM은 계속 확장 중</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">✅ 완료 · 재구매 주기 예측</div><div class="card-body">AI 모델 × Braze Catalog로 재구매 주기 개인화 알림 → 재구매율 +NN%</div></div>
+        <div class="card"><div class="card-title">🚀 진행 중 · AI 추천 Attribute 적재</div><div class="card-body">AI 학습 기반 유저별 최대 관심 카테고리·아이템을 유저 프로필에 태깅</div></div>
+        <div class="card"><div class="card-title">🔜 예정 · 첫 구매 확률 예측</div><div class="card-body">임박 유저 → 업셀링/크로스셀링 · 구매 확률 낮은 유저 → 탐색 유도</div></div>
+      </div>
+      <div class="quote">TO-BE — AI 예측이 Braze 전반의 <strong>타겟팅 인프라</strong>가 되는 예측형 CRM</div>
+
+      <div class="gallery-title">발표 자료 (6장)</div>
+      <div class="gallery">
+        <a href="08_Babitalk_박찬희/20260408_141704.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_141704.jpg" alt=""></a>
+        <a href="08_Babitalk_박찬희/20260408_141812.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_141812.jpg" alt=""></a>
+        <a href="08_Babitalk_박찬희/20260408_141938.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_141938.jpg" alt=""></a>
+        <a href="08_Babitalk_박찬희/20260408_142049.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_142049.jpg" alt=""></a>
+        <a href="08_Babitalk_박찬희/20260408_142414.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_142414.jpg" alt=""></a>
+        <a href="08_Babitalk_박찬희/20260408_142520.jpg" target="_blank"><img src="08_Babitalk_박찬희/20260408_142520.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Braze as a Marketing Auto-Pilot - 정기수 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-braze-pilot">
+      <div class="session-header">
+        <span class="session-no">BRAZE</span>
+        <span class="session-time">14:30 – 14:50</span>
+      </div>
+      <h2 class="section-title">Braze as a Marketing Auto-Pilot</h2>
+      <p class="speaker">정기수 (Kisu Jung) · Solutions Consultant, Braze Korea</p>
+
+      <p class="lead-para">가망 고객에게 기술적 관점에서 설명하는 세션. AI에 대한 두 가지 부정적 의견을 정면으로 받아 — 각각 Operator와 Agent Console로 대응.</p>
+
+      <h3>The AI Reaction Spectrum</h3>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">의견 ①</div>
+          <div class="ba-text">"Just automate everything!"<br>AI가 다 알아서 해주면 되잖아요. 캠페인 셋팅, 타게팅, 발송 전부 다!<br><br><strong style="color:var(--accent)">→ AI Operator 쓰면 됩니다!</strong></div>
+        </div>
+        <div class="ba-box before">
+          <div class="ba-label">의견 ②</div>
+          <div class="ba-text">"Won't this cause accidents?"<br>AI가 잘못 판단하면 고객한테 이상한 메시지 발송되는 거 아닌가요?<br><br><strong style="color:var(--accent)">→ Agent Console 쓰면 됩니다!</strong></div>
+        </div>
+      </div>
+
+      <h3>AI Operator로 할 수 있는 것</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">① 자동 캔버스 생성</div><div class="card-body">장바구니이탈유저 대상 캔버스를 자동생성</div></div>
+        <div class="card"><div class="card-title">② 룰렛 IAM 자동생성</div><div class="card-body">"인터랙티브 룰렛 이벤트 메시지를 HTML5/CSS/JS로 제작해줘" 식으로 프롬프트 → 단일 파일, 반응형, 회전 애니메이션 포함 코드 생성</div></div>
+        <div class="card"><div class="card-title">③ 캠페인 휴먼오류 분석</div><div class="card-body">'30개월 재진입' 등 비합리적 세팅까지 탐지함</div></div>
+      </div>
+
+      <h3>Agent Console로 할 수 있는 것</h3>
+      <div class="cards">
+        <div class="card"><div class="card-title">① 번역 에이전트</div><div class="card-body">캔버스 내의 특정 스텝에 번역 에이전트를 끼워넣기</div></div>
+        <div class="card"><div class="card-title">② 콘텐츠 검수</div><div class="card-body">마찬가지로 검수 에이전트를 끼워넣어 메시지 발송 전 자동 검토</div></div>
+      </div>
+
+      <h3>Click Tracking Event 지원</h3>
+      <ul>
+        <li>Braze가 생성한 Tracker Link가 CTA 영역에 자동 삽입</li>
+        <li>사용자가 링크 클릭 시 해당 행위를 트리거하여 <strong>후행 캠페인(Push, Email 등)을 즉시 실행</strong> 가능</li>
+      </ul>
+
+      <h3>Product Roadmap for Kakao</h3>
+      <p>조만간 카카오톡 연동 예정. M Type (=친구포함) · N Type (=친구빼고) · I Type (=친구톡, Phase 1) · F Type (=친구알림).</p>
+
+      <div class="gallery-title">발표 자료 (7장)</div>
+      <div class="gallery">
+        <a href="09_Braze_정기수/20260408_143212.jpg" target="_blank"><img src="09_Braze_정기수/20260408_143212.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_143421.jpg" target="_blank"><img src="09_Braze_정기수/20260408_143421.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_143519.jpg" target="_blank"><img src="09_Braze_정기수/20260408_143519.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_143752.jpg" target="_blank"><img src="09_Braze_정기수/20260408_143752.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_144333.jpg" target="_blank"><img src="09_Braze_정기수/20260408_144333.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_144418.jpg" target="_blank"><img src="09_Braze_정기수/20260408_144418.jpg" alt=""></a>
+        <a href="09_Braze_정기수/20260408_144554.jpg" target="_blank"><img src="09_Braze_정기수/20260408_144554.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Amplitude -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-amplitude">
+      <div class="session-header">
+        <span class="session-no">PARTNER SPOTLIGHT</span>
+        <span class="session-time">14:50 – 15:10</span>
+      </div>
+      <h2 class="section-title">Amplitude MCP — AI로 구현하는 분석 자동화</h2>
+      <p class="speaker">유지훈 (Jeehoon Yoo) · Babitalk Data Team Lead · 정성화 (Seonghwa Joeng) · Senior Solutions Engineer, Amplitude <span class="tier">Gold</span></p>
+
+      <p class="lead-para">MCP(Model Context Protocol)로 Amplitude를 LLM에 연결하면 가능해지는 4가지 패턴.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">01 · 통합 인사이트 생성</div>
+          <div class="card-body">외부 데이터 소스와 Amplitude를 LLM에 통합하여 더 풍부한 컨텍스트 기반의 인사이트 도출 — <em>"날씨에 따른 주문 횟수 추이를 보고싶어"</em></div>
+        </div>
+        <div class="card">
+          <div class="card-title">02 · 크로스 솔루션 액션 실행</div>
+          <div class="card-body">Amplitude의 인사이트를 기반으로 서로 연결되어 있지 않은 솔루션에서 자동화된 액션 수행 — <em>"제안된 수정사항 바탕으로 Jira 일감 만들어줘"</em></div>
+        </div>
+        <div class="card">
+          <div class="card-title">03 · 멀티 AI 모델 연동</div>
+          <div class="card-body">Amplitude + 두 개 이상의 AI 모델을 연결하여 분석부터 코드 구현까지 전체 사이클 자동화 — <em>"실험 A를 구현하려고 해, 프로토타이핑해줘"</em></div>
+        </div>
+        <div class="card">
+          <div class="card-title">04 · 워크플로 맞춤화</div>
+          <div class="card-body">Amplitude 데이터에 연결된 업무를 LLM으로 Customization — 개인 별로 대시보드 분석 에이전트 생성</div>
+        </div>
+      </div>
+
+      <div class="gallery-title">발표 자료 (1장)</div>
+      <div class="gallery single">
+        <a href="10_Amplitude_유지훈정성화/20260408_145152.jpg" target="_blank"><img src="10_Amplitude_유지훈정성화/20260408_145152.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- 11번가 · Martinee Customer Spotlight -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-customer">
+      <div class="session-header">
+        <span class="session-no">CUSTOMER SPOTLIGHT</span>
+        <span class="session-time">15:10 – 15:30</span>
+      </div>
+      <h2 class="section-title">레거시에서 Braze로 — 안정 운영의 구조설계</h2>
+      <p class="speaker">이용진 (Youngjin Lee) · 11번가 Marketing Supervisor · 이선규 (Sunkyu Lee) · CEO, Martinee</p>
+
+      <h3>11번가 인사이트</h3>
+      <p>행동 기반 캠페인이 성과는 좋았다. 그러나 사업적으로 다양한 할인이벤트가 전개되고 있었고, <strong>맥락 커머스로 전환</strong>하고자 했다 → 더 고객세분화 + 더 유연한 스케줄링. 맨 처음엔 <strong>택소노미 설계</strong>가 중요.</p>
+
+      <h3>Martinee 이선규 — 'CRM 운영체계 재정비'</h3>
+      <p class="lead-para">"<strong>'툴 교체'가 아닌 'CRM 운영체계 재정비'</strong>"</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">01 · 복잡성 증가</div><div class="card-body">서비스의 성장으로 채널·카테고리·프로모션 ▲ — CRM이 서비스를 따라가면서, 전체 조망과 통제가 어려워짐</div></div>
+        <div class="card"><div class="card-title">02 · 맥락 커머스의 필요</div><div class="card-body">고객 행태와 요구의 상향 평준화 — 더 작은 단위와 빠른 속도 필요</div></div>
+      </div>
+
+      <h3>첫 달은 캠페인 운영이 아닌 '설계의 시간'</h3>
+      <h4>01. 이벤트 택소노미</h4>
+      <table class="table">
+        <thead><tr><th>구분</th><th>설명</th><th>예시</th></tr></thead>
+        <tbody>
+          <tr><td>Event (행동)</td><td>"무슨 행동이 발생했는가?"</td><td>상품 상세페이지 조회, 장바구니 담기</td></tr>
+          <tr><td>Properties (상세 정보)</td><td>"그 행동의 맥락은 무엇인가?"</td><td>상품명, 리뷰 개수</td></tr>
+          <tr><td>Attributes (상태)</td><td>"이 고객은 어떤 사람인가?"</td><td>앱푸시 수신 동의 여부, 멤버십 가입 여부</td></tr>
+          <tr><td>API</td><td>각 이벤트 또는 속성과 관련된 API 호출</td><td>보유 쿠폰 정보, 라방 진행상품 조회</td></tr>
+          <tr><td>마이그레이션</td><td colspan="2">출생 연도, 기본 배송지 등 기존 정보 이관</td></tr>
+        </tbody>
+      </table>
+
+      <h4>02. 개발 우선순위 설정 (Tier 1~3)</h4>
+      <p>중요도에 따른 데이터 수집 순서 정의 — 한 번에 모든 것을 구현하지 않는다.</p>
+
+      <h3>스케줄 기반 CRM → 고객 여정(Journey) 기반 CRM</h3>
+      <p>당일 키워드 검색 or 상품 클릭 후의 분기 처리 — 바로구매(O/X), 장바구니 담기 → 주문 진입(O/X) 등 행동 분기마다 다른 메시지.</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">식품/생활용품</div><div class="card-body">재구매 주기 기반 리마인드 — "혹시 [세탁세제 1.8L] 다 쓰셨나요?"</div></div>
+        <div class="card"><div class="card-title">패션/스포츠</div><div class="card-body">연관 카테고리 추천 — "구매하신 블라우스와 함께하면 좋을 아이템을 추천해드려요"</div></div>
+        <div class="card"><div class="card-title">인테리어/디지털</div><div class="card-body">관심 상품 가격 하락 안내 — "43인치 UHD TV 가격이 내려갔어요!"</div></div>
+        <div class="card"><div class="card-title">육아/펫</div><div class="card-body">휴면/연령 활용 다음 단계 추천</div></div>
+        <div class="card"><div class="card-title">뷰티/건강</div><div class="card-body">주요 브랜드 추천 — "[바비브라운] 좋아하는 분들의 64%가 [바비브라운]도 좋아해요"</div></div>
+      </div>
+
+      <div class="gallery-title">발표 자료 (5장)</div>
+      <div class="gallery">
+        <a href="11_Customer_이용진이선규/20260408_151239.jpg" target="_blank"><img src="11_Customer_이용진이선규/20260408_151239.jpg" alt=""></a>
+        <a href="11_Customer_이용진이선규/20260408_151416.jpg" target="_blank"><img src="11_Customer_이용진이선규/20260408_151416.jpg" alt=""></a>
+        <a href="11_Customer_이용진이선규/20260408_151532.jpg" target="_blank"><img src="11_Customer_이용진이선규/20260408_151532.jpg" alt=""></a>
+        <a href="11_Customer_이용진이선규/20260408_152225.jpg" target="_blank"><img src="11_Customer_이용진이선규/20260408_152225.jpg" alt=""></a>
+        <a href="11_Customer_이용진이선규/20260408_152416.jpg" target="_blank"><img src="11_Customer_이용진이선규/20260408_152416.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- NNT 조경섭 -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-nnt">
+      <div class="session-header">
+        <span class="session-no best">PARTNER SPOTLIGHT</span>
+        <span class="session-time">15:30 – 15:50</span>
+        <span class="best-badge">★ Top Pick</span>
+      </div>
+      <h2 class="section-title">알고리즘이 완벽해도 결국은 Creative, Creative, Creative</h2>
+      <p class="speaker">조경섭 (Kevin Cho) · CEO, NNT</p>
+
+      <div class="best-quote">WHO·WHEN·WHAT을 <strong>McAuley(Stanford)·Pinterest·Duolingo</strong> 케이스로 증명. "알고리즘은 비교만, 인간이 명령을 만든다"는 NNT Architecture(Brain · Factory · Masterpiece) — 가장 구조적인 통찰.</div>
+
+      <p class="lead-para">기술적 풍요 속의 빈곤 — 개인화·자동화·에이전트는 "대중화"되었습니다. <strong>그런데 왜 우리는 여전히 2년 전 장바구니 카피를 돌리고 있을까요?</strong> 이제 복잡하고 화려한 기술 사양이 아닌, "Customer Relationship Management"를 돌이켜봐야 할 때입니다.</p>
+
+      <h3>자동화의 민낯</h3>
+      <p>기술은 발전했지만, 고객과의 대화는 10년 전 수준에 머물러 있다.</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">Mechanical · 기계적 트리거 반응</div><div class="card-body">IF (Event) → THEN (Tag). 맥락(Context) 없이 특정 행동에 무조건 발송되는 반사적 구조.</div></div>
+        <div class="card"><div class="card-title">Disconnected · 껍데기뿐인 개인화</div><div class="card-body">"안녕, {name}님". 고객의 성숙도는 무시한 채 데이터 필드만 갈아끼우는 이름 텍스트 대치.</div></div>
+        <div class="card"><div class="card-title">Frozen · 박제된 메시지</div><div class="card-body">2022.01 → 2025.01. 한 번 세팅 후 바뀌지 않는 메시지와 크리에이티브.</div></div>
+        <div class="card"><div class="card-title">One-size-fits-all · 평균의 함정</div><div class="card-body">모든 단계 유저에게 똑같은 메시지를 보내는, 유저 숙련도를 무시한 발사.</div></div>
+      </div>
+      <div class="quote">이것은 '관계(Relationship)'가 아니라, 단순한 <strong>'전송(Delivery)' 시스템</strong>일 뿐입니다.</div>
+
+      <h3>3 SUCCESS PILLARS — 데이터로 증명된 CRM 성공의 3대 요소</h3>
+      <p>"누구에게, 언제, 무엇을 말할 것인가?" — 글로벌 빅테크 케이스로 찾아낸 최적의 관계 설계 방정식.</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">WHO · McAuley (Stanford)</div><div class="card-body"><strong>안목의 진화</strong> (Lager → IPA)<br>"안목에 맞춰 대화의 길이를 조절하라"</div></div>
+        <div class="card"><div class="card-title">WHEN · Pinterest</div><div class="card-body"><strong>피로도의 제어</strong><br>"많이 보내는 것이 아니라, 잘 보내는 것"</div></div>
+        <div class="card"><div class="card-title">WHAT · Duolingo</div><div class="card-body"><strong>콘텐츠의 신선도</strong> (EXP 15 DAYS)<br>"15일이면 독, 신선도 잃기"</div></div>
+      </div>
+
+      <!-- STEP 01 WHO -->
+      <h3>STEP 01. WHO — CRM은 '유저 숙련도' 설계다</h3>
+      <p>맥주 리뷰 분석의 레슨 — 신규 고객에겐 '쓴 맛 맥주'를 덜고, 브랜드 팬에겐 '싱거움'을 피하라. <strong>WHO를 정한다는 것은 단순한 인구통계학적 세그먼트가 아니라, 브랜드를 즐기는 '능력'의 단계를 식별하는 것.</strong></p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">STEP 1 · Amateur (라거) ☕</div>
+          <div class="card-body">메시지 톤: 쉬움/보편/혜택 중심. 직관적인 가치와 보편적인 혜택으로 진입 장벽을 낮추는 초기 단계. 복잡한 브랜드 철학은 오히려 이탈을 유발.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">STEP 2 · Intermediate (페일 에일) 🧪</div>
+          <div class="card-body">메시지 톤: 기능/차별 포인트. 단순한 할인을 넘어 서비스 고유의 기능적 경험과 경쟁사 대비책으로 파워유저로 넘어가도록 돕는다.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">STEP 3 · Connoisseur (캐럴 에이지드) 🍷</div>
+          <div class="card-body">메시지 톤: 철학/뉴스/스토리. 서비스 알파와 함께 시간을 보내며, 가장 깊은 단계까지 이끄는 가능성을 보유한 사람들.</div>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>실무 체크리스트</strong> ·
+        ① 난이도 가이드라인 — 단순 세그먼트 구분을 넘어 유저의 '숙련도 상태(Expertise State)'를 동적으로 추적하고 있는가? ·
+        ② 유저 트리거 — 유저의 서비스 학습 성장에 맞춰 '메시지의 해상도(Message Complexity)'를 정교하게 차등해왔는가? ·
+        ③ 전환점 케어 — 유저가 '전문가'로 진화하기 위한 '경험의 전이(Transition) 시나리오'가 가동되고 있는가?
+      </div>
+
+      <!-- STEP 02 WHEN -->
+      <h3>STEP 02. WHEN — 피로도 임계점은 모두 다릅니다</h3>
+
+      <h4>① Pinterest의 실증 결과</h4>
+      <div class="stat-grid">
+        <div class="stat"><div class="num" style="color:var(--bad)">-24%</div><div class="label">발송량</div></div>
+        <div class="stat"><div class="num" style="color:var(--good)">+31%</div><div class="label">핵심율 (CTR)</div></div>
+        <div class="stat"><div class="num">유지</div><div class="label">앱 활성 (DAU)</div></div>
+      </div>
+      <div class="quote">"발송량을 24% 줄였더니, 클릭률(CTR)은 31% 상승했습니다."</div>
+
+      <h4>② 유저 단계별 메시지 전략</h4>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">NOVICE · 첫 진입 유저</div>
+          <div class="card-body">관계의 탐색기. 브랜드 기저 신뢰(Prior Trust) ≈ 0. Unsubscribe 리스크 최대.<br><br><strong>전략: Conservative Stability</strong> — 시스템/필수 정보 위주, 온보딩에 집중</div>
+        </div>
+        <div class="card">
+          <div class="card-title">GROWTH · 성장기 유저</div>
+          <div class="card-body">증분 효용의 정점 (Sweet Spot). Incremental Utility 최대 구간. 메시지 수용도 유효, 습관 형성기.<br><br><strong>전략: Aggressive Engagement</strong> — 다양한 테스트 활성화, 유기적 방문 유도</div>
+        </div>
+        <div class="card">
+          <div class="card-title">EXPERT · 헤비 유저</div>
+          <div class="card-body">알람 마지(Satiation Point). Organic Visit 비중 90%+. 알람이 '방해(Interruption)'로 인식.<br><br><strong>전략: Minimalist Impact</strong> — 정말 중요한 것만, 품질(Quality)에 집중</div>
+        </div>
+      </div>
+
+      <h4>③ 메시지 볼륨 재배치 — '예산' 최적화</h4>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">코어 유저 (Core Users)</div>
+          <div class="ba-text">예산 감산 — 자연 유지가 충분하므로 알람을 줄여도 누적 손상이 없을 수 있다.</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">마지널 유저 (Marginal Users)</div>
+          <div class="ba-text">예산 증산 — 알람을 통한 정보(Incremental Utility)가 더 큰 효용을 가져온다. 정착 알람 발송을 집중 투자.</div>
+        </div>
+      </div>
+
+      <!-- STEP 03 WHAT -->
+      <h3>STEP 03. WHAT — 신선도 감쇠(Novelty Decay)</h3>
+      <p>듀오링고(Duolingo)의 수백만 알림 데이터가 증명한 잔인한 진실.</p>
+      <div class="quote">"아무리 좋은 카피도 15일이면 '독'이 됩니다."</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">Novelty Effect · 신선도 효과</div>
+          <div class="card-body">새로운 메시지에 대한 유저의 반응은 일시적이며, 반복 노출될수록 클릭률(CTR)과 참여도는 빠른 속도로 하락한다.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">15-Day Half-life · 15일 반감기</div>
+          <div class="card-body">동일한 메시지의 피로도가 해소되고 다시 회복(Recovery)되기까지 필요한 최소의 휴식 시간은 평균 약 15일.</div>
+        </div>
+      </div>
+      <div class="callout"><strong>결론</strong> · 과거에 검증된 '베스트 카피'를 계속 우려먹는 것은, 오히려 브랜드 피로도를 높이는 가장 빠른 방법이다. "반복은 메시지를 '정보'에서 '소음'으로 변환시킵니다."</div>
+
+      <h4>알고리즘이 설계한 '메시지 휴식의 힘' (Recovering Difference Softmax)</h4>
+      <p>듀오링고는 감쇠를 해결하기 위해 성과가 떨어진 카피에게 강제 휴식기(Sleeping)를 부여.</p>
+      <div class="flow">
+        <span class="step">Active (노출 중)</span><span class="arrow">→ 성과↓</span>
+        <span class="step">Sleeping (강제 휴식)</span><span class="arrow">→ 15일</span>
+        <span class="step">Recovering (신선도 회복)</span>
+      </div>
+      <p style="font-size:14px;color:var(--muted)"><strong>스터디 실증 결과 (Business Impact)</strong> — 전체 DAU +0.5% 상승, 신규 유저 리텐션 +2% 상승</p>
+
+      <!-- NNT Architecture -->
+      <h3>NNT Architecture — Algorithm + Creative</h3>
+      <p>Braze의 알고리즘과 NNT의 생성 능력이 만날 때, CRM은 비로소 '성과'를 낸다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">The Brain · Floor</div>
+          <div class="card-body">Braze Contextual Bandit. 수행과 선택(Selection). 실시간 데이터를 기반으로 어떤 카피가 특정 유저에게 최적인지 판단하고 송출.<br><br><em>"알고리즘은 스스로 쓰지 못합니다. 오직 '비교'할 뿐입니다."</em></div>
+        </div>
+        <div class="card">
+          <div class="card-title">The Factory · Ceiling Up</div>
+          <div class="card-body">NNT Creative Agent. 크리에이티브와 카피 생성 자동화. 변동성이 기아 상태에 빠지지 않도록, 브랜드 톤앤매너에 맞춘 수십 개의 새로운 카피와 이미지를 자동 생성.<br><br><em>"알고리즘의 상한선을 높이는 것은 결국 '공급되는 카피의 질'입니다."</em></div>
+        </div>
+        <div class="card">
+          <div class="card-title">The Masterpiece · Ceiling</div>
+          <div class="card-body">Human Blockbuster. 시각, 유머, 인간적 통찰이 담긴 정확한 답 중, 기계가 80%의 시간을 벌어줄 때 마케터가 만들어내는 마지막 성과.<br><br><em>"알고리즘이 0.1%를 고치고, 인간이 명령을 만듭니다."</em></div>
+        </div>
+      </div>
+
+      <!-- CASE STUDY -->
+      <h3>CASE STUDY · Human Copywriting — 관심 획득과 공유</h3>
+      <p>좋은 카피는 단순한 클릭 상승을 넘어, 사람들이 자발적으로 공유할 정도로 파워풀한 메시지라는 <strong>비선형적 임팩트</strong>를 만든다. NNT가 Braze를 통해 운영한 버거킹 캠페인은 단순한 프로모션 알림을 넘어, 업계 전문가들의 자발적인 소셜 미디어 공유를 이끌어냈다.</p>
+      <div class="cards">
+        <div class="card"><div class="card-title">① 바이럴 루프 (Viral Loop)</div><div class="card-body">광고 문자가 '재미있는 콘텐츠'로 소비되며 도달 비용 0원의 외부 확산 창출</div></div>
+        <div class="card"><div class="card-title">② 자발적 확산 (Organic Viral)</div><div class="card-body">고객이 먼저 반응하고 업계 관계자들이 직접 캡쳐해 공유할 만큼 파워풀한 카피의 힘</div></div>
+      </div>
+
+      <h3>진짜 정리</h3>
+      <ol style="font-size:15px;line-height:1.9;color:var(--ink-2)">
+        <li>스테이지 별 유저에 따라 메시지의 결도 달라야 함</li>
+        <li>초기, 성장기, 파워 유저 별로 메시지의 빈도나 메시지의 종류는 달라야 함</li>
+        <li>지속적인 A/B Test(밴딧)를 통해서 최적의 메시지를 테스트하되 잘 되는 메시지를 계속 노출 해서는 안 됨</li>
+        <li>기계가 자동화 하는 것, 기계가 생성하는 것, 인간이 할 수 있는 것을 명확히 분류하고 적용</li>
+      </ol>
+
+      <div class="gallery-title">발표 자료 (11장)</div>
+      <div class="gallery">
+        <a href="12_NNT_조경섭/20260408_153305.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153305.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_153400.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153400.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_153624.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153624.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_153713.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153713.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_153832.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153832.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_153927.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_153927.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_154039.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_154039.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_154116.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_154116.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_154148.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_154148.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_154333.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_154333.jpg" alt=""></a>
+        <a href="12_NNT_조경섭/20260408_154356.jpg" target="_blank"><img src="12_NNT_조경섭/20260408_154356.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Closing -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-closing">
+      <div class="session-header">
+        <span class="session-no">CLOSING REMARKS</span>
+        <span class="session-time">15:50 – 16:00</span>
+      </div>
+      <h2 class="section-title">오늘 우리가 함께 본 것</h2>
+      <p class="speaker">박재항 (Jaehyang Park) · Head of Korea Enterprise, Braze</p>
+
+      <p class="lead-para">행사 전체의 메시지를 세 축으로 정리하며 마무리.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">🛡 Trust · 안심하고 시작할 수 있는 기반</div>
+          <div class="card-body">Seoul Data Center · Kakao · Responsible AI</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Context &amp; Timing · 고객의 상황과 타이밍을 읽는 운영</div>
+          <div class="card-body">AB180 · Babitalk · CJ ENM · Canva · 11st</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🚀 AI-Powered Action · 사람 손은 덜고 더 빨리 움직이는 방식</div>
+          <div class="card-body">Smarter Messaging · Marketing Auto-Pilot · AI Operator</div>
+        </div>
+      </div>
+
+      <div class="gallery-title">발표 자료 (1장)</div>
+      <div class="gallery single">
+        <a href="13_Closing_박재항/20260408_155156.jpg" target="_blank"><img src="13_Closing_박재항/20260408_155156.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- Networking -->
+    <!-- ====================================================== -->
+    <div class="mini" id="s-networking">
+      <div class="mini-img"><a href="14_Networking/20260408_161828.jpg" target="_blank"><img src="14_Networking/20260408_161828.jpg" alt=""></a></div>
+      <div class="mini-text">
+        <h3>Networking · 16:00 onwards</h3>
+        <p>본 세션 종료 후 행사장 전경. 발표자·참석자 간 네트워킹.</p>
+      </div>
+    </div>
+
+    <!-- ====================================================== -->
+    <!-- AB180 실무자 세션 (04-09) -->
+    <!-- ====================================================== -->
+    <section class="session" id="s-ab180-edu">
+      <div class="session-header">
+        <span class="session-no">DAY 2 · TRAINING</span>
+        <span class="session-time">2026-04-09 · at AB180 Office</span>
+      </div>
+      <h2 class="section-title">AB180 실무자 세션 — Braze Learning</h2>
+      <p class="speaker">AB180 오피스에서 진행된 Braze Learning 실무 세션. WiFi: A Floor <code>zer0fr!ction-cv</code> · B Floor <code>Welcome2ab180!</code></p>
+
+      <h3>Data Overview</h3>
+      <p>데이터가 Braze로 들어와 세그먼트로 활용되기까지의 흐름.</p>
+      <div class="flow">
+        <span class="step">Data Ingestion</span><span class="arrow">→</span>
+        <span class="step">Data Categories</span><span class="arrow">→</span>
+        <span class="step">User Profiles</span><span class="arrow">→</span>
+        <span class="step">Segments</span>
+      </div>
+
+      <h3>Channel Messaging Matrix</h3>
+      <p>채널을 두 축(긴급도 · 콘텐츠 풍부도)으로 분류.</p>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">Out of product · High Urgency · opt-in 필요</div>
+          <div class="ba-text">Mobile Push · SMS · Whatsapp · Email — 앱 바깥에서도 도달 가능하지만 수신 동의가 전제.</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">In-product · Low Urgency · consent 불필요</div>
+          <div class="ba-text">Content Cards · In-App Messaging — 앱 내부에서만 노출. 동의 없이도 디스플레이 가능.</div>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--muted)">왼쪽 끝(Simple Content) ↔ 오른쪽 끝(Rich Content)으로 콘텐츠 풍부도가 늘어난다.</p>
+
+      <h3>Canvas Flow Quiz · Experiment Path vs Variant</h3>
+      <p>Canvas Flow의 두 분기 도구 사이의 주요 차이점.</p>
+      <div class="ba-grid">
+        <div class="ba-box after">
+          <div class="ba-label">Experiment Path</div>
+          <div class="ba-text"><strong>대조군(Control Group) 포함 옵션</strong>이 있다. 전체 캔버스 흐름의 A/B 비교에 사용.</div>
+        </div>
+        <div class="ba-box before">
+          <div class="ba-label">Variant</div>
+          <div class="ba-text">대조군 포함 옵션이 <strong>없다.</strong> 더 큰 캔버스 내에서 특정 메시지 구성 요소를 테스트하는 데 사용.</div>
+        </div>
+      </div>
+
+      <div class="gallery-title">실무 세션 사진 (5장)</div>
+      <div class="gallery">
+        <a href="15_AB180_실무자세션_0409/20260409_143456.jpg" target="_blank"><img src="15_AB180_실무자세션_0409/20260409_143456.jpg" alt=""></a>
+        <a href="15_AB180_실무자세션_0409/20260409_144854.jpg" target="_blank"><img src="15_AB180_실무자세션_0409/20260409_144854.jpg" alt=""></a>
+        <a href="15_AB180_실무자세션_0409/20260409_151730.jpg" target="_blank"><img src="15_AB180_실무자세션_0409/20260409_151730.jpg" alt=""></a>
+        <a href="15_AB180_실무자세션_0409/20260409_151812.jpg" target="_blank"><img src="15_AB180_실무자세션_0409/20260409_151812.jpg" alt=""></a>
+        <a href="15_AB180_실무자세션_0409/20260409_164515.jpg" target="_blank"><img src="15_AB180_실무자세션_0409/20260409_164515.jpg" alt=""></a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="margin-top:64px;padding-top:32px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.7">
+      <p>Grow with Braze Seoul 2026 · 종합 리포트<br>
+      작성: 정이제 · 메모(슬랙 본인 DM) + 사진(101장) 결합 · 2026-05-19</p>
+    </footer>
+
+  </main>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 보기">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="닫기 (Esc)">×</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="이전 사진 (←)">‹</button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="다음 사진 (→)">›</button>
+  <div class="lightbox-stage">
+    <img class="lightbox-img" id="lbImg" alt="">
+  </div>
+  <div class="lb-counter" id="lbCounter"></div>
+</div>
+
+<script>
+(function(){
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+  var lbClose = document.getElementById('lbClose');
+  var lbCounter = document.getElementById('lbCounter');
+  var currentList = [];
+  var currentIdx = 0;
+
+  function open(list, idx){
+    currentList = list;
+    currentIdx = idx;
+    render();
+    lb.classList.add('open');
+    document.body.classList.add('lb-active');
+  }
+  function close(){
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-active');
+    lbImg.src = '';
+  }
+  function render(){
+    lbImg.src = currentList[currentIdx];
+    lbCounter.textContent = (currentIdx + 1) + ' / ' + currentList.length;
+    lbPrev.disabled = currentIdx === 0;
+    lbNext.disabled = currentIdx === currentList.length - 1;
+  }
+  function prev(){ if(currentIdx > 0){ currentIdx--; render(); } }
+  function next(){ if(currentIdx < currentList.length - 1){ currentIdx++; render(); } }
+
+  // Wire up gallery links
+  document.querySelectorAll('.gallery').forEach(function(gal){
+    var links = Array.prototype.slice.call(gal.querySelectorAll('a'));
+    var urls = links.map(function(a){ return a.getAttribute('href'); });
+    links.forEach(function(a, i){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        open(urls, i);
+      });
+    });
+  });
+
+  // Wire up mini section image links (Lunch, Networking) — single image lightbox
+  document.querySelectorAll('.mini-img a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      open([a.getAttribute('href')], 0);
+    });
+  });
+
+  // Controls
+  lbPrev.addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+  lbNext.addEventListener('click', function(e){ e.stopPropagation(); next(); });
+  lbClose.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+  lb.addEventListener('click', function(e){
+    if(e.target === lb || e.target === lbImg.parentNode){ close(); }
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key === 'Escape'){ close(); }
+    else if(e.key === 'ArrowLeft'){ prev(); }
+    else if(e.key === 'ArrowRight'){ next(); }
+  });
+
+  // Touch swipe
+  var touchStartX = null;
+  lb.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', function(e){
+    if(touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if(Math.abs(dx) > 40){ if(dx < 0) next(); else prev(); }
+    touchStartX = null;
+  }, {passive:true});
+})();
+</script>
+
+</body>
+</html>
