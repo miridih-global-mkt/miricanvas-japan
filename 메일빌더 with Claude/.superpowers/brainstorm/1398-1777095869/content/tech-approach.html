@@ -1,0 +1,85 @@
+<h2>어떤 기술로 만들까요?</h2>
+<p class="subtitle">비개발자 관점에서 차이가 큰 3가지 옵션. 추천 표시(⭐) 있음.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>⭐ 단순 — Flask + 바닐라 JS + CDN 라이브러리 (추천)</h3>
+      <p style="margin-top:8px;"><b>구성:</b> 백엔드는 지금처럼 Flask (Python). 프론트엔드는 HTML+CSS+JS 파일 몇 개. 추가 빌드 도구 없음.</p>
+      <p><b>외부 라이브러리(CDN 한 줄):</b> 드래그앤드롭(Sortable.js), 리치 텍스트(Quill)</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros">
+          <h4>장점</h4>
+          <ul>
+            <li>npm/Node 등 추가 도구 <b>불필요</b> — 지금 환경 그대로</li>
+            <li><code>python app.py</code> 한 줄로 즉시 실행</li>
+            <li>Claude Code가 안정적으로 코드 수정 가능 ("X 부분 바꿔줘"가 쉬움)</li>
+            <li>비개발자도 코드 흐름 따라가기 가장 쉬움</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>단점</h4>
+          <ul>
+            <li>기능 늘어나면 상태 관리 코드가 약간 길어짐</li>
+            <li>단, 단일 사용자·단일 페이지라 큰 문제 안 됨</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>가벼운 프레임워크 — Flask + Alpine.js</h3>
+      <p style="margin-top:8px;"><b>구성:</b> 백엔드 Flask, 프론트엔드는 Alpine.js (HTML 안에 마크업으로 동작 정의). 빌드 도구 없음.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros">
+          <h4>장점</h4>
+          <ul>
+            <li>상태 관리가 깔끔</li>
+            <li>빌드 도구 없음 (A와 동일하게 단순)</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>단점</h4>
+          <ul>
+            <li>Alpine 문법(<code>x-data</code>, <code>@click</code>)을 사용자가 보게 됨 — 약간의 학습/혼란</li>
+            <li>업계 점유율 낮아서 Claude의 학습량도 A보다 적음</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>본격 SPA — React/Vue + Flask API</h3>
+      <p style="margin-top:8px;"><b>구성:</b> 프론트엔드는 React 별도 앱 (npm 빌드), 백엔드 Flask는 JSON API 제공.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros">
+          <h4>장점</h4>
+          <ul>
+            <li>가장 강력 — 큰 기능 확장 시 유리</li>
+            <li>업계 표준</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>단점</h4>
+          <ul>
+            <li>npm 빌드 도구 필요 → 환경 복잡도↑</li>
+            <li>실행 단계가 2개로 늘어남 (백엔드 + 프론트엔드 dev 서버)</li>
+            <li>비개발자가 코드를 직접 봐야 할 때 진입장벽 큼</li>
+            <li>로컬 단일 사용자 도구엔 과한 선택</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:30px; padding:15px; background:#fffbe6; border-left:4px solid #ffd54f; border-radius:4px;">
+  <p style="margin:0; font-size:13px;"><b>📌 데이터 모델은 셋 다 동일:</b> 메일은 JSON 트리(섹션→모듈)로 저장 → 600px 이메일 HTML로 렌더링. 드래그앤드롭은 배열 순서 변경, 코드 보기는 트리→HTML 변환 결과.</p>
+</div>
