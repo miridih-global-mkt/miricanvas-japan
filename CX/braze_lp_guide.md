@@ -110,7 +110,7 @@ await lp.setCustomUserAttribute("ja_spt_agree_line", true);
 | 설정 항목 | 값 | 주의 |
 |-----------|-----|------|
 | On-click behavior | **None** | URI + 빈 URL 상태면 퍼블리시 에러 발생 |
-| Submit form when button is clicked | OFF (사실상 불가) | 네이티브 폼 블록 없으면 켤 수 없음. lpBridge가 저장을 대신 처리하므로 OFF여도 무방 |
+| Submit form when button is clicked | OFF (사실상 불가) | 네이티브 폼 블록 없으면 켤 수 없음. **단, lpBridge는 `{% landing_page_url %}` 태그 경유 유입에서만 안정적으로 동작.** 외부 URL 직접 공유 유입이 있으면 SDK 미초기화로 저장 실패 가능. 메일 단독 캠페인이면 문제 없음. |
 
 ---
 
