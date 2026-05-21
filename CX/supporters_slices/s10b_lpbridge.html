@@ -1,0 +1,90 @@
+<!-- ================================================================
+  s10b_lpbridge.html
+  역할: Custom Code 필드값을 lpBridge로 Braze에 저장하는 스크립트
+  배치: s10_close.html 바로 다음 (또는 s10_close에 합쳐도 됨)
+
+  동작 흐름:
+    1) submit 버튼 클릭 감지
+    2) textarea / checkbox 값 수집
+    3) lpBridge.setCustomUserAttribute() 로 각 속성 저장
+    4) lpBridge.requestImmediateDataFlush() 로 즉시 Braze 서버 전송
+    5) 버튼의 기본 form 제출 동작 계속 진행
+
+  ⚠️ 주의:
+    - 버튼 element ID는 Braze 편집기 미리보기에서 Inspect 해서 확인 후
+      아래 SUBMIT_BUTTON_ID 에 붙여넣을 것.
+    - 배열 속성(supporters_usage 등)은 선택값을 쉼표 구분 문자열로 저장.
+      Braze 커스텀 속성을 Array 타입이 아닌 String 타입으로 생성해둘 것.
+      (Array 타입으로 만든 경우 아래 ② 방식 참고)
+================================================================ -->
+
+<script async="true">
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ── ① 버튼 ID 설정 ──────────────────────────────────────────
+     Braze 편집기 → 미리보기 → Submit 버튼 우클릭 → Inspect 로 확인.
+     확인 전에는 querySelector fallback 으로 동작.
+  ─────────────────────────────────────────────────────────────── */
+  const SUBMIT_BUTTON_ID = ""; // 예: "lp-button-abc123"
+
+  const btn = SUBMIT_BUTTON_ID
+    ? document.getElementById(SUBMIT_BUTTON_ID)
+    : document.querySelector("button[type='submit'], input[type='submit'], .ab-submit-button");
+
+  if (!btn) return;
+
+  btn.addEventListener("click", async (e) => {
+    // 기본 submit 은 잠시 막고 lpBridge 완료 후 재실행
+    e.preventDefault();
+    e.stopPropagation();
+
+    const lp = window.lpBridge;
+    if (!lp) {
+      // lpBridge 없는 환경(로컬 미리보기 등)에서는 그냥 제출
+      btn.form?.submit();
+      return;
+    }
+
+    /* ── ② textarea 값 저장 ──────────────────────────────────── */
+    const textareaMap = {
+      "q09_strengths"    : "supporters_strengths",
+      "q10_weaknesses"   : "supporters_weaknesses",
+      "q14_expectations" : "supporters_expectations",
+      "q15_accounts"     : "supporters_accounts",
+      "q18_comments"     : "supporters_comments",
+    };
+    for (const [id, attr] of Object.entries(textareaMap)) {
+      const val = document.getElementById(id)?.value?.trim() ?? "";
+      if (val) await lp.setCustomUserAttribute(attr, val);
+    }
+
+    /* ── ③ checkbox 배열 → 쉼표 구분 문자열로 저장 ──────────── */
+    const checkboxMap = {
+      "custom_attributes[supporters_usage][]"    : "supporters_usage",
+      "custom_attributes[supporters_features][]" : "supporters_features",
+      "custom_attributes[supporters_target][]"   : "supporters_target",
+      "custom_attributes[supporters_channels][]" : "supporters_channels",
+    };
+    for (const [name, attr] of Object.entries(checkboxMap)) {
+      const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+        .map(el => el.value);
+      if (checked.length) {
+        await lp.setCustomUserAttribute(attr, checked.join(","));
+      }
+    }
+
+    /* ── ④ 단일 checkbox (동의 항목) ────────────────────────── */
+    const lineAgreed    = document.querySelector('input[name="custom_attributes[supporters_agree_line]"]:checked');
+    const privacyAgreed = document.querySelector('input[name="custom_attributes[supporters_agree_privacy]"]:checked');
+    await lp.setCustomUserAttribute("supporters_agree_line",    lineAgreed    ? "true" : "false");
+    await lp.setCustomUserAttribute("supporters_agree_privacy", privacyAgreed ? "true" : "false");
+
+    /* ── ⑤ 즉시 Braze 서버로 flush ──────────────────────────── */
+    await lp.requestImmediateDataFlush();
+
+    /* ── ⑥ 네이티브 form submit 계속 진행 ───────────────────── */
+    btn.form?.submit();
+  });
+
+});
+</script>
