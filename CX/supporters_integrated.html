@@ -462,11 +462,10 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
       try {
         const lp = window.lpBridge;
 
-        /* 기본 프로필 속성 */
+        /* 이름 — lpBridge로 저장 */
         const name = document.getElementById("q01_name")?.value?.trim();
-        const email = document.getElementById("q02_email")?.value?.trim();
-        if (name)  await lp.setFirstName(name);
-        if (email) await lp.setEmail(email);
+        if (name) await lp.setFirstName(name);
+        /* 이메일 — Braze 네이티브 Email Capture 블록이 처리 (setEmail 불필요) */
 
         /* 단일 값 속성 */
         const singles = {
