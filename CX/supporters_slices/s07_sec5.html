@@ -5,71 +5,71 @@
   다음: s08_sec6.html
 ================================================================ -->
 
-  <div class="section-divider"></div>
+<div class="mc-section-divider"></div>
 
-  <div class="section-header">
-    <span class="section-num">5</span>
-    <span class="section-title">今後の活動について</span>
-  </div>
+<div class="mc-section-header">
+  <span class="mc-section-num">5</span>
+  <span class="mc-section-title">今後の活動について</span>
+</div>
 
-  <!-- Q14 期待すること -->
-  <div class="field">
-    <label class="field-label" for="q14_expectations">
-      サポーターズに期待することは何ですか？<span class="required">*</span>
+<!-- Q14 期待すること -->
+<div class="mc-field">
+  <label class="mc-field-label" for="q14_expectations">
+    サポーターズに期待することは何ですか？<span class="mc-required">*</span>
+  </label>
+  <textarea id="q14_expectations"
+            name="custom_attributes[supporters_expectations]"
+            placeholder="ご自由にお書きください"
+            required></textarea>
+</div>
+
+<!-- Q15 SNS/ブログアカウント -->
+<div class="mc-field">
+  <label class="mc-field-label" for="q15_accounts">
+    お持ちのSNSやブログアカウント<span class="mc-required">*</span>
+  </label>
+  <div class="mc-field-hint">URLやアカウント名をご記入ください（例：X: @username　ブログ: https://...）</div>
+  <textarea id="q15_accounts"
+            name="custom_attributes[supporters_accounts]"
+            placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..."
+            style="min-height:80px"
+            required></textarea>
+</div>
+
+<!-- Q16 紹介予定チャンネル (複数選択) -->
+<div class="mc-field">
+  <label class="mc-field-label">
+    サポーター活動として、どのチャンネルでMiriCanvasを紹介する予定ですか？<span class="mc-required">*</span>
+    <span class="mc-optional">（複数選択可）</span>
+  </label>
+  <div class="mc-options-list">
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="X">
+      <span class="mc-option-label">X（Twitter）</span>
     </label>
-    <textarea id="q14_expectations"
-              name="custom_attributes[supporters_expectations]"
-              placeholder="ご自由にお書きください"
-              required></textarea>
-  </div>
-
-  <!-- Q15 SNS/ブログアカウント -->
-  <div class="field">
-    <label class="field-label" for="q15_accounts">
-      お持ちのSNSやブログアカウント<span class="required">*</span>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="Instagram">
+      <span class="mc-option-label">Instagram</span>
     </label>
-    <div class="field-hint">URLやアカウント名をご記入ください（例：X: @username　ブログ: https://...）</div>
-    <textarea id="q15_accounts"
-              name="custom_attributes[supporters_accounts]"
-              placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..."
-              style="min-height:80px"
-              required></textarea>
-  </div>
-
-  <!-- Q16 紹介予定チャンネル (複数選択) -->
-  <div class="field">
-    <label class="field-label">
-      サポーター活動として、どのチャンネルでMiriCanvasを紹介する予定ですか？<span class="required">*</span>
-      <span class="optional">（複数選択可）</span>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="YouTube">
+      <span class="mc-option-label">YouTube</span>
     </label>
-    <div class="options-list">
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="X">
-        <span class="option-label">X（Twitter）</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="Instagram">
-        <span class="option-label">Instagram</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="YouTube">
-        <span class="option-label">YouTube</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="ブログ・note">
-        <span class="option-label">ブログ・note</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="口コミ">
-        <span class="option-label">口コミ（オフライン）</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="特に決めていない">
-        <span class="option-label">特に決めていない</span>
-      </label>
-      <label class="option-item">
-        <input type="checkbox" name="custom_attributes[supporters_channels][]" value="その他">
-        <span class="option-label">その他</span>
-      </label>
-    </div>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="ブログ・note">
+      <span class="mc-option-label">ブログ・note</span>
+    </label>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="口コミ">
+      <span class="mc-option-label">口コミ（オフライン）</span>
+    </label>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="特に決めていない">
+      <span class="mc-option-label">特に決めていない</span>
+    </label>
+    <label class="mc-option-item">
+      <input type="checkbox" name="custom_attributes[supporters_channels][]" value="その他">
+      <span class="mc-option-label">その他</span>
+    </label>
   </div>
+</div>
