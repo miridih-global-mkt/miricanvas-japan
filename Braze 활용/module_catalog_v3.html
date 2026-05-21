@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <title>MiriCanvas Japan — Module Catalog v3</title>
+  <!--
+  =====================================================================
+  MODULE CATALOG v3  /  디자인시스템 v2 기반
+  =====================================================================
+  [토큰 요약]
+  font-ja       : 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif
+  weight-regular: 400  /  weight-bold: 700
+  text-h1       : 34px/700/lh1.3  (mobile: 24px)
+  text-h2       : 22px/700/lh1.4
+  text-h3       : 18px/700/lh1.4
+  text-body     : 16px/400/lh1.7 + word-break:break-all (인라인 필수)
+  text-sub      : 14px/400/lh1.6 + word-break:break-all
+  text-microcopy: 15px/700/lh1.4
+  text-cta      : 16px/700/lh1
+
+  color-action         : #26c7d9
+  color-action-surface : #e9f9fb
+  color-text-primary   : #333333
+  color-text-secondary : #555555
+  color-text-muted     : #999999
+  color-text-inverse   : #ffffff
+  color-text-accent    : #26c7d9
+  color-surface-page   : #f4f4f4
+  color-surface-footer : #333333
+  color-surface-zebra  : #fafafa
+  color-border-subtle  : #eeeeee
+
+  space-3 (좌우 고정) : 24px
+  space-5 (모듈 기본) : 40px
+  space-6 (히어로)    : 48px
+
+  radius-sm : 4px  → 버튼, 하이라이트박스, 스텝헤더
+  radius-md : 8px  → 카드, 이미지, 비디오썸네일
+
+  Primary CTA   : #26c7d9 채움 / padding 16px 56px / radius-sm
+  Secondary CTA : border 2px #26c7d9 / padding 12px 28px / radius-sm
+  =====================================================================
+  MODULE INDEX
+  01 hero              02 body             03 box
+  04 cta_solo          05 cta_microcopy    06 cta_body_microcopy
+  07 cta_headline_body 08 header           09 card_1col_full
+  10 card_1col_half    11 card_2col_grid   12 step_block
+  13 grid_4col         14 comparison_table 15 video_thumb
+  16 review_quote      17 qa_section       18 referral_steps
+  19 footer_company    20 footer_unsubscribe
+  21 banner            22 image_full
+  =====================================================================
+  -->
+  <style>
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body {
+      height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important;
+      background-color: #f4f4f4;
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+      color: #333333;
+    }
+    @media screen and (max-width: 600px) {
+      .mobile-stack { display: block !important; width: 100% !important; max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box !important; }
+      .h1-title { font-size: 24px !important; }
+      .grid-cell { display: block !important; width: 50% !important; float: left !important; box-sizing: border-box !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="padding: 20px 0; background-color: #f4f4f4;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 0 auto;">
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 01. hero                                                    -->
+          <!-- 모든 메일 첫 번째 필수. Braze: mc_ja_header CB 로 교체 가능  -->
+          <!-- H1 정렬: T1~5·7·8 → center / T6·9·10 → left              -->
+          <!-- 배너이미지: T-7·T-8에서만 사용. 아래 주석 해제.            -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td align="center" style="padding: 48px 24px 40px 24px; border-bottom: 1px solid #eeeeee;">
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png" alt="MiriCanvas" width="120" style="display: block; margin: 0 auto 24px auto;" />
+              <h1 class="h1-title" style="margin: 0; font-size: 34px; font-weight: bold; line-height: 1.3; text-align: center; word-break: break-all;">メインタイトルが入ります</h1>
+              <!-- 배너이미지 (T-7·T-8 전용)
+              <img src="banner.jpg" alt="バナー" width="100%" style="display: block; margin-top: 32px; border-radius: 8px;" />
+              -->
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 02. body                                                    -->
+          <!-- 본문 + 하이라이트박스 + 이미지                               -->
+          <!-- 하이라이트박스: 최대 2개/메일. 연속 배치 금지. T-10 금지.   -->
+          <!-- 모든 <p> 에 line-height:1.7; word-break:break-all 인라인.  -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 0 24px;">
+              <p style="margin: 0 0 16px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">
+                本文が入ります。<strong>太字で強調</strong>することもできます。<br>
+                ・箇条書き1<br>
+                ・箇条書き2
+              </p>
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 16px 0; background-color: #e9f9fb; border-left: 4px solid #26c7d9; border-radius: 4px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0; font-size: 15px; line-height: 1.7; word-break: break-all;">
+                      <strong>ここがポイント</strong><br>
+                      ・強調内容1<br>
+                      ・強調内容2
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="説明画像" width="100%" style="display: block; border-radius: 8px;" />
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 03. box                                                     -->
+          <!-- 시안 배경 + 흰 카드 + GIF + Secondary CTA                   -->
+          <!-- 메인 메시지 외 부가 공지 분리. box 내 CTA = Secondary 스타일 -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px; background-color: #e9f9fb;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 24px;">
+                    <p style="margin: 0 0 12px 0; font-size: 18px; font-weight: bold; color: #26c7d9; line-height: 1.4; word-break: break-all;">ボーナスセクションのタイトル</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; line-height: 1.7; word-break: break-all; color: #333333;">本題と異なるトピックの説明が入ります。</p>
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/背景削除.gif" alt="デモGIF" width="100%" style="display: block; margin-bottom: 16px; border-radius: 8px;" />
+                    <!-- Secondary CTA -->
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                          <a href="#" target="_blank" style="display: inline-block; padding: 12px 28px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1; -webkit-text-size-adjust: none;">詳しく見る</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 04. cta_solo                                                -->
+          <!-- Primary CTA 버튼만 단독. 앞에서 충분히 설명한 뒤 사용.     -->
+          <!-- 1개/메일. 중앙 단독 행 고정.                               -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td align="center" style="padding: 0 24px 40px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                    <a href="#" target="_blank" style="display: inline-block; padding: 16px 56px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-align: center; line-height: 1; -webkit-text-size-adjust: none;">動詞＋目的語で書く</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 05. cta_microcopy                                           -->
+          <!-- 마이크로카피 1줄 + Primary CTA. 1줄 제한. 동사 시작.        -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td align="center" style="padding: 0 24px 40px 24px;">
+              <p style="margin: 0 0 12px 0; font-size: 15px; font-weight: bold; text-align: center; line-height: 1.4; word-break: break-all;">CTAの効果を上げる一言（1行のみ）</p>
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                    <a href="#" target="_blank" style="display: inline-block; padding: 16px 56px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-align: center; line-height: 1; -webkit-text-size-adjust: none;">動詞＋目的語で書く</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 06. cta_body_microcopy                                      -->
+          <!-- 보조 본문 + 마이크로카피 + Primary CTA                       -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td align="center" style="padding: 0 24px 40px 24px;">
+              <p style="margin: 0 0 16px 0; font-size: 16px; line-height: 1.7; word-break: break-all; text-align: left;">補足説明が入ります。少し長めの文章でもOKです。</p>
+              <p style="margin: 0 0 12px 0; font-size: 15px; font-weight: bold; text-align: center; line-height: 1.4; word-break: break-all;">CTAの効果を上げる一言</p>
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                    <a href="#" target="_blank" style="display: inline-block; padding: 16px 56px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-align: center; line-height: 1; -webkit-text-size-adjust: none;">動詞＋目的語で書く</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 07. cta_headline_body                                       -->
+          <!-- H2 헤드라인 + 본문 + Primary CTA. 클라이맥스 전환 포인트.   -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td align="center" style="padding: 0 24px 40px 24px;">
+              <h2 style="margin: 0 0 8px 0; font-size: 22px; font-weight: bold; text-align: center; line-height: 1.4; word-break: break-all;">強調したい一言が入ります</h2>
+              <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">説明文が入ります。改行も可能です。</p>
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                    <a href="#" target="_blank" style="display: inline-block; padding: 16px 56px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-align: center; line-height: 1; -webkit-text-size-adjust: none;">動詞＋目的語で書く</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 08. header                                                  -->
+          <!-- 섹션 구분 띠. color-action-surface 배경.                    -->
+          <!-- T-4·T-8·T-9에서 주로 사용.                                 -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 16px 24px; background-color: #e9f9fb; border-bottom: 2px solid #d4f4f7;">
+              <h2 style="margin: 0 0 4px 0; font-size: 22px; font-weight: bold; line-height: 1.4; text-align: center; word-break: break-all;">セクションタイトル</h2>
+              <p style="margin: 0; font-size: 15px; color: #555555; line-height: 1.4; text-align: center; word-break: break-all;">サブタイトル（任意）</p>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 09. card_1col_full                                          -->
+          <!-- 풀와이드 1단 카드. 카드 내 CTA = Secondary 스타일.          -->
+          <!-- radius-md(8px) 카드 컨테이너 / 이미지.                     -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #eeeeee; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 12px 0; font-size: 18px; font-weight: bold; line-height: 1.4; word-break: break-all;">1列フルカードのタイトル</p>
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="カード画像" width="100%" style="border-radius: 8px; margin-bottom: 12px; display: block;" />
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all;">説明テキストが入ります。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                          <a href="#" style="display: inline-block; padding: 12px 28px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1;">詳しく見る</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 10. card_1col_half                                          -->
+          <!-- 2열 카드 (좌:썸네일 / 우:제목+설명+Secondary CTA). 반복 가능 -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 16px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <th class="mobile-stack" valign="top" width="180" style="padding: 0 16px 0 0; font-weight: normal;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="" width="100%" style="border-radius: 8px; display: block;" />
+                  </th>
+                  <th class="mobile-stack" valign="top" style="padding: 0; font-weight: normal; text-align: left;">
+                    <p style="margin: 0 0 6px 0; font-size: 18px; font-weight: bold; line-height: 1.4; word-break: break-all;">2段組カードのタイトル</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all;">左にサムネ、右に説明が入ります。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                          <a href="#" style="display: inline-block; padding: 10px 20px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1;">詳しく見る</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- card_1col_half 반복 예시 -->
+          <tr>
+            <td style="padding: 16px 24px 24px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <th class="mobile-stack" valign="top" width="180" style="padding: 0 16px 0 0; font-weight: normal;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="" width="100%" style="border-radius: 8px; display: block;" />
+                  </th>
+                  <th class="mobile-stack" valign="top" style="padding: 0; font-weight: normal; text-align: left;">
+                    <p style="margin: 0 0 6px 0; font-size: 18px; font-weight: bold; line-height: 1.4; word-break: break-all;">繰り返し例</p>
+                    <p style="margin: 0 0 16px 0; font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all;">同じ構造を複数並べられます。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                          <a href="#" style="display: inline-block; padding: 10px 20px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1;">詳しく見る</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 11. card_2col_grid                                          -->
+          <!-- 2열 그리드 카드. 두 옵션 대등 비교·노출.                    -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 8px 16px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <th class="mobile-stack" valign="top" width="50%" style="padding: 8px; font-weight: normal; text-align: left;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #eeeeee; border-radius: 8px;">
+                      <tr>
+                        <td style="padding: 20px;">
+                          <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">カード A</p>
+                          <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="" width="100%" style="border-radius: 8px; margin-bottom: 12px; display: block;" />
+                          <p style="margin: 0 0 16px 0; font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all;">説明が入ります。</p>
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td style="background-color: #26c7d9; border-radius: 4px;">
+                                <a href="#" style="display: inline-block; padding: 10px 16px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1;">試す</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </th>
+                  <th class="mobile-stack" valign="top" width="50%" style="padding: 8px; font-weight: normal; text-align: left;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #eeeeee; border-radius: 8px;">
+                      <tr>
+                        <td style="padding: 20px;">
+                          <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">カード B</p>
+                          <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="" width="100%" style="border-radius: 8px; margin-bottom: 12px; display: block;" />
+                          <p style="margin: 0 0 16px 0; font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all;">説明が入ります。</p>
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td style="background-color: #26c7d9; border-radius: 4px;">
+                                <a href="#" style="display: inline-block; padding: 10px 16px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1;">試す</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 12. step_block                                              -->
+          <!-- T-3 전용. 최소 2개·최대 5개 반복.                          -->
+          <!-- CTA = Secondary 스타일. 마지막 or 핵심 스텝 1곳만.         -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #e9f9fb; border-radius: 4px; margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 12px 20px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: bold; color: #26c7d9; line-height: 1; word-break: break-all;">STEP 1. ステップのタイトル</p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 0 0 16px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">説明が入ります。<br>・ポイント1<br>・ポイント2</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d1_260415/4step_1.gif" alt="STEP 1" width="100%" style="display: block; border-radius: 8px; margin-bottom: 16px;" />
+              <!-- Secondary CTA — 마지막 or 핵심 스텝에만 사용 -->
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto 16px auto;">
+                <tr>
+                  <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                    <a href="#" style="display: inline-block; padding: 12px 28px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 15px; font-weight: bold; line-height: 1;">このステップを試す</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- step_block STEP 2 (CTA 없는 버전) -->
+          <tr>
+            <td style="padding: 24px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #e9f9fb; border-radius: 4px; margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 12px 20px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: bold; color: #26c7d9; line-height: 1; word-break: break-all;">STEP 2. 次のステップ</p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 0 0 16px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">2番目のステップの説明。CTAなし版。</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d1_260415/4step_2.gif" alt="STEP 2" width="100%" style="display: block; border-radius: 8px;" />
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 13. grid_4col                                               -->
+          <!-- 4~8셀 아이콘 그리드. 기능 소개·카테고리 나열 등 범용.     -->
+          <!-- 1개/메일 권장. 모바일 2열 자동.                            -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 16px 24px 16px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ1" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 1</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ2" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 2</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ3" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 3</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ4" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 4</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ5" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 5</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ6" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 6</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ7" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 7</p>
+                  </td>
+                  <td class="grid-cell" valign="top" width="25%" style="padding: 6px; text-align: center;">
+                    <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="タイプ8" width="100%" style="display: block; border-radius: 8px; margin-bottom: 6px;" />
+                    <p style="margin: 0; font-size: 13px; font-weight: bold; line-height: 1.4; word-break: break-all;">タイプ 8</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 14. comparison_table                                        -->
+          <!-- T-9 전용. 1개/메일.                                        -->
+          <!-- thead: color-action-surface + 2px 하단 보더.               -->
+          <!-- 짝수 행: color-surface-zebra(#fafafa).                     -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 24px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden;">
+                <thead>
+                  <tr style="background-color: #e9f9fb;">
+                    <th style="padding: 12px 16px; text-align: left; font-size: 14px; font-weight: bold; color: #333333; border-bottom: 2px solid #26c7d9;">機能</th>
+                    <th style="padding: 12px 16px; text-align: center; font-size: 14px; font-weight: bold; color: #555555; border-bottom: 2px solid #26c7d9;">無料版</th>
+                    <th style="padding: 12px 16px; text-align: center; font-size: 14px; font-weight: bold; color: #26c7d9; border-bottom: 2px solid #26c7d9;">Pro版</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 12px 16px; font-size: 14px; line-height: 1.6; word-break: break-all; border-bottom: 1px solid #eeeeee;">機能名 A</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">制限あり</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">無制限</td>
+                  </tr>
+                  <tr style="background-color: #fafafa;">
+                    <td style="padding: 12px 16px; font-size: 14px; line-height: 1.6; word-break: break-all; border-bottom: 1px solid #eeeeee;">機能名 B</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">月5回</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">無制限</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 12px 16px; font-size: 14px; line-height: 1.6; word-break: break-all; border-bottom: 1px solid #eeeeee;">機能名 C</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">1GB</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">10GB</td>
+                  </tr>
+                  <tr style="background-color: #fafafa;">
+                    <td style="padding: 12px 16px; font-size: 14px; line-height: 1.6; word-break: break-all;">機能名 D</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; color: #999999;">×</td>
+                    <td style="padding: 12px 16px; font-size: 14px; text-align: center; font-weight: bold;">○</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 15. video_thumb                                             -->
+          <!-- T-10b 전용. 최대 2개/메일.                                 -->
+          <!-- href = Airbridge URL. src = ytimg.com 썸네일.             -->
+          <!-- radius-md(8px) + box-shadow 로 클릭 가능함 암시.           -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 24px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; margin: 0 auto;">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 6px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">動画タイトル（○分）</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #555555; line-height: 1.6;">※画像をクリックすると別タブで再生されます</p>
+                    <a href="#" target="_blank" style="display: block; text-decoration: none;">
+                      <img src="https://i.ytimg.com/vi/plsmzFpysR0/mqdefault.jpg" alt="YouTubeで動画を見る" width="100%" style="display: block; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 16. review_quote                                            -->
+          <!-- T-6 전용. 3~5개 반복. 개별 CTA 없음.                      -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #e9f9fb; border-left: 4px solid #26c7d9; border-radius: 4px; margin-bottom: 8px;">
+                <tr>
+                  <td style="padding: 10px 16px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">後記の分類タイトル</p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 0 0 8px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">
+                ・口コミ内容1が入ります。<br>
+                ・口コミ内容2が入ります。
+              </p>
+            </td>
+          </tr>
+          <!-- review_quote 반복 예시 -->
+          <tr>
+            <td style="padding: 16px 24px 0 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #e9f9fb; border-left: 4px solid #26c7d9; border-radius: 4px; margin-bottom: 8px;">
+                <tr>
+                  <td style="padding: 10px 16px;">
+                    <p style="margin: 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">別の分類タイトル</p>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 0 0 8px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">
+                ・口コミ内容1<br>
+                ・口コミ内容2
+              </p>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 17. qa_section                                              -->
+          <!-- T-10a 전용. 최대 3개/메일.                                 -->
+          <!-- Primary CTA 없어도 됨. CTA = Secondary 또는 없음.          -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px; border-top: 1px solid #eeeeee;">
+              <h2 style="margin: 0 0 12px 0; font-size: 22px; font-weight: bold; text-align: center; line-height: 1.4; word-break: break-all;">Q. よくある質問がここに入ります？</h2>
+              <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.7; word-break: break-all;">質問に対する回答が入ります。必要に応じて複数行になることもあります。</p>
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td style="border: 2px solid #26c7d9; border-radius: 4px;">
+                    <a href="#" style="display: inline-block; padding: 12px 28px; font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif; color: #26c7d9; text-decoration: none; font-size: 15px; font-weight: bold; line-height: 1;">確認する</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 18. referral_steps                                          -->
+          <!-- T-9 전용. header 모듈 직후 배치. 스텝수만큼 반복.           -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px 16px 24px;">
+              <p style="margin: 0 0 16px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">１．最初のステップのタイトル</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_mydesign.jpg" alt="ステップ1" width="100%" style="display: block; border-radius: 8px; margin-bottom: 24px;" />
+              <p style="margin: 0 0 16px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">２．次のステップのタイトル</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_referral.jpg" alt="ステップ2" width="100%" style="display: block; border-radius: 8px; margin-bottom: 24px;" />
+              <p style="margin: 0 0 16px 0; font-size: 16px; font-weight: bold; line-height: 1.4; word-break: break-all;">３．最後のステップのタイトル</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_referral_link.jpg" alt="ステップ3" width="100%" style="display: block; border-radius: 8px;" />
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 21. banner                                                  -->
+          <!-- 공지·기한 알림용 전체폭 배너. info형/alert형 2종.          -->
+          <!-- info: 메일 상단 공지. alert: 기한·프ロモ 강조.             -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- [info형] 연한 배경 + 좌측 보더 -->
+          <tr>
+            <td style="padding: 40px 24px 8px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: 14px 20px; background-color: #e9f9fb; border-left: 4px solid #26c7d9; border-radius: 4px;">
+                    <p style="margin: 0; font-size: 14px; font-weight: bold; color: #26c7d9; line-height: 1.4; word-break: break-all;">【お知らせ】〇〇に関する重要なご案内です。詳細は本文をご確認ください。</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- [alert형] 강조색 배경 + 흰 텍스트 -->
+          <tr>
+            <td style="padding: 8px 24px 40px 24px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td style="padding: 14px 20px; background-color: #26c7d9; border-radius: 4px; text-align: center;">
+                    <p style="margin: 0; font-size: 14px; font-weight: bold; color: #ffffff; line-height: 1.4; word-break: break-all;">【期間限定】〇月〇日（〇）23:59まで。お見逃しなく。</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 22. image_full                                              -->
+          <!-- 전체폭 이미지. 섹션 구분·비주얼 브레이크용.                -->
+          <!-- 패딩 0 = full bleed. border-radius 0 (전체폭이므로).       -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 0; line-height: 0; font-size: 0;">
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/背景削除.gif" alt="ビジュアルイメージ" width="100%" style="display: block; border-radius: 0;" />
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 19. footer_company                                          -->
+          <!-- 모든 메일 하단 고정. Braze: mc_ja_footer CB 로 교체 가능.  -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 40px 24px; background-color: #333333; color: #ffffff;">
+              <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: bold; line-height: 1.4;">株式会社Miridih</p>
+              <p style="margin: 0; font-size: 13px; color: #aaaaaa; line-height: 1.6; word-break: break-all;">
+                HP: www.miricanvas.com/ja<br>
+                問い合わせ: <a href="mailto:miricanvas@miridih.com" style="color: #26c7d9; text-decoration: none;">miricanvas@miridih.com</a><br>
+                住所: 〒150-0031 東京都渋谷区桜丘町26-1 セルリアンタワー15階
+              </p>
+            </td>
+          </tr>
+
+
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <!-- 20. footer_unsubscribe                                      -->
+          <!-- 모든 메일 최하단 고정. 특정전자메일법 필수.                  -->
+          <!-- {{${set_user_to_unsubscribed_url}}} 절대 삭제 금지.         -->
+          <!-- ═══════════════════════════════════════════════════════════ -->
+          <tr>
+            <td style="padding: 24px; background-color: #f4f4f4;">
+              <p style="margin: 0; font-size: 12px; color: #999999; line-height: 1.6; text-align: center; word-break: break-all;">
+                配信停止をご希望の場合は <a href="{{${set_user_to_unsubscribed_url}}}" style="color: #666666; font-weight: bold;">[配信停止]</a> をクリックしてください。<br>本メールは送信専用ドメインから配信されています。
+              </p>
+            </td>
+          </tr>
+
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
