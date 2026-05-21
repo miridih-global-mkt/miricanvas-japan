@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <title>[T-8] Newsletter / Digest</title>
+  <!--
+  ================================================================
+  PATTERN : T-8  Newsletter / Digest（ニュースレター・ダイジェスト）
+  ----------------------------------------------------------------
+  MODULES : hero(バナー付き) → [header + body + box] × N
+  CTA     : セクションごとに1個
+  USE     : 複数の独立したトピックを1通にまとめる。
+            例）ウェビナー2605シリーズ（日付別ニュースレター）
+  ----------------------------------------------------------------
+  NOTE: T-7（単一イベント）との違いは「複数トピック」を束ねること。
+        各セクションは header（見出し帯）→ body → box の順で構成。
+        セクション数は N 個。ブロックをコピーして増減する。
+  ================================================================
+  -->
+  <style>
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f4f4f4; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; color: #333333; }
+    @media screen and (max-width: 600px) {
+      .mobile-stack { display: block !important; width: 100% !important; max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box !important; }
+      .h1-title { font-size: 24px !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="padding: 20px 0; background-color: #f4f4f4;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 0 auto;">
+
+          <!-- ── MODULE: hero（バナー画像付き） ────────────────────── -->
+          <!-- REPLACE: バナー img src / H1（ニュースレタータイトル）  -->
+          <tr>
+            <td align="center" style="padding: 30px 20px 0 20px;">
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png" alt="MiriCanvas" width="120" style="display: block; margin: 0 auto 20px auto;" />
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="ニュースレターバナー" width="100%" style="display: block; border-radius: 8px; margin-bottom: 25px;" />
+              <h1 class="h1-title" style="margin: 0 0 25px 0; font-size: 26px; font-weight: bold; line-height: 1.3; text-align: center;">MiriCanvas 〇月ニュース<br>今月のトピックをまとめてお届け</h1>
+            </td>
+          </tr>
+
+          <!-- ════════════════════════════════════════════════════════ -->
+          <!-- SECTION 1: トピック1                                    -->
+          <!-- ════════════════════════════════════════════════════════ -->
+
+          <!-- ── MODULE: header（セクション見出し） ────────────────── -->
+          <!-- REPLACE: H2 タイトル / サブコピー                      -->
+          <!-- NOTE: このブロックから次の section の header まで        -->
+          <!--       が1セクション。コピーして増減する。               -->
+          <tr>
+            <td style="padding: 18px 20px; background-color: #e9f9fb; border-bottom: 2px solid #d4f4f7;">
+              <h2 style="margin: 0 0 5px 0; font-size: 20px; font-weight: bold; line-height: 1.4; text-align: center;">📢 トピック1のタイトル</h2>
+              <p style="margin: 0; font-size: 15px; color: #666666; line-height: 1.4; text-align: center;">サブコピーが入ります（任意）</p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: body ──────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 25px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                トピック1の説明が入ります。<br>
+                短くまとめて、詳細は CTA リンク先で確認できるようにする。
+              </p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="トピック1の画像" width="100%" style="display: block; border-radius: 4px; margin-bottom: 10px;" />
+            </td>
+          </tr>
+
+          <!-- ── MODULE: box（サイドトピック or CTA カード） ─────────── -->
+          <tr>
+            <td style="padding: 10px 20px 25px 20px; background-color: #e9f9fb;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold; color: #26c7d9;">トピック1の詳細・申込</p>
+                    <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.7;">補足情報や申込方法などを入れる。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                          <a href="#" target="_blank" style="display: inline-block; padding: 14px 30px; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none; line-height: 1; -webkit-text-size-adjust: none;">くわしくはこちら</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ════════════════════════════════════════════════════════ -->
+          <!-- SECTION 2: トピック2                                    -->
+          <!-- ════════════════════════════════════════════════════════ -->
+
+          <!-- ── MODULE: header ────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 18px 20px; background-color: #e9f9fb; border-bottom: 2px solid #d4f4f7;">
+              <h2 style="margin: 0 0 5px 0; font-size: 20px; font-weight: bold; line-height: 1.4; text-align: center;">🆕 トピック2のタイトル</h2>
+              <p style="margin: 0; font-size: 15px; color: #666666; line-height: 1.4; text-align: center;">サブコピーが入ります（任意）</p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: body ──────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 25px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                トピック2の説明が入ります。<br>
+                各セクションは独立した内容でOK。
+              </p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="トピック2の画像" width="100%" style="display: block; border-radius: 4px; margin-bottom: 10px;" />
+            </td>
+          </tr>
+
+          <!-- ── MODULE: box ────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 10px 20px 25px 20px; background-color: #e9f9fb;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold; color: #26c7d9;">トピック2の詳細</p>
+                    <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.7;">補足情報を入れる。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                          <a href="#" target="_blank" style="display: inline-block; padding: 14px 30px; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none; line-height: 1; -webkit-text-size-adjust: none;">くわしくはこちら</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ════════════════════════════════════════════════════════ -->
+          <!-- SECTION 3: トピック3                                    -->
+          <!-- ════════════════════════════════════════════════════════ -->
+
+          <!-- ── MODULE: header ────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 18px 20px; background-color: #e9f9fb; border-bottom: 2px solid #d4f4f7;">
+              <h2 style="margin: 0 0 5px 0; font-size: 20px; font-weight: bold; line-height: 1.4; text-align: center;">💡 トピック3のタイトル</h2>
+              <p style="margin: 0; font-size: 15px; color: #666666; line-height: 1.4; text-align: center;">サブコピーが入ります（任意）</p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: body ──────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 25px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                トピック3の説明が入ります。<br>
+                セクション間で同じ構造を繰り返すことで読みやすさを維持する。
+              </p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/d3_260417/表01.jpg" alt="トピック3の画像" width="100%" style="display: block; border-radius: 4px; margin-bottom: 10px;" />
+            </td>
+          </tr>
+
+          <!-- ── MODULE: box ────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 10px 20px 30px 20px; background-color: #e9f9fb;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 8px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold; color: #26c7d9;">トピック3の詳細</p>
+                    <p style="margin: 0 0 15px 0; font-size: 14px; line-height: 1.7;">補足情報を入れる。</p>
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                          <a href="#" target="_blank" style="display: inline-block; padding: 14px 30px; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; font-size: 15px; font-weight: bold; color: #ffffff; text-decoration: none; line-height: 1; -webkit-text-size-adjust: none;">くわしくはこちら</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: footer_company ────────────────────────────── -->
+          <tr>
+            <td style="padding: 40px 20px; background-color: #333333; color: #ffffff;">
+              <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">株式会社Miridih</p>
+              <p style="margin: 0; font-size: 13px; color: #aaaaaa; line-height: 1.6;">
+                HP: www.miricanvas.com/ja<br>
+                問い合わせ: <a href="mailto:miricanvas@miridih.com" style="color: #26c7d9; text-decoration: none;">miricanvas@miridih.com</a><br>
+                住所: 〒150-0031 東京都渋谷区桜丘町26-1 セルリアンタワー15階
+              </p>
+            </td>
+          </tr>
+          <!-- ── MODULE: footer_unsubscribe ────────────────────────── -->
+          <tr>
+            <td style="padding: 30px 20px; background-color: #f4f4f4;">
+              <p style="margin: 0; font-size: 12px; color: #999999; line-height: 1.6; text-align: center;">
+                配信停止をご希望の場合は <a href="{{${set_user_to_unsubscribed_url}}}" style="color: #666666; font-weight: bold;">[配信停止]</a> をクリックしてください。<br>本メールは送信専用ドメインから配信されています。
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
