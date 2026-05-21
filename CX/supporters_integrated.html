@@ -499,9 +499,9 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
           if (vals.length) await lp.setCustomUserAttribute(attr, vals);
         }
 
-        /* 동의 항목 */
-        await lp.setCustomUserAttribute("ja_spt_agree_line",    "true");
-        await lp.setCustomUserAttribute("ja_spt_agree_privacy", "true");
+        /* 동의 항목 — boolean으로 저장해야 세그먼트 필터링 가능 */
+        await lp.setCustomUserAttribute("ja_spt_agree_line",    true);
+        await lp.setCustomUserAttribute("ja_spt_agree_privacy", true);
 
         /* Braze 서버로 flush */
         await lp.requestImmediateDataFlush();
