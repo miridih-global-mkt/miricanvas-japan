@@ -1,0 +1,32 @@
+<!-- ================================================================
+  s08_sec6.html
+  역할: 섹션6 헤더 + Q17 인지경로 라벨 안내 + Q18 コメント(선택, textarea)
+  다음: Braze 네이티브 블록 1개
+    ⑨ Radio → label: "MiriCanvasを知ったきっかけを教えてください*"
+               → attribute: supporters_acquisition
+               옵션값: SNS / Google検索 / YouTube / 友人・知人の紹介 / 記事・ブログ / 広告 / コミュニティー・ウェビナー / その他
+  그다음: s09_sec7.html
+================================================================ -->
+
+  <div class="section-divider"></div>
+
+  <div class="section-header">
+    <span class="section-num">6</span>
+    <span class="section-title">その他</span>
+  </div>
+
+  <!-- Q18 コメント (任意) — Q17 Radio는 Braze 네이티브, 이 textarea는 Q17 다음 Braze 라디오 블록 뒤에 올 필요 없음.
+       순서: 섹션6 헤더(이 파일) → Braze Q17 Radio → 이 textarea
+       → 아래 textarea를 별도 슬라이스 s08b로 분리해도 됨. 여기서는 같이 배치.
+       실제 Braze 편집 시: 이 파일을 두 개로 쪼개거나,
+       Q17 Radio 블록을 먼저 넣고 그 아래 이 textarea Custom Code를 추가 -->
+
+  <!-- Q18 コメント (任意) -->
+  <div class="field">
+    <label class="field-label" for="q18_comments">
+      その他、運営チームに伝えたいことがあればご記入ください<span class="optional">（任意）</span>
+    </label>
+    <textarea id="q18_comments"
+              name="custom_attributes[supporters_comments]"
+              placeholder="ご自由にお書きください"></textarea>
+  </div>
