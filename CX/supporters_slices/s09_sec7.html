@@ -1,0 +1,42 @@
+<!-- ================================================================
+  s09_sec7.html
+  역할: 섹션7 헤더 + Q19 LINE동의 + Q20 개인정보동의
+  앞: Q17 Braze Radio → Q18 textarea(s08) 또는 Q17 Radio 다음 바로
+  다음: s10_close.html (submit note + footer + 래퍼 닫기)
+       + Braze Button 블록 (Submit form when button is clicked)
+================================================================ -->
+
+  <div class="section-divider"></div>
+
+  <div class="section-header">
+    <span class="section-num">7</span>
+    <span class="section-title">同意事項</span>
+  </div>
+
+  <!-- Q19 LINE友だち追加同意 -->
+  <div class="field">
+    <div class="consent-box">
+      <div class="consent-title">「MiriCanvasサポーターズ」公式LINEへの友だち追加について</div>
+      <div class="consent-body">
+        サポーターズへのご参加にあたり、運営からの連絡・活動サポートのため、公式LINEへの友だち追加が必須となります。お申し込み後、友だち追加のご案内をお送りします。
+      </div>
+      <label class="option-item">
+        <input type="checkbox" name="custom_attributes[supporters_agree_line]" value="true" required>
+        <span class="option-label">友だち追加が必須であることを承知の上、申し込みます<span class="required">*</span></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Q20 個人情報同意 -->
+  <div class="field">
+    <div class="consent-box">
+      <div class="consent-title">個人情報の取り扱いについて（同意）</div>
+      <div class="consent-body">
+        ご入力いただいた個人情報は、サポーターズプログラムの運営・管理、ご連絡、サービス改善のためにのみ使用します。第三者への提供は行いません。
+      </div>
+      <label class="option-item">
+        <input type="checkbox" name="custom_attributes[supporters_agree_privacy]" value="true" required>
+        <span class="option-label">個人情報の取り扱いに同意の上、申し込みます<span class="required">*</span></span>
+      </label>
+    </div>
+  </div>
