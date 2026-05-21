@@ -3,117 +3,106 @@
   역할: Custom Code 필드값을 lpBridge로 Braze에 저장 + 인라인 감사 화면 표시
   배치: s10_close.html 바로 다음
 
-  동작 흐름:
-    1) submit 버튼 클릭 감지
-    2) 필수 항목(동의 2개) 미체크 시 경고 후 중단
-    3) textarea / checkbox 값을 lpBridge로 저장
-    4) requestImmediateDataFlush() 로 즉시 Braze 서버 전송
-    5) 폼 전체를 숨기고 인라인 감사 화면 표시
+  Braze 버튼 설정:
+    - "Submit form when button is clicked" → ON  (퍼블리시 조건)
+    - "On-click behavior" → None  (리다이렉트 없어야 함. 비어있으면 에러)
 
-  ⚠️ 주의:
-    - SUBMIT_BUTTON_ID: Braze 편집기 미리보기에서 Inspect 해서 확인.
-      현재값 "ih4gf" — 버튼 블록 교체/복제 시 다시 확인 필요.
-    - 배열 속성(supporters_usage 등)은 Braze 대시보드에서 Array 타입으로 생성.
+  ⚠️ SUBMIT_BUTTON_ID:
+    버튼 블록 교체·복제 시 ID가 바뀜.
+    Braze 편집기 미리보기 → 버튼 우클릭 → Inspect → id 값 확인.
+    현재값: "i59mx"
 ================================================================ -->
 
-<!-- 제출 완료 후 표시할 감사 화면 (평소엔 숨김) -->
-<div id="lp-thanks" style="display:none; padding:48px 24px; text-align:center;
+<!-- 제출 완료 감사 화면 (평소엔 숨김) -->
+<div id="lp-thanks" style="display:none; padding:56px 24px; text-align:center;
      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;">
-  <div style="font-size:40px; margin-bottom:16px;">✅</div>
-  <h2 style="font-size:22px; font-weight:700; color:#333; margin-bottom:12px; line-height:1.4;">
+  <div style="font-size:48px; margin-bottom:20px;">✅</div>
+  <h2 style="font-size:22px; font-weight:700; color:#333; margin:0 0 12px; line-height:1.4;">
     お申し込みありがとうございます！
   </h2>
-  <p style="font-size:15px; color:#555; line-height:1.8; margin-bottom:24px;">
+  <p style="font-size:15px; color:#555; line-height:1.8; margin:0 0 24px;">
     内容を確認の上、審査結果をメールにてご連絡いたします。<br>
     今しばらくお待ちください。
   </p>
-  <p style="font-size:13px; color:#999;">
+  <p style="font-size:13px; color:#999; margin:0;">
     お問い合わせ：<a href="mailto:team.miricanvas.jp@miridih.com"
       style="color:#0a7a87; text-decoration:underline;">team.miricanvas.jp@miridih.com</a>
   </p>
 </div>
 
 <script async="true">
-document.addEventListener("DOMContentLoaded", () => {
+  const SUBMIT_BUTTON_ID = "i59mx"; // ← 버튼 교체 시 여기만 수정
+  let submitted = false;
 
-  const SUBMIT_BUTTON_ID = "ih4gf"; // 버튼 블록 교체 시 재확인
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById(SUBMIT_BUTTON_ID);
+    if (!btn) return;
 
-  const btn = document.getElementById(SUBMIT_BUTTON_ID)
-    ?? document.querySelector(".ab-submit-button, button[type='submit']");
+    btn.addEventListener("click", async () => {
+      if (submitted) return;
 
-  if (!btn) return;
+      /* ── 필수 동의 체크 ────────────────────────────────────── */
+      const lineAgreed    = document.querySelector('input[name="custom_attributes[supporters_agree_line]"]:checked');
+      const privacyAgreed = document.querySelector('input[name="custom_attributes[supporters_agree_privacy]"]:checked');
+      if (!lineAgreed || !privacyAgreed) {
+        alert("同意事項のチェックボックスをすべて選択してください。");
+        return;
+      }
 
-  btn.addEventListener("click", async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+      submitted = true;
+      btn.disabled = true;
+      btn.textContent = "送信中...";
 
-    /* ── 필수 동의 체크 ──────────────────────────────────────── */
-    const lineAgreed    = document.querySelector('input[name="custom_attributes[supporters_agree_line]"]:checked');
-    const privacyAgreed = document.querySelector('input[name="custom_attributes[supporters_agree_privacy]"]:checked');
-    if (!lineAgreed || !privacyAgreed) {
-      alert("同意事項のチェックボックスをすべて選択してください。");
-      return;
-    }
+      try {
+        const lp = window.lpBridge;
 
-    /* ── 버튼 비활성화 (중복 제출 방지) ─────────────────────── */
-    btn.disabled = true;
-    btn.textContent = "送信中...";
+        /* ── textarea 값 저장 ──────────────────────────────── */
+        const textareaMap = {
+          "q09_strengths"    : "supporters_strengths",
+          "q10_weaknesses"   : "supporters_weaknesses",
+          "q14_expectations" : "supporters_expectations",
+          "q15_accounts"     : "supporters_accounts",
+          "q18_comments"     : "supporters_comments",
+        };
+        for (const [id, attr] of Object.entries(textareaMap)) {
+          const val = document.getElementById(id)?.value?.trim() ?? "";
+          if (val) await lp.setCustomUserAttribute(attr, val);
+        }
 
-    const lp = window.lpBridge;
-    if (!lp) {
-      showThanks(); // 로컬 미리보기: lpBridge 없어도 화면만 전환
-      return;
-    }
+        /* ── checkbox 배열 → Array 속성으로 저장 ──────────── */
+        const checkboxMap = {
+          "custom_attributes[supporters_usage][]"    : "supporters_usage",
+          "custom_attributes[supporters_features][]" : "supporters_features",
+          "custom_attributes[supporters_target][]"   : "supporters_target",
+          "custom_attributes[supporters_channels][]" : "supporters_channels",
+        };
+        for (const [name, attr] of Object.entries(checkboxMap)) {
+          const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+            .map(el => el.value);
+          if (checked.length) await lp.setCustomUserAttribute(attr, checked);
+        }
 
-    /* ── textarea 값 저장 ───────────────────────────────────── */
-    const textareaMap = {
-      "q09_strengths"    : "supporters_strengths",
-      "q10_weaknesses"   : "supporters_weaknesses",
-      "q14_expectations" : "supporters_expectations",
-      "q15_accounts"     : "supporters_accounts",
-      "q18_comments"     : "supporters_comments",
-    };
-    for (const [id, attr] of Object.entries(textareaMap)) {
-      const val = document.getElementById(id)?.value?.trim() ?? "";
-      if (val) await lp.setCustomUserAttribute(attr, val);
-    }
+        /* ── 동의 항목 저장 ────────────────────────────────── */
+        await lp.setCustomUserAttribute("supporters_agree_line",    "true");
+        await lp.setCustomUserAttribute("supporters_agree_privacy", "true");
 
-    /* ── checkbox 배열 → Array 타입 속성으로 저장 ───────────── */
-    const checkboxMap = {
-      "custom_attributes[supporters_usage][]"    : "supporters_usage",
-      "custom_attributes[supporters_features][]" : "supporters_features",
-      "custom_attributes[supporters_target][]"   : "supporters_target",
-      "custom_attributes[supporters_channels][]" : "supporters_channels",
-    };
-    for (const [name, attr] of Object.entries(checkboxMap)) {
-      const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)]
-        .map(el => el.value);
-      if (checked.length) await lp.setCustomUserAttribute(attr, checked);
-    }
+        /* ── Braze 서버로 즉시 flush ───────────────────────── */
+        await lp.requestImmediateDataFlush();
 
-    /* ── 동의 항목 저장 ─────────────────────────────────────── */
-    await lp.setCustomUserAttribute("supporters_agree_line",    "true");
-    await lp.setCustomUserAttribute("supporters_agree_privacy", "true");
+        /* ── 감사 화면으로 전환 ────────────────────────────── */
+        document.querySelectorAll(
+          ".mc-hero, .mc-intro, .mc-section-divider, .mc-section-header, .mc-field, .mc-submit-note, .mc-footer"
+        ).forEach(el => el.setAttribute("style", "display:none"));
+        document.getElementById("lp-thanks").setAttribute("style",
+          "display:block; padding:56px 24px; text-align:center; font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;");
+        window.scrollTo({ top: 0, behavior: "smooth" });
 
-    /* ── Braze 서버로 즉시 flush ────────────────────────────── */
-    await lp.requestImmediateDataFlush();
-
-    /* ── 감사 화면으로 전환 ─────────────────────────────────── */
-    showThanks();
+      } catch (err) {
+        submitted = false;
+        btn.disabled = false;
+        btn.textContent = "申し込みを送信する";
+        alert("送信に失敗しました。しばらくしてから再度お試しください。");
+      }
+    });
   });
-
-  function showThanks() {
-    // 폼 콘텐츠 전체 숨기기
-    document.querySelectorAll(
-      ".mc-hero, .mc-intro, .mc-section-divider, .mc-section-header, .mc-field, .mc-submit-note, .mc-footer"
-    ).forEach(el => el.style.display = "none");
-
-    // 감사 화면 표시
-    document.getElementById("lp-thanks").style.display = "block";
-
-    // 페이지 상단으로 스크롤
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-});
 </script>
