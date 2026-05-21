@@ -1,0 +1,107 @@
+<h2>데이터 모델 & 흐름</h2>
+<p class="subtitle">메일 1통이 JSON으로 어떻게 생겼고, 사용자 액션이 어떻게 전달되는지.</p>
+
+<h3>① JSON 스키마 (메일 1통)</h3>
+<pre style="background:#1d1d1f; color:#f5f5f7; padding:16px; border-radius:8px; font-size:11px; line-height:1.5; overflow-x:auto;">{
+  <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"20260425-143012-a1b2c3"</span>,
+  <span style="color:#9cdcfe;">"title"</span>: <span style="color:#ce9178;">"D7 폰트 변경 안내"</span>,
+  <span style="color:#9cdcfe;">"number"</span>: <span style="color:#b5cea8;">4</span>,
+  <span style="color:#9cdcfe;">"createdAt"</span>: <span style="color:#ce9178;">"2026-04-25T14:30:12+09:00"</span>,
+  <span style="color:#9cdcfe;">"lastSavedAt"</span>: <span style="color:#ce9178;">"2026-04-25T15:42:00+09:00"</span>,
+  <span style="color:#9cdcfe;">"language"</span>: <span style="color:#ce9178;">"ja"</span>,
+  <span style="color:#9cdcfe;">"sections"</span>: [
+    {
+      <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"sec-001"</span>,
+      <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"hero"</span>,                  <span style="color:#6a9955;">// 라이브러리의 6종 중 하나</span>
+      <span style="color:#9cdcfe;">"padding"</span>: <span style="color:#569cd6;">null</span>,                <span style="color:#6a9955;">// null = 카탈로그 디폴트 사용</span>
+      <span style="color:#9cdcfe;">"modules"</span>: [
+        { <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"mod-001"</span>, <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"img"</span>, <span style="color:#9cdcfe;">"src"</span>: <span style="color:#ce9178;">"https://..."</span>, <span style="color:#9cdcfe;">"alt"</span>: <span style="color:#ce9178;">"logo"</span>, <span style="color:#9cdcfe;">"width"</span>: <span style="color:#b5cea8;">120</span> },
+        { <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"mod-002"</span>, <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"h1"</span>, <span style="color:#9cdcfe;">"text"</span>: <span style="color:#ce9178;">"MiriCanvasメルマガ"</span> }
+      ]
+    },
+    {
+      <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"sec-002"</span>,
+      <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"body"</span>,
+      <span style="color:#9cdcfe;">"padding"</span>: { <span style="color:#9cdcfe;">"top"</span>: <span style="color:#b5cea8;">40</span>, <span style="color:#9cdcfe;">"bottom"</span>: <span style="color:#b5cea8;">20</span> },  <span style="color:#6a9955;">// 위/아래만 override (좌우는 디폴트)</span>
+      <span style="color:#9cdcfe;">"modules"</span>: [
+        { <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"mod-003"</span>, <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"p"</span>, <span style="color:#9cdcfe;">"html"</span>: <span style="color:#ce9178;">"안녕하세요, &lt;strong&gt;ejjeong&lt;/strong&gt;님"</span> },
+        { <span style="color:#9cdcfe;">"id"</span>: <span style="color:#ce9178;">"mod-004"</span>, <span style="color:#9cdcfe;">"type"</span>: <span style="color:#ce9178;">"cta"</span>, <span style="color:#9cdcfe;">"label"</span>: <span style="color:#ce9178;">"지금 사용해보기"</span>, <span style="color:#9cdcfe;">"href"</span>: <span style="color:#ce9178;">"https://miricanvas.com/..."</span> }
+      ]
+    }
+  ]
+}</pre>
+
+<div style="margin-top:14px; padding:12px; background:#e9f9fb; border-left:4px solid #26c7d9; border-radius:4px; font-size:12px;">
+  <b>핵심:</b> id, type, padding(override), modules[] — 단순. 모든 섹션·모듈에 id 부여 (드래그앤드롭·Undo 추적용). padding이 <code>null</code>이거나 누락되면 카탈로그 원본 그대로.
+</div>
+
+<h3 style="margin-top:32px;">② 사용자 액션의 흐름</h3>
+
+<div class="mockup">
+  <div class="mockup-header">한 번의 텍스트 수정이 일어나는 과정</div>
+  <div class="mockup-body" style="padding:20px; background:#fafafa;">
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#26c7d9; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">1</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          <b>사용자</b>가 좌측 편집화면 모듈 내 텍스트 입력 (<code>&lt;p&gt;</code> 모듈 안의 글자 수정)
+        </div>
+      </div>
+      <div style="text-align:center; color:#aaa; font-size:18px;">↓</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#26c7d9; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">2</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          <code>editor.js</code>가 입력 캡처 → <b>200ms debounce</b> → 메모리 내 JSON 트리 업데이트 (<code>currentMail.sections[1].modules[0].html = "..."</code>)
+        </div>
+      </div>
+      <div style="text-align:center; color:#aaa; font-size:18px;">↓</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#26c7d9; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">3</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          <b>Undo 스택에 push</b> (이전 트리 스냅샷, 최대 30개) + <code>preview.js</code>가 우측 화면 다시 렌더 (비주얼/코드 동시)
+        </div>
+      </div>
+      <div style="text-align:center; color:#aaa; font-size:18px;">↓</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#f5a623; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">4</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          상단바 <b>저장 버튼이 활성화</b> + 표시 ("저장 안 됨"). 닫기 버튼은 비활성화 유지
+        </div>
+      </div>
+      <div style="text-align:center; color:#aaa; font-size:18px;">↓ 사용자가 저장 버튼 클릭</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#888; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">5</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          <code>PUT /api/mails/{id}</code> → 서버: ① 기존 파일을 <code>mails/.backup/</code>로 이동(타임스탬프 부여) ② 새 JSON 파일 저장 ③ 백업은 최근 <b>3개만 유지</b>
+        </div>
+      </div>
+      <div style="text-align:center; color:#aaa; font-size:18px;">↓</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <div style="background:#34c759; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;">6</div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; padding:10px; font-size:12px;">
+          저장 완료 → 닫기 버튼 활성화. <b>Undo 스택은 그대로 유지</b> (저장 후에도 Ctrl+Z 가능)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:32px;">③ 미저장 변경사항 처리</h3>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+  <div style="background:white; border:1px solid #ddd; border-radius:8px; padding:14px;">
+    <div style="font-size:12px; font-weight:bold; margin-bottom:6px;">🚪 브라우저 닫기 / 새로고침</div>
+    <div style="font-size:11px; color:#555;">브라우저 기본 컨펌 팝업: <i>"이 페이지를 떠나시겠습니까? 저장되지 않은 변경사항이 있습니다."</i></div>
+  </div>
+  <div style="background:white; border:1px solid #ddd; border-radius:8px; padding:14px;">
+    <div style="font-size:12px; font-weight:bold; margin-bottom:6px;">🗂 다른 탭 클릭 (소개/비교)</div>
+    <div style="font-size:11px; color:#555;">제작탭 <b>상태는 메모리에 보존</b>. 탭 전환 시 경고 없음. 다시 제작탭 돌아오면 그대로</div>
+  </div>
+  <div style="background:white; border:1px solid #ddd; border-radius:8px; padding:14px;">
+    <div style="font-size:12px; font-weight:bold; margin-bottom:6px;">🚫 다른 메일의 편집 버튼</div>
+    <div style="font-size:11px; color:#555;">스펙대로 차단 팝업: <i>"현재 편집 중인 메일을 닫은 다음, 편집할 메일을 선택해주세요"</i></div>
+  </div>
+  <div style="background:white; border:1px solid #ddd; border-radius:8px; padding:14px;">
+    <div style="font-size:12px; font-weight:bold; margin-bottom:6px;">↶ Ctrl+Z (Undo)</div>
+    <div style="font-size:11px; color:#555;">최대 <b>30 단계</b>. 메일 닫으면 스택 초기화. 저장 여부와 무관하게 동작</div>
+  </div>
+</div>
