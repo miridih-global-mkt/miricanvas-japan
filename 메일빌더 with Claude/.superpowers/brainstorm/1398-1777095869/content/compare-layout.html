@@ -1,0 +1,106 @@
+<h2>비교 탭 레이아웃 — 어떤 방식이 좋을까요?</h2>
+<p class="subtitle">사이드바에서 "비교" 토글한 메일들을 비교 탭에서 어떻게 늘어놓을지 선택입니다. 메일 개수가 2개~여러 개일 수 있다는 점 고려.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa; padding:20px;">
+      <div style="display:flex; gap:10px; height:240px;">
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:36px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 10px; color:white; font-size:11px;">메일 1 — D7 폰트변경</div>
+          <div style="flex:1; padding:10px; font-size:9px; color:#888;">메일 본문 렌더링...</div>
+        </div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:36px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 10px; color:white; font-size:11px;">메일 2 — D14 템플릿</div>
+          <div style="flex:1; padding:10px; font-size:9px; color:#888;">메일 본문 렌더링...</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 가로 분할 (2-up Side by Side)</h3>
+      <p><b>최적:</b> 2개 메일 비교 (정확히)<br><b>장점:</b> 가장 직관적, 각 메일이 충분히 큼<br><b>단점:</b> 3개 이상이면 비좁아지거나 못 들어감</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa; padding:20px;">
+      <div style="position:relative; height:240px; overflow:hidden;">
+        <div style="display:flex; gap:8px; position:absolute; left:0; top:0; height:100%;">
+          <div style="width:140px; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+            <div style="background:#26c7d9; height:30px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:10px;">메일 1</div>
+            <div style="flex:1; padding:8px; font-size:8px; color:#888;">본문...</div>
+          </div>
+          <div style="width:140px; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+            <div style="background:#26c7d9; height:30px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:10px;">메일 2</div>
+            <div style="flex:1; padding:8px; font-size:8px; color:#888;">본문...</div>
+          </div>
+          <div style="width:140px; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+            <div style="background:#26c7d9; height:30px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:10px;">메일 3</div>
+            <div style="flex:1; padding:8px; font-size:8px; color:#888;">본문...</div>
+          </div>
+          <div style="width:140px; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+            <div style="background:#26c7d9; height:30px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:10px;">메일 4</div>
+            <div style="flex:1; padding:8px; font-size:8px; color:#888;">본문...</div>
+          </div>
+          <div style="width:140px; background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column; opacity:0.5;">
+            <div style="background:#26c7d9; height:30px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:10px;">메일 5...</div>
+            <div style="flex:1; padding:8px;"></div>
+          </div>
+        </div>
+        <div style="position:absolute; right:5px; bottom:5px; background:rgba(0,0,0,0.7); color:white; padding:4px 8px; border-radius:12px; font-size:10px;">→ 가로 스크롤</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 가로 스크롤 (Horizontal Scroll)</h3>
+      <p><b>최적:</b> 2~여러개, 개수 무관<br><b>장점:</b> 메일 폭은 일정(600px 이메일 폭 그대로), 개수 늘어도 문제없음<br><b>단점:</b> 한 화면에 2~3개만 보임, 나머진 스크롤</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa; padding:20px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; height:240px;">
+        <div style="background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:24px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:9px;">메일 1</div>
+          <div style="flex:1; padding:6px; font-size:8px; color:#888;">본문...</div>
+        </div>
+        <div style="background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:24px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:9px;">메일 2</div>
+          <div style="flex:1; padding:6px; font-size:8px; color:#888;">본문...</div>
+        </div>
+        <div style="background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:24px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:9px;">메일 3</div>
+          <div style="flex:1; padding:6px; font-size:8px; color:#888;">본문...</div>
+        </div>
+        <div style="background:white; border:1px solid #ddd; border-radius:6px; display:flex; flex-direction:column;">
+          <div style="background:#26c7d9; height:24px; border-radius:6px 6px 0 0; display:flex; align-items:center; padding:0 8px; color:white; font-size:9px;">메일 4</div>
+          <div style="flex:1; padding:6px; font-size:8px; color:#888;">본문...</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 반응형 그리드 (2×N)</h3>
+      <p><b>최적:</b> 2~6개 정도<br><b>장점:</b> 한 화면에 다 보임<br><b>단점:</b> 메일 폭이 좁아져서 글자가 작아짐 (이메일 600px 원본보다 축소)</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fafafa; padding:20px;">
+      <div style="display:flex; flex-direction:column; height:240px;">
+        <div style="display:flex; gap:4px; padding:6px; background:#eee; border-radius:6px 6px 0 0;">
+          <div style="background:#26c7d9; color:white; padding:4px 10px; border-radius:4px; font-size:10px;">메일 1</div>
+          <div style="background:white; color:#666; padding:4px 10px; border-radius:4px; font-size:10px;">메일 2</div>
+          <div style="background:white; color:#666; padding:4px 10px; border-radius:4px; font-size:10px;">메일 3</div>
+          <div style="background:white; color:#666; padding:4px 10px; border-radius:4px; font-size:10px;">메일 4</div>
+        </div>
+        <div style="flex:1; background:white; border:1px solid #ddd; border-top:none; padding:10px; font-size:10px; color:#888;">선택된 메일 1의 렌더링이 크게 보임</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>D. 탭 전환 (한 번에 1개씩)</h3>
+      <p><b>최적:</b> 메일 자체를 크게 보면서 빠르게 비교<br><b>장점:</b> 메일이 원본 폭으로 크게 표시됨<br><b>단점:</b> "비교"라기보단 "빠른 전환". 동시 비교 안 됨</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:30px; padding:15px; background:#fffbe6; border-left:4px solid #ffd54f; border-radius:4px;">
+  <p style="margin:0; font-size:13px;"><b>💡 추천:</b> <b>B (가로 스크롤)</b> — 메일은 600px 이메일 폭 그대로 보존되어 실제 받는 모습과 일치하고, 개수가 2개든 6개든 동일한 UX. 비교가 본격적인 분석이라기보단 "톤·구조 비교"라면 충분합니다.</p>
+</div>
