@@ -1,158 +1,182 @@
 <!-- ================================================================
-  s01_open.html
-  역할: CSS 전체 + .mc-supporters 열기 + HERO + INTRO
-  ⚠️ 이 파일 이후 Braze 블록들이 .mc-supporters 내부에 쌓임
-  ⚠️ </div> 닫기는 s10_close.html에서
+  s01_open.html  — CSS 전용 블록
+  역할: <style> 태그만. HTML 없음.
+  Braze 랜딩페이지 맨 첫 번째 Custom Code 블록으로 배치.
+  <style>은 페이지 전체에 적용되므로 Braze 네이티브 input/label도 커버.
 ================================================================ -->
 <style>
-/* ── Reset (scoped) ── */
-.mc-supporters,.mc-supporters *{box-sizing:border-box;margin:0;padding:0}
-.mc-supporters{
-  font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
-  color:#333333;line-height:1.7;word-break:break-all;
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   전역: Braze 네이티브 폼 블록 + Custom Code 폼 공용
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  font-size: 15px;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+  color: #333333;
+  background: #ffffff;
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: 1.5;
+  word-break: break-all;
+  box-sizing: border-box;
+  transition: border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #26c7d9;
+  box-shadow: 0 0 0 3px rgba(38,199,217,.15);
+}
+textarea { resize: vertical; min-height: 100px; }
+input[type="radio"],
+input[type="checkbox"] { accent-color: #26c7d9; }
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 6px;
+  line-height: 1.5;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
 }
 
-/* ── Hero ── */
-.mc-supporters .hero{padding:40px 24px 32px;border-bottom:3px solid #26c7d9;text-align:center}
-.mc-supporters .hero-logo{display:block;width:130px;margin:0 auto 20px}
-.mc-supporters .hero-badge{display:inline-block;background:#e9f9fb;color:#0a7a87;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:14px;letter-spacing:.5px}
-.mc-supporters .hero-title{font-size:26px;font-weight:700;line-height:1.3;color:#333;margin-bottom:12px}
-.mc-supporters .hero-meta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px}
-.mc-supporters .hero-meta-item{font-size:13px;color:#0a7a87;font-weight:700;background:#e9f9fb;padding:4px 12px;border-radius:4px}
-
-/* ── Intro ── */
-.mc-supporters .intro{padding:28px 24px}
-.mc-supporters .intro-lead{font-size:15px;color:#333;line-height:1.8;margin-bottom:20px}
-.mc-supporters .info-block{margin-bottom:16px}
-.mc-supporters .info-block-title{font-size:13px;font-weight:700;color:#0a7a87;margin-bottom:6px}
-.mc-supporters .info-block-list{list-style:none;padding:0;margin:0}
-.mc-supporters .info-block-list li{font-size:14px;color:#333;line-height:1.7;padding-left:20px;position:relative;margin-bottom:4px}
-.mc-supporters .info-block-list li::before{content:'✓';position:absolute;left:0;color:#26c7d9;font-weight:700}
-.mc-supporters .notice-box{background:#f8f8f8;border:1px solid #eee;border-radius:4px;padding:14px 16px;margin-bottom:14px}
-.mc-supporters .notice-box p{font-size:14px;color:#555;line-height:1.7}
-.mc-supporters .warning-box{background:#fff8e1;border:1px solid #ffe082;border-left:4px solid #ffc107;border-radius:4px;padding:14px 16px;margin-bottom:14px}
-.mc-supporters .warning-box p{font-size:14px;color:#555;line-height:1.7}
-.mc-supporters .warning-box strong{color:#b04000}
-.mc-supporters .contact-line{font-size:13px;color:#999;line-height:1.6}
-.mc-supporters .contact-line a{color:#0a7a87;text-decoration:underline}
-
-/* ── Section header / divider ── */
-.mc-supporters .section-divider{height:8px;background:#f4f4f4}
-.mc-supporters .section-header{display:flex;align-items:center;gap:10px;margin:28px 24px 20px;padding-bottom:10px;border-bottom:1px solid #eee}
-.mc-supporters .section-num{display:flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;background:#26c7d9;color:#fff;font-size:13px;font-weight:700;border-radius:50%}
-.mc-supporters .section-title{font-size:16px;font-weight:700;color:#333}
-
-/* ── Field (Custom Code 폼 요소용) ── */
-.mc-supporters .field{padding:0 24px 22px}
-.mc-supporters .field-label{display:block;font-size:14px;font-weight:700;color:#333;margin-bottom:6px;line-height:1.5}
-.mc-supporters .required{color:#e53e3e;margin-left:3px;font-size:12px}
-.mc-supporters .optional{color:#999;margin-left:4px;font-size:12px;font-weight:400}
-.mc-supporters .field-hint{font-size:12px;color:#999;margin-bottom:8px;line-height:1.5}
-
-/* ── 입력 요소 (tag 기반 — Braze 네이티브 + Custom Code 공용) ── */
-.mc-supporters input[type="text"],
-.mc-supporters input[type="email"],
-.mc-supporters textarea,
-.mc-supporters select{
-  width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:4px;
-  font-size:15px;font-family:inherit;color:#333;background:#fff;
-  -webkit-appearance:none;appearance:none;line-height:1.5;
-  transition:border-color .15s,box-shadow .15s;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Hero  (.mc-hero-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-hero {
+  padding: 40px 24px 32px;
+  border-bottom: 3px solid #26c7d9;
+  text-align: center;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+  word-break: break-all;
 }
-.mc-supporters input[type="text"]:focus,
-.mc-supporters input[type="email"]:focus,
-.mc-supporters textarea:focus,
-.mc-supporters select:focus{
-  outline:none;border-color:#26c7d9;box-shadow:0 0 0 3px rgba(38,199,217,.15);
+.mc-hero-logo  { display: block; width: 130px; margin: 0 auto 20px; }
+.mc-hero-badge {
+  display: inline-block;
+  background: #e9f9fb; color: #0a7a87;
+  font-size: 12px; font-weight: 700;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
 }
-.mc-supporters textarea{resize:vertical;min-height:100px}
-
-/* ── Braze 네이티브 블록의 label 오버라이드 ── */
-.mc-supporters label{
-  display:block;font-size:14px;font-weight:700;color:#333;
-  margin-bottom:6px;line-height:1.5;
+.mc-hero-title {
+  font-size: 26px; font-weight: 700;
+  line-height: 1.3; color: #333333; margin-bottom: 12px;
+}
+.mc-hero-meta { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.mc-hero-meta-item {
+  font-size: 13px; color: #0a7a87; font-weight: 700;
+  background: #e9f9fb; padding: 4px 12px; border-radius: 4px;
 }
 
-/* ── 라디오·체크박스 (Custom Code 폼 요소용) ── */
-.mc-supporters .options-list{display:flex;flex-direction:column;gap:10px}
-.mc-supporters .option-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
-.mc-supporters .option-item input[type="radio"],
-.mc-supporters .option-item input[type="checkbox"]{
-  width:18px;height:18px;min-width:18px;margin-top:2px;
-  cursor:pointer;accent-color:#26c7d9;
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Intro  (.mc-intro-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-intro {
+  padding: 28px 24px;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
 }
-.mc-supporters .option-label{font-size:14px;color:#333;line-height:1.5;padding-top:1px}
+.mc-intro-lead   { font-size: 15px; color: #333; line-height: 1.8; margin-bottom: 20px; word-break: break-all; }
+.mc-info-block   { margin-bottom: 16px; }
+.mc-info-block-title { font-size: 13px; font-weight: 700; color: #0a7a87; margin-bottom: 6px; }
+.mc-info-block-list  { list-style: none; padding: 0; margin: 0; }
+.mc-info-block-list li {
+  font-size: 14px; color: #333; line-height: 1.7;
+  padding-left: 20px; position: relative; margin-bottom: 4px; word-break: break-all;
+}
+.mc-info-block-list li::before { content: '✓'; position: absolute; left: 0; color: #26c7d9; font-weight: 700; }
+.mc-notice-box {
+  background: #f8f8f8; border: 1px solid #eeeeee;
+  border-radius: 4px; padding: 14px 16px; margin-bottom: 14px;
+}
+.mc-notice-box p  { font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all; }
+.mc-warning-box {
+  background: #fff8e1; border: 1px solid #ffe082;
+  border-left: 4px solid #ffc107; border-radius: 4px;
+  padding: 14px 16px; margin-bottom: 14px;
+}
+.mc-warning-box p      { font-size: 14px; color: #555555; line-height: 1.7; word-break: break-all; }
+.mc-warning-box strong { color: #b04000; }
+.mc-contact-line { font-size: 13px; color: #999999; line-height: 1.6; word-break: break-all; }
+.mc-contact-line a { color: #0a7a87; text-decoration: underline; }
 
-/* ── 동의 박스 ── */
-.mc-supporters .consent-box{background:#f8f8f8;border:1px solid #eee;border-radius:4px;padding:16px;margin-bottom:14px}
-.mc-supporters .consent-title{font-size:13px;font-weight:700;color:#333;margin-bottom:8px}
-.mc-supporters .consent-body{font-size:12px;color:#555;line-height:1.6;margin-bottom:12px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   섹션 구분  (.mc-section-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-section-divider { height: 8px; background: #f4f4f4; }
+.mc-section-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 28px 24px 10px;
+  border-bottom: 1px solid #eeeeee;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+}
+.mc-section-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; min-width: 28px;
+  background: #26c7d9; color: #ffffff;
+  font-size: 13px; font-weight: 700; border-radius: 50%;
+}
+.mc-section-title { font-size: 16px; font-weight: 700; color: #333333; }
 
-/* ── Submit note / footer ── */
-.mc-supporters .submit-note{font-size:13px;color:#999;line-height:1.6;text-align:center;padding:24px 24px 0}
-.mc-supporters .form-footer{background:#333;padding:28px 24px;text-align:center}
-.mc-supporters .form-footer img{width:100px;opacity:.6;margin:0 auto 12px;display:block}
-.mc-supporters .form-footer p{font-size:11px;color:#aaa;line-height:1.6}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   필드  (.mc-field-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-field {
+  padding: 20px 24px 2px;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+}
+.mc-field-label {
+  display: block; font-size: 14px; font-weight: 700;
+  color: #333333; margin-bottom: 6px;
+  line-height: 1.5; word-break: break-all;
+}
+.mc-required { color: #e53e3e; margin-left: 3px; font-size: 12px; }
+.mc-optional { color: #999999; margin-left: 4px; font-size: 12px; font-weight: 400; }
+.mc-field-hint { font-size: 12px; color: #999999; margin-bottom: 8px; line-height: 1.5; word-break: break-all; }
 
-@media(max-width:480px){.mc-supporters .hero-title{font-size:22px}}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   라디오·체크박스  (.mc-options-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-options-list { display: flex; flex-direction: column; gap: 10px; }
+.mc-option-item  { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+.mc-option-item input[type="radio"],
+.mc-option-item input[type="checkbox"] {
+  width: 18px; height: 18px; min-width: 18px; margin-top: 2px;
+}
+.mc-option-label { font-size: 14px; color: #333333; line-height: 1.5; padding-top: 1px; word-break: break-all; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   동의 박스  (.mc-consent-*)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-consent-box {
+  background: #f8f8f8; border: 1px solid #eeeeee;
+  border-radius: 4px; padding: 16px; margin-bottom: 14px;
+}
+.mc-consent-title { font-size: 13px; font-weight: 700; color: #333333; margin-bottom: 8px; }
+.mc-consent-body  { font-size: 12px; color: #555555; line-height: 1.6; margin-bottom: 12px; word-break: break-all; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Submit note / Footer
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.mc-submit-note {
+  font-size: 13px; color: #999999; line-height: 1.6;
+  text-align: center; padding: 20px 24px 0;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+}
+.mc-footer     { background: #333333; padding: 28px 24px; text-align: center; }
+.mc-footer img { width: 100px; opacity: .6; margin: 0 auto 12px; display: block; }
+.mc-footer p   {
+  font-size: 11px; color: #aaaaaa; line-height: 1.6;
+  font-family: 'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+}
+
+@media(max-width:480px){ .mc-hero-title{ font-size:22px; } }
+
 </style>
-
-<div class="mc-supporters">
-
-  <!-- HERO -->
-  <div class="hero">
-    <img class="hero-logo"
-         src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png"
-         alt="MiriCanvas">
-    <div class="hero-badge">サポーターズ募集</div>
-    <h1 class="hero-title">MiriCanvasサポーターズ<br>申し込みフォーム</h1>
-    <div class="hero-meta">
-      <span class="hero-meta-item">📅 活動期間：6か月</span>
-      <span class="hero-meta-item">⏱ 所要時間：約10分</span>
-    </div>
-  </div>
-
-  <!-- INTRO -->
-  <div class="intro">
-    <p class="intro-lead">
-      このたび、MiriCanvasを応援してくださるサポーターを募集いたします。<br>
-      皆さまの声を聞かせていただき、一緒にサービスを育てていきたいと考えています。
-    </p>
-    <div class="info-block">
-      <div class="info-block-title">【活動期間】</div>
-      <ul class="info-block-list">
-        <li>第一期サポーターズ活動期間：6か月</li>
-      </ul>
-    </div>
-    <div class="info-block">
-      <div class="info-block-title">【サポーター特典】</div>
-      <ul class="info-block-list">
-        <li>MiriCanvas Proプランを最大6か月間無料でご利用いただけます</li>
-        <li>学習資料やコミュニティへのアクセス</li>
-        <li>新機能の優先案内</li>
-      </ul>
-    </div>
-    <div class="info-block">
-      <div class="info-block-title">【活動内容】</div>
-      <ul class="info-block-list">
-        <li>強制的な義務はありません。お時間のある時に、SNSや日常での自然な発信などにご協力いただけると嬉しいです。</li>
-      </ul>
-    </div>
-    <div class="notice-box">
-      <div class="info-block-title" style="margin-bottom:8px">【お申し込みについて】</div>
-      <p>ご記入内容を確認の上、アンケートにご記入のMiriCanvas登録のメールアドレス宛に、<strong>2週間以内</strong>に「サポーターズ ご参加のご案内」メールをお送りいたします。</p>
-    </div>
-    <div class="warning-box">
-      <p>
-        <strong>⚠️ 重要 ⚠️</strong><br>
-        サポーターズ運営は、専用LINE公式アカウント「MiriCanvasサポーターズ」を通じて行います。<br>
-        ご参加には公式LINEへの友だち追加が<strong>必須</strong>となります。<br>
-        あらかじめご了承ください。
-      </p>
-    </div>
-    <p class="contact-line">
-      【お問い合わせ】<a href="mailto:team.miricanvas.jp@miridih.com">team.miricanvas.jp@miridih.com</a>（MiriCanvas日本運営チーム）
-    </p>
-  </div>
-
-  <div class="section-divider"></div>
