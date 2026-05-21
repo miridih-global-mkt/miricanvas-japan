@@ -7,10 +7,15 @@
 
 **Braze LP 블록 순서:**
 ```
-① Custom Code  (폼 전체 + lpBridge 스크립트)
-② Braze Button (On-click: None)
-③ Custom Code  (Footer — id="lp-footer")
+① Custom Code    (폼 전체 + lpBridge 스크립트)
+② Email Capture  (Braze 네이티브 — CSS로 숨김, Submit form 토글 활성화 목적)
+③ Braze Button   (On-click: None, Submit form: ON)
+④ Custom Code    (Footer — id="lp-footer")
 ```
+
+> Email Capture 블록은 "Submit form when button is clicked" 토글을 켜기 위한 필수 조건.
+> SNS 등 외부 직접 유입 시 SDK가 이 블록 기반으로 초기화되어야 lpBridge가 정상 동작함.
+> 블록 추가 후 Inspect로 id 확인 → CSS `#블록id { display:none !important; }` 로 숨김.
 
 - Custom Code 블록은 **자체 완결**로 작성. 한 블록에서 `<div>` 열고 다음 블록에서 닫으면 DOM이 끊겨 레이아웃 깨짐
 - `<style>` 태그는 어느 블록에 있어도 **페이지 전체**에 적용됨 (Braze 네이티브 블록 포함)
