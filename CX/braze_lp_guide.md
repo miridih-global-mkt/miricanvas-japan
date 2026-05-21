@@ -1,4 +1,4 @@
-# Braze Landing Page + lpBridge 운영 가이드
+# Braze Landing Page + lpBridge 운영 가이드 (#26c7d9)
 > JP 서포터즈 폼 제작 과정에서 확인된 모든 주의사항 종합.
 > 다음 LP 제작 시 이 파일만 보면 처음부터 검수 통과 가능.
 
