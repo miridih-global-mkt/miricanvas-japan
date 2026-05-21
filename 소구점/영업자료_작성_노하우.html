@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>영업자료 작성 노하우 — 276슬라이드 핵심 정리</title>
+<style>
+:root{
+  --bg:#F7F8FA;--paper:#fff;--ink:#1A1F2E;--ink-2:#3A4458;--muted:#6B7280;
+  --line:#E5E8EF;--line-2:#F0F2F7;
+  --navy:#1E2A4A;--navy-2:#2E3D63;
+  --ac:#5B6EEB;--ac-soft:#EEF0FD;--ac-mid:#C5CBF7;
+  --gold:#E8A020;--gold-soft:#FEF6E4;
+  --good:#2E7D52;--good-soft:#E8F5EE;
+  --bad:#B83A3A;--bad-soft:#FDEAEA;
+  --warm:#F97316;--warm-soft:#FFF0E6;
+  --quote-bg:#F5F3EE;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",-apple-system,sans-serif;
+  color:var(--ink);background:var(--bg);font-size:15.5px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:256px;flex-shrink:0;background:#EEEFFE;
+  border-right:1px solid var(--ac-mid);
+  position:sticky;top:0;align-self:flex-start;
+  height:100vh;overflow-y:auto;padding:22px 16px;
+}
+.main{flex:1;min-width:0;padding:48px 60px 120px;max-width:980px}
+.sb-brand{font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.sb-title{font-size:15px;font-weight:800;color:var(--navy);line-height:1.35;margin:0 0 2px}
+.sb-sub{font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.toc{list-style:none;padding:0;margin:0;font-size:12.5px}
+.toc a{display:block;color:var(--ink-2);padding:5px 9px;border-radius:5px;border-left:2px solid transparent;transition:all .14s;}
+.toc a:hover{background:#D8DBFD;color:var(--navy);border-left-color:var(--ac)}
+.toc .grp{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:14px 6px 4px;font-weight:700;}
+.toc .num{display:inline-block;width:20px;font-size:10px;color:var(--muted)}
+.toc a.star{font-weight:700;color:var(--navy)}
+.hero{padding:36px 0 28px;margin-bottom:48px;border-bottom:3px solid var(--navy)}
+.hero .kicker{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.12em;font-weight:700;text-transform:uppercase;color:var(--ac);margin-bottom:12px;}
+.hero h1{font-size:34px;font-weight:900;line-height:1.2;margin:0 0 12px;color:var(--navy);letter-spacing:-.015em}
+.hero .lead{font-size:15.5px;color:var(--ink-2);max-width:680px;line-height:1.75;margin-bottom:18px}
+.hero .facts{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted)}
+.hero .facts strong{color:var(--ink-2)}
+section.sec{margin-bottom:64px;scroll-margin-top:24px}
+.sec-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:11px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.sec-no{font-size:11.5px;color:var(--ac);font-weight:800;letter-spacing:.08em;background:var(--ac-soft);padding:3px 9px;border-radius:4px}
+.sec-no.gold{background:var(--gold-soft);color:var(--gold)}
+h2.sec-title{font-size:24px;font-weight:800;color:var(--navy);margin:0;letter-spacing:-.01em}
+section.sec p{margin:0 0 12px;color:var(--ink-2)}
+section.sec ul,section.sec ol{margin:0 0 13px;padding-left:21px}
+section.sec li{margin-bottom:5px;color:var(--ink-2)}
+section.sec h3{font-size:16.5px;color:var(--navy);margin:24px 0 10px;font-weight:700;padding-left:10px;border-left:3px solid var(--ac)}
+section.sec h4{font-size:14px;color:var(--ink);margin:16px 0 7px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin:14px 0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card .ct{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:6px}
+.card .cb{font-size:13px;color:var(--ink-2);line-height:1.65}
+.card.ac{border-top:3px solid var(--ac)}
+.card.gold{border-top:3px solid var(--gold)}
+.card.good{border-top:3px solid var(--good)}
+.callout{margin:14px 0;padding:12px 16px;background:var(--ac-soft);border-radius:8px;border-left:3px solid var(--ac);font-size:13.5px;color:var(--ink-2);line-height:1.7}
+.callout strong{color:var(--ac)}
+.callout.gold{background:var(--gold-soft);border-color:var(--gold)}
+.callout.gold strong{color:var(--gold)}
+.callout.good{background:var(--good-soft);border-color:var(--good)}
+.callout.good strong{color:var(--good)}
+.callout.warn{background:var(--warm-soft);border-color:var(--warm)}
+.callout.warn strong{color:var(--warm)}
+.quote{margin:16px 0;padding:14px 18px;background:var(--quote-bg);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;font-size:15px;color:var(--ink);line-height:1.7;font-style:italic}
+.quote .src{display:block;font-size:11.5px;color:var(--muted);margin-top:6px;font-style:normal}
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.tbl th,.tbl td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.tbl th{background:#F0F1FA;font-weight:700;color:var(--ink);font-size:12px}
+.tbl .win{color:var(--good);font-weight:700}
+.tbl .lose{color:var(--bad)}
+.tbl .hi{background:var(--ac-soft)}
+.tbl td.ac-col{background:var(--ac-soft)}
+.tbl .no{color:#C0C0C0;font-size:12px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0;font-size:13px;color:var(--ink-2)}
+.flow .step{padding:7px 13px;border:1.5px solid var(--ac);background:var(--ac-soft);border-radius:7px;font-weight:700;color:var(--navy);font-size:13px}
+.flow .step .sub{font-size:10.5px;font-weight:400;color:var(--muted);display:block;margin-top:1px}
+.flow .arr{color:var(--muted);font-size:18px;padding:0 2px}
+.aji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}
+.aji-item{background:var(--paper);border:1.5px solid var(--ac-mid);border-radius:10px;padding:14px 10px;text-align:center}
+.aji-item .aji-ja{font-size:26px;font-weight:900;color:var(--ac);line-height:1;margin-bottom:4px}
+.aji-item .aji-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-bottom:6px}
+.aji-item .aji-q{font-size:12px;color:var(--ink-2);line-height:1.5}
+.dekai-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.dekai-box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center}
+.dekai-box .dk-icon{font-size:28px;margin-bottom:6px}
+.dekai-box .dk-label{font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.dekai-box .dk-desc{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.dekai-box .dk-effect{font-size:11.5px;color:var(--ac);margin-top:6px;font-weight:600}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.ba{border:1px solid var(--line);border-radius:8px;padding:14px;background:var(--paper)}
+.ba.bef{background:#FAF9F7}
+.ba.aft{background:var(--good-soft);border-color:#B5DAC5}
+.ba .bal{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.ba.bef .bal{color:#9A8A78}
+.ba.aft .bal{color:var(--good)}
+.ba .bat{font-size:13px;line-height:1.65;color:var(--ink)}
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0}
+.fw-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px}
+.fw-card .fw-name{font-size:13px;font-weight:800;color:var(--navy);margin-bottom:8px;letter-spacing:.05em}
+.fw-card .fw-item{font-size:12.5px;color:var(--ink-2);line-height:1.6;padding:2px 0;border-bottom:1px solid var(--line-2)}
+.fw-card .fw-item:last-child{border-bottom:0}
+.fw-card .fw-item strong{color:var(--navy)}
+@media(max-width:860px){
+  .layout{flex-direction:column}
+  .sidebar{position:static;height:auto;width:100%;border-right:0;border-bottom:1px solid var(--line)}
+  .main{padding:26px 18px 80px}
+  .hero h1{font-size:26px}
+  .ba-grid,.aji-grid,.dekai-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sb-brand">Sales Material Guide</div>
+  <div class="sb-title">영업자료<br>작성 노하우</div>
+  <div class="sb-sub">276슬라이드 핵심 정리 · 2026.05</div>
+  <ul class="toc">
+    <li><a href="#hero"><span class="num">—</span>커버</a></li>
+    <div class="grp">기본기</div>
+    <li><a href="#s1"><span class="num">1</span>자료의 본질 &amp; 종류</a></li>
+    <li><a href="#s2"><span class="num">2</span>고객 심층 이해</a></li>
+    <div class="grp">핵심 프레임워크</div>
+    <li><a href="#s3" class="star"><span class="num">★</span>アジコイネ 황금 구조</a></li>
+    <li><a href="#s4"><span class="num">4</span>자료 구성법</a></li>
+    <li><a href="#s5" class="star"><span class="num">★</span>사례 활용 — デカイ 원칙</a></li>
+    <div class="grp">설득 기술</div>
+    <li><a href="#s6"><span class="num">6</span>히어링 × 심리 기법</a></li>
+    <li><a href="#s7"><span class="num">7</span>관계 구축 × 팔로우업</a></li>
+    <div class="grp">조직 운용</div>
+    <li><a href="#s8"><span class="num">8</span>영업 조직 강화</a></li>
+    <div class="grp">부록</div>
+    <li><a href="#appendix"><span class="num">✦</span>프레임워크 카드</a></li>
+  </ul>
+</aside>
+<main class="main">
+<header class="hero" id="hero">
+  <div class="kicker"><span style="background:var(--ac);color:#fff;padding:2px 8px;border-radius:3px;font-size:11px">STUDY NOTE</span> 276슬라이드 전체 요약</div>
+  <h1>영업자료 작성 노하우</h1>
+  <p class="lead">「팔리는 영업자료」는 설명 도구가 아니다 — 고객이 스스로 과제를 발견하도록 돕는 <strong>대화 설계 미디어</strong>다.</p>
+  <div class="facts"><span>출처 <strong>비즈니스 특화형 파워포인트 템플릿 - 도해</strong></span><span>슬라이드 수 <strong>276장</strong></span><span>정리일 <strong>2026-05-21</strong></span></div>
+</header>
+<section class="sec" id="s1">
+  <div class="sec-hd"><span class="sec-no">01</span><h2 class="sec-title">자료의 본질 &amp; 종류</h2></div>
+  <div class="quote">영업자료는 담당자를 통해 혼자서도 상위 결재자에게 걸어가야 한다.<br>「独り歩きできる資料」가 최강의 영업 무기다.</div>
+  <h3>3종 자료 분류</h3>
+  <table class="tbl">
+    <tr><th>종류</th><th>목적</th><th>핵심 설계</th><th>언제</th></tr>
+    <tr><td><strong>화이트페이퍼 (WP)</strong></td><td>잠재층 흥미 환기</td><td>서비스 판매 X, "깨달음" 제공</td><td>첫 접점 전</td></tr>
+    <tr><td><strong>초회 영업자료</strong></td><td>신뢰 구축</td><td>자주 나오는 Q&amp;A, 결정 대사 내장</td><td>초회 상담</td></tr>
+    <tr><td><strong>범용 제안자료</strong></td><td>납득 · 클로징</td><td>80% 템플릿 + 20% 커스터마이즈</td><td>제안 단계</td></tr>
+  </table>
+  <h3>PPT TTU 기준</h3>
+  <div class="cards">
+    <div class="card ac"><div class="ct">T — Traction</div><div class="cb">한 순간에 흥미를 끌어야 하는가?</div></div>
+    <div class="card ac"><div class="ct">T — Timespan</div><div class="cb">같은 자료를 3회 이상 사용할 예정인가?</div></div>
+    <div class="card ac"><div class="ct">U — Understanding Gap</div><div class="cb">상대방과의 이해 수준 차이가 큰가?</div></div>
+  </div>
+  <div class="callout">하나라도 YES → <strong>PPT 필요</strong>. 전부 NO → Word/Notion으로 충분.</div>
+</section>
+<section class="sec" id="s2">
+  <div class="sec-hd"><span class="sec-no">02</span><h2 class="sec-title">고객 심층 이해</h2></div>
+  <div class="callout gold"><strong>핵심 원칙:</strong> 잘 팔리는 영업은 고객을 고객 이상으로 이해한다.</div>
+  <h3>핫리딩 × 코드리딩 콤보</h3>
+  <table class="tbl">
+    <tr><th>기법</th><th>타이밍</th><th>방법</th><th>효과</th></tr>
+    <tr><td><strong>핫리딩</strong></td><td>상담 전</td><td>기업 뉴스·결산·LinkedIn 조사</td><td>"우리 회사 잘 아네!"로 신뢰 선취</td></tr>
+    <tr><td><strong>코드리딩</strong></td><td>대화 중</td><td>"あるある課題"를 먼저 제시 → 반응 보며 조정</td><td>"아, 우리 얘기네"로 공감 유발</td></tr>
+  </table>
+  <h3>고객 욕구의 3층 구조</h3>
+  <div class="flow">
+    <div class="step">표층(사실)<div class="sub">헬스장에 주 2회</div></div><span class="arr">→</span>
+    <div class="step">중층(감정)<div class="sub">변화가 없어서 답답</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--gold);background:var(--gold-soft)">심층(가치관)<div class="sub">"하면 변할 수 있다"는 실감</div></div>
+  </div>
+  <div class="callout">"드릴이 아니라 구멍을 팔아라" — 고객은 상품이 아닌 가치를 원한다.</div>
+</section>
+<section class="sec" id="s3">
+  <div class="sec-hd"><span class="sec-no gold">★</span><h2 class="sec-title">アジコイネ — 팔리는 영업자료의 황금 구조</h2></div>
+  <div class="callout gold"><strong>アジコイネ = 고객의 목표에 일직선인 제안이 가능해지는 5단계 구조.</strong></div>
+  <div class="aji-grid">
+    <div class="aji-item"><div class="aji-ja">ア</div><div class="aji-label">ありたい姿</div><div class="aji-q">고객의 이상적 미래 상태.</div></div>
+    <div class="aji-item"><div class="aji-ja">ジ</div><div class="aji-label">実情</div><div class="aji-q">현재 실정. 같은 지표로 과제(갭)가 선명.</div></div>
+    <div class="aji-item" style="border-color:var(--gold);background:var(--gold-soft)"><div class="aji-ja" style="color:var(--gold)">コ</div><div class="aji-label">効果のロジック</div><div class="aji-q">기능→행동변화→성과의 인과관계 논리적 제시.</div></div>
+    <div class="aji-item"><div class="aji-ja">イ</div><div class="aji-label">インタビュー事例</div><div class="aji-q">실제 고객 성공 사례. <strong>デカイ 원칙</strong>으로 신뢰 강화.</div></div>
+    <div class="aji-item" style="border-color:var(--good);background:var(--good-soft)"><div class="aji-ja" style="color:var(--good)">ネ</div><div class="aji-label">ネクストステップ</div><div class="aji-q">지금 이 자리에서 결정할 수 있는 "한 걸음".</div></div>
+  </div>
+  <h3>더블 바인드 CTA 예시</h3>
+  <table class="tbl">
+    <tr><th>선택지 A</th><th>선택지 B</th><th>핵심</th></tr>
+    <tr><td>무료 데모 30분 체험</td><td>사내 품의용 자료 공동 작성</td><td rowspan="2">어느 쪽을 선택해도 "한다"로 이어지게 설계</td></tr>
+    <tr><td>상사와의 3자 미팅 일정</td><td>POC 신청서 작성</td></tr>
+  </table>
+</section>
+<section class="sec" id="s4">
+  <div class="sec-hd"><span class="sec-no">04</span><h2 class="sec-title">자료 구성법</h2></div>
+  <div class="callout">인간이 단기간에 기억할 수 있는 것은 <strong>3가지까지</strong>. 일부러 3개 이내로 절단하면 상대방에게 "여백"이 생겨 질문이 나온다.</div>
+  <h3>세미오더 어프로치</h3>
+  <table class="tbl">
+    <tr><th></th><th>완전 오더메이드</th><th class="hi">세미오더 ★</th></tr>
+    <tr><td>작성 시간</td><td>30시간</td><td class="hi">10시간</td></tr>
+    <tr><td>비용</td><td>100만 엔</td><td class="hi">30만 엔</td></tr>
+    <tr><td>재이용성</td><td class="lose">낙음</td><td class="hi win">높음</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--muted)">80% 공통 템플릿 + 20% 커스터마이즈</p>
+</section>
+<section class="sec" id="s5">
+  <div class="sec-hd"><span class="sec-no gold">★</span><h2 class="sec-title">사례 활용 — デカイ 원칙</h2></div>
+  <div class="callout gold"><strong>デカイ = データ + 顔写真 + インタビュー.</strong> 이 3세트가 모두 갖춰져야 신뢰와 공감이 동시에 발생한다.</div>
+  <div class="dekai-row">
+    <div class="dekai-box"><div class="dk-icon">📊</div><div class="dk-label">デ — データ (수치)</div><div class="dk-desc">Before/After 수치로 "우리 회사에서도 재현 가능" 기대 생성</div><div class="dk-effect">앵커링 효과</div></div>
+    <div class="dekai-box"><div class="dk-icon">🧑</div><div class="dk-label">カ — 顔写真 (얼굴 사진)</div><div class="dk-desc">실제 담당자 사진. 성공 사례가 "자신의 일"이 됨</div><div class="dk-effect">미러링 효과</div></div>
+    <div class="dekai-box"><div class="dk-icon">💬</div><div class="dk-label">イ — インタビュー (발언)</div><div class="dk-desc">담당자의 실제 목소리. 생생한 현실감</div><div class="dk-effect">사회적 증명의 원리</div></div>
+  </div>
+  <div class="callout warn">전부 ○인 비교표는 오히려 <strong>신뢰받기 어렵다.</strong> 의도적으로 자사 약점을 표기하면 ○인 항목의 신뢰도가 함께 올라간다. (양면 제시 효과)</div>
+</section>
+<section class="sec" id="s6">
+  <div class="sec-hd"><span class="sec-no">06</span><h2 class="sec-title">히어링 × 심리 기법</h2></div>
+  <h3>SPIN</h3>
+  <div class="flow">
+    <div class="step">S<div class="sub">Situation</div></div><span class="arr">→</span>
+    <div class="step">P<div class="sub">Problem</div></div><span class="arr">→</span>
+    <div class="step">I<div class="sub">Implication</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--gold);background:var(--gold-soft)">N<div class="sub">Need-payoff</div></div>
+  </div>
+  <h3>PASONA</h3>
+  <div class="flow" style="font-size:12px">
+    <div class="step">P<div class="sub">Problem</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--bad);background:var(--bad-soft);color:var(--bad)">A<div class="sub">Agitation</div></div><span class="arr">→</span>
+    <div class="step">S<div class="sub">Solution</div></div><span class="arr">→</span>
+    <div class="step">O<div class="sub">Offer</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--warm);background:var(--warm-soft)">N<div class="sub">Narrowing</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--good);background:var(--good-soft)">A<div class="sub">Action</div></div>
+  </div>
+  <div class="callout good">변화는 <strong>"자신이 결정했다"</strong>고 느낄 때 일어난다. 질문은 Why보다 How/What으로.</div>
+</section>
+<section class="sec" id="s7">
+  <div class="sec-hd"><span class="sec-no">07</span><h2 class="sec-title">관계 구축 × 팔로우업</h2></div>
+  <h3>탑 어프로치</h3>
+  <table class="tbl">
+    <tr><th></th><th>담당자 어프로치</th><th class="hi">탑 어프로치 ★</th></tr>
+    <tr><td>의사결정 속도</td><td class="lose">느림</td><td class="hi win">빠름</td></tr>
+    <tr><td>사내 조정</td><td class="lose">단계적</td><td class="hi win">탑다운으로 진행</td></tr>
+  </table>
+  <div class="callout">담당자가 <strong>자발적으로 위에 올리고 싶어지는 자료</strong>를 만들어라.</div>
+</section>
+<section class="sec" id="s8">
+  <div class="sec-hd"><span class="sec-no">08</span><h2 class="sec-title">영업 조직 강화</h2></div>
+  <div class="flow" style="font-size:12.5px">
+    <div class="step">속인적 페이즈<div class="sub">감·경험에 의존</div></div><span class="arr">→</span>
+    <div class="step">형식화·공유<div class="sub">왜 팔렸는지 언어화</div></div><span class="arr">→</span>
+    <div class="step">확대<div class="sub">신인도 성과를 낼 수 있는 형(型)</div></div><span class="arr">→</span>
+    <div class="step" style="border-color:var(--good);background:var(--good-soft)">자립·재현<div class="sub">조직에 "팔리는 형" 축적</div></div>
+  </div>
+</section>
+<section class="sec" id="appendix">
+  <div class="sec-hd"><span class="sec-no">✦</span><h2 class="sec-title">부록 — 프레임워크 카드</h2></div>
+  <div class="fw-grid">
+    <div class="fw-card"><div class="fw-name">★ アジコイネ</div><div class="fw-item"><strong>ア</strong> ありたい姿</div><div class="fw-item"><strong>ジ</strong> 実情</div><div class="fw-item"><strong>コ</strong> 효과의 로직</div><div class="fw-item"><strong>イ</strong> 인터뷰 사례</div><div class="fw-item"><strong>ネ</strong> 다음 단계</div></div>
+    <div class="fw-card"><div class="fw-name">SPIN</div><div class="fw-item"><strong>S</strong> Situation</div><div class="fw-item"><strong>P</strong> Problem</div><div class="fw-item"><strong>I</strong> Implication</div><div class="fw-item"><strong>N</strong> Need-payoff</div></div>
+    <div class="fw-card"><div class="fw-name">FABE</div><div class="fw-item"><strong>F</strong> Feature</div><div class="fw-item"><strong>A</strong> Advantage</div><div class="fw-item"><strong>B</strong> Benefit</div><div class="fw-item"><strong>E</strong> Evidence (デカイ)</div></div>
+    <div class="fw-card"><div class="fw-name">PASONA</div><div class="fw-item"><strong>P</strong> Problem</div><div class="fw-item"><strong>A</strong> Agitation</div><div class="fw-item"><strong>S</strong> Solution</div><div class="fw-item"><strong>O</strong> Offer</div><div class="fw-item"><strong>N</strong> Narrowing</div><div class="fw-item"><strong>A</strong> Action</div></div>
+    <div class="fw-card"><div class="fw-name">デカイ 원칙</div><div class="fw-item"><strong>デ</strong> データ (수치)</div><div class="fw-item"><strong>カ</strong> 顔写真 (얼굴)</div><div class="fw-item"><strong>イ</strong> インタビュー (발언)</div></div>
+    <div class="fw-card"><div class="fw-name">TTU 판단</div><div class="fw-item"><strong>T</strong> Traction</div><div class="fw-item"><strong>T</strong> Timespan</div><div class="fw-item"><strong>U</strong> Understanding Gap</div></div>
+  </div>
+</section>
+</main>
+</div>
+</body>
+</html>
