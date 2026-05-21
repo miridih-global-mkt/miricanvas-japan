@@ -507,9 +507,10 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
         await lp.requestImmediateDataFlush();
 
         /* 감사 화면으로 전환 */
-        document.getElementById("lp-form").setAttribute("style", "display:none");
-        document.getElementById("lp-thanks").setAttribute("style",
-          "display:block; padding:56px 24px; text-align:center; font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;");
+        document.getElementById("lp-form").style.display   = "none";
+        document.getElementById(SUBMIT_BUTTON_ID).style.display = "none";
+        document.getElementById("lp-footer").style.display = "none";
+        document.getElementById("lp-thanks").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
 
       } catch (err) {
