@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>CRM 캠페인 뷰어</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrap wide">
+    <h1>CRM 캠페인 뷰어</h1>
+    <p class="muted">
+      이 화면은 Claude Code가 생성한 캠페인 기획서와 HTML 버전들을 보기 위한 뷰어입니다.
+      새 캠페인 생성은 <strong>Claude Code 채팅창</strong>에서 요청하세요.
+    </p>
+
+    <div class="tip">
+      <h3>새 캠페인 만드는 법</h3>
+      <p>Claude Code 채팅창에 <strong>자유롭게</strong> 말하세요. 구조는 안 맞춰도 됩니다.</p>
+      <pre class="mono">예) 새 캠페인 시작: 타겟 = "가입 후 7일차 사용자", 주제 = "폰트 바꾸기"
+예) B2B 구독 전환 유도 메일 하나 짜줘, 무료 체험 종료 알림 겸해서
+예) 지난달 워크샵 참가자한테 감사 메일 보내고 싶어, 가볍고 따뜻한 톤으로</pre>
+      <p class="muted small">
+        Claude Code가 요청을 해석해서 기획서(brief.md)를 먼저 작성합니다.
+        검토·편집하고 "이제 HTML 만들어줘"라고 하면 v1/v2/v3.html을 생성, 아래 목록에 나타납니다.
+      </p>
+    </div>
+
+    <h2>캠페인 목록</h2>
+    {% if not runs %}
+      <p class="muted">아직 생성된 캠페인이 없습니다.</p>
+    {% else %}
+      <table class="runs-table">
+        <thead>
+          <tr>
+            <th style="width: 48px;">#</th>
+            <th>주제</th>
+            <th>설명</th>
+            <th style="width: 90px;">기획서</th>
+            <th style="width: 140px;">HTML</th>
+            <th style="width: 60px;">삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in runs %}
+          <tr>
+            <td class="mono">{{ "%04d"|format(r.number) }}</td>
+            <td><strong>{{ r.title }}</strong></td>
+            <td class="muted small">{{ r.description or '—' }}</td>
+            <td>
+              {% if r.has_brief %}
+                <a href="{{ url_for('brief_view', run_id=r.run_id) }}" class="link">열기</a>
+              {% else %}
+                <span class="muted small">없음</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if r.has_final %}
+                <a href="{{ url_for('view_final', run_id=r.run_id) }}" class="link" target="_blank">최종</a>
+                · <a href="{{ url_for('compare', run_id=r.run_id) }}" class="link">비교</a>
+              {% elif r.version_count %}
+                <a href="{{ url_for('compare', run_id=r.run_id) }}" class="link">비교 ({{ r.version_count }}버전)</a>
+              {% else %}
+                <span class="muted small">없음</span>
+              {% endif %}
+            </td>
+            <td>
+              <form method="POST" action="{{ url_for('delete_run', run_id=r.run_id) }}"
+                    onsubmit="return confirm('캠페인 #{{ "%04d"|format(r.number) }} &quot;{{ r.title }}&quot; 전체를 삭제합니다. 되돌릴 수 없습니다. 계속할까요?');"
+                    style="display: inline;">
+                <button type="submit" class="danger small" title="이 캠페인 전체 삭제">삭제</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</body>
+</html>
