@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <title>[T-9] Referral / Comparison</title>
+  <!--
+  ================================================================
+  PATTERN : T-9  Referral / Comparison（紹介・比較）
+  ----------------------------------------------------------------
+  MODULES : hero → body(혜택설명) → comparison_table → header(手順)
+            → referral_steps → cta_headline_body
+  CTA     : 1〜2個
+  USE     : プランの比較表 + 紹介手順を順番に見せる構成。
+            例）友達紹介.html（比較テーブル + 招待ステップ）
+  ----------------------------------------------------------------
+  comparison_table: Free vs Pro を行ごとに交互背景で比較。
+  referral_steps: 番号 + 説明 + 画像を繰り返す。
+  ================================================================
+  -->
+  <style>
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f4f4f4; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; color: #333333; }
+    @media screen and (max-width: 600px) {
+      .mobile-stack { display: block !important; width: 100% !important; max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box !important; }
+      .h1-title { font-size: 24px !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="padding: 20px 0; background-color: #f4f4f4;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 0 auto;">
+
+          <!-- ── MODULE: hero ──────────────────────────────────────── -->
+          <tr>
+            <td align="center" style="padding: 40px 20px 30px 20px; border-bottom: 1px solid #eeeeee;">
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png" alt="MiriCanvas" width="120" style="display: block; margin: 0 auto 20px auto;" />
+              <h1 class="h1-title" style="margin: 0; font-size: 28px; font-weight: bold; line-height: 1.3; text-align: center;">お友達を紹介して<br>一緒にもっと楽しもう</h1>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: body（혜택 설명） ─────────────────────────── -->
+          <!-- REPLACE: 혜택 내용 / 紹介特典の説明                    -->
+          <tr>
+            <td style="padding: 30px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                MiriCanvasをご利用いただき、ありがとうございます。<br>
+                お友達を紹介するだけで、あなたも紹介された方も<br>
+                <strong>特典を受け取ることができます。</strong>
+              </p>
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                また、Proプランにアップグレードすると<br>
+                できることがぐっと広がります。
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: comparison_table ──────────────────────────── -->
+          <!-- REPLACE: thead 列名 / tbody 各行の機能名・値           -->
+          <!-- NOTE: 偶数行に background-color: #fafafa を適用        -->
+          <tr>
+            <td style="padding: 10px 20px 20px 20px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+                <thead>
+                  <tr style="background-color: #e9f9fb;">
+                    <th style="padding: 12px 15px; text-align: left; font-size: 14px; color: #333333; border-bottom: 2px solid #26c7d9;">機能</th>
+                    <th style="padding: 12px 15px; text-align: center; font-size: 14px; color: #666666; border-bottom: 2px solid #26c7d9;">無料版</th>
+                    <th style="padding: 12px 15px; text-align: center; font-size: 14px; color: #26c7d9; font-weight: bold; border-bottom: 2px solid #26c7d9;">Pro版</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #eeeeee;">テンプレート数</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">一部</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">全て使い放題</td>
+                  </tr>
+                  <tr style="background-color: #fafafa;">
+                    <td style="padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #eeeeee;">AI背景削除</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">月5回</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">無制限</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #eeeeee;">ストレージ</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">1GB</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">10GB</td>
+                  </tr>
+                  <tr style="background-color: #fafafa;">
+                    <td style="padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #eeeeee;">高解像度ダウンロード</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">×</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">○</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 12px 15px; font-size: 14px; border-bottom: 1px solid #eeeeee;">ブランドキット</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; color: #999999;">×</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; border-bottom: 1px solid #eeeeee; font-weight: bold;">○</td>
+                  </tr>
+                  <tr style="background-color: #fafafa;">
+                    <td style="padding: 12px 15px; font-size: 14px;">チームコラボ</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; color: #999999;">×</td>
+                    <td style="padding: 12px 15px; font-size: 14px; text-align: center; font-weight: bold;">○</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: header（手順セクション見出し） ────────────── -->
+          <tr>
+            <td style="padding: 18px 20px; background-color: #e9f9fb; border-bottom: 2px solid #d4f4f7;">
+              <h2 style="margin: 0 0 5px 0; font-size: 20px; font-weight: bold; line-height: 1.4; text-align: center;">ご招待の手順</h2>
+              <p style="margin: 0; font-size: 15px; color: #666666; line-height: 1.4; text-align: center;">3ステップで簡単に招待できます</p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: referral_steps ─────────────────────────────── -->
+          <!-- REPLACE: 各ステップ番号・タイトル / img src・alt        -->
+          <!-- NOTE: ステップ数に合わせて <p>+<img> を繰り返す         -->
+          <tr>
+            <td style="padding: 25px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: bold;">１．マイページから招待リンクをコピー</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_mydesign.jpg" alt="ステップ1：招待リンクをコピー" width="100%" style="display: block; border-radius: 4px; margin-bottom: 20px;" />
+              <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: bold;">２．お友達に招待リンクを送る</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_referral.jpg" alt="ステップ2：リンクを送る" width="100%" style="display: block; border-radius: 4px; margin-bottom: 20px;" />
+              <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: bold;">３．お友達が登録すると特典ゲット！</p>
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global/crm/afterdown_20260403/ja_referral_link.jpg" alt="ステップ3：特典を受け取る" width="100%" style="display: block; border-radius: 4px; margin-bottom: 10px;" />
+            </td>
+          </tr>
+
+          <!-- ── MODULE: cta_headline_body ─────────────────────────── -->
+          <tr>
+            <td align="center" style="padding: 20px 20px 40px 20px; border-top: 1px solid #eeeeee;">
+              <h2 style="margin: 20px 0 10px 0; font-size: 22px; font-weight: bold; text-align: center;">今すぐ招待してみませんか？</h2>
+              <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.7; text-align: center;">
+                招待リンクはマイページからいつでも確認できます。
+              </p>
+              <table border="0" cellpadding="0" cellspacing="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" style="background-color: #26c7d9; border-radius: 4px;">
+                    <a href="#" target="_blank" style="display: inline-block; padding: 16px 40px; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; text-align: center; line-height: 1; -webkit-text-size-adjust: none;">招待リンクを確認する</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: footer_company ────────────────────────────── -->
+          <tr>
+            <td style="padding: 40px 20px; background-color: #333333; color: #ffffff;">
+              <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">株式会社Miridih</p>
+              <p style="margin: 0; font-size: 13px; color: #aaaaaa; line-height: 1.6;">
+                HP: www.miricanvas.com/ja<br>
+                問い合わせ: <a href="mailto:miricanvas@miridih.com" style="color: #26c7d9; text-decoration: none;">miricanvas@miridih.com</a><br>
+                住所: 〒150-0031 東京都渋谷区桜丘町26-1 セルリアンタワー15階
+              </p>
+            </td>
+          </tr>
+          <!-- ── MODULE: footer_unsubscribe ────────────────────────── -->
+          <tr>
+            <td style="padding: 30px 20px; background-color: #f4f4f4;">
+              <p style="margin: 0; font-size: 12px; color: #999999; line-height: 1.6; text-align: center;">
+                配信停止をご希望の場合は <a href="{{${set_user_to_unsubscribed_url}}}" style="color: #666666; font-weight: bold;">[配信停止]</a> をクリックしてください。<br>本メールは送信専用ドメインから配信されています。
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
