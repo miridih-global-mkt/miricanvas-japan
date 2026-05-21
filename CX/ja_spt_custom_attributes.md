@@ -5,7 +5,7 @@
 
 ---
 
-## String 타입 (14개)
+## String 타입 (12개)
 
 | 속성명 | Description에 입력할 내용 |
 |--------|--------------------------|
@@ -21,6 +21,13 @@
 | `ja_spt_expectations` | 2026-05-22 / ejjeong / JP サポーターズ応募: 期待すること |
 | `ja_spt_accounts` | 2026-05-22 / ejjeong / JP サポーターズ応募: SNSアカウント |
 | `ja_spt_comments` | 2026-05-22 / ejjeong / JP サポーターズ応募: その他コメント |
+
+## Boolean 타입 (2개)
+
+> ⚠️ 반드시 **Boolean** 타입으로 생성할 것. String으로 만들면 `"true"` 문자열이 되어 세그먼트 필터 `= is true` 조건이 동작하지 않음.
+
+| 속성명 | Description에 입력할 내용 |
+|--------|--------------------------|
 | `ja_spt_agree_line` | 2026-05-22 / ejjeong / JP サポーターズ応募: LINE友だち追加同意 |
 | `ja_spt_agree_privacy` | 2026-05-22 / ejjeong / JP サポーターズ応募: 個人情報取扱同意 |
 
