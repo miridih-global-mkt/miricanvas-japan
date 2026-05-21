@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <title>[T-10b] Relationship — 動画ガイド型</title>
+  <!--
+  ================================================================
+  PATTERN : T-10b  Relationship / Soft Touch — 動画ガイド型
+  ----------------------------------------------------------------
+  MODULES : hero(左揃え) → body(共感+説明) → video_thumb
+            → body(つなぎ) → video_thumb → body(まとめ)
+  CTA     : 0個（video_thumb の画像クリックが CTA 代替）
+  USE     : 購入誘導なし。動画で使い方・コツを案内する関係メール。
+            例）無料フィルター.html（YouTube サムネ2本）
+  ----------------------------------------------------------------
+  NOTE: H1 は左揃え（関係メール寄り）。
+        video_thumb の <a href> には Airbridge URL を入れる。
+        img src は ytimg.com のサムネイル URL を使用。
+        動画が1本の場合は video_thumb を1つにする。
+  ================================================================
+  -->
+  <style>
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f4f4f4; font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif; color: #333333; }
+    @media screen and (max-width: 600px) {
+      .mobile-stack { display: block !important; width: 100% !important; max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box !important; }
+      .h1-title { font-size: 24px !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" style="padding: 20px 0; background-color: #f4f4f4;">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 0 auto;">
+
+          <!-- ── MODULE: hero（左揃え） ────────────────────────────── -->
+          <!-- NOTE: 動画ガイド型も関係メールなので左揃え             -->
+          <tr>
+            <td align="left" style="padding: 40px 20px 30px 20px; border-bottom: 1px solid #eeeeee;">
+              <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png" alt="MiriCanvas" width="120" style="display: block; margin-bottom: 20px;" />
+              <h1 class="h1-title" style="margin: 0; font-size: 28px; font-weight: bold; line-height: 1.3; text-align: left;">〇〇のコツ、<br>動画でわかりやすく解説します</h1>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: body（共感 + 状況説明） ──────────────────── -->
+          <!-- REPLACE: 共感文 / 解説の前置き                         -->
+          <tr>
+            <td style="padding: 30px 20px 10px 20px;">
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                MiriCanvasをご利用いただき、ありがとうございます。<br>
+                「〇〇の使い方がよくわからない」というお声を<br>
+                多くいただいておりましたので、今回は動画でご説明します。
+              </p>
+              <p style="margin: 0 0 15px 0; font-size: 16px; line-height: 1.7;">
+                2本の動画で、基本から応用まで<br>
+                ステップごとに確認いただけます。
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: video_thumb 1 ─────────────────────────────── -->
+          <!-- REPLACE: キャプション / 再生時間 / a href（Airbridge URL）-->
+          <!--          img src（ytimg.com サムネイル URL）            -->
+          <tr>
+            <td align="center" style="padding: 10px 20px 20px 20px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; margin: 0 auto;">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 5px 0; font-size: 16px; font-weight: bold; text-align: left;">①〇〇の基本（3分）</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666; text-align: left;">※画像をクリックすると別タブで動画が再生されます</p>
+                    <a href="#" target="_blank" style="text-decoration: none; display: block;">
+                      <img src="https://i.ytimg.com/vi/plsmzFpysR0/mqdefault.jpg" alt="①〇〇の基本 — YouTubeで見る" width="100%" style="display: block; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── body（つなぎテキスト） ─────────────────────────────── -->
+          <!-- REPLACE: 動画1 → 動画2 のつなぎ文                      -->
+          <tr>
+            <td style="padding: 5px 20px 10px 20px;">
+              <p style="margin: 0 0 10px 0; font-size: 16px; line-height: 1.7;">
+                基本がわかったら、次は応用編です。<br>
+                より実践的な使い方を2本目の動画でご確認ください。
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: video_thumb 2 ─────────────────────────────── -->
+          <!-- REPLACE: キャプション / 再生時間 / a href / img src     -->
+          <tr>
+            <td align="center" style="padding: 10px 20px 20px 20px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 480px; margin: 0 auto;">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 5px 0; font-size: 16px; font-weight: bold; text-align: left;">②〇〇の応用テクニック（5分）</p>
+                    <p style="margin: 0 0 8px 0; font-size: 12px; color: #666666; text-align: left;">※画像をクリックすると別タブで動画が再生されます</p>
+                    <a href="#" target="_blank" style="text-decoration: none; display: block;">
+                      <img src="https://i.ytimg.com/vi/plsmzFpysR0/mqdefault.jpg" alt="②〇〇の応用 — YouTubeで見る" width="100%" style="display: block; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── body（まとめ・締め） ───────────────────────────────── -->
+          <!-- REPLACE: 締めの言葉 / 追加サポートへの誘導              -->
+          <tr>
+            <td style="padding: 10px 20px 30px 20px; border-top: 1px solid #eeeeee;">
+              <p style="margin: 20px 0 10px 0; font-size: 16px; line-height: 1.7;">
+                動画をご覧いただき、もし不明点がございましたら<br>
+                いつでもサポートへご連絡ください。
+              </p>
+              <p style="margin: 0 0 10px 0; font-size: 16px; line-height: 1.7;">
+                今後もMiriCanvasをよろしくお願いいたします。
+              </p>
+            </td>
+          </tr>
+
+          <!-- ── MODULE: footer_company ────────────────────────────── -->
+          <tr>
+            <td style="padding: 40px 20px; background-color: #333333; color: #ffffff;">
+              <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">株式会社Miridih</p>
+              <p style="margin: 0; font-size: 13px; color: #aaaaaa; line-height: 1.6;">
+                HP: www.miricanvas.com/ja<br>
+                問い合わせ: <a href="mailto:miricanvas@miridih.com" style="color: #26c7d9; text-decoration: none;">miricanvas@miridih.com</a><br>
+                住所: 〒150-0031 東京都渋谷区桜丘町26-1 セルリアンタワー15階
+              </p>
+            </td>
+          </tr>
+          <!-- ── MODULE: footer_unsubscribe ────────────────────────── -->
+          <tr>
+            <td style="padding: 30px 20px; background-color: #f4f4f4;">
+              <p style="margin: 0; font-size: 12px; color: #999999; line-height: 1.6; text-align: center;">
+                配信停止をご希望の場合は <a href="{{${set_user_to_unsubscribed_url}}}" style="color: #666666; font-weight: bold;">[配信停止]</a> をクリックしてください。<br>本メールは送信専用ドメインから配信されています。
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
