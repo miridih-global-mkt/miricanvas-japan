@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (val) await lp.setCustomUserAttribute(attr, val);
     }
 
-    /* ── ③ checkbox 배열 → 쉼표 구분 문자열로 저장 ──────────── */
+    /* ── ③ checkbox 배열 → Array 타입 속성에 JS 배열로 저장 ────── */
     const checkboxMap = {
       "custom_attributes[supporters_usage][]"    : "supporters_usage",
       "custom_attributes[supporters_features][]" : "supporters_features",
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)]
         .map(el => el.value);
       if (checked.length) {
-        await lp.setCustomUserAttribute(attr, checked.join(","));
+        await lp.setCustomUserAttribute(attr, checked); // Array 그대로 전달
       }
     }
 
