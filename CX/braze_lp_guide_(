@@ -380,7 +380,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 
 ---
 
-## 9. 배포 전 체크리스트
+## 11. 배포 전 체크리스트
 
 ### 색상
 - [ ] Braze 에디터 accessibility scan 결과 0건
