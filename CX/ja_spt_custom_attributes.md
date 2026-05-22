@@ -5,10 +5,11 @@
 
 ---
 
-## String 타입 (12개)
+## String 타입 (13개)
 
 | 속성명 | Description에 입력할 내용 |
 |--------|--------------------------|
+| `ja_spt_name` | 2026-05-22 / ejjeong / JP サポーターズ応募: お名前 |
 | `ja_spt_industry` | 2026-05-22 / ejjeong / JP サポーターズ応募: 業種 |
 | `ja_spt_job` | 2026-05-22 / ejjeong / JP サポーターズ応募: 職種 |
 | `ja_spt_frequency` | 2026-05-22 / ejjeong / JP サポーターズ応募: 利用頻度 |
