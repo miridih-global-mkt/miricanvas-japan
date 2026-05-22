@@ -73,10 +73,14 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 ### Custom Code 블록 작성 원칙
 - **자체 완결**: 각 블록에서 열고 닫는 div가 같은 블록 안에 있어야 함. 블록 간 cross-div wrapping 불가 (DOM이 끊겨 레이아웃 깨짐)
 - **CSS**: 어느 블록에 `<style>` 태그를 놓아도 페이지 전체에 적용됨 (Braze 네이티브 블록 포함)
-- **max-width**: 데스크탑 대응 필수
+- **max-width + width:100%**: 데스크탑 대응 필수. `max-width`만 있으면 모바일에서 콘텐츠 크기로 수축할 수 있음. `width:100%`를 반드시 함께 선언.
   ```css
+  /* ✅ */
+  #lp-form, #lp-thanks { width: 100%; max-width: 640px; margin: 0 auto; background: #ffffff; }
+  /* ❌ width 없으면 모바일 수축 가능 */
   #lp-form, #lp-thanks { max-width: 640px; margin: 0 auto; background: #ffffff; }
   ```
+  네이티브 버튼 블록도 동일 원칙 적용 (→ 섹션 5 참고)
 
 ---
 
