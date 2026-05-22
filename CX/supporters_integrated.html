@@ -459,10 +459,30 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
     btn.addEventListener("click", async () => {
       if (submitted) return;
 
-      /* 필수 동의 체크 */
-      if (!document.getElementById("q19_agree_line")?.checked ||
-          !document.getElementById("q20_agree_privacy")?.checked) {
-        alert("同意事項のチェックボックスをすべて選択してください。");
+      /* 필수 항목 검증 */
+      const missing = [];
+      if (!document.getElementById("q01_name")?.value?.trim())                                    missing.push("お名前");
+      if (!document.getElementById("q02_email")?.value?.trim())                                   missing.push("メールアドレス");
+      if (!document.getElementById("q03_industry")?.value)                                        missing.push("業種");
+      if (!document.querySelector('input[name="jp_spt_job"]:checked'))                            missing.push("職種");
+      if (!document.querySelectorAll('input[name="jp_spt_usage[]"]:checked').length)              missing.push("主な用途");
+      if (!document.querySelectorAll('input[name="jp_spt_features[]"]:checked').length)           missing.push("主な機能");
+      if (!document.querySelector('input[name="jp_spt_frequency"]:checked'))                      missing.push("利用頻度");
+      if (!document.querySelector('input[name="jp_spt_tenure"]:checked'))                         missing.push("利用期間");
+      if (!document.getElementById("q09_strengths")?.value?.trim())                               missing.push("MiriCanvasの強み");
+      if (!document.getElementById("q10_weaknesses")?.value?.trim())                              missing.push("MiriCanvasの改善点");
+      if (!document.querySelector('input[name="jp_spt_referral_offline"]:checked'))               missing.push("口コミ実績");
+      if (!document.querySelector('input[name="jp_spt_referral_online"]:checked'))                missing.push("SNS発信実績");
+      if (!document.querySelectorAll('input[name="jp_spt_target[]"]:checked').length)             missing.push("紹介したい対象者");
+      if (!document.getElementById("q14_expectations")?.value?.trim())                            missing.push("サポーターズへの期待");
+      if (!document.getElementById("q15_accounts")?.value?.trim())                               missing.push("SNS/ブログアカウント");
+      if (!document.querySelectorAll('input[name="jp_spt_channels[]"]:checked').length)           missing.push("紹介予定チャンネル");
+      if (!document.querySelector('input[name="jp_spt_acquisition"]:checked'))                    missing.push("MiriCanvasを知ったきっかけ");
+      if (!document.getElementById("q19_agree_line")?.checked)                                    missing.push("LINE友だち追加への同意");
+      if (!document.getElementById("q20_agree_privacy")?.checked)                                 missing.push("個人情報取扱への同意");
+
+      if (missing.length > 0) {
+        alert("以下の必須項目を入力またはご選択ください：\n\n" + missing.map(m => "・" + m).join("\n"));
         return;
       }
 
