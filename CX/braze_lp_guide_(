@@ -297,7 +297,32 @@ lpBridge로 커스텀 속성 저장 → 캠페인에서 "랜딩페이지 제출 
 
 ---
 
-## 6. 메일 CTA 링크
+## 6. 회신 메일 발송 경로 분기
+
+Braze Email 채널은 사용자 프로필의 표준 `email` 필드를 대상으로 발송함. lpBridge에서 `setEmail()`을 쓰지 않는 이상(→ 금지), 이 필드는 백엔드에서 관리하는 검증된 값 그대로 유지됨.
+
+### 유입 경로에 따른 email 필드 보유 여부
+
+| 유입 경로 | 표준 email 필드 | 회신 방법 |
+|-----------|----------------|-----------|
+| 캠페인 이메일 링크 (`{% landing_page_url %}`) | ✅ 이미 있음 | Canvas 자동 회신 |
+| SNS·외부 URL 직접 접근 | ⚠️ 없을 수 있음 | 마케터 수동 발송 |
+
+### 구현 방법
+
+1. **`jp_spt_email` 커스텀 속성에 저장**: 폼 이메일 입력값을 `setCustomUserAttribute("jp_spt_email", 값)`으로 저장. 표준 `email` 필드는 건드리지 않음.
+2. **Canvas 분기**: Action-based 트리거(`jp_spt_agree_privacy = true`) 후 `Email address is not blank` 조건으로 분기
+   - email 있음 → Braze Canvas 자동 회신
+   - email 없음 → 스킵 (마케터 수동 처리)
+3. **수동 발송 대상 추출 세그먼트**: `Email address is blank` AND `jp_spt_email is set`
+
+### 왜 `setEmail()`을 쓰지 않나
+
+폼에서 고객이 오기입한 이메일로 Braze 표준 `email` 필드를 덮어쓰면, 이후 모든 Braze 이메일 캠페인이 잘못된 주소로 발송됨. 검증된 백엔드 이메일이 오염되므로 절대 금지.
+
+---
+
+## 7. 메일 CTA 링크
 
 ```html
 <!-- ✅ 올바른 방법 -->
