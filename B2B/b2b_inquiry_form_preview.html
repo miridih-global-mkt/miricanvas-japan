@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ビジネス連携のご相談 | MiriCanvas</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;background:#f4f4f4;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Meiryo',system-ui,sans-serif;color:#333333;line-height:1.7;}
+
+/* ── HERO ── */
+.hero{background:#ffffff;border-bottom:4px solid #26c7d9;padding:56px 24px 48px;text-align:center;}
+.hero-inner{max-width:680px;margin:0 auto;}
+.hero-logo{height:36px;margin-bottom:24px;display:block;margin-left:auto;margin-right:auto;}
+.hero-badge{display:inline-block;background:#e9f9fb;color:#1a4a54;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;margin-bottom:20px;letter-spacing:.04em;}
+.hero-title{font-size:28px;font-weight:800;line-height:1.3;color:#333333;margin:0 0 16px;}
+.hero-title span{color:#00808c;}
+.hero-sub{font-size:15px;color:#666666;line-height:1.8;margin:0 0 32px;}
+.hero-cta{display:inline-block;background:#26c7d9;color:#1a4a54;font-weight:700;font-size:15px;padding:14px 36px;border-radius:4px;text-decoration:none;transition:background .15s;}
+.hero-cta:hover{background:#1db8cc;}
+
+/* ── WHO SECTION ── */
+.who{padding:56px 24px;background:#f4f4f4;}
+.who-inner{max-width:800px;margin:0 auto;}
+.section-label{text-align:center;font-size:12px;font-weight:700;color:#00808c;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.section-title{text-align:center;font-size:22px;font-weight:800;color:#333333;margin:0 0 36px;}
+.who-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.who-card{background:#ffffff;border-radius:8px;padding:28px 22px;border-top:4px solid #26c7d9;}
+.who-icon{font-size:28px;margin-bottom:12px;}
+.who-type{font-size:11px;font-weight:700;color:#00808c;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.who-name{font-size:17px;font-weight:700;color:#333333;margin-bottom:10px;}
+.who-desc{font-size:13px;color:#666666;line-height:1.7;}
+.who-tag{display:inline-block;margin-top:12px;background:#e9f9fb;color:#1a4a54;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;}
+
+/* ── FORM SECTION ── */
+.form-section{padding:56px 24px 80px;background:#ffffff;}
+.form-wrap{max-width:640px;margin:0 auto;}
+.form-heading{text-align:center;font-size:22px;font-weight:800;color:#333333;margin-bottom:8px;}
+.form-lead{text-align:center;font-size:13.5px;color:#666666;margin-bottom:40px;}
+
+/* Field groups */
+.field-group{margin-bottom:28px;}
+.field-label{font-size:14px;font-weight:700;color:#333333;margin-bottom:8px;display:block;}
+.field-label .req{color:#e53e3e;margin-left:3px;}
+.field-hint{font-size:12px;color:#666666;margin-bottom:8px;display:block;}
+
+input[type="text"],input[type="email"],textarea,select{
+  width:100%;padding:12px 14px;border:1px solid #dddddd;border-radius:4px;
+  font-size:15px;font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+  color:#333333;background:#ffffff;-webkit-appearance:none;appearance:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+input[type="text"]:focus,input[type="email"]:focus,textarea:focus,select:focus{
+  outline:none;border-color:#26c7d9;box-shadow:0 0 0 3px rgba(38,199,217,.15);
+}
+textarea{resize:vertical;min-height:100px;}
+
+/* Card radio / checkbox */
+.card-options{display:grid;gap:10px;}
+.card-options.col2{grid-template-columns:1fr 1fr;}
+.card-options.col3{grid-template-columns:1fr 1fr 1fr;}
+.card-option{position:relative;}
+.card-option input{position:absolute;opacity:0;width:0;height:0;}
+.card-option label{
+  display:flex;align-items:flex-start;gap:12px;padding:14px 16px;
+  border:1.5px solid #dddddd;border-radius:6px;cursor:pointer;
+  font-size:14px;color:#333333;transition:border-color .15s,background .15s;
+  background:#ffffff;
+}
+.card-option label:hover{border-color:#26c7d9;background:#f7fdfe;}
+.card-option input:checked + label{border-color:#26c7d9;background:#e9f9fb;font-weight:700;color:#1a4a54;}
+.card-option .opt-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.card-option .opt-text{}
+.card-option .opt-title{font-weight:700;font-size:14px;display:block;}
+.card-option .opt-sub{font-size:12px;color:#666666;display:block;margin-top:2px;font-weight:400;}
+
+/* Contact method special */
+.contact-options{display:grid;gap:10px;}
+.contact-option{position:relative;}
+.contact-option input{position:absolute;opacity:0;width:0;height:0;}
+.contact-option label{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;
+  border:1.5px solid #dddddd;border-radius:6px;cursor:pointer;
+  transition:border-color .15s,background .15s;background:#ffffff;
+}
+.contact-option label:hover{border-color:#26c7d9;}
+.contact-option input:checked + label{border-color:#26c7d9;background:#e9f9fb;}
+.contact-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#e9f9fb;color:#1a4a54;}
+.contact-option input:checked + label .contact-badge{background:#26c7d9;color:#1a4a54;}
+.contact-title{font-size:15px;font-weight:700;color:#333333;}
+.contact-desc{font-size:12px;color:#666666;margin-left:auto;}
+
+/* Divider */
+.form-divider{border:none;border-top:1px solid #eeeeee;margin:32px 0;position:relative;}
+.form-divider-label{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#ffffff;padding:0 12px;font-size:12px;color:#666666;white-space:nowrap;}
+
+/* Checkbox grid */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.check-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid #dddddd;border-radius:6px;cursor:pointer;font-size:13.5px;color:#333333;transition:border-color .15s;}
+.check-item:hover{border-color:#26c7d9;}
+.check-item input{accent-color:#26c7d9;flex-shrink:0;}
+.check-item input:checked ~ span{font-weight:700;color:#1a4a54;}
+.check-item:has(input:checked){border-color:#26c7d9;background:#e9f9fb;}
+
+/* Conditional blocks */
+.conditional{display:none;}
+.conditional.show{display:block;}
+
+/* Timerex placeholder */
+.timerex-placeholder{border:2px dashed #dddddd;border-radius:8px;padding:32px;text-align:center;background:#f8f8f8;}
+.timerex-placeholder p{color:#666666;font-size:13px;margin:0 0 16px;}
+.timerex-btn{display:inline-block;border:2px solid #26c7d9;color:#1a4a54;background:#ffffff;font-weight:700;font-size:14px;padding:11px 28px;border-radius:4px;cursor:pointer;}
+
+/* Type-specific blocks */
+.type-block{display:none;}
+.type-block.show{display:block;}
+
+/* Submit */
+.submit-wrap{margin-top:36px;}
+.submit-btn{
+  width:100%;padding:16px;background:#26c7d9;color:#1a4a54;font-weight:700;
+  font-size:16px;border:none;border-radius:4px;cursor:pointer;
+  font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
+  transition:background .15s;
+}
+.submit-btn:hover{background:#1db8cc;}
+.submit-note{text-align:center;font-size:12px;color:#666666;margin-top:12px;}
+
+/* Thanks screen */
+.thanks{display:none;text-align:center;padding:56px 24px;}
+.thanks-icon{font-size:48px;margin-bottom:20px;}
+.thanks-title{font-size:22px;font-weight:800;color:#333333;margin-bottom:12px;}
+.thanks-sub{font-size:14px;color:#666666;line-height:1.8;}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero-title{font-size:22px;}
+  .card-options.col2,.card-options.col3{grid-template-columns:1fr;}
+  .check-grid{grid-template-columns:1fr;}
+  .who-cards{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;">
+      <div style="width:32px;height:32px;background:#26c7d9;border-radius:6px;"></div>
+      <span style="font-size:18px;font-weight:800;color:#333333;">MiriCanvas</span>
+    </div>
+    <div class="hero-badge">ビジネス連携 / 導入のご相談窓口</div>
+    <h1 class="hero-title">AIデザインで、<span>チームの仕事を変える。</span><br>一緒につくりましょう。</h1>
+    <p class="hero-sub">テンプレート × AI で、誰でもプロ品質のデザインを。<br>法人導入・ビジネス連携・教育パートナーシップ、まずはお気軽にご連絡ください。</p>
+    <a href="#form" class="hero-cta">ご相談・資料請求はこちら</a>
+  </div>
+</section>
+
+<!-- ═══ WHO ═══ -->
+<section class="who">
+  <div class="who-inner">
+    <div class="section-label">こんな方のご相談をお受けしています</div>
+    <h2 class="section-title">あなたのビジネスに合わせた<br>連携のかたちがあります</h2>
+    <div class="who-cards">
+      <div class="who-card">
+        <div class="who-icon">🏢</div>
+        <div class="who-type">Corporate</div>
+        <div class="who-name">企業担当者の方</div>
+        <div class="who-desc">マーケ・営業・HRの資料作成を効率化したい。AI導入・全社DXを検討中。</div>
+        <div class="who-tag">B2B導入</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🤝</div>
+        <div class="who-type">Partnership</div>
+        <div class="who-name">AI推進・エバンジェリストの方</div>
+        <div class="who-desc">クライアントへのAIツール提案ラインアップを強化したい。リセール・協業を検討中。</div>
+        <div class="who-tag">ビジネス連携</div>
+      </div>
+      <div class="who-card">
+        <div class="who-icon">🎓</div>
+        <div class="who-type">Education</div>
+        <div class="who-name">コミュニティ・スクール運営者の方</div>
+        <div class="who-desc">受講生にAIデザインを教えたい。カリキュラムに組み込む形での連携を検討中。</div>
+        <div class="who-tag">教育パートナー</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FORM ═══ -->
+<section class="form-section" id="form">
+  <div class="form-wrap">
+    <h2 class="form-heading">ご相談フォーム</h2>
+    <p class="form-lead">いただいた内容をもとに、担当者よりご連絡いたします。<br>所要時間：約3〜5分</p>
+
+    <div id="lp-form">
+
+      <!-- 기본 정보 -->
+      <div class="field-group">
+        <label class="field-label">お名前<span class="req">*</span></label>
+        <input type="text" id="name" placeholder="山田 太郎">
+      </div>
+      <div class="field-group">
+        <label class="field-label">ご所属<span class="req">*</span></label>
+        <span class="field-hint">会社名・チャンネル名・スクール名など</span>
+        <input type="text" id="affiliation" placeholder="株式会社〇〇 / 〇〇チャンネル">
+      </div>
+      <div class="field-group">
+        <label class="field-label">メールアドレス<span class="req">*</span></label>
+        <input type="email" id="email" placeholder="taro@example.com">
+      </div>
+
+      <hr class="form-divider"><span class="form-divider-label">どちらに該当しますか？</span>
+
+      <!-- 신청자 유형 -->
+      <div class="field-group">
+        <label class="field-label">あなたについて教えてください<span class="req">*</span></label>
+        <div class="card-options">
+          <div class="card-option">
+            <input type="radio" name="user_type" id="type_corp" value="corp">
+            <label for="type_corp">
+              <span class="opt-icon">🏢</span>
+              <span class="opt-text">
+                <span class="opt-title">企業担当者</span>
+                <span class="opt-sub">社内ツールの導入検討</span>
+              </span>
+            </label>
+          </div>
+          <div class="card-option">
+            <input type="radio" name="user_type" id="type_ai" value="ai">
+            <label for="type_ai">
+              <span class="opt-icon">🤝</span>
+              <span class="opt-text">
+                <span class="opt-title">AI推進・エバンジェリスト</span>
+                <span class="opt-sub">ビジネス連携・リセール</span>
+              </span>
+            </label>
+          </div>
+          <div class="card-option">
+            <input type="radio" name="user_type" id="type_edu" value="edu">
+            <label for="type_edu">
+              <span class="opt-icon">🎓</span>
+              <span class="opt-text">
+                <span class="opt-title">コミュニティ・スクール運営</span>
+                <span class="opt-sub">教育パートナーシップ</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <hr class="form-divider"><span class="form-divider-label">どのようにご連絡しますか？</span>
+
+      <!-- 연결 방식 -->
+      <div class="field-group">
+        <label class="field-label">ご希望の連絡方法<span class="req">*</span></label>
+        <div class="contact-options">
+          <div class="contact-option">
+            <input type="radio" name="contact_type" id="contact_material" value="material">
+            <label for="contact_material">
+              <span class="contact-badge">📄</span>
+              <span class="contact-title">資料だけ受け取りたい</span>
+              <span class="contact-desc">メールで送付</span>
+            </label>
+          </div>
+          <div class="contact-option">
+            <input type="radio" name="contact_type" id="contact_question" value="question">
+            <label for="contact_question">
+              <span class="contact-badge">💬</span>
+              <span class="contact-title">聞いてみたいことがある</span>
+              <span class="contact-desc">メールで回答</span>
+            </label>
+          </div>
+          <div class="contact-option">
+            <input type="radio" name="contact_type" id="contact_meeting" value="meeting">
+            <label for="contact_meeting">
+              <span class="contact-badge">📅</span>
+              <span class="contact-title">話してみたい</span>
+              <span class="contact-desc">オンラインMTG</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 질문 입력 (조건부) -->
+      <div class="conditional field-group" id="block_question">
+        <label class="field-label">ご質問・お問い合わせ内容<span class="req">*</span></label>
+        <textarea id="question_text" placeholder="気になっていること、確認したいことを自由にご記入ください。"></textarea>
+      </div>
+
+      <!-- Timerex (조건부) -->
+      <div class="conditional field-group" id="block_meeting">
+        <label class="field-label">ミーティング日程のご予約</label>
+        <div class="timerex-placeholder">
+          <p>ご都合の良い日時を選択してください。<br>30分のオンラインミーティングを設定します。</p>
+          <button class="timerex-btn" type="button">📅 日程を選択する (Timerex)</button>
+          <p style="margin:12px 0 0;font-size:11px;color:#999999;">※ Timerex 予約フォームがここに埋め込まれます</p>
+        </div>
+      </div>
+
+      <hr class="form-divider"><span class="form-divider-label">現在の状況を教えてください</span>
+
+      <!-- 공통 설문 1: 현재 도구 -->
+      <div class="field-group">
+        <label class="field-label">現在のデザイン・資料作成ツール<span class="req">*</span></label>
+        <span class="field-hint">主に使用しているものを選択してください</span>
+        <select id="current_tool">
+          <option value="">選択してください</option>
+          <option value="powerpoint">PowerPoint / Keynote</option>
+          <option value="canva">Canva</option>
+          <option value="figma">Figma / Adobe</option>
+          <option value="outsource">外注・デザイナーに依頼</option>
+          <option value="none">まだ特に決まっていない</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+
+      <!-- 공통 설문 2: 페인포인트 -->
+      <div class="field-group">
+        <label class="field-label">お困りのこと<span class="req">*</span></label>
+        <span class="field-hint">当てはまるものを選択してください（複数可）</span>
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" name="pain" value="time"><span>資料作成に時間がかかる</span></label>
+          <label class="check-item"><input type="checkbox" name="pain" value="quality"><span>デザイン品質にばらつきがある</span></label>
+          <label class="check-item"><input type="checkbox" name="pain" value="ai_quality"><span>AIツールの日本語品質が不満</span></label>
+          <label class="check-item"><input type="checkbox" name="pain" value="cost"><span>外注コストを削減したい</span></label>
+          <label class="check-item"><input type="checkbox" name="pain" value="dx"><span>DX・AI導入を推進したい</span></label>
+          <label class="check-item"><input type="checkbox" name="pain" value="other"><span>その他</span></label>
+        </div>
+      </div>
+
+      <!-- 기업소속 전용 -->
+      <div class="type-block" id="block_corp">
+        <hr class="form-divider"><span class="form-divider-label">企業担当者の方へ</span>
+        <div class="field-group">
+          <label class="field-label">主な利用部署<span class="req">*</span></label>
+          <select id="corp_dept">
+            <option value="">選択してください</option>
+            <option value="marketing">マーケティング</option>
+            <option value="sales">営業</option>
+            <option value="hr">HR・人事</option>
+            <option value="planning">経営企画</option>
+            <option value="it">IT・情報システム</option>
+            <option value="other">その他・複数部署</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">チームの規模<span class="req">*</span></label>
+          <div class="card-options col3">
+            <div class="card-option"><input type="radio" name="corp_size" id="corp_s1" value="1-5"><label for="corp_s1"><span class="opt-text"><span class="opt-title">1〜5名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_size" id="corp_s2" value="6-20"><label for="corp_s2"><span class="opt-text"><span class="opt-title">6〜20名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_size" id="corp_s3" value="21-50"><label for="corp_s3"><span class="opt-text"><span class="opt-title">21〜50名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_size" id="corp_s4" value="51-100"><label for="corp_s4"><span class="opt-text"><span class="opt-title">51〜100名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_size" id="corp_s5" value="100+"><label for="corp_s5"><span class="opt-text"><span class="opt-title">100名以上</span></span></label></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">無料POCトライアルへの関心<span class="req">*</span></label>
+          <div class="card-options">
+            <div class="card-option"><input type="radio" name="corp_poc" id="poc_yes" value="yes"><label for="poc_yes"><span class="opt-icon">✅</span><span class="opt-text"><span class="opt-title">ぜひ試してみたい</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_poc" id="poc_maybe" value="maybe"><label for="poc_maybe"><span class="opt-icon">🤔</span><span class="opt-text"><span class="opt-title">まず話を聞いてから</span></span></label></div>
+            <div class="card-option"><input type="radio" name="corp_poc" id="poc_no" value="no"><label for="poc_no"><span class="opt-icon">💭</span><span class="opt-text"><span class="opt-title">まだわからない</span></span></label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI추진 전용 -->
+      <div class="type-block" id="block_ai">
+        <hr class="form-divider"><span class="form-divider-label">AI推進・エバンジェリストの方へ</span>
+        <div class="field-group">
+          <label class="field-label">主なクライアントの業種<span class="req">*</span></label>
+          <select id="ai_industry">
+            <option value="">選択してください</option>
+            <option value="sme">中小企業全般</option>
+            <option value="manufacturing">製造業</option>
+            <option value="retail">小売・EC</option>
+            <option value="finance">金融・保険</option>
+            <option value="medical">医療・介護</option>
+            <option value="education">教育</option>
+            <option value="it">IT・スタートアップ</option>
+            <option value="other">その他・複数業種</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">現在のAIツールラインアップ<span class="req">*</span></label>
+          <span class="field-hint">提供・推奨しているものを選択（複数可）</span>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="chatgpt"><span>ChatGPT / GPT系</span></label>
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="image_ai"><span>画像生成AI</span></label>
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="canva"><span>Canva</span></label>
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="design_ai"><span>その他デザインAI</span></label>
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="none"><span>まだない</span></label>
+            <label class="check-item"><input type="checkbox" name="ai_lineup" value="other"><span>その他</span></label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">ご希望の連携形態<span class="req">*</span></label>
+          <select id="ai_collab">
+            <option value="">選択してください</option>
+            <option value="resell">リセール・代理販売</option>
+            <option value="referral">紹介・アフィリエイト</option>
+            <option value="seminar">共同セミナー・イベント</option>
+            <option value="oem">OEM・ホワイトラベル</option>
+            <option value="other">その他・まず話したい</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 커뮤니티 전용 -->
+      <div class="type-block" id="block_edu">
+        <hr class="form-divider"><span class="form-divider-label">コミュニティ・スクール運営者の方へ</span>
+        <div class="field-group">
+          <label class="field-label">受講生・フォロワーの規模<span class="req">*</span></label>
+          <div class="card-options col3">
+            <div class="card-option"><input type="radio" name="edu_size" id="edu_s1" value="~100"><label for="edu_s1"><span class="opt-text"><span class="opt-title">〜100名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="edu_size" id="edu_s2" value="100-500"><label for="edu_s2"><span class="opt-text"><span class="opt-title">100〜500名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="edu_size" id="edu_s3" value="500-1000"><label for="edu_s3"><span class="opt-text"><span class="opt-title">500〜1,000名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="edu_size" id="edu_s4" value="1000-5000"><label for="edu_s4"><span class="opt-text"><span class="opt-title">1,000〜5,000名</span></span></label></div>
+            <div class="card-option"><input type="radio" name="edu_size" id="edu_s5" value="5000+"><label for="edu_s5"><span class="opt-text"><span class="opt-title">5,000名以上</span></span></label></div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">運営プラットフォーム<span class="req">*</span></label>
+          <span class="field-hint">当てはまるものを選択（複数可）</span>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="udemy"><span>Udemy</span></label>
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="youtube"><span>YouTube</span></label>
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="own_school"><span>独自スクール</span></label>
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="note"><span>note</span></label>
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="sns"><span>SNS（X・Instagram）</span></label>
+            <label class="check-item"><input type="checkbox" name="edu_platform" value="other"><span>その他</span></label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">主なカリキュラム分野<span class="req">*</span></label>
+          <select id="edu_curriculum">
+            <option value="">選択してください</option>
+            <option value="ai_tools">AIツール活用</option>
+            <option value="design">デザイン全般</option>
+            <option value="marketing">マーケティング</option>
+            <option value="business">ビジネススキル</option>
+            <option value="programming">プログラミング</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 제출 버튼 -->
+      <div class="submit-wrap">
+        <button class="submit-btn" id="submit-btn" type="button">送信する</button>
+        <p class="submit-note">送信後、担当者より1〜2営業日以内にご連絡します。</p>
+      </div>
+
+    </div><!-- /lp-form -->
+
+    <!-- 감사 화면 -->
+    <div class="thanks" id="lp-thanks">
+      <div class="thanks-icon">✅</div>
+      <div class="thanks-title">ご送信ありがとうございます</div>
+      <p class="thanks-sub">内容を確認のうえ、担当者より<br>1〜2営業日以内にご連絡いたします。<br><br>引き続き、MiriCanvasをよろしくお願いします。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer id="lp-footer" style="background:#1a4a54;padding:28px 24px;text-align:center;">
+  <p style="color:#e9f9fb;font-size:12px;margin:0;">© 2025 MIRIDIH Co., Ltd. / MiriCanvas Japan</p>
+</footer>
+
+<script>
+// 유형 선택 → 유형별 블록 표시
+document.querySelectorAll('input[name="user_type"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    document.querySelectorAll('.type-block').forEach(function(b) { b.classList.remove('show'); });
+    var map = { corp: 'block_corp', ai: 'block_ai', edu: 'block_edu' };
+    var target = map[this.value];
+    if (target) document.getElementById(target).classList.add('show');
+  });
+});
+
+// 연결 방식 선택 → 조건부 블록 표시
+document.querySelectorAll('input[name="contact_type"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    document.getElementById('block_question').classList.remove('show');
+    document.getElementById('block_meeting').classList.remove('show');
+    if (this.value === 'question') document.getElementById('block_question').classList.add('show');
+    if (this.value === 'meeting') document.getElementById('block_meeting').classList.add('show');
+  });
+});
+
+// 제출
+document.getElementById('submit-btn').addEventListener('click', function() {
+  var errors = [];
+
+  if (!document.getElementById('name').value.trim()) errors.push('お名前');
+  if (!document.getElementById('affiliation').value.trim()) errors.push('ご所属');
+  var email = document.getElementById('email').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('メールアドレス（正しい形式で入力）');
+  if (!document.querySelector('input[name="user_type"]:checked')) errors.push('あなたについて（ご所属タイプ）');
+  if (!document.querySelector('input[name="contact_type"]:checked')) errors.push('ご希望の連絡方法');
+  if (!document.getElementById('current_tool').value) errors.push('現在のデザインツール');
+  if (!document.querySelectorAll('input[name="pain"]:checked').length) errors.push('お困りのこと');
+
+  if (errors.length) {
+    alert('以下の項目をご確認ください：\n\n・' + errors.join('\n・'));
+    return;
+  }
+
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+
+  // 실제 환경에서는 lpBridge 저장 로직
+  setTimeout(function() {
+    document.getElementById('lp-form').style.display = 'none';
+    document.getElementById('lp-footer').style.display = 'none';
+    document.getElementById('lp-thanks').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 600);
+});
+</script>
+
+</body>
+</html>
