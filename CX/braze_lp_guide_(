@@ -372,8 +372,10 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 - [ ] `e.preventDefault()` 없음
 
 ### Braze 에디터 설정
-- [ ] Email Capture 네이티브 블록 추가됨
-- [ ] Email Capture 블록 CSS로 숨겨짐 (`#블록id { display:none !important; }`)
+- [ ] Short Text 네이티브 더미 블록 추가됨
+- [ ] Short Text 블록 Required input field → **OFF**
+- [ ] Short Text 블록 에디터 setter(SET_FIRST_NAME 등) 해제 확인
+- [ ] Short Text 블록 CSS로 숨겨짐 (`#블록id { display:none !important; }`)
 - [ ] 버튼 On-click behavior → **None**
 - [ ] 버튼 Submit form 토글 → **ON**
 
