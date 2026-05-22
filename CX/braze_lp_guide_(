@@ -130,19 +130,16 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
       try {
         const lp = window.lpBridge;
 
-        // 기본 프로필 속성
-        await lp.setFirstName("이름값");
-        // ※ email은 Email Capture 네이티브 블록이 처리 — setEmail() 중복 호출 불필요
-
-        // String 속성
-        await lp.setCustomUserAttribute("ja_spt_job", "값");
+        // String 속성 — 모든 폼 데이터는 setCustomUserAttribute()만 사용
+        await lp.setCustomUserAttribute("jp_spt_name", "값");
+        await lp.setCustomUserAttribute("jp_spt_job", "값");
 
         // Array 속성 — JS 배열로 그대로 전달
-        const vals = [...document.querySelectorAll('input[name="ja_spt_usage[]"]:checked')].map(el => el.value);
-        await lp.setCustomUserAttribute("ja_spt_usage", vals);
+        const vals = [...document.querySelectorAll('input[name="jp_spt_usage[]"]:checked')].map(el => el.value);
+        await lp.setCustomUserAttribute("jp_spt_usage", vals);
 
         // Boolean 속성 — 따옴표 없는 true
-        await lp.setCustomUserAttribute("ja_spt_agree_line", true);
+        await lp.setCustomUserAttribute("jp_spt_agree_line", true);
 
         // 마지막에 한 번만 flush
         await lp.requestImmediateDataFlush();
