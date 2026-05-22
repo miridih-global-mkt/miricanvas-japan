@@ -332,7 +332,7 @@ Braze LP 에디터 상단 또는 Settings → Page URL(handle) 필드
 |------|--------|
 | **Array** | `ja_spt_usage`, `ja_spt_features`, `ja_spt_target`, `ja_spt_channels` |
 | **Boolean** | `ja_spt_agree_line`, `ja_spt_agree_privacy` |
-| **String** | 나머지 14개 (`ja_spt_industry`, `ja_spt_job`, `ja_spt_frequency`, `ja_spt_tenure`, `ja_spt_referral_offline`, `ja_spt_referral_online`, `ja_spt_acquisition`, `ja_spt_strengths`, `ja_spt_weaknesses`, `ja_spt_expectations`, `ja_spt_accounts`, `ja_spt_comments`, ...) |
+| **String** | `ja_spt_name`, `ja_spt_industry`, `ja_spt_job`, `ja_spt_frequency`, `ja_spt_tenure`, `ja_spt_referral_offline`, `ja_spt_referral_online`, `ja_spt_acquisition`, `ja_spt_strengths`, `ja_spt_weaknesses`, `ja_spt_expectations`, `ja_spt_accounts`, `ja_spt_comments` |
 
 ---
 
