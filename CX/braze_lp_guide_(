@@ -323,7 +323,7 @@ Braze LP 에디터 상단 또는 Settings → Page URL(handle) 필드
 - 소문자 + 언더바(`_`)만 사용. 대문자·공백·하이픈 금지
 - 대소문자만 달라도 다른 속성으로 등록됨 (대소문자 구분함)
 - 프리픽스 체계: `[마켓]_[프로그램]_[내용]`
-  - ex) `ja_spt_industry` (ja=Japan, spt=supporters)
+  - ex) `jp_spt_industry` (jp=Japan, spt=supporters)
 - 생성 후 반드시 Description 작성: `YYYY-MM-DD / 이름 / 목적`
   - 경로: Custom Attributes 우측 [...] → Edit → Description → Save
 
@@ -331,9 +331,9 @@ Braze LP 에디터 상단 또는 Settings → Page URL(handle) 필드
 
 | 타입 | 속성명 |
 |------|--------|
-| **Array** | `ja_spt_usage`, `ja_spt_features`, `ja_spt_target`, `ja_spt_channels` |
-| **Boolean** | `ja_spt_agree_line`, `ja_spt_agree_privacy` |
-| **String** | `ja_spt_name`, `ja_spt_industry`, `ja_spt_job`, `ja_spt_frequency`, `ja_spt_tenure`, `ja_spt_referral_offline`, `ja_spt_referral_online`, `ja_spt_acquisition`, `ja_spt_strengths`, `ja_spt_weaknesses`, `ja_spt_expectations`, `ja_spt_accounts`, `ja_spt_comments` |
+| **Array** | `jp_spt_usage`, `jp_spt_features`, `jp_spt_target`, `jp_spt_channels` |
+| **Boolean** | `jp_spt_agree_line`, `jp_spt_agree_privacy` |
+| **String** | `jp_spt_name`, `jp_spt_email`, `jp_spt_industry`, `jp_spt_job`, `jp_spt_frequency`, `jp_spt_tenure`, `jp_spt_referral_offline`, `jp_spt_referral_online`, `jp_spt_acquisition`, `jp_spt_strengths`, `jp_spt_weaknesses`, `jp_spt_expectations`, `jp_spt_accounts`, `jp_spt_comments` |
 
 ---
 
