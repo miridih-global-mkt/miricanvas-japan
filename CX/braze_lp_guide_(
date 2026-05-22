@@ -1,0 +1,331 @@
+# Braze Landing Page + lpBridge 운영 가이드
+> JP 서포터즈 폼 제작 과정에서 확인된 모든 주의사항 종합.
+> 다음 LP 제작 시 이 파일만 보면 처음부터 검수 통과 가능.
+
+---
+
+## 1. 색상 규칙 (WCAG 2.1 AA) — 처음부터 맞춰야 검수 왕복 없음
+
+Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 통과해야 함.
+
+### ⚠️ 핵심 원칙: 대비비는 반드시 "실제 배경색" 기준으로 계산
+
+> 흰 배경 기준으로 통과해도, **요소 자체에 tinted 배경이 있으면 다시 계산해야 함.**
+
+```
+예시: #00808c 텍스트
+  - 흰 배경(#ffffff, L=1.0)에서 → (1.05) / (0.1733+0.05) = 4.70:1 ✅
+  - 연한 시안 배경(#e9f9fb, L=0.92)에서 → (0.97) / (0.1733+0.05) = 4.35:1 ❌
+
+→ 배경에 어떤 tint가 들어가면 흰 배경 계산값보다 낮아진다.
+→ 배지·칩·카드처럼 독자적인 배경색을 가진 요소는 반드시 그 배경 기준으로 계산.
+```
+
+**실용 규칙**: 텍스트 색을 결정할 때 "이 요소의 배경이 흰색인가?" 먼저 확인. 아니면 다시 계산하거나 더 어두운 색 사용.
+
+---
+
+### 확정 팔레트
+
+| 용도 | 텍스트 색 | 배경 | 대비비 | 비고 |
+|------|-----------|------|--------|------|
+| 배경·테두리·데코·accent | — | `#26c7d9` | — | 브랜드 시안. **텍스트 색으로 쓰면 무조건 실패** (대비 ~2:1) |
+| 텍스트 강조색 | `#00808c` | `#ffffff` | 4.70:1 ✅ | **흰 배경 위에서만** 통과. tinted 배경 위에서는 재계산 필요 |
+| 본문 텍스트 | `#333333` | `#ffffff` | 12.6:1 ✅ | |
+| 보조 텍스트 (hint, optional, note) | `#666666` | `#ffffff` | 5.73:1 ✅ | `#999999`는 2.85:1로 실패 |
+| 섹션 번호 배지 텍스트 | `#1a4a54` | `#26c7d9` | 4.77:1 ✅ | 다크 네이비. 시안 배경 위에서 통과 |
+| 히어로 배지·메타 칩 텍스트 | `#1a4a54` | `#e9f9fb` | 9.01:1 ✅ | `#00808c`은 이 배경에서 4.35:1로 실패 |
+| 체크마크 `::before` | `#00808c` | `#ffffff` | 4.70:1 ✅ | |
+| 필수 빨간별 `*` | `#e53e3e` | `#ffffff` | 4.50:1 ✅ | |
+| 경고문 강조 `strong` | `#b04000` | `#fff8e1` | 5.50:1 ✅ | `#e65100`은 실패 |
+| 경고 배경 | — | `#fff8e1` | — | 장식 |
+| 그레이 배경 (consent box 등) | — | `#f8f8f8` | — | 장식 |
+
+### 자주 틀리는 것
+- `#26c7d9` 텍스트 → **무조건 실패**. 배경에만 쓸 것
+- `#999999` 보조 텍스트 → **실패**. `#666666` 이상 사용
+- 흰 배경 위 섹션 번호에 `#26c7d9` 배경 + 흰 텍스트 → **흰 텍스트가 시안 위에서 2:1로 실패**. 다크 텍스트 사용
+- `#e9f9fb` 배경 + `#00808c` 텍스트 → **4.35:1로 실패**. `#1a4a54`(9.0:1) 또는 `#333333` 사용
+
+---
+
+## 2. 페이지 구조
+
+### Braze LP 블록 배치 순서
+```
+① Custom Code    ← 폼 전체 HTML + CSS + lpBridge 스크립트
+② Email Capture  ← Braze 네이티브 블록 (CSS로 숨김)
+③ Braze Button   ← On-click: None / Submit form: ON
+④ Custom Code    ← Footer (id="lp-footer")
+```
+
+### ② Email Capture 블록이 필요한 이유
+- "Submit form when button is clicked" 토글은 **네이티브 폼 블록이 1개 이상** 있어야 활성화됨
+- 이 토글이 OFF면: `{% landing_page_url %}` 경유 유입은 lpBridge 동작 가능하지만,  
+  **SNS·외부 URL 직접 유입은 SDK 미초기화로 lpBridge 저장 실패 가능**
+- 해결: Email Capture 블록 추가 → 토글 ON → 어느 경로 유입이든 SDK 초기화 보장
+- 이 블록은 CSS로 숨겨서 화면에 보이지 않게 함:
+  ```css
+  #[EmailCapture블록id] { display: none !important; }
+  ```
+  블록 추가 후 미리보기 → Inspect → id 확인 후 CSS 추가
+
+### Custom Code 블록 작성 원칙
+- **자체 완결**: 각 블록에서 열고 닫는 div가 같은 블록 안에 있어야 함. 블록 간 cross-div wrapping 불가 (DOM이 끊겨 레이아웃 깨짐)
+- **CSS**: 어느 블록에 `<style>` 태그를 놓아도 페이지 전체에 적용됨 (Braze 네이티브 블록 포함)
+- **max-width**: 데스크탑 대응 필수
+  ```css
+  #lp-form, #lp-thanks { max-width: 640px; margin: 0 auto; background: #ffffff; }
+  ```
+
+---
+
+## 3. lpBridge 완전 가이드
+
+### lpBridge란
+- `window.lpBridge` — Braze Landing Page에서 자동으로 제공되는 JS 브리지
+- 별도 설치 없음. Custom Code 블록에서 바로 호출 가능
+- 역할: Custom Code로 만든 input/textarea/checkbox 값을 Braze 사용자 프로필에 저장
+
+### 언제 동작하고 언제 실패하나
+
+| 유입 경로 | lpBridge 동작 여부 |
+|-----------|-------------------|
+| 메일의 `{% landing_page_url %}` 링크 | ✅ 항상 동작 (SDK 즉시 초기화) |
+| SNS·외부 URL 직접 접근 + Submit form 토글 **ON** | ✅ 동작 |
+| SNS·외부 URL 직접 접근 + Submit form 토글 **OFF** | ⚠️ 저장 실패 가능 |
+| Braze 에디터 로컬 미리보기 | ❌ lpBridge 없음 (화면 전환은 동작) |
+
+### 안전한 스크립트 패턴 (이 구조 그대로 쓸 것)
+```html
+<script async="true">
+  const SUBMIT_BUTTON_ID = "xxxxx"; // ← 버튼 Inspect 후 여기만 수정
+  let submitted = false;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById(SUBMIT_BUTTON_ID);
+    if (!btn) return;
+
+    btn.addEventListener("click", async () => {
+      if (submitted) return; // 중복 클릭 방지
+
+      // 필수 항목 검증
+      if (!document.getElementById("q19_agree_line")?.checked ||
+          !document.getElementById("q20_agree_privacy")?.checked) {
+        alert("同意事項のチェックボックスをすべて選択してください。");
+        return;
+      }
+
+      submitted = true;
+      btn.disabled = true;
+      btn.textContent = "送信中...";
+
+      try {
+        const lp = window.lpBridge;
+
+        // 기본 프로필 속성
+        await lp.setFirstName("이름값");
+        // ※ email은 Email Capture 네이티브 블록이 처리 — setEmail() 중복 호출 불필요
+
+        // String 속성
+        await lp.setCustomUserAttribute("ja_spt_job", "값");
+
+        // Array 속성 — JS 배열로 그대로 전달
+        const vals = [...document.querySelectorAll('input[name="ja_spt_usage[]"]:checked')].map(el => el.value);
+        await lp.setCustomUserAttribute("ja_spt_usage", vals);
+
+        // Boolean 속성 — 따옴표 없는 true
+        await lp.setCustomUserAttribute("ja_spt_agree_line", true);
+
+        // 마지막에 한 번만 flush
+        await lp.requestImmediateDataFlush();
+
+        // 감사 화면 전환
+        document.getElementById("lp-form").style.display          = "none";
+        document.getElementById(SUBMIT_BUTTON_ID).style.display   = "none";
+        document.getElementById("lp-footer").style.display        = "none";
+        document.getElementById("lp-thanks").style.display        = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+      } catch (err) {
+        submitted = false;
+        btn.disabled = false;
+        btn.textContent = "申し込みを送信する";
+        alert("送信に失敗しました。しばらくしてから再度お試しください。");
+      }
+    });
+  });
+</script>
+```
+
+### 절대 하지 말 것
+
+| 금지 | 이유 |
+|------|------|
+| `e.preventDefault()` 사용 | Braze 버튼 내부 핸들러를 막아서 Submit form 동작 방해 |
+| 배열값 `.join(",")` 으로 저장 | Array 타입 속성에는 JS 배열 그대로 전달해야 함 |
+| `"true"` 문자열로 boolean 저장 | 세그먼트 필터 `= is true` 조건 안 먹힘. 반드시 `true` (따옴표 없음) |
+| `requestImmediateDataFlush()` 중간에 여러 번 호출 | 마지막에 한 번만 |
+| `async="true"` 없이 script 작성 | `await` 동작 보장 안 됨 |
+| `lp.setEmail()` 호출 (네이티브 Email Capture 쓸 때) | 네이티브 블록이 이미 처리. 중복 호출 |
+
+---
+
+## 4. 버튼 ID 관리
+
+- Braze 버튼 블록을 **추가·삭제·복제**할 때마다 id가 바뀜
+- 확인 방법: 미리보기 → Submit 버튼 우클릭 → Inspect → `id="xxxxx"`
+- 스크립트 상단 `const SUBMIT_BUTTON_ID = "xxxxx"` 한 줄만 수정하면 됨
+- **이 외에 버튼 id에 의존하는 코드는 없게 설계할 것**
+
+---
+
+## 5. Braze 버튼 설정
+
+| 설정 항목 | 값 | 주의사항 |
+|-----------|-----|---------|
+| On-click behavior | **None** | URI + 빈 URL 상태면 퍼블리시 에러. URL 리다이렉트 있으면 lpBridge 완료 전 페이지 이탈 |
+| Submit form when button is clicked | **ON** | 네이티브 폼 블록(Email Capture) 없으면 활성화 불가. SNS 유입까지 커버하려면 반드시 ON |
+| Button width | **Full-width** | 에디터 UI에는 Auto / Full-width 두 가지만 있음. px 직접 지정 불가. 폭 제한은 컨테이너 또는 CSS로만 가능 |
+
+### 버튼 색상 — ⚠️ 흰 텍스트 무조건 실패
+
+`#26c7d9` 배경 + 흰(`#ffffff`) 텍스트 = **2.05:1** — 대형 텍스트 기준(3:1)도 통과 못 함.
+
+**확정 조합**: 배경 `#26c7d9` + 텍스트 `#1a4a54` = **4.77:1 ✅**
+→ 섹션 번호 배지와 동일한 팔레트. 새 색상 추가 없음.
+
+### 버튼 CSS 커스텀 (네이티브 컴포넌트지만 가능)
+
+Custom Code `<style>`에서 버튼 id 셀렉터로 덮어쓰기 가능. 에디터 UI 옵션보다 우선 적용됨.
+
+```css
+#i6f2b {
+  width: 100%; max-width: 640px; margin: 0 auto; display: block;
+  font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Meiryo',system-ui,sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: #1a4a54;
+}
+#i6f2b:disabled, #i6f2b[disabled] {
+  opacity: .55; cursor: not-allowed; filter: grayscale(10%);
+}
+```
+
+> 버튼 id 바뀌면 이 셀렉터도 함께 수정.
+
+### Identifier for reporting
+
+버튼 텍스트(카피)와 별개로 존재하는 리포팅 식별자 필드. 카피를 A/B로 바꿔도 같은 버튼 성과로 집계하려면 identifier는 고정 유지.
+
+- 규칙: 소문자 + 언더바, 로케일 텍스트 제외, 변하지 않는 키로
+- 권장 형식: `lp_[마켓]_[프로그램]_[버전]_submit`
+- 현재 페이지: **`lp_jp_supporters_2605_submit`**
+
+### 컨테이너 폭
+
+에디터의 Content width = `--bz-DND-content-width` CSS 변수. **max-width 개념** (고정폭 아님). 640보다 좁은 화면에서는 `100vw`로 자동 줄어들어 잘리지 않음.
+
+### 버튼 문구
+
+| 상황 | 문구 |
+|------|------|
+| 기본 CTA (권장) | `この内容で申し込む` |
+| 대안 | `サポーターに応募する` |
+| 처리 중 | `送信中...` (스크립트에서 변경) |
+| 버튼 아래 보조문구 | `送信後、審査結果をメールでご連絡します。` |
+
+---
+
+## 6. 메일 CTA 링크
+
+```html
+<!-- ✅ 올바른 방법 -->
+<a href="{% landing_page_url jp-supporters-2605 %}">申し込みはこちら</a>
+
+<!-- ❌ 잘못된 방법 — 기존 유저 프로필 연결 안 됨 -->
+<a href="https://pages.braze.com/jp-supporters-2605">申し込みはこちら</a>
+```
+
+- Liquid 태그 방식: 클릭 시 Braze가 유저 토큰을 URL에 자동 삽입 → lpBridge가 기존 프로필에 저장
+- 고정 URL 방식: 익명 또는 신규 프로필로 저장됨
+- **기존 고객 대상 캠페인은 Liquid 태그 필수**
+- **핸들은 메일 첫 발송 후 절대 변경 금지** — 변경 시 기발송 링크 전부 404
+
+### URL 핸들 확인 위치
+Braze LP 에디터 상단 또는 Settings → Page URL(handle) 필드
+현재 서포터즈 폼 핸들: **`jp-supporters-2605`** ← 에디터에서 재확인 필요
+
+---
+
+## 7. 커스텀 속성 네이밍 규칙
+
+- 소문자 + 언더바(`_`)만 사용. 대문자·공백·하이픈 금지
+- 대소문자만 달라도 다른 속성으로 등록됨 (대소문자 구분함)
+- 프리픽스 체계: `[마켓]_[프로그램]_[내용]`
+  - ex) `ja_spt_industry` (ja=Japan, spt=supporters)
+- 생성 후 반드시 Description 작성: `YYYY-MM-DD / 이름 / 목적`
+  - 경로: Custom Attributes 우측 [...] → Edit → Description → Save
+
+### JP 서포터즈 속성 타입 요약
+
+| 타입 | 속성명 |
+|------|--------|
+| **Array** | `ja_spt_usage`, `ja_spt_features`, `ja_spt_target`, `ja_spt_channels` |
+| **Boolean** | `ja_spt_agree_line`, `ja_spt_agree_privacy` |
+| **String** | 나머지 14개 (`ja_spt_industry`, `ja_spt_job`, `ja_spt_frequency`, `ja_spt_tenure`, `ja_spt_referral_offline`, `ja_spt_referral_online`, `ja_spt_acquisition`, `ja_spt_strengths`, `ja_spt_weaknesses`, `ja_spt_expectations`, `ja_spt_accounts`, `ja_spt_comments`, ...) |
+
+---
+
+## 8. 제출 후 UX — 인라인 감사 화면
+
+리다이렉트 없이 감사 화면으로 전환. 폼·버튼·푸터 모두 숨겨야 함.
+
+```js
+document.getElementById("lp-form").style.display        = "none";
+document.getElementById(SUBMIT_BUTTON_ID).style.display = "none";
+document.getElementById("lp-footer").style.display      = "none";
+document.getElementById("lp-thanks").style.display      = "block";
+window.scrollTo({ top: 0, behavior: "smooth" });
+```
+
+- `#lp-form`: Custom Code ① 전체
+- `SUBMIT_BUTTON_ID`: Braze Button ②
+- `#lp-footer`: Custom Code ④ 의 최상위 div에 `id="lp-footer"` 부여해야 함
+
+---
+
+## 9. 배포 전 체크리스트
+
+### 색상
+- [ ] Braze 에디터 accessibility scan 결과 0건
+- [ ] 텍스트 강조색 `#00808c` (흰 배경), `#1a4a54` (시안 배경 위)
+- [ ] 보조 텍스트 `#666666` 이상 (optional, hint, note, footer 등)
+- [ ] 배경·데코에만 `#26c7d9` 사용, 텍스트 색으로 사용 없음
+
+### lpBridge · 스크립트
+- [ ] `<script async="true">` 확인
+- [ ] `SUBMIT_BUTTON_ID`가 현재 버튼 id와 일치 (Inspect 재확인)
+- [ ] Array 속성: JS 배열로 전달, `.join(",")` 없음
+- [ ] Boolean 속성: `true` (따옴표 없음)
+- [ ] `requestImmediateDataFlush()` 마지막에 한 번만 호출
+- [ ] `e.preventDefault()` 없음
+
+### Braze 에디터 설정
+- [ ] Email Capture 네이티브 블록 추가됨
+- [ ] Email Capture 블록 CSS로 숨겨짐 (`#블록id { display:none !important; }`)
+- [ ] 버튼 On-click behavior → **None**
+- [ ] 버튼 Submit form 토글 → **ON**
+
+### 속성
+- [ ] Array 타입 속성 4개 Braze 대시보드에서 Array로 생성
+- [ ] Boolean 타입 속성 2개 Boolean으로 생성
+- [ ] 전체 속성 Description 입력 완료
+
+### 메일 연동
+- [ ] CTA 링크가 `{% landing_page_url 핸들값 %}` Liquid 태그로 삽입됨
+- [ ] 핸들값이 에디터 실제 설정과 일치 (현재: `jp-supporters-2605`)
+- [ ] 핸들 확정 후 변경 계획 없음 확인
+
+### 최종
+- [ ] 로컬 미리보기에서 화면 전환 동작 확인 (lpBridge 없어도 화면 전환은 동작)
+- [ ] 실제 발송 테스트 → 제출 후 Braze 사용자 프로필에 속성값 저장 확인
