@@ -230,13 +230,19 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
   color: #1a4a54; /* 배경 #26c7d9 위에서 4.77:1 ✅ — 흰 텍스트는 2.05:1로 실패 */
 }
 #i6f2b:hover:not(:disabled) {
-  background: #1db8cc; /* #26c7d9보다 약간 어둡게 */
+  background: #1db8cc;
   transition: background .15s;
 }
 #i6f2b:disabled, #i6f2b[disabled] {
   opacity: .55; cursor: not-allowed; filter: grayscale(10%);
 }
 ```
+
+**hover가 필요한 이유**
+데스크톱 사용자에게 "이게 클릭 가능한 CTA"라는 시각적 피드백을 줌. 같은 화면에 링크·버튼이 여럿 있을 때 주 CTA를 더 분명히 구분. 모바일 전용 페이지라면 우선순위는 낮음(터치에서는 hover가 거의 발생하지 않음).
+
+**disabled가 필요한 이유**
+지금 스크립트는 클릭 후 `btn.disabled = true`로 잠그는 구조. 스타일이 없으면 "왜 클릭이 안 되지?"가 됨. `opacity + cursor:not-allowed + 送信中...` 텍스트가 함께 있어야 사용자가 납득함. 동의 체크박스 미체크 시 사전 비활성화 UX로 확장할 때도 동일하게 활용 가능.
 
 ---
 
@@ -267,21 +273,6 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 | 대안 | `サポーターに応募する` |
 | 처리 중 | `送信中...` (스크립트에서 전환) |
 | 버튼 아래 보조문구 | `送信後、審査結果をメールでご連絡します。` |
-
----
-
-### Custom Code 컨테이너 잘림 방지
-
-`max-width`만 있으면 모바일에서 `width`가 콘텐츠 크기로 수축할 수 있음. `width:100%`를 함께 선언해야 안전.
-
-```css
-/* ✅ 올바른 패턴 */
-#lp-form, #lp-thanks { width: 100%; max-width: 640px; margin: 0 auto; }
-#i6f2b             { width: 100%; max-width: 640px; margin: 0 auto; }
-
-/* ❌ width 없으면 모바일에서 수축 가능 */
-#lp-form, #lp-thanks { max-width: 640px; margin: 0 auto; }
-```
 
 ---
 
