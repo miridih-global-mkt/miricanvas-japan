@@ -417,3 +417,5 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 ### 최종
 - [ ] 로컬 미리보기에서 화면 전환 동작 확인 (lpBridge 없어도 화면 전환은 동작)
 - [ ] 실제 발송 테스트 → 제출 후 Braze 사용자 프로필에 속성값 저장 확인
+
+> ⚠️ **코드 수정 후 반드시 Save as draft** — 저장 안 하면 Preview in browser에 구버전이 열림. "왜 안 되지?" 디버깅 전에 저장 여부 먼저 확인.
