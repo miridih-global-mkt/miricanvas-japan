@@ -54,21 +54,24 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 ### Braze LP 블록 배치 순서
 ```
 ① Custom Code    ← 폼 전체 HTML + CSS + lpBridge 스크립트
-② Email Capture  ← Braze 네이티브 블록 (CSS로 숨김)
+② Short Text     ← 네이티브 더미 블록 (토글 활성화용, CSS로 숨김, 데이터 수집 안 함)
 ③ Braze Button   ← On-click: None / Submit form: ON
 ④ Custom Code    ← Footer (id="lp-footer")
 ```
 
-### ② Email Capture 블록이 필요한 이유
+### ② Short Text 더미 블록이 필요한 이유
+
 - "Submit form when button is clicked" 토글은 **네이티브 폼 블록이 1개 이상** 있어야 활성화됨
 - 이 토글이 OFF면: `{% landing_page_url %}` 경유 유입은 lpBridge 동작 가능하지만,  
   **SNS·외부 URL 직접 유입은 SDK 미초기화로 lpBridge 저장 실패 가능**
-- 해결: Email Capture 블록 추가 → 토글 ON → 어느 경로 유입이든 SDK 초기화 보장
-- 이 블록은 CSS로 숨겨서 화면에 보이지 않게 함:
-  ```css
-  #[EmailCapture블록id] { display: none !important; }
-  ```
-  블록 추가 후 미리보기 → Inspect → id 확인 후 CSS 추가
+- 해결: Short Text 블록 추가 → 토글 ON → 어느 경로 유입이든 SDK 초기화 보장
+
+**이 블록의 역할은 토글 활성화가 전부.** 실제 데이터는 이 블록을 통해 수집하지 않으며, 사용자에게도 노출하지 않음. Email Capture 대신 Short Text를 쓰는 이유는 Email Capture가 Braze 표준 `email` 필드를 건드릴 여지를 원천 차단하기 위함.
+
+```css
+#[ShortText블록id] { display: none !important; }
+```
+블록 추가 후 미리보기 → Inspect → id 확인 후 CSS 추가
 
 ### Custom Code 블록 작성 원칙
 - **자체 완결**: 각 블록에서 열고 닫는 div가 같은 블록 안에 있어야 함. 블록 간 cross-div wrapping 불가 (DOM이 끊겨 레이아웃 깨짐)
