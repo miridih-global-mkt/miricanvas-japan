@@ -73,6 +73,10 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 ```
 블록 추가 후 미리보기 → Inspect → id 확인 후 CSS 추가
 
+**⚠️ 더미 블록 에디터 설정 2가지 필수 확인**
+- **Required input field → OFF**: required=true 상태로 숨기면 VALIDATE_FORM에서 제출이 막힘. 사용자가 값을 입력할 수 없는 숨김 필드이므로 반드시 OFF.
+- **에디터 setter 해제**: Braze 에디터가 Short Text 블록에 기본으로 SET_FIRST_NAME 등 표준 setter를 연결할 수 있음. 이 설정이 남아있으면 제출 시 `first_name` 표준 필드가 덮어써짐. 에디터에서 블록 선택 → setter 설정 확인 후 제거.
+
 ### Custom Code 블록 작성 원칙
 - **자체 완결**: 각 블록에서 열고 닫는 div가 같은 블록 안에 있어야 함. 블록 간 cross-div wrapping 불가 (DOM이 끊겨 레이아웃 깨짐)
 - **CSS**: 어느 블록에 `<style>` 태그를 놓아도 페이지 전체에 적용됨 (Braze 네이티브 블록 포함)
