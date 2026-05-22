@@ -169,12 +169,12 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 
 | 금지 | 이유 |
 |------|------|
+| `lp.setEmail()` · `lp.setFirstName()` 등 **표준 프로필 setter 일체 사용** | 백엔드에서 관리하는 검증된 프로필 필드를 폼 오기입값으로 덮어쓸 수 있음. **모든 폼 데이터는 `setCustomUserAttribute()`로만 저장** |
 | `e.preventDefault()` 사용 | Braze 버튼 내부 핸들러를 막아서 Submit form 동작 방해 |
 | 배열값 `.join(",")` 으로 저장 | Array 타입 속성에는 JS 배열 그대로 전달해야 함 |
 | `"true"` 문자열로 boolean 저장 | 세그먼트 필터 `= is true` 조건 안 먹힘. 반드시 `true` (따옴표 없음) |
 | `requestImmediateDataFlush()` 중간에 여러 번 호출 | 마지막에 한 번만 |
 | `async="true"` 없이 script 작성 | `await` 동작 보장 안 됨 |
-| `lp.setEmail()` 호출 (네이티브 Email Capture 쓸 때) | 네이티브 블록이 이미 처리. 중복 호출 |
 
 ---
 
