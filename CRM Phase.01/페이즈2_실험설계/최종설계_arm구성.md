@@ -152,3 +152,24 @@
 | JAS 확장 여부 | 이번 시즌 미확장 | 향후 시즌 검토 |
 | Holdout 비율 | 세그별 20~50% | 전체 일괄 적용으로 단순화할지? |
 | STUDENT E 플래그 처리 | 제외 | 브레이즈 필터로 명시 제외 처리 필요 |
+
+---
+
+## Arm 구성 v2 — 내삽 방식 (2026-05-22 수정)
+
+**변경 원칙**: A/B-tier 단발은 JAS에 내삽(전체 유저). C-tier 단발은 "JAS만 vs JAS+C단발" 실험 구조.  
+단독 기여 분리 측정 포기. 성과 저조/역효과 의심 시 실험 트랙으로 분리하여 "있는 버전 vs 없는 버전" 테스트 후 제거 가능.
+
+| 세그먼트 | Main arm | Experiment arm | Holdout | v1 대비 변경 |
+|---|---|---|---|---|
+| **NULL** | JAS 8통 (65%) | JAS + EN1(D+2) (15%) | 20% | EN1: 경쟁 → JAS 위 실험으로 |
+| **STUDENT** | JAS + D2_data_table 내삽(D+2) (75%) | — | 25% | D2 A-tier → 전체 내삽. 실험 arm 불필요 |
+| **COMPANY** | JAS + D2_image_frame 내삽(D+2) (65%) | JAS + D2_bgremove (없는 거 vs 있는 거) (없애도 됨) | 35% | bgremove→image_frame 교체 검토 |
+| **INDIVIDUAL** | JAS + D1_4step_simplify 내삽(D+2) (70%) | JAS + JA1_review 실험 (없앤 arm 재활용) | 30% | 4step_simplify L2 강양 → 추가 |
+| **EDUCATION** | EDU 3통 (70%) | — | 30% | 변경 없음 |
+| **BUSINESS** | JA1_review + EN1 내삽(D+4) (70%) | — | 30% | EN1 C-tier → JA1 위 내삽으로 |
+| **INSTITUTION** | D1_aip_empathy (50%) | — | 50% | 변경 없음 |
+
+**내삽 발송 타이밍 (단발 삽입 위치)**:
+- JAS1: D+1 → **단발 내삽: D+2** → JAS2: D+3 → JAS3: D+5 …
+- D+1/D+2 연속 부담 시: 단발을 D+4~5로 밀어도 됨 (JAS2와 JAS3 사이)
