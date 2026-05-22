@@ -193,6 +193,23 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 | On-click behavior | **None** | URI + 빈 URL 상태면 퍼블리시 에러. URL 리다이렉트 있으면 lpBridge 완료 전 페이지 이탈 |
 | Submit form when button is clicked | **ON** | 네이티브 폼 블록(Email Capture) 없으면 활성화 불가 |
 | Button width | **Full-width** | UI에는 Auto / Full-width 두 가지뿐. px 직접 지정 불가 |
+| Log custom attributes or events | **OFF** | lpBridge 방식과 충돌 가능. 아래 설명 참고 |
+
+### Log custom attributes or events 토글 — lpBridge 방식에서는 OFF
+
+이 토글은 "버튼 클릭 시 클릭 수를 자동 집계하는 기능"이 아님. 버튼 클릭 시점에 사용자 프로필에 지정한 커스텀 속성 변경 또는 커스텀 이벤트를 기록하는 기능.
+
+**lpBridge 방식에서 OFF로 두는 이유**
+
+lpBridge로 이미 커스텀 속성을 저장하고 있는데 이 토글까지 ON으로 하면 같은 속성이 두 경로에서 중복 업데이트됨. 어떤 값이 언제 어떤 경로로 쓰였는지 디버깅이 어려워지고, 토글에 지정한 커스텀 이벤트가 별도 캠페인 트리거 조건에 걸려 의도하지 않은 메일이 발송될 수 있음.
+
+**지금 설계(lpBridge + 캠페인 Action-Based)로 충분한 이유**
+
+lpBridge로 커스텀 속성 저장 → 캠페인에서 "랜딩페이지 제출 직후 + 특정 커스텀 속성 값" 조건으로 회신 메일 발송하는 흐름은 그 자체로 완결됨. 토글을 추가할 이유 없음.
+
+**토글 ON이 유용한 경우 (참고)**
+- lpBridge 없이 버튼 클릭 자체를 식별 사용자 기준으로 별도 이벤트로 남기고 싶을 때
+- 이때는 lpBridge 제출 트리거와 중복되지 않도록 캠페인 트리거 조건을 명확히 분리해야 함
 
 ---
 
