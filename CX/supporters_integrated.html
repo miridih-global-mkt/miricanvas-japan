@@ -97,6 +97,15 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
   font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
 
 @media(max-width:480px){.mc-hero-title{font-size:22px;}}
+
+/* Braze 네이티브 버튼 — CSS로 덮어쓰기 가능 (SUBMIT_BUTTON_ID 변경 시 여기도 수정) */
+#i6f2b{
+  width:100%;max-width:640px;margin:0 auto;display:block;
+  font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Meiryo',system-ui,sans-serif;
+  font-size:16px;font-weight:700;
+  color:#1a4a54; /* #26c7d9 배경 위 4.77:1 — 흰 텍스트는 2.05:1로 실패 */
+}
+#i6f2b:disabled,#i6f2b[disabled]{opacity:.55;cursor:not-allowed;filter:grayscale(10%);}
 </style>
 
 <!-- ─────────────────────── 감사 화면 (숨김) ────────────────── -->
