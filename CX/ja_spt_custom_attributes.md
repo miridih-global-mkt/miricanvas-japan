@@ -9,20 +9,20 @@
 
 | 속성명 | Description에 입력할 내용 |
 |--------|--------------------------|
-| `ja_spt_name` | 2026-05-22 / ejjeong / JP サポーターズ応募: お名前 |
-| `ja_spt_email` | 2026-05-22 / ejjeong / JP サポーターズ応募: メールアドレス |
-| `ja_spt_industry` | 2026-05-22 / ejjeong / JP サポーターズ応募: 業種 |
-| `ja_spt_job` | 2026-05-22 / ejjeong / JP サポーターズ応募: 職種 |
-| `ja_spt_frequency` | 2026-05-22 / ejjeong / JP サポーターズ応募: 利用頻度 |
-| `ja_spt_tenure` | 2026-05-22 / ejjeong / JP サポーターズ応募: 利用期間 |
-| `ja_spt_referral_offline` | 2026-05-22 / ejjeong / JP サポーターズ応募: 口コミ実績 |
-| `ja_spt_referral_online` | 2026-05-22 / ejjeong / JP サポーターズ応募: SNS発信実績 |
-| `ja_spt_acquisition` | 2026-05-22 / ejjeong / JP サポーターズ応募: 認知経路 |
-| `ja_spt_strengths` | 2026-05-22 / ejjeong / JP サポーターズ応募: 強み |
-| `ja_spt_weaknesses` | 2026-05-22 / ejjeong / JP サポーターズ応募: 改善点 |
-| `ja_spt_expectations` | 2026-05-22 / ejjeong / JP サポーターズ応募: 期待すること |
-| `ja_spt_accounts` | 2026-05-22 / ejjeong / JP サポーターズ応募: SNSアカウント |
-| `ja_spt_comments` | 2026-05-22 / ejjeong / JP サポーターズ応募: その他コメント |
+| `jp_spt_name` | 2026-05-22 / ejjeong / JP サポーターズ応募: お名前 |
+| `jp_spt_email` | 2026-05-22 / ejjeong / JP サポーターズ応募: メールアドレス |
+| `jp_spt_industry` | 2026-05-22 / ejjeong / JP サポーターズ応募: 業種 |
+| `jp_spt_job` | 2026-05-22 / ejjeong / JP サポーターズ応募: 職種 |
+| `jp_spt_frequency` | 2026-05-22 / ejjeong / JP サポーターズ応募: 利用頻度 |
+| `jp_spt_tenure` | 2026-05-22 / ejjeong / JP サポーターズ応募: 利用期間 |
+| `jp_spt_referral_offline` | 2026-05-22 / ejjeong / JP サポーターズ応募: 口コミ実績 |
+| `jp_spt_referral_online` | 2026-05-22 / ejjeong / JP サポーターズ応募: SNS発信実績 |
+| `jp_spt_acquisition` | 2026-05-22 / ejjeong / JP サポーターズ応募: 認知経路 |
+| `jp_spt_strengths` | 2026-05-22 / ejjeong / JP サポーターズ応募: 強み |
+| `jp_spt_weaknesses` | 2026-05-22 / ejjeong / JP サポーターズ応募: 改善点 |
+| `jp_spt_expectations` | 2026-05-22 / ejjeong / JP サポーターズ応募: 期待すること |
+| `jp_spt_accounts` | 2026-05-22 / ejjeong / JP サポーターズ応募: SNSアカウント |
+| `jp_spt_comments` | 2026-05-22 / ejjeong / JP サポーターズ応募: その他コメント |
 
 ## Boolean 타입 (2개)
 
@@ -30,14 +30,14 @@
 
 | 속성명 | Description에 입력할 내용 |
 |--------|--------------------------|
-| `ja_spt_agree_line` | 2026-05-22 / ejjeong / JP サポーターズ応募: LINE友だち追加同意 |
-| `ja_spt_agree_privacy` | 2026-05-22 / ejjeong / JP サポーターズ応募: 個人情報取扱同意 |
+| `jp_spt_agree_line` | 2026-05-22 / ejjeong / JP サポーターズ応募: LINE友だち追加同意 |
+| `jp_spt_agree_privacy` | 2026-05-22 / ejjeong / JP サポーターズ応募: 個人情報取扱同意 |
 
 ## Array 타입 (4개)
 
 | 속성명 | Description에 입력할 내용 |
 |--------|--------------------------|
-| `ja_spt_usage` | 2026-05-22 / ejjeong / JP サポーターズ応募: 主な用途(複数選択) |
-| `ja_spt_features` | 2026-05-22 / ejjeong / JP サポーターズ応募: 主な機能(複数選択) |
-| `ja_spt_target` | 2026-05-22 / ejjeong / JP サポーターズ応募: 紹介対象(複数選択) |
-| `ja_spt_channels` | 2026-05-22 / ejjeong / JP サポーターズ応募: 紹介チャンネル(複数選択) |
+| `jp_spt_usage` | 2026-05-22 / ejjeong / JP サポーターズ応募: 主な用途(複数選択) |
+| `jp_spt_features` | 2026-05-22 / ejjeong / JP サポーターズ応募: 主な機能(複数選択) |
+| `jp_spt_target` | 2026-05-22 / ejjeong / JP サポーターズ応募: 紹介対象(複数選択) |
+| `jp_spt_channels` | 2026-05-22 / ejjeong / JP サポーターズ応募: 紹介チャンネル(複数選択) |
