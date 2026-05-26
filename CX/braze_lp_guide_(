@@ -117,13 +117,16 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
     const btn = document.getElementById(SUBMIT_BUTTON_ID);
     if (!btn) return;
 
-    btn.addEventListener("click", async () => {
+    btn.addEventListener("click", async (e) => {
       if (submitted) return; // 중복 클릭 방지
 
-      // 필수 항목 검증
-      if (!document.getElementById("q19_agree_line")?.checked ||
-          !document.getElementById("q20_agree_privacy")?.checked) {
-        alert("同意事項のチェックボックスをすべて選択してください。");
+      // 필수 항목 검증 — 실패 시 e.preventDefault()로 Braze 자동 처리도 함께 차단
+      // (차단하지 않으면 검증 실패에도 "폼 제출" 이벤트/익명 프로필 노이즈가 쌓임)
+      const missing = [];
+      // 필요한 항목들을 missing.push()로 수집
+      if (missing.length > 0) {
+        e.preventDefault(); // ← 검증 실패 시에만 호출. 성공 시에는 호출하지 않음
+        alert("以下の必須項目を入力またはご選択ください：\n\n" + missing.map(m => "・" + m).join("\n"));
         return;
       }
 
