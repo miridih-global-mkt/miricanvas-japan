@@ -537,6 +537,9 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
         await lp.setCustomUserAttribute("jp_spt_agree_line",    true);
         await lp.setCustomUserAttribute("jp_spt_agree_privacy", true);
 
+        /* 제출 시각 — UTC 기준 ISO 8601 형식 */
+        await lp.setCustomUserAttribute("jp_spt_submitted_at", new Date().toISOString());
+
         /* Braze 서버로 flush */
         await lp.requestImmediateDataFlush();
 
