@@ -161,7 +161,7 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
       } catch (err) {
         submitted = false;
         btn.disabled = false;
-        btn.textContent = "申し込みを送信する";
+        btn.textContent = "버튼 문구"; // ← 에디터에 설정한 버튼 문구와 반드시 일치시킬 것
         alert("送信に失敗しました。しばらくしてから再度お試しください。");
       }
     });
