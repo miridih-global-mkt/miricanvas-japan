@@ -486,6 +486,7 @@ input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
       if (!document.getElementById("q20_agree_privacy")?.checked)                                 missing.push("個人情報取扱への同意");
 
       if (missing.length > 0) {
+        e.preventDefault();
         alert("以下の必須項目を入力またはご選択ください：\n\n" + missing.map(m => "・" + m).join("\n"));
         return;
       }
