@@ -180,7 +180,8 @@ Braze 에디터에 자체 accessibility scan이 있고, 배포 전에 반드시 
 |------|------|
 | `lp.setEmail()` · `lp.setFirstName()` 등 **표준 프로필 setter 일체 사용** | 백엔드에서 관리하는 검증된 프로필 필드를 폼 오기입값으로 덮어쓸 수 있음. **모든 폼 데이터는 `setCustomUserAttribute()`로만 저장** |
 | `e.preventDefault()` 를 **항상** 호출 | Braze Submit form 동작을 항상 막으면 SDK 초기화 실패. **검증 실패 시에만 조건부로 호출**할 것 (성공 경로에서는 호출 금지) |
-| 검증 실패 시 `e.preventDefault()` 없이 `return`만 | Braze 자동 처리가 계속 실행되어 "폼 제출" 이벤트·익명 프로필 노이즈 누적 |
+| 검증 실패 시 `e.preventDefault()` · `stopImmediatePropagation()` 없이 `return`만 | Braze SUBMIT_FORM이 계속 실행되어 "폼 제출" 이벤트·익명 프로필 노이즈 누적 |
+| 리스너를 캡처 단계(`{ capture: true }`) 없이 등록 | Braze 리스너가 먼저 등록돼 있으면 `stopImmediatePropagation()`을 해도 이미 실행된 뒤일 수 있음 |
 | catch 블록에서 버튼 문구를 에디터 설정과 다르게 복구 | 실패 후 사용자가 보는 버튼 문구가 달라짐. 에디터 버튼 문구 변경 시 catch 블록도 함께 수정 |
 | 배열값 `.join(",")` 으로 저장 | Array 타입 속성에는 JS 배열 그대로 전달해야 함 |
 | `"true"` 문자열로 boolean 저장 | 세그먼트 필터 `= is true` 조건 안 먹힘. 반드시 `true` (따옴표 없음) |
