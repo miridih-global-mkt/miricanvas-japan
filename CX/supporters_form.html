@@ -7,15 +7,13 @@
   <style>
     /*
       Color tokens
-        --brand  : #26c7d9  ← 装飾のみ（ボーダー・tint・focus ring）
-        --action : #0a7080  ← ボタン・円・見出し・リンク（ブランドカラーと同系の中間値）contrast vs white: 5.18:1 ✓
-        --dark   : #1a4a54  ← バッジ文字など装飾用ダーク（#e9f9fb上で7.92:1 ✓）
-        --tint   : #e9f9fb  ← バッジ背景
-        --error  : #b91c1c  ← 必須マーク・エラー on white                       contrast vs white: 6.06:1 ✓
-        --bg     : #f4f4f4  ← ページ背景・セクション区切り
-        --border : #d0d5dd  ← 入力枠
+        --brand  : #26c7d9  装飾のみ（ボーダー・tint・focus ring）
+        --action : #0a7080  ボタン・円・見出し・リンク    contrast vs white: 5.18:1 ✓
+        --dark   : #1a4a54  バッジ文字など装飾用ダーク    contrast vs #e9f9fb: 7.92:1 ✓
+        --error  : #b91c1c  必須マーク                  contrast vs white: 6.06:1 ✓
+        --bg     : #f4f4f4  ページ背景・セクション区切り
         --text   : #333333
-        --muted  : #666666  ← ヒント・任意ラベル on white                       contrast vs white: 5.74:1 ✓
+        --muted  : #666666  ヒント・optional             contrast vs white: 5.74:1 ✓
     */
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -29,12 +27,29 @@
       word-break: break-all;
     }
 
-    #lp-form, #lp-thanks {
+    /* ── Page card（フォーム・感謝画面・送信エリア・フッター共通） ── */
+    #lp-form,
+    #lp-thanks,
+    .mc-submit-wrap,
+    .mc-footer {
       width: 100%;
       max-width: 640px;
       margin: 0 auto;
-      background: #ffffff;
     }
+    #lp-form,
+    #lp-thanks,
+    .mc-submit-wrap { background: #ffffff; }
+
+    /* ── 感謝画面レイアウト ── */
+    #lp-thanks {
+      padding: 56px 24px;
+      text-align: center;
+    }
+    .mc-thanks-icon  { font-size: 48px; margin-bottom: 20px; }
+    .mc-thanks-title { font-size: 22px; font-weight: 700; color: #333333; margin: 0 0 12px; line-height: 1.4; }
+    .mc-thanks-body  { font-size: 15px; color: #555555; line-height: 1.8; margin: 0 0 24px; }
+    .mc-thanks-note  { font-size: 13px; color: #666666; margin: 0; }
+    .mc-thanks-link  { color: #0a7080; text-decoration: underline; }
 
     /* ── Inputs ── */
     input[type="text"],
@@ -45,7 +60,7 @@
       padding: 12px 14px;
       border: 1.5px solid #d0d5dd;
       border-radius: 6px;
-      font-size: 16px; /* 16px以上でiOSズームを防止 */
+      font-size: 16px;
       font-family: inherit;
       color: #333333;
       background: #ffffff;
@@ -54,7 +69,6 @@
       line-height: 1.5;
       transition: border-color .15s, box-shadow .15s;
     }
-
     input[type="text"]:focus,
     input[type="email"]:focus,
     textarea:focus,
@@ -63,8 +77,6 @@
       border-color: #0a7080;
       box-shadow: 0 0 0 3px rgba(10, 112, 128, 0.2);
     }
-
-    /* フォーカスをキーボード操作時はさらに明確に */
     input[type="text"]:focus-visible,
     input[type="email"]:focus-visible,
     textarea:focus-visible,
@@ -72,15 +84,11 @@
       outline: 2px solid #0a7080;
       outline-offset: 2px;
     }
-
     textarea { resize: vertical; min-height: 100px; }
+    .mc-textarea-sm { min-height: 80px; }
 
     input[type="radio"],
-    input[type="checkbox"] {
-      accent-color: #26c7d9;
-    }
-
-    /* チェックボックス・ラジオのフォーカス */
+    input[type="checkbox"] { accent-color: #26c7d9; }
     input[type="radio"]:focus-visible,
     input[type="checkbox"]:focus-visible {
       outline: 2px solid #0a7080;
@@ -111,7 +119,7 @@
     .mc-hero-badge {
       display: inline-block;
       background: #e9f9fb;
-      color: #1a4a54; /* 7.92:1 on #e9f9fb ✓ */
+      color: #1a4a54;
       font-size: 12px;
       font-weight: 700;
       padding: 4px 14px;
@@ -135,7 +143,7 @@
     }
     .mc-hero-meta-item {
       font-size: 13px;
-      color: #1a4a54; /* 7.92:1 on #e9f9fb ✓ */
+      color: #1a4a54;
       font-weight: 700;
       background: #e9f9fb;
       padding: 4px 12px;
@@ -143,21 +151,15 @@
     }
 
     /* ── Intro ── */
-    .mc-intro {
-      padding: 28px 24px;
-      border-bottom: 1px solid #eeeeee; /* LPと同様に底線追加 */
-    }
-    .mc-intro-lead {
-      font-size: 15px;
-      color: #333333;
-      line-height: 1.8;
-      margin-bottom: 20px;
-    }
-    .mc-info-block { margin-bottom: 16px; }
+    .mc-intro { padding: 28px 24px; border-bottom: 1px solid #eeeeee; }
+    .mc-intro-lead   { font-size: 15px; color: #333333; line-height: 1.8; margin-bottom: 20px; }
+    .mc-intro-body   { font-size: 14px; color: #333333; line-height: 1.7; margin: 0; }
+    .mc-intro-closing{ font-size: 14px; color: #333333; line-height: 1.8; margin-bottom: 16px; }
+    .mc-info-block   { margin-bottom: 16px; }
     .mc-info-block-title {
       font-size: 13px;
       font-weight: 700;
-      color: #0a7080; /* 5.18:1 on white ✓ — ブランドカラー同系 */
+      color: #0a7080;
       margin-bottom: 6px;
     }
     .mc-info-block-list { list-style: none; padding: 0; margin: 0; }
@@ -175,7 +177,6 @@
       left: 0;
       color: #0a7080;
       font-weight: 700;
-      aria-hidden: true;
     }
     .mc-warning-box {
       background: #fff8e1;
@@ -185,31 +186,25 @@
       padding: 14px 16px;
       margin-bottom: 14px;
     }
-    .mc-warning-box p { font-size: 14px; color: #555555; line-height: 1.7; margin: 0; }
-    .mc-warning-box strong { color: #b04000; } /* 5.10:1 on #fff8e1 ✓ */
-    .mc-contact-line { font-size: 13px; color: #666666; line-height: 1.6; }
-    .mc-contact-line a {
-      color: #0a7080; /* 5.18:1 on white ✓ */
-      text-decoration: underline;
-    }
+    .mc-warning-box p  { font-size: 14px; color: #555555; line-height: 1.7; margin: 0; }
+    .mc-warning-box strong { color: #b04000; }
+    .mc-contact-line   { font-size: 13px; color: #666666; line-height: 1.6; }
+    .mc-contact-line a { color: #0a7080; text-decoration: underline; }
     .mc-contact-line a:focus-visible {
       outline: 2px solid #0a7080;
       outline-offset: 2px;
       border-radius: 2px;
     }
 
-    /* ── Section divider（LPと同じ8px帯） ── */
-    .mc-section-divider {
-      height: 8px;
-      background: #f4f4f4;
-    }
+    /* ── Section divider（8px gray band） ── */
+    .mc-section-divider { height: 8px; background: #f4f4f4; }
 
     /* ── Section header ── */
     .mc-section-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 24px 24px 12px; /* C: 間隔システム統一 */
+      padding: 24px 24px 12px;
       border-bottom: 1px solid #eeeeee;
     }
     .mc-section-num {
@@ -219,7 +214,7 @@
       width: 28px;
       height: 28px;
       min-width: 28px;
-      background: #0a7080; /* 5.18:1 with white ✓ — ブランドカラー同系 */
+      background: #0a7080;
       color: #ffffff;
       font-size: 13px;
       font-weight: 700;
@@ -237,22 +232,13 @@
       margin-bottom: 6px;
       line-height: 1.5;
     }
-    .mc-required {
-      color: #b91c1c; /* 6.06:1 on white ✓（旧#e53e3eは3.91:1でNG）*/
-      margin-left: 3px;
-      font-size: 12px;
-    }
+    .mc-required { color: #b91c1c; margin-left: 3px; font-size: 12px; }
     .mc-optional { color: #666666; margin-left: 4px; font-size: 12px; font-weight: 400; }
     .mc-field-hint { font-size: 12px; color: #666666; margin-bottom: 8px; line-height: 1.5; }
 
     /* ── Options (radio / checkbox) ── */
     .mc-options-list { display: flex; flex-direction: column; gap: 10px; }
-    .mc-option-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      cursor: pointer;
-    }
+    .mc-option-item  { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
     .mc-option-item input[type="radio"],
     .mc-option-item input[type="checkbox"] {
       width: 18px;
@@ -261,12 +247,7 @@
       margin-top: 2px;
       cursor: pointer;
     }
-    .mc-option-label {
-      font-size: 14px;
-      color: #333333;
-      line-height: 1.5;
-      padding-top: 1px;
-    }
+    .mc-option-label { font-size: 14px; color: #333333; line-height: 1.5; padding-top: 1px; }
 
     /* ── Consent ── */
     .mc-consent-box {
@@ -277,27 +258,24 @@
       margin-bottom: 14px;
     }
     .mc-consent-title { font-size: 13px; font-weight: 700; color: #333333; margin-bottom: 8px; }
-    .mc-consent-body { font-size: 12px; color: #555555; line-height: 1.6; margin-bottom: 12px; }
+    .mc-consent-body  { font-size: 12px; color: #555555; line-height: 1.6; margin-bottom: 12px; }
 
-    /* ── Submit ── */
+    /* ── Submit area ── */
+    .mc-submit-wrap {
+      padding: 24px 24px 32px;
+    }
     .mc-submit-note {
       font-size: 13px;
       color: #666666;
       line-height: 1.6;
       text-align: center;
-      padding: 20px 24px 0;
-    }
-    .mc-submit-wrap {
-      padding: 24px 24px 32px;
-      max-width: 640px;
-      margin: 0 auto;
-      background: #ffffff; /* A: 白カード内に統一 */
+      margin-bottom: 16px;
     }
     .mc-submit-btn {
       display: block;
       width: 100%;
       padding: 16px;
-      background: #0a7080; /* 5.18:1 with white ✓ — ブランドカラー同系 */
+      background: #0a7080;
       color: #ffffff;
       font-size: 16px;
       font-weight: 700;
@@ -320,39 +298,27 @@
       background: #333333;
       padding: 28px 24px;
       text-align: center;
-      max-width: 640px;
-      margin: 0 auto;
     }
     .mc-footer img { width: 100px; opacity: .6; margin: 0 auto 12px; display: block; }
-    .mc-footer p { font-size: 11px; color: #cccccc; line-height: 1.6; margin: 0; }
-    /* #cccccc on #333333 = 7.01:1 ✓ */
-
-    /* ── D: 感謝画面リンク ── */
-    .mc-thanks-link { color: #0a7080; text-decoration: underline; }
-
-    /* ── E: intro内ボディテキスト ── */
-    .mc-intro-body { font-size: 14px; color: #333333; line-height: 1.7; margin: 0; }
-    .mc-intro-closing { font-size: 14px; color: #333333; line-height: 1.8; margin-bottom: 16px; }
+    .mc-footer p   { font-size: 11px; color: #cccccc; line-height: 1.6; margin: 0; }
 
     @media (max-width: 480px) {
-      .mc-hero-title { font-size: 22px; }
-      .mc-hero-meta { gap: 8px; }
+      .mc-hero-title  { font-size: 22px; }
+      .mc-hero-meta   { gap: 8px; }
     }
   </style>
 </head>
 <body>
 
 <!-- ─────────────── 感謝画面（初期非表示） ────────────── -->
-<div id="lp-thanks" style="display:none;padding:56px 24px;text-align:center;max-width:640px;margin:0 auto;background:#fff;">
-  <div style="font-size:48px;margin-bottom:20px;" aria-hidden="true">✅</div>
-  <h2 style="font-size:22px;font-weight:700;color:#333;margin:0 0 12px;line-height:1.4;">
-    お申し込みありがとうございます！
-  </h2>
-  <p style="font-size:15px;color:#555;line-height:1.8;margin:0 0 24px;">
+<div id="lp-thanks" style="display:none">
+  <div class="mc-thanks-icon" aria-hidden="true">✅</div>
+  <h2 class="mc-thanks-title">お申し込みありがとうございます！</h2>
+  <p class="mc-thanks-body">
     内容を確認の上、審査結果をメールにてご連絡いたします。<br>
     今しばらくお待ちください。
   </p>
-  <p style="font-size:13px;color:#666666;margin:0;">
+  <p class="mc-thanks-note">
     お問い合わせ：<a href="mailto:team.miricanvas.jp@miridih.com"
       class="mc-thanks-link">team.miricanvas.jp@miridih.com</a>
   </p>
@@ -405,14 +371,12 @@
     <div class="mc-warning-box">
       <p><strong>⚠️ 重要：</strong>弊社からのアナウンス・サポート・質疑応答は、専用LINE公式アカウント「MiriCanvasサポーターズ」を通じて行います。ご参加には公式LINEへの友だち追加が必須となります。あらかじめご了承ください。</p>
     </div>
-    <p class="mc-intro-closing">
-      皆さまからのご応募を、心よりお待ちしております。
-    </p>
+    <p class="mc-intro-closing">皆さまからのご応募を、心よりお待ちしております。</p>
     <p class="mc-contact-line">
       お問い合わせ：<a href="mailto:team.miricanvas.jp@miridih.com">team.miricanvas.jp@miridih.com</a>（MiriCanvas日本運営チーム）
     </p>
   </div>
-  <div class="mc-section-divider"></div><!-- B: intro後に区切り帯追加 -->
+  <div class="mc-section-divider"></div>
 
   <!-- ══ セクション 1: 基本情報 ══════════════════════════════════ -->
   <div class="mc-section-header">
@@ -420,14 +384,12 @@
     <span class="mc-section-title">基本情報</span>
   </div>
 
-  <!-- Q1 お名前 -->
   <div class="mc-field">
     <label class="mc-field-label" for="q01_name">お名前<span class="mc-required" aria-hidden="true">*</span></label>
     <input type="text" id="q01_name" placeholder="例：山田 花子"
            autocomplete="name" required aria-required="true">
   </div>
 
-  <!-- Q2 メールアドレス -->
   <div class="mc-field">
     <label class="mc-field-label" for="q02_email">
       MiriCanvasにご登録のメールアドレス<span class="mc-required" aria-hidden="true">*</span>
@@ -436,7 +398,6 @@
            autocomplete="email" required aria-required="true">
   </div>
 
-  <!-- Q3 業種 -->
   <div class="mc-field">
     <label class="mc-field-label" for="q03_industry">業種を教えてください<span class="mc-required" aria-hidden="true">*</span></label>
     <div class="mc-select-wrap">
@@ -453,7 +414,6 @@
     </div>
   </div>
 
-  <!-- Q4 職種 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q04">職種を教えてください<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q04">
@@ -473,7 +433,6 @@
     <span class="mc-section-title">MiriCanvas利用状況</span>
   </div>
 
-  <!-- Q5 主な用途 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q05">主にMiriCanvasを使っている用途を教えてください<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q05">
@@ -488,7 +447,6 @@
     </div>
   </div>
 
-  <!-- Q6 主な機能 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q06">MiriCanvasで主に使っている機能を教えてください<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q06">
@@ -502,7 +460,6 @@
     </div>
   </div>
 
-  <!-- Q7 利用頻度 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q07">MiriCanvasをどれくらいの頻度で使っていますか？<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q07">
@@ -514,7 +471,6 @@
     </div>
   </div>
 
-  <!-- Q8 利用期間 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q08">MiriCanvasを使い始めて、どれくらいの期間が経ちましたか？<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q08">
@@ -534,13 +490,11 @@
     <span class="mc-section-title">MiriCanvasへの想い</span>
   </div>
 
-  <!-- Q9 強み -->
   <div class="mc-field">
     <label class="mc-field-label" for="q09_strengths">MiriCanvasの強み・良いところは何だと思いますか？<span class="mc-required" aria-hidden="true">*</span></label>
     <textarea id="q09_strengths" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
   </div>
 
-  <!-- Q10 改善点 -->
   <div class="mc-field">
     <label class="mc-field-label" for="q10_weaknesses">MiriCanvasの改善してほしい点・弱みは何ですか？<span class="mc-required" aria-hidden="true">*</span></label>
     <textarea id="q10_weaknesses" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
@@ -553,7 +507,6 @@
     <span class="mc-section-title">発信実績</span>
   </div>
 
-  <!-- Q11 口コミ実績 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q11">これまでにMiriCanvasを対面・口コミで誰かにおすすめしたことはありますか？<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q11">
@@ -564,7 +517,6 @@
     </div>
   </div>
 
-  <!-- Q12 SNS発信実績 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q12">これまでにMiriCanvasについてSNSやブログで発信したことはありますか？<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q12">
@@ -575,7 +527,6 @@
     </div>
   </div>
 
-  <!-- Q13 紹介したい対象者 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q13">ご自分の周りに、MiriCanvasを紹介したい方はどのような方ですか？<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q13">
@@ -596,21 +547,19 @@
     <span class="mc-section-title">今後の活動について</span>
   </div>
 
-  <!-- Q14 期待すること -->
   <div class="mc-field">
     <label class="mc-field-label" for="q14_expectations">サポーターズに期待することは何ですか？<span class="mc-required" aria-hidden="true">*</span></label>
     <textarea id="q14_expectations" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
   </div>
 
-  <!-- Q15 SNS/ブログアカウント -->
   <div class="mc-field">
     <label class="mc-field-label" for="q15_accounts">お持ちのSNSやブログアカウント<span class="mc-required" aria-hidden="true">*</span></label>
     <div class="mc-field-hint">URLやアカウント名をご記入ください（例：X: @username　ブログ: https://...）</div>
-    <textarea id="q15_accounts" placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..."
-              style="min-height:80px" required aria-required="true"></textarea>
+    <textarea id="q15_accounts" class="mc-textarea-sm"
+              placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..."
+              required aria-required="true"></textarea>
   </div>
 
-  <!-- Q16 紹介予定チャンネル -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q16">サポーター活動として、どのチャンネルでMiriCanvasを紹介する予定ですか？<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q16">
@@ -631,7 +580,6 @@
     <span class="mc-section-title">その他</span>
   </div>
 
-  <!-- Q17 認知経路 -->
   <div class="mc-field">
     <span class="mc-field-label" id="lbl-q17">MiriCanvasを知ったきっかけを教えてください<span class="mc-required" aria-hidden="true">*</span></span>
     <div class="mc-options-list" role="group" aria-labelledby="lbl-q17">
@@ -646,7 +594,6 @@
     </div>
   </div>
 
-  <!-- Q18 コメント（任意） -->
   <div class="mc-field">
     <label class="mc-field-label" for="q18_comments">その他、運営チームに伝えたいことがあればご記入ください<span class="mc-optional">（任意）</span></label>
     <textarea id="q18_comments" placeholder="ご自由にお書きください"></textarea>
@@ -659,7 +606,6 @@
     <span class="mc-section-title">同意事項</span>
   </div>
 
-  <!-- Q19 LINE同意 -->
   <div class="mc-field">
     <div class="mc-consent-box">
       <div class="mc-consent-title">「MiriCanvasサポーターズ」公式LINEへの友だち追加について</div>
@@ -671,7 +617,6 @@
     </div>
   </div>
 
-  <!-- Q20 個人情報同意 -->
   <div class="mc-field">
     <div class="mc-consent-box">
       <div class="mc-consent-title">個人情報の取り扱いについて（同意）</div>
@@ -683,12 +628,12 @@
     </div>
   </div>
 
-  <p class="mc-submit-note">※ <span style="color:#b91c1c" aria-hidden="true">*</span> のついた項目はすべて必須です。</p>
-
 </div><!-- /#lp-form -->
 
-<!-- ─────────────── 送信ボタン ────────────────────────── -->
+<!-- ─────────────── 送信エリア（フォームと同じ白カード） ────── -->
+<div class="mc-section-divider"></div>
 <div class="mc-submit-wrap" id="submit-wrap">
+  <p class="mc-submit-note">※ <span class="mc-required" aria-hidden="true">*</span> のついた項目はすべて必須です。</p>
   <button type="button" id="submit-btn" class="mc-submit-btn">この内容で申し込む</button>
 </div>
 
@@ -763,7 +708,6 @@
       };
 
       try {
-        // no-cors: Apps ScriptのCORS制限を回避。レスポンスはApps Script実行ログで確認。
         await fetch(APPS_SCRIPT_URL, {
           method : 'POST',
           mode   : 'no-cors',
