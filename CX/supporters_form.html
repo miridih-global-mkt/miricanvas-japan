@@ -674,7 +674,7 @@
       if (!document.getElementById('q14_expectations')?.value?.trim())                            missing.push('サポーターズへの期待');
       if (!document.getElementById('q15_accounts')?.value?.trim())                                missing.push('SNS/ブログアカウント');
       if (!document.querySelectorAll('input[name="jp_spt_channels[]"]:checked').length)           missing.push('紹介予定チャンネル');
-      if (!document.querySelector('input[name="jp_spt_acquisition"]:checked'))                    missing.push('MiriCanvasを知ったきっかけ');
+      if (!document.querySelectorAll('input[name="jp_spt_acquisition[]"]:checked').length)         missing.push('MiriCanvasを知ったきっかけ');
       if (!document.getElementById('q19_agree_line')?.checked)                                    missing.push('LINE友だち追加への同意');
       if (!document.getElementById('q20_agree_privacy')?.checked)                                 missing.push('個人情報取扱への同意');
 
