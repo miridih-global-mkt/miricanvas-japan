@@ -8,13 +8,25 @@
 ## 전체 흐름
 
 ```
-구글폼 제출
+구글폼 / 외부 HTML 폼 제출
     ↓
 Apps Script / Zapier / Make
     ↓  POST /users/track (REST API)
 Braze 유저 프로필 생성·업데이트 + 커스텀 이벤트 기록
     ↓
 Canvas (Action-Based) → 이벤트 트리거 → 자동 메일 발송
+```
+
+**현행 구현 흐름 (서포터즈 신청 폼):**
+
+```
+GitHub Pages HTML 폼
+    ↓ fetch() POST
+Apps Script 웹앱 (doPost)
+    ↓ POST /users/track
+Braze — user_alias 프로필 생성 + supporters_form_submitted 이벤트
+    ↓
+Canvas Action-Based → 접수 확인 메일 발송
 ```
 
 ---
