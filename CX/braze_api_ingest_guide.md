@@ -286,7 +286,26 @@ await fetch(APPS_SCRIPT_URL, {
 - 동의 시에만 `"email_subscribe": "subscribed"` 포함해서 전송
 - 미동의자는 `"email_subscribe": "unsubscribed"` 또는 속성 자체를 생략
 
-### C. 중복 유저 방지
+> **트랜잭션 메일(접수 확인, 결과 안내 등)은 `email_subscribe` 설정 불필요.**
+> 서포터즈 접수 확인 메일은 트랜잭션으로 분류 → 생략 가능. 마케팅 메일에만 적용.
+
+### C. 이벤트 프로퍼티로 회차 구분 ★현행
+
+이벤트명을 회차별로 분리(`_r1`, `_r2`)하는 대신, 단일 이벤트명 + 프로퍼티로 구분하는 방식.
+
+```json
+"events": [{ "name": "supporters_form_submitted", "properties": { "round": 1 } }]
+```
+
+Canvas Entry Schedule → **Add property filters**: `round = 1` 조건으로 1회차만 트리거.
+
+| 비교 | 이벤트명 분리 방식 | 프로퍼티 방식 ★현행 |
+|------|-------------------|---------------------|
+| 이벤트 수 | 회차마다 1개씩 누적 | 항상 1개 |
+| 전체 제출 수 집계 | 이벤트 여러 개 합산 필요 | 한 이벤트에서 바로 확인 |
+| Canvas 트리거 구분 | 이벤트명으로 구분 | Add property filters로 구분 |
+
+### D. 중복 유저 방지
 
 - 같은 이메일로 여러 번 제출 → 동일 유저 프로필에 덮어쓰기 (attributes는 최신값으로 갱신)
 - 이벤트는 제출 횟수만큼 누적됨 → 필요하면 Canvas에 `re-eligibility` 제한 설정
