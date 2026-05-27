@@ -8,10 +8,13 @@
 *,*::before,*::after{box-sizing:border-box;}
 body{margin:0;padding:0;background:#f4f4f4;font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Meiryo',system-ui,sans-serif;color:#333333;line-height:1.7;}
 
+/* ── COMMONS ── */
+.section-label{text-align:center;font-size:12px;font-weight:700;color:#00808c;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.section-title{text-align:center;font-size:22px;font-weight:800;color:#333333;margin:0 0 36px;}
+
 /* ── HERO ── */
 .hero{background:#ffffff;border-bottom:4px solid #26c7d9;padding:56px 24px 48px;text-align:center;}
 .hero-inner{max-width:680px;margin:0 auto;}
-.hero-logo{height:36px;margin-bottom:24px;display:block;margin-left:auto;margin-right:auto;}
 .hero-badge{display:inline-block;background:#e9f9fb;color:#1a4a54;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;margin-bottom:20px;letter-spacing:.04em;}
 .hero-title{font-size:28px;font-weight:800;line-height:1.3;color:#333333;margin:0 0 16px;}
 .hero-title span{color:#00808c;}
@@ -19,11 +22,78 @@ body{margin:0;padding:0;background:#f4f4f4;font-family:'Hiragino Sans','Hiragino
 .hero-cta{display:inline-block;background:#26c7d9;color:#1a4a54;font-weight:700;font-size:15px;padding:14px 36px;border-radius:4px;text-decoration:none;transition:background .15s;}
 .hero-cta:hover{background:#1db8cc;}
 
-/* ── WHO SECTION ── */
+/* ── WHY NOW ── */
+.why-now{background:#1a4a54;padding:64px 24px;}
+.why-now-inner{max-width:800px;margin:0 auto;}
+.why-now .section-label{color:#7de8f0;}
+.why-now .section-title{color:#ffffff;}
+.pain-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:40px;}
+.pain-card{background:rgba(255,255,255,.07);border-radius:8px;padding:24px 20px;border-left:4px solid #26c7d9;}
+.pain-tag{font-size:10px;font-weight:700;color:#7de8f0;letter-spacing:.08em;margin-bottom:8px;}
+.pain-title{font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
+.pain-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+.cost-banner{background:#26c7d9;border-radius:10px;padding:28px 32px;text-align:center;}
+.cost-banner-pre{font-size:13px;font-weight:700;color:#1a4a54;margin-bottom:6px;}
+.cost-banner-num{font-size:30px;font-weight:900;color:#1a4a54;line-height:1.3;}
+.cost-banner-desc{font-size:13px;color:#1a4a54;opacity:.85;margin-top:8px;}
+
+/* ── VALUE PROP ── */
+.value-prop{background:#f4f4f4;padding:64px 24px;}
+.value-prop-inner{max-width:800px;margin:0 auto;}
+.value-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.value-card{background:#ffffff;border-radius:8px;padding:28px 22px;display:flex;flex-direction:column;}
+.value-num{font-size:32px;font-weight:900;color:#26c7d9;line-height:1;margin-bottom:6px;}
+.value-num small{font-size:16px;font-weight:700;}
+.value-name{font-size:16px;font-weight:700;color:#333333;margin-bottom:8px;}
+.value-name em{color:#00808c;font-style:normal;}
+.value-desc{font-size:13px;color:#666666;line-height:1.7;flex:1;}
+.value-comp{display:inline-block;margin-top:12px;background:#fff3f3;color:#c53030;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;}
+.value-merit{display:inline-block;margin-top:12px;background:#e9f9fb;color:#1a4a54;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;}
+
+/* ── VALUE SHOWCASE ── */
+.value-show{background:#ffffff;padding:64px 24px;}
+.value-show-inner{max-width:860px;margin:0 auto;}
+.ba-grid{display:grid;gap:20px;margin-bottom:48px;}
+.ba-card{background:#f8f8f8;border-radius:10px;padding:20px 24px;display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:12px;}
+.ba-side{background:#ffffff;border-radius:6px;padding:16px;}
+.ba-tag{font-size:10px;font-weight:700;color:#00808c;letter-spacing:.06em;background:#e9f9fb;padding:2px 8px;border-radius:3px;display:inline-block;margin-bottom:10px;}
+.ba-label{font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:6px;}
+.ba-before .ba-label{color:#e53e3e;}
+.ba-after .ba-label{color:#00808c;}
+.ba-text{font-size:13.5px;color:#333333;line-height:1.65;}
+.ba-arrow{font-size:22px;color:#26c7d9;text-align:center;}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#1a4a54;border-radius:10px;overflow:hidden;}
+.stat-item{padding:22px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.12);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-size:24px;font-weight:900;color:#26c7d9;line-height:1.1;}
+.stat-num small{font-size:13px;font-weight:700;}
+.stat-label{font-size:11px;color:rgba(255,255,255,.8);margin-top:4px;}
+
+/* ── REVIEWS ── */
+.reviews{background:#f4f4f4;padding:64px 24px;}
+.reviews-inner{max-width:860px;margin:0 auto;}
+.review-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:36px;}
+.review-card{background:#ffffff;border-radius:10px;padding:24px 20px;display:flex;flex-direction:column;}
+.review-stars{color:#26c7d9;font-size:15px;margin-bottom:12px;letter-spacing:2px;}
+.review-text{font-size:14px;color:#333333;line-height:1.8;flex:1;padding-bottom:16px;}
+.review-meta{display:flex;align-items:center;gap:10px;padding-top:16px;border-top:1px solid #eeeeee;}
+.review-avatar{width:36px;height:36px;background:#e9f9fb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.review-name{font-size:13px;font-weight:700;color:#333333;}
+.review-role{font-size:11px;color:#666666;}
+.logo-strip{text-align:center;}
+.logo-strip-label{font-size:11px;color:#999999;letter-spacing:.12em;margin-bottom:14px;}
+.logo-list{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;align-items:center;}
+.logo-pill{font-size:12px;font-weight:700;color:#999999;background:#e8e8e8;border-radius:4px;padding:5px 14px;}
+
+/* ── MID CTA ── */
+.mid-cta{background:#26c7d9;padding:40px 24px;text-align:center;}
+.mid-cta-title{font-size:20px;font-weight:800;color:#1a4a54;margin-bottom:16px;}
+.mid-cta-btn{display:inline-block;background:#1a4a54;color:#ffffff;font-weight:700;font-size:15px;padding:14px 40px;border-radius:4px;text-decoration:none;transition:background .15s;}
+.mid-cta-btn:hover{background:#0d2b33;}
+
+/* ── WHO ── */
 .who{padding:56px 24px;background:#f4f4f4;}
 .who-inner{max-width:800px;margin:0 auto;}
-.section-label{text-align:center;font-size:12px;font-weight:700;color:#00808c;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
-.section-title{text-align:center;font-size:22px;font-weight:800;color:#333333;margin:0 0 36px;}
 .who-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
 .who-card{background:#ffffff;border-radius:8px;padding:28px 22px;border-top:4px solid #26c7d9;}
 .who-icon{font-size:28px;margin-bottom:12px;}
@@ -32,18 +102,15 @@ body{margin:0;padding:0;background:#f4f4f4;font-family:'Hiragino Sans','Hiragino
 .who-desc{font-size:13px;color:#666666;line-height:1.7;}
 .who-tag{display:inline-block;margin-top:12px;background:#e9f9fb;color:#1a4a54;font-size:11px;font-weight:700;padding:3px 10px;border-radius:3px;}
 
-/* ── FORM SECTION ── */
+/* ── FORM ── */
 .form-section{padding:56px 24px 80px;background:#ffffff;}
 .form-wrap{max-width:640px;margin:0 auto;}
 .form-heading{text-align:center;font-size:22px;font-weight:800;color:#333333;margin-bottom:8px;}
 .form-lead{text-align:center;font-size:13.5px;color:#666666;margin-bottom:40px;}
-
-/* Field groups */
 .field-group{margin-bottom:28px;}
 .field-label{font-size:14px;font-weight:700;color:#333333;margin-bottom:8px;display:block;}
 .field-label .req{color:#e53e3e;margin-left:3px;}
 .field-hint{font-size:12px;color:#666666;margin-bottom:8px;display:block;}
-
 input[type="text"],input[type="email"],textarea,select{
   width:100%;padding:12px 14px;border:1px solid #dddddd;border-radius:4px;
   font-size:15px;font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
@@ -54,8 +121,6 @@ input[type="text"]:focus,input[type="email"]:focus,textarea:focus,select:focus{
   outline:none;border-color:#26c7d9;box-shadow:0 0 0 3px rgba(38,199,217,.15);
 }
 textarea{resize:vertical;min-height:100px;}
-
-/* Card radio / checkbox */
 .card-options{display:grid;gap:10px;}
 .card-options.col2{grid-template-columns:1fr 1fr;}
 .card-options.col3{grid-template-columns:1fr 1fr 1fr;}
@@ -64,17 +129,13 @@ textarea{resize:vertical;min-height:100px;}
 .card-option label{
   display:flex;align-items:flex-start;gap:12px;padding:14px 16px;
   border:1.5px solid #dddddd;border-radius:6px;cursor:pointer;
-  font-size:14px;color:#333333;transition:border-color .15s,background .15s;
-  background:#ffffff;
+  font-size:14px;color:#333333;transition:border-color .15s,background .15s;background:#ffffff;
 }
 .card-option label:hover{border-color:#26c7d9;background:#f7fdfe;}
 .card-option input:checked + label{border-color:#26c7d9;background:#e9f9fb;font-weight:700;color:#1a4a54;}
 .card-option .opt-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
-.card-option .opt-text{}
 .card-option .opt-title{font-weight:700;font-size:14px;display:block;}
 .card-option .opt-sub{font-size:12px;color:#666666;display:block;margin-top:2px;font-weight:400;}
-
-/* Contact method special */
 .contact-options{display:grid;gap:10px;}
 .contact-option{position:relative;}
 .contact-option input{position:absolute;opacity:0;width:0;height:0;}
@@ -89,34 +150,22 @@ textarea{resize:vertical;min-height:100px;}
 .contact-option input:checked + label .contact-badge{background:#26c7d9;color:#1a4a54;}
 .contact-title{font-size:15px;font-weight:700;color:#333333;}
 .contact-desc{font-size:12px;color:#666666;margin-left:auto;}
-
-/* Divider */
 .form-divider{display:flex;align-items:center;gap:12px;margin:32px 0;}
 .form-divider::before,.form-divider::after{content:'';flex:1;border-top:1px solid #eeeeee;}
 .form-divider-label{font-size:12px;color:#666666;white-space:nowrap;flex-shrink:0;}
-
-/* Checkbox grid */
 .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .check-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid #dddddd;border-radius:6px;cursor:pointer;font-size:13.5px;color:#333333;transition:border-color .15s;}
 .check-item:hover{border-color:#26c7d9;}
 .check-item input{accent-color:#26c7d9;flex-shrink:0;}
 .check-item input:checked ~ span{font-weight:700;color:#1a4a54;}
 .check-item:has(input:checked){border-color:#26c7d9;background:#e9f9fb;}
-
-/* Conditional blocks */
 .conditional{display:none;}
 .conditional.show{display:block;}
-
-/* Timerex placeholder */
 .timerex-placeholder{border:2px dashed #dddddd;border-radius:8px;padding:32px;text-align:center;background:#f8f8f8;}
 .timerex-placeholder p{color:#666666;font-size:13px;margin:0 0 16px;}
 .timerex-btn{display:inline-block;border:2px solid #26c7d9;color:#1a4a54;background:#ffffff;font-weight:700;font-size:14px;padding:11px 28px;border-radius:4px;cursor:pointer;}
-
-/* Type-specific blocks */
 .type-block{display:none;}
 .type-block.show{display:block;}
-
-/* Submit */
 .submit-wrap{margin-top:36px;}
 .submit-btn{
   width:100%;padding:16px;background:#26c7d9;color:#1a4a54;font-weight:700;
@@ -126,19 +175,25 @@ textarea{resize:vertical;min-height:100px;}
 }
 .submit-btn:hover{background:#1db8cc;}
 .submit-note{text-align:center;font-size:12px;color:#666666;margin-top:12px;}
-
-/* Thanks screen */
 .thanks{display:none;text-align:center;padding:56px 24px;}
 .thanks-icon{font-size:48px;margin-bottom:20px;}
 .thanks-title{font-size:22px;font-weight:800;color:#333333;margin-bottom:12px;}
 .thanks-sub{font-size:14px;color:#666666;line-height:1.8;}
 
-/* Responsive */
+/* ── RESPONSIVE ── */
 @media(max-width:600px){
   .hero-title{font-size:22px;}
+  .pain-cards,.value-cards,.who-cards{grid-template-columns:1fr;}
+  .ba-card{grid-template-columns:1fr;gap:8px;}
+  .ba-arrow{transform:rotate(90deg);display:block;text-align:center;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.12);}
+  .stat-item:nth-child(odd){border-right:1px solid rgba(255,255,255,.12);}
+  .stat-item:last-child,.stat-item:nth-last-child(2):nth-child(odd){border-bottom:none;}
+  .review-cards{grid-template-columns:1fr;}
   .card-options.col2,.card-options.col3{grid-template-columns:1fr;}
   .check-grid{grid-template-columns:1fr;}
-  .who-cards{grid-template-columns:1fr;}
+  .cost-banner-num{font-size:24px;}
 }
 </style>
 </head>
@@ -156,6 +211,188 @@ textarea{resize:vertical;min-height:100px;}
     <p class="hero-sub">テンプレート × AI で、誰でもプロ品質のデザインを。<br>法人導入・ビジネス連携・教育パートナーシップ、まずはお気軽にご連絡ください。</p>
     <a href="#form" class="hero-cta">ご相談・資料請求はこちら</a>
   </div>
+</section>
+
+<!-- ═══ WHY NOW ═══ -->
+<section class="why-now">
+  <div class="why-now-inner">
+    <div class="section-label" style="color:#7de8f0;">現状の課題</div>
+    <h2 class="section-title" style="color:#ffffff;">デザイン、まだこんな悩みありませんか？</h2>
+    <div class="pain-cards">
+      <div class="pain-card">
+        <div class="pain-tag">QUALITY</div>
+        <div class="pain-title">AIツールの仕上がりが<br>毎回バラバラ</div>
+        <div class="pain-sub">生成AIは使っているが、クオリティが安定せず社外に出しにくい</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-tag">TEMPLATE</div>
+        <div class="pain-title">日本語テンプレートが<br>少なくて使えない</div>
+        <div class="pain-sub">CanvaやGammaは海外向けデザインが中心。日本のビジネス資料には合わない</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-tag">WORKFLOW</div>
+        <div class="pain-title">PowerPointに書き出せない、<br>または有料のみ</div>
+        <div class="pain-sub">既存ワークフローに組み込めず、結局 PowerPoint で作り直しが発生している</div>
+      </div>
+    </div>
+    <div class="cost-banner">
+      <div class="cost-banner-pre">提案書1件あたり2〜3日 × 月12件 =</div>
+      <div class="cost-banner-num">年間 <strong>36日分</strong> の工数がデザインに消えている</div>
+      <div class="cost-banner-desc">MiriCanvas なら、この工数を劇的に削減できます</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VALUE PROP ═══ -->
+<section class="value-prop">
+  <div class="value-prop-inner">
+    <div class="section-label">MiriCanvasが選ばれる理由</div>
+    <h2 class="section-title">競合にない3つの強み</h2>
+    <div class="value-cards">
+      <div class="value-card">
+        <div class="value-num">30<small>枚/月</small></div>
+        <div class="value-name">AI生成が毎月<em>無料</em></div>
+        <div class="value-desc">Gammaは月100クレジット上限、Canvaは有料のみ。MiriCanvasは毎月30枚のAIデザイン生成が完全無料。有料でも業界最安¥980/月〜</div>
+        <span class="value-comp">vs Canva ¥1,180〜 / Gamma 100枚上限</span>
+      </div>
+      <div class="value-card">
+        <div class="value-num" style="font-size:26px;">PPTX<small>無料</small></div>
+        <div class="value-name">書き出し＆編集が<em>完全無料</em></div>
+        <div class="value-desc">Canvaは有料プランのみPPTX書き出し可能。MiriCanvasは無料でPPTX書き出し＋ウォーターマークなし＋1mmレベルの完全編集に対応</div>
+        <span class="value-merit">ウォーターマークなし・完全編集可</span>
+      </div>
+      <div class="value-card">
+        <div class="value-num">10<small>万点+</small></div>
+        <div class="value-name">日本専用<em>テンプレート</em></div>
+        <div class="value-desc">営業・マーケ・HR向けの日本ビジネス特化テンプレートが10万点以上。背景除去・SmartBlockも無料で利用可能</div>
+        <span class="value-merit">背景除去・SmartBlockも無料</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VALUE SHOWCASE ═══ -->
+<section class="value-show">
+  <div class="value-show-inner">
+    <div class="section-label">導入前後の変化</div>
+    <h2 class="section-title">こんな変化が起きています</h2>
+    <div class="ba-grid">
+      <div class="ba-card">
+        <div class="ba-side ba-before">
+          <span class="ba-tag">企業担当者</span>
+          <div class="ba-label">BEFORE</div>
+          <div class="ba-text">提案書1件の制作に2〜3日。デザイナー不在のチームはクオリティもバラバラ</div>
+        </div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-side ba-after">
+          <div class="ba-label">AFTER</div>
+          <div class="ba-text">テンプレ＋AIで数時間に短縮。誰が作っても統一品質でそのままPPTX書き出し</div>
+        </div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-side ba-before">
+          <span class="ba-tag">AI推進・エバンジェリスト</span>
+          <div class="ba-label">BEFORE</div>
+          <div class="ba-text">AIラインアップにデザイン領域が欠けていた。クライアントへの提案に穴があった</div>
+        </div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-side ba-after">
+          <div class="ba-label">AFTER</div>
+          <div class="ba-text">MiriCanvasで「文章→画像→デザイン→資料」をワンストップで提案できるようになった</div>
+        </div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-side ba-before">
+          <span class="ba-tag">コミュニティ・スクール</span>
+          <div class="ba-label">BEFORE</div>
+          <div class="ba-text">実践で使えるAIデザインツールをカリキュラムに組み込めていなかった</div>
+        </div>
+        <div class="ba-arrow">→</div>
+        <div class="ba-side ba-after">
+          <div class="ba-label">AFTER</div>
+          <div class="ba-text">日本語テンプレ×AIで受講生が即戦力のデザインスキルを習得。卒業後のポートフォリオにも活用</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num">1,800万<small>人+</small></div>
+        <div class="stat-label">累計ユーザー数</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">30<small>枚/月</small></div>
+        <div class="stat-label">無料AI生成枚数</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">¥980<small>/月〜</small></div>
+        <div class="stat-label">有料プラン（業界最安）</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10万<small>点+</small></div>
+        <div class="stat-label">日本専用テンプレ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ -->
+<section class="reviews">
+  <div class="reviews-inner">
+    <div class="section-label">ユーザーの声</div>
+    <h2 class="section-title">実際に使っている方の声</h2>
+    <div class="review-cards">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">「AIっぽくなく、そのまま仕事で使えるデザインが作れます。Canvaと迷いましたが、PPTX書き出しが無料なのと日本向けテンプレが豊富なのが決め手でした」</div>
+        <div class="review-meta">
+          <div class="review-avatar">👔</div>
+          <div>
+            <div class="review-name">IT企業 マーケティング担当</div>
+            <div class="review-role">20代 / 法人導入</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">「日本のビジネス資料にも違和感なく使える。テンプレの品質が海外ツールと全然違います。クライアントへのAI提案にMiriCanvasを追加しました」</div>
+        <div class="review-meta">
+          <div class="review-avatar">💼</div>
+          <div>
+            <div class="review-name">AIコンサルタント</div>
+            <div class="review-role">30代 / ビジネス連携</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">「デザイン知識がなくても短時間で完成。これ1つで完結するのが本当にラク。受講生にも教えやすく、授業の満足度が上がりました」</div>
+        <div class="review-meta">
+          <div class="review-avatar">🎓</div>
+          <div>
+            <div class="review-name">オンラインスクール運営者</div>
+            <div class="review-role">30代 / 教育パートナー</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="logo-strip">
+      <p class="logo-strip-label">TRUSTED BY BUSINESSES ACROSS JAPAN</p>
+      <div class="logo-list">
+        <span class="logo-pill">IT企業</span>
+        <span class="logo-pill">コンサルティング</span>
+        <span class="logo-pill">マーケティング</span>
+        <span class="logo-pill">スクール・教育機関</span>
+        <span class="logo-pill">メディア・コンテンツ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MID CTA ═══ -->
+<section class="mid-cta">
+  <div class="mid-cta-title">まずはご相談から。お気軽にどうぞ。</div>
+  <a href="#form" class="mid-cta-btn">ご相談・資料請求はこちら</a>
 </section>
 
 <!-- ═══ WHO ═══ -->
@@ -197,7 +434,6 @@ textarea{resize:vertical;min-height:100px;}
 
     <div id="lp-form">
 
-      <!-- 기본 정보 -->
       <div class="field-group">
         <label class="field-label">お名前<span class="req">*</span></label>
         <input type="text" id="name" placeholder="山田 太郎">
@@ -214,7 +450,6 @@ textarea{resize:vertical;min-height:100px;}
 
       <div class="form-divider"><span class="form-divider-label">どちらに該当しますか？</span></div>
 
-      <!-- 신청자 유형 -->
       <div class="field-group">
         <label class="field-label">あなたについて教えてください<span class="req">*</span></label>
         <div class="card-options">
@@ -253,7 +488,6 @@ textarea{resize:vertical;min-height:100px;}
 
       <div class="form-divider"><span class="form-divider-label">どのようにご連絡しますか？</span></div>
 
-      <!-- 연결 방식 -->
       <div class="field-group">
         <label class="field-label">ご希望の連絡方法<span class="req">*</span></label>
         <div class="contact-options">
@@ -284,13 +518,11 @@ textarea{resize:vertical;min-height:100px;}
         </div>
       </div>
 
-      <!-- 질문 입력 (조건부) -->
       <div class="conditional field-group" id="block_question">
         <label class="field-label">ご質問・お問い合わせ内容<span class="req">*</span></label>
         <textarea id="question_text" placeholder="気になっていること、確認したいことを自由にご記入ください。"></textarea>
       </div>
 
-      <!-- Timerex (조건부) -->
       <div class="conditional field-group" id="block_meeting">
         <label class="field-label">ミーティング日程のご予約</label>
         <div class="timerex-placeholder">
@@ -302,7 +534,6 @@ textarea{resize:vertical;min-height:100px;}
 
       <div class="form-divider"><span class="form-divider-label">現在の状況を教えてください</span></div>
 
-      <!-- 공통 설문 1: 현재 도구 -->
       <div class="field-group">
         <label class="field-label">現在のデザイン・資料作成ツール<span class="req">*</span></label>
         <span class="field-hint">主に使用しているものを選択してください</span>
@@ -317,7 +548,6 @@ textarea{resize:vertical;min-height:100px;}
         </select>
       </div>
 
-      <!-- 공통 설문 2: 페인포인트 -->
       <div class="field-group">
         <label class="field-label">お困りのこと<span class="req">*</span></label>
         <span class="field-hint">当てはまるものを選択してください（複数可）</span>
@@ -447,7 +677,6 @@ textarea{resize:vertical;min-height:100px;}
         </div>
       </div>
 
-      <!-- 제출 버튼 -->
       <div class="submit-wrap">
         <button class="submit-btn" id="submit-btn" type="button">送信する</button>
         <p class="submit-note">送信後、担当者より1〜2営業日以内にご連絡します。</p>
@@ -455,7 +684,6 @@ textarea{resize:vertical;min-height:100px;}
 
     </div><!-- /lp-form -->
 
-    <!-- 감사 화면 -->
     <div class="thanks" id="lp-thanks">
       <div class="thanks-icon">✅</div>
       <div class="thanks-title">ご送信ありがとうございます</div>
@@ -471,7 +699,6 @@ textarea{resize:vertical;min-height:100px;}
 </footer>
 
 <script>
-// 유형 선택 → 유형별 블록 표시
 document.querySelectorAll('input[name="user_type"]').forEach(function(radio) {
   radio.addEventListener('change', function() {
     document.querySelectorAll('.type-block').forEach(function(b) { b.classList.remove('show'); });
@@ -481,7 +708,6 @@ document.querySelectorAll('input[name="user_type"]').forEach(function(radio) {
   });
 });
 
-// 연결 방식 선택 → 조건부 블록 표시
 document.querySelectorAll('input[name="contact_type"]').forEach(function(radio) {
   radio.addEventListener('change', function() {
     document.getElementById('block_question').classList.remove('show');
@@ -491,10 +717,8 @@ document.querySelectorAll('input[name="contact_type"]').forEach(function(radio) 
   });
 });
 
-// 제출
 document.getElementById('submit-btn').addEventListener('click', function() {
   var errors = [];
-
   if (!document.getElementById('name').value.trim()) errors.push('お名前');
   if (!document.getElementById('affiliation').value.trim()) errors.push('ご所属');
   var email = document.getElementById('email').value.trim();
@@ -513,7 +737,6 @@ document.getElementById('submit-btn').addEventListener('click', function() {
   btn.disabled = true;
   btn.textContent = '送信中...';
 
-  // 실제 환경에서는 lpBridge 저장 로직
   setTimeout(function() {
     document.getElementById('lp-form').style.display = 'none';
     document.getElementById('lp-footer').style.display = 'none';
