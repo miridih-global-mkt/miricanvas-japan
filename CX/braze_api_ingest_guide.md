@@ -60,7 +60,7 @@ Authorization: Bearer {REST_API_KEY}
 Content-Type: application/json
 ```
 
-### 바디 구조
+### 바디 구조 — email 직접 방식 (기본)
 
 ```json
 {
@@ -87,12 +87,39 @@ Content-Type: application/json
 }
 ```
 
+### 바디 구조 — user_alias 방식 ★현행
+
+external_id 없는 신규 유저(외부 폼 제출자 등)에 적합. 기존 미캔버스 프로필을 건드리지 않음.
+
+```json
+{
+  "attributes": [{
+    "user_alias": { "alias_name": "yamada@example.com", "alias_label": "email" },
+    "_update_existing_only": false,
+    "email": "yamada@example.com",
+    "full_name": "山田 花子",
+    "supporters_round_1": true
+  }],
+  "events": [{
+    "user_alias": { "alias_name": "yamada@example.com", "alias_label": "email" },
+    "name": "supporters_form_submitted",
+    "time": "2026-05-27T10:00:00Z",
+    "properties": { "round": 1 }
+  }]
+}
+```
+
+- `_update_existing_only: false` — alias 프로필이 없으면 신규 생성. 반드시 포함.
+- `app_id` — server-side `/users/track`에서는 생략 가능 (선택사항).
+- `email_subscribe` — 트랜잭션 메일(접수 확인 등)은 구독 동의 불필요하므로 생략.
+
 ### 식별자 선택
 
 | 방식 | 장단점 |
 |------|--------|
 | `email`만 사용 | 빠르게 시작 가능. 중복 프로필 위험 있음 |
 | `external_id` + `email` | 중복 방지에 유리. external_id 체계 미리 설계 필요 |
+| `user_alias` + `email` ★현행 | external_id 없는 신규 유저에 적합. 기존 프로필 자동 병합 없음(안전). `_update_existing_only: false` 필수 |
 
 > **중복 프로필 주의**: 같은 이메일이 여러 번 들어오면 `email` 기준 자동 병합이 안 될 수 있음.
 > 운영 규모가 커지면 `external_id`(예: 이메일 해시값 또는 자체 ID) 사용 권장.
