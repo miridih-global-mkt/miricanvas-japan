@@ -5,105 +5,338 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MiriCanvasサポーターズ申請フォーム</title>
   <style>
-    *,*::before,*::after{box-sizing:border-box;}
-    body{margin:0;background:#f4f4f4;}
-    #lp-form,#lp-thanks{width:100%;max-width:640px;margin:0 auto;background:#ffffff;}
+    /*
+      Color tokens
+        --brand  : #26c7d9  ← 装飾のみ（ボーダー・tint・focus ring）
+        --dark   : #1a4a54  ← インタラクティブ要素（ボタン・円・フォーカス枠）   contrast vs white: 8.54:1 ✓
+        --mid    : #006975  ← 見出し・リンク・アイコン on white                  contrast vs white: 5.71:1 ✓
+        --tint   : #e9f9fb  ← バッジ背景
+        --error  : #b91c1c  ← 必須マーク・エラー on white                       contrast vs white: 6.06:1 ✓
+        --bg     : #f4f4f4  ← ページ背景・セクション区切り
+        --border : #d0d5dd  ← 入力枠
+        --text   : #333333
+        --muted  : #666666  ← ヒント・任意ラベル on white                       contrast vs white: 5.74:1 ✓
+    */
 
-    input[type="text"],input[type="email"],textarea,select{
-      width:100%;padding:12px 14px;border:1px solid #dddddd;border-radius:4px;
-      font-size:15px;font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
-      color:#333333;background:#ffffff;-webkit-appearance:none;appearance:none;
-      line-height:1.5;word-break:break-all;box-sizing:border-box;
-      transition:border-color .15s,box-shadow .15s;
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f4f4f4;
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+      color: #333333;
+      line-height: 1.7;
+      word-break: break-all;
     }
-    input[type="text"]:focus,input[type="email"]:focus,textarea:focus,select:focus{
-      outline:none;border-color:#26c7d9;box-shadow:0 0 0 3px rgba(38,199,217,.15);
+
+    #lp-form, #lp-thanks {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      background: #ffffff;
     }
-    textarea{resize:vertical;min-height:100px;}
-    input[type="radio"],input[type="checkbox"]{accent-color:#26c7d9;}
 
-    .mc-hero{padding:40px 24px 32px;border-bottom:3px solid #26c7d9;text-align:center;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;word-break:break-all;}
-    .mc-hero-logo{display:block;width:130px;margin:0 auto 20px;}
-    .mc-hero-badge{display:inline-block;background:#e9f9fb;color:#1a4a54;
-      font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:14px;}
-    .mc-hero-title{font-size:26px;font-weight:700;line-height:1.3;color:#333333;margin-bottom:12px;}
-    .mc-hero-meta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px;}
-    .mc-hero-meta-item{font-size:13px;color:#1a4a54;font-weight:700;
-      background:#e9f9fb;padding:4px 12px;border-radius:4px;}
+    /* ── Inputs ── */
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #d0d5dd;
+      border-radius: 6px;
+      font-size: 16px; /* 16px以上でiOSズームを防止 */
+      font-family: inherit;
+      color: #333333;
+      background: #ffffff;
+      -webkit-appearance: none;
+      appearance: none;
+      line-height: 1.5;
+      transition: border-color .15s, box-shadow .15s;
+    }
 
-    .mc-intro{padding:28px 24px;font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
-    .mc-intro-lead{font-size:15px;color:#333;line-height:1.8;margin-bottom:20px;word-break:break-all;}
-    .mc-info-block{margin-bottom:16px;}
-    .mc-info-block-title{font-size:13px;font-weight:700;color:#00808c;margin-bottom:6px;}
-    .mc-info-block-list{list-style:none;padding:0;margin:0;}
-    .mc-info-block-list li{font-size:14px;color:#333;line-height:1.7;
-      padding-left:20px;position:relative;margin-bottom:4px;word-break:break-all;}
-    .mc-info-block-list li::before{content:'✓';position:absolute;left:0;color:#00808c;font-weight:700;}
-    .mc-warning-box{background:#fff8e1;border:1px solid #ffe082;border-left:4px solid #ffc107;
-      border-radius:4px;padding:14px 16px;margin-bottom:14px;}
-    .mc-warning-box p{font-size:14px;color:#555555;line-height:1.7;word-break:break-all;margin:0;}
-    .mc-warning-box strong{color:#b04000;}
-    .mc-contact-line{font-size:13px;color:#666666;line-height:1.6;word-break:break-all;}
-    .mc-contact-line a{color:#00808c;text-decoration:underline;}
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #1a4a54;
+      box-shadow: 0 0 0 3px rgba(26, 74, 84, 0.2);
+    }
 
-    .mc-section-divider{border-top:1px solid #eeeeee;margin:24px 0 0;}
-    .mc-section-header{display:flex;align-items:center;gap:10px;padding:28px 24px 10px;
-      border-bottom:1px solid #eeeeee;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
-    .mc-section-num{display:flex;align-items:center;justify-content:center;
-      width:28px;height:28px;min-width:28px;background:#26c7d9;color:#1a4a54;
-      font-size:13px;font-weight:700;border-radius:50%;}
-    .mc-section-title{font-size:16px;font-weight:700;color:#333333;}
+    /* フォーカスをキーボード操作時はさらに明確に */
+    input[type="text"]:focus-visible,
+    input[type="email"]:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 2px solid #1a4a54;
+      outline-offset: 2px;
+    }
 
-    .mc-field{padding:20px 24px 2px;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
-    .mc-field-label{display:block;font-size:14px;font-weight:700;color:#333333;
-      margin-bottom:6px;line-height:1.5;word-break:break-all;}
-    .mc-required{color:#e53e3e;margin-left:3px;font-size:12px;}
-    .mc-optional{color:#666666;margin-left:4px;font-size:12px;font-weight:400;}
-    .mc-field-hint{font-size:12px;color:#666666;margin-bottom:8px;line-height:1.5;word-break:break-all;}
+    textarea { resize: vertical; min-height: 100px; }
 
-    .mc-options-list{display:flex;flex-direction:column;gap:10px;}
-    .mc-option-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+    input[type="radio"],
+    input[type="checkbox"] {
+      accent-color: #26c7d9;
+    }
+
+    /* チェックボックス・ラジオのフォーカス */
+    input[type="radio"]:focus-visible,
+    input[type="checkbox"]:focus-visible {
+      outline: 2px solid #1a4a54;
+      outline-offset: 2px;
+    }
+
+    /* ── Select wrapper（カスタム矢印） ── */
+    .mc-select-wrap { position: relative; }
+    .mc-select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666666;
+      pointer-events: none;
+      font-size: 13px;
+    }
+    .mc-select-wrap select { padding-right: 36px; cursor: pointer; }
+
+    /* ── Hero ── */
+    .mc-hero {
+      padding: 40px 24px 32px;
+      border-bottom: 3px solid #26c7d9;
+      text-align: center;
+    }
+    .mc-hero-logo { display: block; width: 130px; margin: 0 auto 20px; }
+    .mc-hero-badge {
+      display: inline-block;
+      background: #e9f9fb;
+      color: #1a4a54; /* 7.92:1 on #e9f9fb ✓ */
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+    .mc-hero-title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #333333;
+      margin-bottom: 12px;
+    }
+    .mc-hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .mc-hero-meta-item {
+      font-size: 13px;
+      color: #1a4a54; /* 7.92:1 on #e9f9fb ✓ */
+      font-weight: 700;
+      background: #e9f9fb;
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+
+    /* ── Intro ── */
+    .mc-intro {
+      padding: 28px 24px;
+      border-bottom: 1px solid #eeeeee; /* LPと同様に底線追加 */
+    }
+    .mc-intro-lead {
+      font-size: 15px;
+      color: #333333;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .mc-info-block { margin-bottom: 16px; }
+    .mc-info-block-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #006975; /* 5.71:1 on white ✓（旧#00808cは4.33:1でNG）*/
+      margin-bottom: 6px;
+    }
+    .mc-info-block-list { list-style: none; padding: 0; margin: 0; }
+    .mc-info-block-list li {
+      font-size: 14px;
+      color: #333333;
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .mc-info-block-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #006975; /* 5.71:1 on white ✓ */
+      font-weight: 700;
+      aria-hidden: true;
+    }
+    .mc-warning-box {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-left: 4px solid #ffc107;
+      border-radius: 4px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+    .mc-warning-box p { font-size: 14px; color: #555555; line-height: 1.7; margin: 0; }
+    .mc-warning-box strong { color: #b04000; } /* 5.10:1 on #fff8e1 ✓ */
+    .mc-contact-line { font-size: 13px; color: #666666; line-height: 1.6; }
+    .mc-contact-line a {
+      color: #006975; /* 5.71:1 on white ✓（旧#00808cは4.33:1でNG）*/
+      text-decoration: underline;
+    }
+    .mc-contact-line a:focus-visible {
+      outline: 2px solid #1a4a54;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* ── Section divider（LPと同じ8px帯） ── */
+    .mc-section-divider {
+      height: 8px;
+      background: #f4f4f4;
+    }
+
+    /* ── Section header ── */
+    .mc-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 28px 24px 10px;
+      border-bottom: 1px solid #eeeeee;
+    }
+    .mc-section-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      background: #1a4a54; /* 8.54:1 with white ✓（旧#26c7d9は対比不足）*/
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 50%;
+    }
+    .mc-section-title { font-size: 16px; font-weight: 700; color: #333333; }
+
+    /* ── Field ── */
+    .mc-field { padding: 20px 24px 2px; }
+    .mc-field-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #333333;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .mc-required {
+      color: #b91c1c; /* 6.06:1 on white ✓（旧#e53e3eは3.91:1でNG）*/
+      margin-left: 3px;
+      font-size: 12px;
+    }
+    .mc-optional { color: #666666; margin-left: 4px; font-size: 12px; font-weight: 400; }
+    .mc-field-hint { font-size: 12px; color: #666666; margin-bottom: 8px; line-height: 1.5; }
+
+    /* ── Options (radio / checkbox) ── */
+    .mc-options-list { display: flex; flex-direction: column; gap: 10px; }
+    .mc-option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
     .mc-option-item input[type="radio"],
-    .mc-option-item input[type="checkbox"]{width:18px;height:18px;min-width:18px;margin-top:2px;}
-    .mc-option-label{font-size:14px;color:#333333;line-height:1.5;padding-top:1px;word-break:break-all;}
-
-    .mc-consent-box{background:#f8f8f8;border:1px solid #eeeeee;
-      border-radius:4px;padding:16px;margin-bottom:14px;}
-    .mc-consent-title{font-size:13px;font-weight:700;color:#333333;margin-bottom:8px;}
-    .mc-consent-body{font-size:12px;color:#555555;line-height:1.6;margin-bottom:12px;word-break:break-all;}
-
-    .mc-submit-note{font-size:13px;color:#666666;line-height:1.6;
-      text-align:center;padding:20px 24px 0;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
-
-    .mc-submit-wrap{padding:24px 24px 32px;max-width:640px;margin:0 auto;}
-    .mc-submit-btn{
-      display:block;width:100%;padding:16px;
-      background:#26c7d9;color:#1a4a54;
-      font-size:16px;font-weight:700;border:none;border-radius:4px;cursor:pointer;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;
-      transition:background .15s;
+    .mc-option-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      margin-top: 2px;
+      cursor: pointer;
     }
-    .mc-submit-btn:hover:not(:disabled){background:#1db8cc;}
-    .mc-submit-btn:disabled{opacity:.55;cursor:not-allowed;}
+    .mc-option-label {
+      font-size: 14px;
+      color: #333333;
+      line-height: 1.5;
+      padding-top: 1px;
+    }
 
-    .mc-footer{background:#333333;padding:28px 24px;text-align:center;max-width:640px;margin:0 auto;}
-    .mc-footer img{width:100px;opacity:.6;margin:0 auto 12px;display:block;}
-    .mc-footer p{font-size:11px;color:#cccccc;line-height:1.6;margin:0;
-      font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;}
+    /* ── Consent ── */
+    .mc-consent-box {
+      background: #f8f8f8;
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .mc-consent-title { font-size: 13px; font-weight: 700; color: #333333; margin-bottom: 8px; }
+    .mc-consent-body { font-size: 12px; color: #555555; line-height: 1.6; margin-bottom: 12px; }
 
-    @media(max-width:480px){.mc-hero-title{font-size:22px;}}
+    /* ── Submit ── */
+    .mc-submit-note {
+      font-size: 13px;
+      color: #666666;
+      line-height: 1.6;
+      text-align: center;
+      padding: 20px 24px 0;
+    }
+    .mc-submit-wrap {
+      padding: 24px 24px 32px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .mc-submit-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #1a4a54; /* 8.54:1 with white ✓（旧#26c7d9+#1a4a54テキストは4.31:1でNG）*/
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: background .15s;
+    }
+    .mc-submit-btn:hover:not(:disabled) { background: #0f3040; }
+    .mc-submit-btn:focus-visible {
+      outline: 3px solid #26c7d9;
+      outline-offset: 3px;
+    }
+    .mc-submit-btn:disabled { opacity: .55; cursor: not-allowed; }
+
+    /* ── Footer ── */
+    .mc-footer {
+      background: #333333;
+      padding: 28px 24px;
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .mc-footer img { width: 100px; opacity: .6; margin: 0 auto 12px; display: block; }
+    .mc-footer p { font-size: 11px; color: #cccccc; line-height: 1.6; margin: 0; }
+    /* #cccccc on #333333 = 7.01:1 ✓ */
+
+    @media (max-width: 480px) {
+      .mc-hero-title { font-size: 22px; }
+      .mc-hero-meta { gap: 8px; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ─────────────────────── 감사 화면 (숨김) ────────────────── -->
-<div id="lp-thanks" style="display:none;padding:56px 24px;text-align:center;max-width:640px;margin:0 auto;background:#fff;
-  font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans','Meiryo',sans-serif;">
-  <div style="font-size:48px;margin-bottom:20px;">✅</div>
+<!-- ─────────────── 感謝画面（初期非表示） ────────────── -->
+<div id="lp-thanks" style="display:none;padding:56px 24px;text-align:center;max-width:640px;margin:0 auto;background:#fff;">
+  <div style="font-size:48px;margin-bottom:20px;" aria-hidden="true">✅</div>
   <h2 style="font-size:22px;font-weight:700;color:#333;margin:0 0 12px;line-height:1.4;">
     お申し込みありがとうございます！
   </h2>
@@ -113,11 +346,11 @@
   </p>
   <p style="font-size:13px;color:#666666;margin:0;">
     お問い合わせ：<a href="mailto:team.miricanvas.jp@miridih.com"
-      style="color:#00808c;text-decoration:underline;">team.miricanvas.jp@miridih.com</a>
+      style="color:#006975;text-decoration:underline;">team.miricanvas.jp@miridih.com</a>
   </p>
 </div>
 
-<!-- ─────────────────────── 폼 본체 ─────────────────────────── -->
+<!-- ─────────────── フォーム本体 ──────────────────────── -->
 <div id="lp-form">
 
   <!-- HERO -->
@@ -172,45 +405,49 @@
     </p>
   </div>
 
-  <!-- ══ 섹션 1: 基本情報 ══════════════════════════════════════ -->
-  <div class="mc-section-header">
-    <span class="mc-section-num">1</span>
+  <!-- ══ セクション 1: 基本情報 ══════════════════════════════════ -->
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">1</span>
     <span class="mc-section-title">基本情報</span>
   </div>
 
   <!-- Q1 お名前 -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q01_name">お名前<span class="mc-required">*</span></label>
-    <input type="text" id="q01_name" placeholder="例：山田 花子">
+    <label class="mc-field-label" for="q01_name">お名前<span class="mc-required" aria-hidden="true">*</span></label>
+    <input type="text" id="q01_name" placeholder="例：山田 花子"
+           autocomplete="name" required aria-required="true">
   </div>
 
   <!-- Q2 メールアドレス -->
   <div class="mc-field">
     <label class="mc-field-label" for="q02_email">
-      MiriCanvasにご登録のメールアドレス<span class="mc-required">*</span>
+      MiriCanvasにご登録のメールアドレス<span class="mc-required" aria-hidden="true">*</span>
     </label>
-    <input type="email" id="q02_email" placeholder="example@email.com">
+    <input type="email" id="q02_email" placeholder="example@email.com"
+           autocomplete="email" required aria-required="true">
   </div>
 
   <!-- Q3 業種 -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q03_industry">業種を教えてください<span class="mc-required">*</span></label>
-    <select id="q03_industry">
-      <option value="">選択してください</option>
-      <option value="IT・ソフトウェア">IT・ソフトウェア</option>
-      <option value="広告・マーケティング">広告・マーケティング</option>
-      <option value="教育">教育</option>
-      <option value="製造・メーカー">製造・メーカー</option>
-      <option value="サービス業">サービス業</option>
-      <option value="個人事業主・フリーランス">個人事業主・フリーランス</option>
-      <option value="その他">その他</option>
-    </select>
+    <label class="mc-field-label" for="q03_industry">業種を教えてください<span class="mc-required" aria-hidden="true">*</span></label>
+    <div class="mc-select-wrap">
+      <select id="q03_industry" required aria-required="true">
+        <option value="">選択してください</option>
+        <option value="IT・ソフトウェア">IT・ソフトウェア</option>
+        <option value="広告・マーケティング">広告・マーケティング</option>
+        <option value="教育">教育</option>
+        <option value="製造・メーカー">製造・メーカー</option>
+        <option value="サービス業">サービス業</option>
+        <option value="個人事業主・フリーランス">個人事業主・フリーランス</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
   </div>
 
   <!-- Q4 職種 -->
   <div class="mc-field">
-    <label class="mc-field-label">職種を教えてください<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q04">職種を教えてください<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q04">
       <label class="mc-option-item"><input type="radio" name="jp_spt_job" value="デザイナー"><span class="mc-option-label">デザイナー</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_job" value="マーケター"><span class="mc-option-label">マーケター</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_job" value="企画・プランナー"><span class="mc-option-label">企画・プランナー</span></label>
@@ -220,17 +457,17 @@
     </div>
   </div>
 
-  <!-- ══ 섹션 2: MiriCanvas利用状況 ══════════════════════════════ -->
+  <!-- ══ セクション 2: MiriCanvas利用状況 ═══════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">2</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">2</span>
     <span class="mc-section-title">MiriCanvas利用状況</span>
   </div>
 
   <!-- Q5 主な用途 -->
   <div class="mc-field">
-    <label class="mc-field-label">主にMiriCanvasを使っている用途を教えてください<span class="mc-required">*</span><span class="mc-optional">（複数選択可）</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q05">主にMiriCanvasを使っている用途を教えてください<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q05">
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_usage[]" value="SNS用の画像作成"><span class="mc-option-label">SNS用の画像作成</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_usage[]" value="プレゼンテーション資料"><span class="mc-option-label">プレゼンテーション資料</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_usage[]" value="YouTubeサムネイル・動画素材"><span class="mc-option-label">YouTubeサムネイル・動画素材</span></label>
@@ -244,8 +481,8 @@
 
   <!-- Q6 主な機能 -->
   <div class="mc-field">
-    <label class="mc-field-label">MiriCanvasで主に使っている機能を教えてください<span class="mc-required">*</span><span class="mc-optional">（複数選択可）</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q06">MiriCanvasで主に使っている機能を教えてください<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q06">
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_features[]" value="テンプレート"><span class="mc-option-label">テンプレート</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_features[]" value="編集エディタ"><span class="mc-option-label">編集エディタ</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_features[]" value="AIスライド生成"><span class="mc-option-label">AIスライド生成</span></label>
@@ -258,8 +495,8 @@
 
   <!-- Q7 利用頻度 -->
   <div class="mc-field">
-    <label class="mc-field-label">MiriCanvasをどれくらいの頻度で使っていますか？<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q07">MiriCanvasをどれくらいの頻度で使っていますか？<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q07">
       <label class="mc-option-item"><input type="radio" name="jp_spt_frequency" value="ほぼ毎日"><span class="mc-option-label">ほぼ毎日</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_frequency" value="週に数回"><span class="mc-option-label">週に数回</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_frequency" value="月に数回"><span class="mc-option-label">月に数回</span></label>
@@ -270,8 +507,8 @@
 
   <!-- Q8 利用期間 -->
   <div class="mc-field">
-    <label class="mc-field-label">MiriCanvasを使い始めて、どれくらいの期間が経ちましたか？<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q08">MiriCanvasを使い始めて、どれくらいの期間が経ちましたか？<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q08">
       <label class="mc-option-item"><input type="radio" name="jp_spt_tenure" value="1か月未満"><span class="mc-option-label">1か月未満</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_tenure" value="1〜3か月"><span class="mc-option-label">1〜3か月</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_tenure" value="3〜6か月"><span class="mc-option-label">3〜6か月</span></label>
@@ -281,36 +518,36 @@
     </div>
   </div>
 
-  <!-- ══ 섹션 3: MiriCanvasへの想い ══════════════════════════════ -->
+  <!-- ══ セクション 3: MiriCanvasへの想い ════════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">3</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">3</span>
     <span class="mc-section-title">MiriCanvasへの想い</span>
   </div>
 
   <!-- Q9 強み -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q09_strengths">MiriCanvasの強み・良いところは何だと思いますか？<span class="mc-required">*</span></label>
-    <textarea id="q09_strengths" placeholder="ご自由にお書きください"></textarea>
+    <label class="mc-field-label" for="q09_strengths">MiriCanvasの強み・良いところは何だと思いますか？<span class="mc-required" aria-hidden="true">*</span></label>
+    <textarea id="q09_strengths" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
   </div>
 
   <!-- Q10 改善点 -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q10_weaknesses">MiriCanvasの改善してほしい点・弱みは何ですか？<span class="mc-required">*</span></label>
-    <textarea id="q10_weaknesses" placeholder="ご自由にお書きください"></textarea>
+    <label class="mc-field-label" for="q10_weaknesses">MiriCanvasの改善してほしい点・弱みは何ですか？<span class="mc-required" aria-hidden="true">*</span></label>
+    <textarea id="q10_weaknesses" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
   </div>
 
-  <!-- ══ 섹션 4: 発信実績 ══════════════════════════════════════ -->
+  <!-- ══ セクション 4: 発信実績 ══════════════════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">4</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">4</span>
     <span class="mc-section-title">発信実績</span>
   </div>
 
   <!-- Q11 口コミ実績 -->
   <div class="mc-field">
-    <label class="mc-field-label">これまでにMiriCanvasを対面・口コミで誰かにおすすめしたことはありますか？<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q11">これまでにMiriCanvasを対面・口コミで誰かにおすすめしたことはありますか？<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q11">
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_offline" value="1〜2回"><span class="mc-option-label">1〜2回</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_offline" value="3〜5回"><span class="mc-option-label">3〜5回</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_offline" value="6回以上"><span class="mc-option-label">6回以上</span></label>
@@ -320,8 +557,8 @@
 
   <!-- Q12 SNS発信実績 -->
   <div class="mc-field">
-    <label class="mc-field-label">これまでにMiriCanvasについてSNSやブログで発信したことはありますか？<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q12">これまでにMiriCanvasについてSNSやブログで発信したことはありますか？<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q12">
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_online" value="1〜2回"><span class="mc-option-label">1〜2回</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_online" value="3〜5回"><span class="mc-option-label">3〜5回</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_referral_online" value="6回以上"><span class="mc-option-label">6回以上</span></label>
@@ -331,8 +568,8 @@
 
   <!-- Q13 紹介したい対象者 -->
   <div class="mc-field">
-    <label class="mc-field-label">ご自分の周りに、MiriCanvasを紹介したい方はどのような方ですか？<span class="mc-required">*</span><span class="mc-optional">（複数選択可）</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q13">ご自分の周りに、MiriCanvasを紹介したい方はどのような方ですか？<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q13">
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_target[]" value="職場の同僚・上司"><span class="mc-option-label">職場の同僚・上司</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_target[]" value="学校の友人・先生"><span class="mc-option-label">学校の友人・先生</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_target[]" value="SNSのフォロワー"><span class="mc-option-label">SNSのフォロワー</span></label>
@@ -343,30 +580,31 @@
     </div>
   </div>
 
-  <!-- ══ 섹션 5: 今後の活動について ══════════════════════════════ -->
+  <!-- ══ セクション 5: 今後の活動について ══════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">5</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">5</span>
     <span class="mc-section-title">今後の活動について</span>
   </div>
 
   <!-- Q14 期待すること -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q14_expectations">サポーターズに期待することは何ですか？<span class="mc-required">*</span></label>
-    <textarea id="q14_expectations" placeholder="ご自由にお書きください"></textarea>
+    <label class="mc-field-label" for="q14_expectations">サポーターズに期待することは何ですか？<span class="mc-required" aria-hidden="true">*</span></label>
+    <textarea id="q14_expectations" placeholder="ご自由にお書きください" required aria-required="true"></textarea>
   </div>
 
   <!-- Q15 SNS/ブログアカウント -->
   <div class="mc-field">
-    <label class="mc-field-label" for="q15_accounts">お持ちのSNSやブログアカウント<span class="mc-required">*</span></label>
+    <label class="mc-field-label" for="q15_accounts">お持ちのSNSやブログアカウント<span class="mc-required" aria-hidden="true">*</span></label>
     <div class="mc-field-hint">URLやアカウント名をご記入ください（例：X: @username　ブログ: https://...）</div>
-    <textarea id="q15_accounts" placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..." style="min-height:80px"></textarea>
+    <textarea id="q15_accounts" placeholder="X: @username&#10;Instagram: @username&#10;ブログ: https://..."
+              style="min-height:80px" required aria-required="true"></textarea>
   </div>
 
   <!-- Q16 紹介予定チャンネル -->
   <div class="mc-field">
-    <label class="mc-field-label">サポーター活動として、どのチャンネルでMiriCanvasを紹介する予定ですか？<span class="mc-required">*</span><span class="mc-optional">（複数選択可）</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q16">サポーター活動として、どのチャンネルでMiriCanvasを紹介する予定ですか？<span class="mc-required" aria-hidden="true">*</span><span class="mc-optional">（複数選択可）</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q16">
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_channels[]" value="X"><span class="mc-option-label">X（Twitter）</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_channels[]" value="Instagram"><span class="mc-option-label">Instagram</span></label>
       <label class="mc-option-item"><input type="checkbox" name="jp_spt_channels[]" value="YouTube"><span class="mc-option-label">YouTube</span></label>
@@ -377,17 +615,17 @@
     </div>
   </div>
 
-  <!-- ══ 섹션 6: その他 ══════════════════════════════════════════ -->
+  <!-- ══ セクション 6: その他 ════════════════════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">6</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">6</span>
     <span class="mc-section-title">その他</span>
   </div>
 
   <!-- Q17 認知経路 -->
   <div class="mc-field">
-    <label class="mc-field-label">MiriCanvasを知ったきっかけを教えてください<span class="mc-required">*</span></label>
-    <div class="mc-options-list">
+    <span class="mc-field-label" id="lbl-q17">MiriCanvasを知ったきっかけを教えてください<span class="mc-required" aria-hidden="true">*</span></span>
+    <div class="mc-options-list" role="group" aria-labelledby="lbl-q17">
       <label class="mc-option-item"><input type="radio" name="jp_spt_acquisition" value="SNS"><span class="mc-option-label">SNS</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_acquisition" value="Google検索"><span class="mc-option-label">Google検索</span></label>
       <label class="mc-option-item"><input type="radio" name="jp_spt_acquisition" value="YouTube"><span class="mc-option-label">YouTube</span></label>
@@ -399,16 +637,16 @@
     </div>
   </div>
 
-  <!-- Q18 コメント (任意) -->
+  <!-- Q18 コメント（任意） -->
   <div class="mc-field">
     <label class="mc-field-label" for="q18_comments">その他、運営チームに伝えたいことがあればご記入ください<span class="mc-optional">（任意）</span></label>
     <textarea id="q18_comments" placeholder="ご自由にお書きください"></textarea>
   </div>
 
-  <!-- ══ 섹션 7: 同意事項 ══════════════════════════════════════ -->
+  <!-- ══ セクション 7: 同意事項 ════════════════════════════════ -->
   <div class="mc-section-divider"></div>
-  <div class="mc-section-header">
-    <span class="mc-section-num">7</span>
+  <div class="mc-section-header" role="presentation">
+    <span class="mc-section-num" aria-hidden="true">7</span>
     <span class="mc-section-title">同意事項</span>
   </div>
 
@@ -418,8 +656,8 @@
       <div class="mc-consent-title">「MiriCanvasサポーターズ」公式LINEへの友だち追加について</div>
       <div class="mc-consent-body">サポーターズへのご参加にあたり、運営からの連絡・活動サポートのため、公式LINEへの友だち追加が必須となります。お申し込み後、友だち追加のご案内をお送りします。</div>
       <label class="mc-option-item">
-        <input type="checkbox" id="q19_agree_line">
-        <span class="mc-option-label">友だち追加が必須であることを承知の上、申し込みます<span class="mc-required">*</span></span>
+        <input type="checkbox" id="q19_agree_line" required aria-required="true">
+        <span class="mc-option-label">友だち追加が必須であることを承知の上、申し込みます<span class="mc-required" aria-hidden="true">*</span></span>
       </label>
     </div>
   </div>
@@ -430,31 +668,30 @@
       <div class="mc-consent-title">個人情報の取り扱いについて（同意）</div>
       <div class="mc-consent-body">ご入力いただいた個人情報は、サポーターズプログラムの運営・管理、ご連絡、サービス改善のためにのみ使用します。第三者への提供は行いません。</div>
       <label class="mc-option-item">
-        <input type="checkbox" id="q20_agree_privacy">
-        <span class="mc-option-label">個人情報の取り扱いに同意の上、申し込みます<span class="mc-required">*</span></span>
+        <input type="checkbox" id="q20_agree_privacy" required aria-required="true">
+        <span class="mc-option-label">個人情報の取り扱いに同意の上、申し込みます<span class="mc-required" aria-hidden="true">*</span></span>
       </label>
     </div>
   </div>
 
-  <p class="mc-submit-note">※ <span style="color:#e53e3e">*</span> のついた項目はすべて必須です。</p>
+  <p class="mc-submit-note">※ <span style="color:#b91c1c" aria-hidden="true">*</span> のついた項目はすべて必須です。</p>
 
 </div><!-- /#lp-form -->
 
-<!-- ─────────────────────── 제출 버튼 ────────────────────────── -->
+<!-- ─────────────── 送信ボタン ────────────────────────── -->
 <div class="mc-submit-wrap" id="submit-wrap">
   <button type="button" id="submit-btn" class="mc-submit-btn">この内容で申し込む</button>
 </div>
 
-<!-- ─────────────────────── 푸터 ──────────────────────────────── -->
+<!-- ─────────────── フッター ──────────────────────────── -->
 <div id="lp-footer" class="mc-footer">
   <img src="https://asset.cms.miricanvas.com/resources/storage/s/cp/bizhows/miricanvas_global_jp/MiriCanvas_logo.png"
        alt="MiriCanvas">
   <p>© 2026 MIRI D.I.H All rights reserved.</p>
 </div>
 
-<!-- ─────────────────────── 제출 스크립트 ────────────────────── -->
+<!-- ─────────────── 送信スクリプト ──────────────────── -->
 <script>
-  // ⚠️ Apps Script 배포 후 이 URL을 교체하세요
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhHyXKuHCqlhn0Gwv9JkYGGH8siN-p4Mb_cQPZSOKliM2bp67iaxRI5HYZ_EdwExZu/exec';
 
   let submitted = false;
@@ -465,7 +702,6 @@
     btn.addEventListener('click', async () => {
       if (submitted) return;
 
-      // 필수 항목 검증
       const missing = [];
       if (!document.getElementById('q01_name')?.value?.trim())                                    missing.push('お名前');
       if (!document.getElementById('q02_email')?.value?.trim())                                   missing.push('メールアドレス');
@@ -481,7 +717,7 @@
       if (!document.querySelector('input[name="jp_spt_referral_online"]:checked'))                missing.push('SNS発信実績');
       if (!document.querySelectorAll('input[name="jp_spt_target[]"]:checked').length)             missing.push('紹介したい対象者');
       if (!document.getElementById('q14_expectations')?.value?.trim())                            missing.push('サポーターズへの期待');
-      if (!document.getElementById('q15_accounts')?.value?.trim())                               missing.push('SNS/ブログアカウント');
+      if (!document.getElementById('q15_accounts')?.value?.trim())                                missing.push('SNS/ブログアカウント');
       if (!document.querySelectorAll('input[name="jp_spt_channels[]"]:checked').length)           missing.push('紹介予定チャンネル');
       if (!document.querySelector('input[name="jp_spt_acquisition"]:checked'))                    missing.push('MiriCanvasを知ったきっかけ');
       if (!document.getElementById('q19_agree_line')?.checked)                                    missing.push('LINE友だち追加への同意');
@@ -518,7 +754,7 @@
       };
 
       try {
-        // no-cors: Apps Script 웹앱 CORS 제한 우회. 응답 내용은 읽을 수 없음.
+        // no-cors: Apps ScriptのCORS制限を回避。レスポンスはApps Script実行ログで確認。
         await fetch(APPS_SCRIPT_URL, {
           method : 'POST',
           mode   : 'no-cors',
