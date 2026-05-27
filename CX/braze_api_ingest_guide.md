@@ -130,7 +130,9 @@ Settings → APIs and Identifiers → App Identifiers 탭
 
 ---
 
-## 3. 구글폼 연동 — Apps Script 예시
+## 3. Apps Script 연동 예시
+
+### 3-A. 구글폼 연동 — onFormSubmit 방식
 
 구글폼 → 스프레드시트 연결 후, 스프레드시트의 **확장 프로그램 → Apps Script**에 아래 코드 추가.
 
@@ -180,6 +182,80 @@ function onFormSubmit(e) {
 ```
 
 **트리거 설정**: Apps Script 편집기 → 왼쪽 시계 아이콘(트리거) → `onFormSubmit` → 이벤트: 스프레드시트 / 폼 제출 시
+
+---
+
+### 3-B. 외부 HTML 폼 연동 — doPost 웹앱 방식 ★현행
+
+구글폼 없이 GitHub Pages 등 외부 HTML 폼에서 직접 POST를 받는 방식.
+Apps Script를 **웹앱으로 배포**하면 외부에서 접근 가능한 URL이 생긴다.
+
+**배포 방법:**
+1. Apps Script 편집기 → **배포 → 새 배포 → 웹앱**
+2. 실행 주체: **나** / 액세스: **모든 사용자**
+3. 배포 → 생성된 URL을 HTML 폼의 `fetch()` 엔드포인트로 사용
+
+**Apps Script 코드 (`doPost` 핸들러):**
+
+```javascript
+const CONFIG = {
+  BRAZE_API_KEY  : "YOUR_BRAZE_API_KEY",
+  BRAZE_ENDPOINT : "https://rest.iad-07.braze.com",
+  SHEET_ID       : "YOUR_GOOGLE_SPREADSHEET_ID",
+};
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    saveToSheet(data);   // 전체 응답 Google Sheet에 백업
+    sendToBraze(data);   // 이름·이메일·이벤트만 Braze로
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "ok" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function sendToBraze(data) {
+  const email = data.email;
+  const payload = {
+    attributes: [{
+      user_alias            : { alias_name: email, alias_label: "email" },
+      _update_existing_only : false,
+      email                 : email,
+      full_name             : data.name,
+      supporters_round_1    : true,
+    }],
+    events: [{
+      user_alias : { alias_name: email, alias_label: "email" },
+      name       : "supporters_form_submitted",
+      time       : new Date().toISOString(),
+      properties : { round: 1 },
+    }],
+  };
+  UrlFetchApp.fetch(CONFIG.BRAZE_ENDPOINT + "/users/track", {
+    method: "post", contentType: "application/json",
+    headers: { Authorization: "Bearer " + CONFIG.BRAZE_API_KEY },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+  });
+}
+```
+
+**HTML 폼 fetch 예시:**
+
+```javascript
+await fetch(APPS_SCRIPT_URL, {
+  method : "POST",
+  mode   : "no-cors",  // Apps Script CORS 제한 우회
+  body   : JSON.stringify(formData),
+});
+```
+
+> `no-cors` 모드에서는 응답 내용을 읽을 수 없음. 실패 여부는 Apps Script 실행 로그에서 확인.
 
 ---
 
