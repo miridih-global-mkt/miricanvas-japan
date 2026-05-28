@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>44 메트릭 랭킹</title>
+<style>
+body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;max-width:1200px;margin:2em auto;padding:0 2em;line-height:1.6;color:#222}
+h1{border-bottom:2px solid #333;padding-bottom:.3em}
+h2{border-bottom:1px solid #ccc;padding-bottom:.2em;margin-top:2em}
+h3{margin-top:1.6em;color:#444}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92em}
+th,td{border:1px solid #bbb;padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#f0f4f8;font-weight:600}
+tr:nth-child(even){background:#fafafa}
+code{background:#f4f4f4;padding:1px 6px;border-radius:3px;font-family:Consolas,Monaco,monospace;font-size:.9em}
+blockquote{border-left:4px solid #d0a000;background:#fffbeb;padding:8px 16px;margin:1em 0;color:#444}
+hr{border:0;border-top:1px solid #ddd;margin:2em 0}
+strong{color:#111}
+.star{color:#c47b00}
+</style></head><body>
+<h1>44개 후보 메트릭 — L1·L2 랭킹 종합 테이블</h1>
+<p>본 테이블은 메트릭 선정 가이드라인에 따라 L1(캔버스 단위)·L2(캔버스 × user_type 단위)에서 산출된 ranking 결과이다. 종합 점수 = 0.6 × (일관성 ≥ 70% 통과율) + 0.4 × (강신호 통과율).</p>
+<p><strong>⭐ = 최종 선정 핵심 9개 메트릭</strong></p>
+<table><thead><tr>
+<th>순번</th>
+<th>한국어명</th>
+<th>영어 ID</th>
+<th>정의</th>
+<th>카테고리</th>
+<th>L1 순위</th>
+<th>L2 순위</th>
+<th>코어 9</th>
+<th>비고</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>유저수</td>
+<td>user_count</td>
+<td>COUNT(DISTINCT external_user_id)</td>
+<td>모수</td>
+<td>-</td>
+<td>-</td>
+<td>⭐</td>
+<td>모든 cell의 분모. ranking 대상 아님</td>
+</tr>
+<tr>
+<td>2</td>
+<td>열람률</td>
+<td>open_rate</td>
+<td>AVG(is_open='1')</td>
+<td>메일 진단</td>
+<td>(1)*</td>
+<td>(1)*</td>
+<td></td>
+<td>Treatment 내부 진단용. Control 미수신이라 A/B 무효</td>
+</tr>
+<tr>
+<td>3</td>
+<td>클릭률</td>
+<td>click_rate</td>
+<td>AVG(is_clicked='1')</td>
+<td>메일 진단</td>
+<td>(2)*</td>
+<td>(8)*</td>
+<td></td>
+<td>Treatment 내부 진단용</td>
+</tr>
+<tr>
+<td>4</td>
+<td>열람대비클릭률</td>
+<td>open_to_click</td>
+<td>SUM(is_clicked='1')/SUM(is_open='1')</td>
+<td>메일 진단</td>
+<td>-</td>
+<td>-</td>
+<td></td>
+<td>Treatment 내부 진단용</td>
+</tr>
+<tr>
+<td>5</td>
+<td>로그인비율D1</td>
+<td>LRate24h</td>
+<td>AVG(login_24h_yn='1')</td>
+<td>로그인 도달 (binary)</td>
+<td>15</td>
+<td>7</td>
+<td></td>
+<td>binary는 정보량 적음</td>
+</tr>
+<tr>
+<td>6</td>
+<td>로그인비율D3</td>
+<td>LRate72h</td>
+<td>AVG(login_72h_yn='1')</td>
+<td>로그인 도달 (binary)</td>
+<td>17</td>
+<td>11</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>로그인비율D7</td>
+<td>LRate168h</td>
+<td>AVG(login_168h_yn='1')</td>
+<td>로그인 도달 (binary)</td>
+<td>12</td>
+<td>17</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>(총)로그인비율</td>
+<td>LRateTotal</td>
+<td>AVG(login_total_yn='1')</td>
+<td>로그인 도달 (binary)</td>
+<td>25</td>
+<td>28</td>
+<td></td>
+<td>누적 binary는 약함</td>
+</tr>
+<tr>
+<td>9</td>
+<td>로그인평균일수D1</td>
+<td>LPU24h</td>
+<td>AVG(login_days_24h)</td>
+<td>로그인 평균 (raw)</td>
+<td>20</td>
+<td><strong>2</strong></td>
+<td></td>
+<td>cap 제거 raw</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>로그인평균일수D3</strong></td>
+<td><strong>LPU72h</strong></td>
+<td>AVG(login_days_72h)</td>
+<td>로그인 평균 (raw)</td>
+<td>14</td>
+<td><strong>3</strong></td>
+<td>⭐</td>
+<td>L2 매우 강함</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>로그인평균일수D7</strong></td>
+<td><strong>LPU168h</strong></td>
+<td>AVG(login_days_168h)</td>
+<td>로그인 평균 (raw)</td>
+<td><strong>7</strong></td>
+<td><strong>4</strong></td>
+<td>⭐</td>
+<td>Universal champion</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>(총)로그인평균일수</strong></td>
+<td><strong>LPU_total</strong></td>
+<td>AVG(login_days_total)</td>
+<td>로그인 평균 (raw)</td>
+<td><strong>5</strong></td>
+<td>10</td>
+<td>⭐</td>
+<td>L1 매우 강, 장기</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>로그인2일이상비율D3</strong></td>
+<td><strong>L72h_ge2</strong></td>
+<td>AVG(login_days_72h>=2)</td>
+<td>로그인 깊이</td>
+<td><strong>4</strong></td>
+<td>5</td>
+<td>⭐</td>
+<td>Universal strong</td>
+</tr>
+<tr>
+<td>14</td>
+<td>로그인2일이상비율D7</td>
+<td>L168h_ge2</td>
+<td>AVG(login_days_168h>=2)</td>
+<td>로그인 깊이</td>
+<td>13</td>
+<td>16</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>(총)로그인2일이상비율</td>
+<td>L_total_ge2</td>
+<td>AVG(login_days_total>=2)</td>
+<td>로그인 깊이</td>
+<td>11</td>
+<td>15</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>로그인3일이상비율D7</strong></td>
+<td><strong>L168h_ge3</strong></td>
+<td>AVG(login_days_168h>=3)</td>
+<td>로그인 깊이</td>
+<td><strong>3</strong></td>
+<td>9</td>
+<td>⭐</td>
+<td>L1 최강</td>
+</tr>
+<tr>
+<td>17</td>
+<td>(총)로그인3일이상비율</td>
+<td>L_total_ge3</td>
+<td>AVG(login_days_total>=3)</td>
+<td>로그인 깊이</td>
+<td>25</td>
+<td>18</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>디자인비율D1</td>
+<td>DRate24h</td>
+<td>AVG(design_24h_yn='1')</td>
+<td>디자인 도달 (binary)</td>
+<td>15</td>
+<td>26</td>
+<td></td>
+<td>binary 한계</td>
+</tr>
+<tr>
+<td>19</td>
+<td>디자인비율D3</td>
+<td>DRate72h</td>
+<td>AVG(design_72h_yn='1')</td>
+<td>디자인 도달 (binary)</td>
+<td>21</td>
+<td>19</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>디자인비율D7</td>
+<td>DRate168h</td>
+<td>AVG(design_168h_yn='1')</td>
+<td>디자인 도달 (binary)</td>
+<td>28</td>
+<td>38</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>(총)디자인비율</td>
+<td>DRateTotal</td>
+<td>AVG(design_total_yn='1')</td>
+<td>디자인 도달 (binary)</td>
+<td>48</td>
+<td>31</td>
+<td></td>
+<td>매우 약함</td>
+</tr>
+<tr>
+<td>22</td>
+<td>디자인평균개수D1</td>
+<td>DPU24h</td>
+<td>AVG(design_count_24h)</td>
+<td>디자인 평균 (raw)</td>
+<td>30</td>
+<td>30</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td><strong>디자인평균개수D3</strong></td>
+<td><strong>DPU72h</strong></td>
+<td>AVG(design_count_72h)</td>
+<td>디자인 평균 (raw)</td>
+<td>26</td>
+<td><strong>12</strong></td>
+<td>⭐</td>
+<td>L2 디자인 최강</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>디자인평균개수D7</strong></td>
+<td><strong>DPU168h</strong></td>
+<td>AVG(design_count_168h)</td>
+<td>디자인 평균 (raw)</td>
+<td>43</td>
+<td>17</td>
+<td>⭐</td>
+<td>L2 mid 디자인</td>
+</tr>
+<tr>
+<td>25</td>
+<td>(총)디자인평균개수</td>
+<td>DPU_total</td>
+<td>AVG(design_count_total)</td>
+<td>디자인 평균 (raw)</td>
+<td>46</td>
+<td>42</td>
+<td></td>
+<td>구 상한DPU(cap 제거)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>디자인복수생성비율D1</td>
+<td>D24h_ge2</td>
+<td>AVG(design_count_24h>=2)</td>
+<td>디자인 깊이</td>
+<td>18</td>
+<td>48</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>디자인복수생성비율D3</td>
+<td>D72h_ge2</td>
+<td>AVG(design_count_72h>=2)</td>
+<td>디자인 깊이</td>
+<td>27</td>
+<td>46</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>디자인복수생성비율D7</td>
+<td>D168h_ge2</td>
+<td>AVG(design_count_168h>=2)</td>
+<td>디자인 깊이</td>
+<td>34</td>
+<td>25</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>(총)디자인복수생성비율</td>
+<td>D_total_ge2</td>
+<td>AVG(design_count_total>=2)</td>
+<td>디자인 깊이</td>
+<td>35</td>
+<td>33</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>디자인3개이상비율D7</td>
+<td>D168h_ge3</td>
+<td>AVG(design_count_168h>=3)</td>
+<td>디자인 깊이</td>
+<td>25</td>
+<td>29</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>(총)디자인3개이상비율</td>
+<td>D_total_ge3</td>
+<td>AVG(design_count_total>=3)</td>
+<td>디자인 깊이</td>
+<td>45</td>
+<td>41</td>
+<td></td>
+<td>구 D>3 원본</td>
+</tr>
+<tr>
+<td>32</td>
+<td>디자인주간평균도달률</td>
+<td>Activ_AUC</td>
+<td>(DRate24h+DRate72h+DRate168h)/3</td>
+<td>활성화 곡선</td>
+<td>9</td>
+<td>43</td>
+<td></td>
+<td>L1 강함, L2 약함</td>
+</tr>
+<tr>
+<td>33</td>
+<td>로그인&디자인비율D1</td>
+<td>LD24h</td>
+<td>AVG(login_24h_yn='1' AND design_24h_yn='1')</td>
+<td>조합 활성</td>
+<td>16</td>
+<td>21</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>로그인&디자인비율D3</td>
+<td>LD72h</td>
+<td>AVG(login_72h_yn='1' AND design_72h_yn='1')</td>
+<td>조합 활성</td>
+<td>24</td>
+<td>13</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td>로그인&디자인비율D7</td>
+<td>LD168h</td>
+<td>AVG(login_168h_yn='1' AND design_168h_yn='1')</td>
+<td>조합 활성</td>
+<td>37</td>
+<td>36</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>36</td>
+<td>(총)로그인&디자인비율</td>
+<td>LD_total</td>
+<td>AVG(login_total_yn='1' AND design_total_yn='1')</td>
+<td>조합 활성</td>
+<td>47</td>
+<td>34</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td>로그인2&디자인2비율D7</td>
+<td>LDeep168h</td>
+<td>AVG(login_days_168h>=2 AND design_count_168h>=2)</td>
+<td>조합 활성 (deep)</td>
+<td>10</td>
+<td>35</td>
+<td></td>
+<td>L1 강함</td>
+</tr>
+<tr>
+<td>38</td>
+<td>(총)로그인2&디자인2비율</td>
+<td>LDeep_total</td>
+<td>AVG(login_days_total>=2 AND design_count_total>=2)</td>
+<td>조합 활성 (deep)</td>
+<td>33</td>
+<td>40</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>39</td>
+<td>로그인일당디자인수D1</td>
+<td>Stickiness_24h</td>
+<td>SUM(design_count_24h)/SUM(login_days_24h)</td>
+<td>활성 강도 (ratio)</td>
+<td>44</td>
+<td>50</td>
+<td></td>
+<td>비율의 비율</td>
+</tr>
+<tr>
+<td>40</td>
+<td>로그인일당디자인수D3</td>
+<td>Stickiness_72h</td>
+<td>SUM(design_count_72h)/SUM(login_days_72h)</td>
+<td>활성 강도 (ratio)</td>
+<td>23</td>
+<td>44</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td>로그인일당디자인수D7</td>
+<td>Stickiness_168h</td>
+<td>SUM(design_count_168h)/SUM(login_days_168h)</td>
+<td>활성 강도 (ratio)</td>
+<td>38</td>
+<td>32</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>42</td>
+<td>(총)로그인일당디자인수</td>
+<td>Stickiness_total</td>
+<td>SUM(design_count_total)/SUM(login_days_total)</td>
+<td>활성 강도 (ratio)</td>
+<td>49</td>
+<td>37</td>
+<td></td>
+<td>구 Stickiness 원본</td>
+</tr>
+<tr>
+<td>43</td>
+<td><strong>포스트W1재로그인률</strong></td>
+<td><strong>LRateReturn</strong></td>
+<td>AVG(login_days_total>login_days_168h)</td>
+<td>장기 재방문</td>
+<td>39</td>
+<td>47</td>
+<td>⭐</td>
+<td>약하지만 CRM anchor</td>
+</tr>
+<tr>
+<td>44</td>
+<td>포스트W1재디자인률</td>
+<td>DRateReturn</td>
+<td>AVG(design_count_total>design_count_168h)</td>
+<td>장기 재방문</td>
+<td>40</td>
+<td>49</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>(*) 메일 진단 metric은 Control이 메일 미수신이라 A/B 비교 시 구조적으로 z 매우 큼. ranking은 참고용.</p>
+<hr>
+<h2>카테고리별 강약 패턴</h2>
+<table><thead><tr>
+<th>카테고리</th>
+<th>L1 평균</th>
+<th>L2 평균</th>
+<th>평가</th>
+</tr></thead><tbody>
+<tr>
+<td>로그인 평균 (LPU)</td>
+<td>11.5</td>
+<td>4.75</td>
+<td>⭐⭐⭐ 가장 강함, 시간 윈도우 시리즈 모두 강</td>
+</tr>
+<tr>
+<td>로그인 깊이 (≥N)</td>
+<td>11.2</td>
+<td>12.6</td>
+<td>⭐⭐ 강함, 특히 ge2 D3, ge3 D7</td>
+</tr>
+<tr>
+<td>로그인 도달 binary</td>
+<td>17.2</td>
+<td>15.7</td>
+<td>△ 중간</td>
+</tr>
+<tr>
+<td>디자인 평균</td>
+<td>36.2</td>
+<td>25.2</td>
+<td>△ L2에선 D3·D7 mid, 전반적 약</td>
+</tr>
+<tr>
+<td>디자인 깊이 (≥N)</td>
+<td>30.7</td>
+<td>37</td>
+<td>❌ 약함</td>
+</tr>
+<tr>
+<td>디자인 도달 binary</td>
+<td>28</td>
+<td>28.5</td>
+<td>❌ 약함</td>
+</tr>
+<tr>
+<td>조합 활성</td>
+<td>31.2</td>
+<td>29.7</td>
+<td>❌ 약함 (L1 LDeep168h만 #10)</td>
+</tr>
+<tr>
+<td>활성 강도 (Stickiness)</td>
+<td>38.5</td>
+<td>40.7</td>
+<td>❌ 매우 약함 (ratio of ratios 한계)</td>
+</tr>
+<tr>
+<td>장기 재방문</td>
+<td>39.5</td>
+<td>48</td>
+<td>⚠ 매우 약함 (관측기간 한계, anchor용)</td>
+</tr>
+<tr>
+<td>메일 진단</td>
+<td>(별도)</td>
+<td>(별도)</td>
+<td>Treatment 내부용</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>핵심 발견</h2>
+<p>1. <strong>로그인 평균일수(LPU)가 최강 카테고리</strong> — 전 시간 윈도우(D1·D3·D7·총)에서 모두 강</p>
+<p>2. <strong>로그인 깊이(threshold) 강세</strong> — L72h_ge2 (L1 #4), L168h_ge3 (L1 #3)</p>
+<p>3. <strong>디자인 카테고리 전반적 약함</strong> — 메일이 디자인 행동을 직접 유도하는 효과 제한적</p>
+<p>4. <strong>L2에서는 D3 시간 윈도우가 강세</strong> — segment 분석엔 단기 윈도우가 더 잘 잡음</p>
+<p>5. <strong>Stickiness 무력화</strong> — 비율의 비율 구조로 잡음 폭증, L1 #38, L2 #40</p>
+<p>6. <strong>누적(총) 시리즈는 코호트 편향으로 약함</strong> — 가입 시점 차이가 잡음</p>
+</body></html>

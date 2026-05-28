@@ -212,26 +212,32 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 .pbox .punit{font-size:12px;color:var(--muted)}
 .pbox .plist{font-size:12.5px;color:var(--ink-2);margin-top:10px;text-align:left;line-height:1.7}
 
-/* ── Source chips (always visible) ── */
-.chip{
-  display:inline-block;
-  padding:1px 7px;
-  border-radius:3px;
-  font-size:10px;
-  font-weight:600;
+/* ── Source tooltip (hover) ── */
+[data-src]{position:relative}
+[data-src]:hover{outline:1px dashed var(--mc);outline-offset:3px;border-radius:4px}
+[data-src]::after{
+  content:"📎 출처: " attr(data-src);
+  position:absolute;
+  top:calc(100% + 6px);
+  left:0;
+  background:var(--navy);
+  color:#fff;
+  padding:7px 12px;
+  border-radius:6px;
+  font-size:11.5px;
+  font-weight:500;
+  line-height:1.55;
+  max-width:380px;
+  width:max-content;
+  white-space:normal;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s;
+  z-index:200;
+  box-shadow:0 6px 18px rgba(0,0,0,0.18);
   letter-spacing:-.005em;
-  margin-left:6px;
-  vertical-align:2px;
-  border:1px solid;
-  white-space:nowrap;
 }
-.chip.pb       {background:#E0FAFB;color:#02A8AD;border-color:#B2F0F2}
-.chip.pb-seg   {background:#F0F5FF;color:#3B5BB8;border-color:#D6E1F5}
-.chip.comp     {background:#FFF4F4;color:#B83A3A;border-color:#F5DDDD}
-.chip.comp-aip {background:#FDEAEA;color:#9C2222;border-color:#F2C9C9}
-.chip.guide    {background:#FBF4E4;color:#8B6914;border-color:#EDDFB8}
-.chip.guide-d  {background:#F7EFD9;color:#6B4F0F;border-color:#E2CFA0}
-.chip.feat     {background:#FAF5FF;color:#6B21A8;border-color:#E9D5FF}
+[data-src]:hover::after{opacity:1}
 
 /* ── Responsive ── */
 @media(max-width:880px){
@@ -257,43 +263,43 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
     <li><a href="#hero"><span class="num">—</span>커버 &amp; 핵심 수치</a></li>
     <div class="grp">PART 1 — 서비스 이해</div>
     <li><a href="#overview"><span class="num">1.1</span>MiriCanvas란</a></li>
-    <li><a href="#flow"><span class="num">1.2</span>AIPPT 4단계 개관</a></li>
-    <div class="grp">PART 2 — AIPPT 기능</div>
+    <li><a href="#worries"><span class="num">1.2</span>よくある悩み → 해결</a></li>
+    <li><a href="#flow"><span class="num">1.3</span>AIP 4단계 플로우</a></li>
+    <div class="grp">PART 2 — 기능 상세</div>
     <li><a href="#s1"><span class="num">2.1</span>STEP1 입력 · 3분 초안</a></li>
     <li><a href="#s2"><span class="num">2.2</span>STEP2 AI 아이데이션</a></li>
     <li><a href="#s3"><span class="num">2.3</span>STEP3 에디터 편집</a></li>
     <li><a href="#s4"><span class="num">2.4</span>STEP4 출력</a></li>
-    <div class="grp">PART 3 — 템플릿</div>
-    <li><a href="#local"><span class="num">3.1</span>일본 전용 템플릿</a></li>
-    <div class="grp">PART 4 — 협업·공유</div>
-    <li><a href="#collab"><span class="num">4.1</span>협업 · 공유</a></li>
-    <div class="grp">PART 5 — 경쟁사 비교</div>
-    <li><a href="#matrix"><span class="num">5.1</span>전체 비교 매트릭스</a></li>
-    <li><a href="#switch"><span class="num">5.2</span>경쟁사별 전환 메시지</a></li>
-    <li><a href="#weakpoints"><span class="num">5.3</span>미캔 약점 (반박 대응)</a></li>
-    <li><a href="#strengths"><span class="num">5.4</span>핵심 강점 Top 8</a></li>
-    <div class="grp">PART 6 — 가격·플랜</div>
-    <li><a href="#price"><span class="num">6.1</span>가격 경쟁력</a></li>
-    <div class="grp">PART 7 — 카피 뱅크</div>
-    <li><a href="#copy"><span class="num">7.1</span>카피 메시지</a></li>
-    <div class="grp">— 부록 (후반부) —</div>
-    <li><a href="#ai-features"><span class="num">8.1</span>AI 기능 부록</a></li>
-    <li><a href="#chart"><span class="num">9.1</span>차트 부록 (10종)</a></li>
-    <li><a href="#p-biz"><span class="num">10.1</span>페르소나 — 영업 (보조)</a></li>
-    <li><a href="#p-corp"><span class="num">10.2</span>페르소나 — 경영지원</a></li>
-    <li><a href="#p-edu"><span class="num">10.3</span>페르소나 — 교육</a></li>
-    <li><a href="#p-mkt"><span class="num">10.4</span>페르소나 — 마케팅</a></li>
+    <li><a href="#asset"><span class="num">2.5</span>AI 에셋 · 소재</a></li>
+    <li><a href="#chart"><span class="num">2.6</span>차트 · 데이터 시각화</a></li>
+    <li><a href="#collab"><span class="num">2.7</span>협업 · 공유</a></li>
+    <li><a href="#local"><span class="num">2.8</span>일본 로컬 핏</a></li>
+    <div class="grp">PART 3 — 강점 · 소구점</div>
+    <li><a href="#strengths"><span class="num">3.1</span>핵심 강점 Top 8</a></li>
+    <li><a href="#price"><span class="num">3.2</span>가격 경쟁력</a></li>
+    <div class="grp">PART 4 — 경쟁사 비교</div>
+    <li><a href="#matrix"><span class="num">4.1</span>전체 비교 매트릭스</a></li>
+    <li><a href="#switch"><span class="num">4.2</span>경쟁사별 전환 메시지</a></li>
+    <div class="grp">PART 5 — 타겟 페르소나</div>
+    <li><a href="#p-biz"><span class="num">5.1</span>영업직 (4종)</a></li>
+    <li><a href="#p-corp"><span class="num">5.2</span>경영지원 (5종)</a></li>
+    <li><a href="#p-edu"><span class="num">5.3</span>교육 (4종)</a></li>
+    <li><a href="#p-mkt"><span class="num">5.4</span>마케팅 (3종)</a></li>
+    <li><a href="#weakpoints"><span class="num">5.5</span>파트너 알아야 할 약점</a></li>
+    <div class="grp">PART 6 — 소구 메시지 뱅크</div>
+    <li><a href="#copy"><span class="num">6.1</span>카피 모음</a></li>
+    <div class="grp">PART 7 — 파트너 가이드</div>
+    <li><a href="#content"><span class="num">7.1</span>콘텐츠 가이드라인</a></li>
+    <li><a href="#script"><span class="num">7.2</span>영상 스크립트 예시</a></li>
+    <li><a href="#rules"><span class="num">7.3</span>필수 체크리스트</a></li>
     <div class="grp">원본 자료 (외부 ↗)</div>
-    <li><a href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022" target="_blank" title="전체 통합 플레이북"><span class="num">★</span>플레이북</a></li>
-    <li><a href="https://docs.google.com/spreadsheets/d/1ql8CMcqzI3I3Be2y3yudj1kYmxDVI9hWJVEbL6Vzyqg/edit?gid=403636289" target="_blank" title="영업직 4종 페르소나"><span class="num">📊</span>플레이북(영업)</a></li>
-    <li><a href="https://docs.google.com/spreadsheets/d/1T7HaszswVYbbT_99Uh2Rjvp-yUU5d1Zu6u2tGltk17c/edit?gid=403636289" target="_blank" title="경영지원 5종"><span class="num">📊</span>플레이북(경영)</a></li>
-    <li><a href="https://docs.google.com/spreadsheets/d/1AzXCKZmsyz7ClmTslH0i6aSAjshFepr0yUIll_UKkx4/edit?gid=1309109622" target="_blank" title="교육 4종"><span class="num">📊</span>플레이북(교육)</a></li>
-    <li><a href="https://docs.google.com/spreadsheets/d/1oBrwOciGZ2UspERFCcWEZfZq84MYf-4Xk83VAPi1lG0/edit?gid=1309109622" target="_blank" title="마케팅 3종"><span class="num">📊</span>플레이북(마케팅)</a></li>
-    <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265" target="_blank" title="MiriCanvas AIP 경쟁사 비교 + 소구 메시지"><span class="num">📘</span>경합(AIP)</a></li>
-    <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/1247477942" target="_blank" title="광범위 경쟁사 비교 21항목"><span class="num">📘</span>경합</a></li>
-    <li><a href="https://www.notion.so/" target="_blank" title="Notion 인플루언서 가이드 — 서비스 소개"><span class="num">📝</span>가이드(개요)</a></li>
-    <li><a href="https://www.notion.so/" target="_blank" title="Notion 인플루언서 가이드 — 콘텐츠 가이드 (외부 공개용 합성 정보, 1차 출처는 플레이북)"><span class="num">📝</span>가이드(상세)</a></li>
-    <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2367816102" target="_blank" title="실험컨셉 백로그 — 주요기능 정리·콘텐츠 후보"><span class="num">🧪</span>주요기능</a></li>
+    <li><a href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022" target="_blank" title="전체 통합 플레이북 (영업·경영지원·교육·마케팅·STEP·차트·경쟁사)"><span class="num">★</span>전체 플레이북</a></li>
+    <li><a href="https://docs.google.com/spreadsheets/d/1ql8CMcqzI3I3Be2y3yudj1kYmxDVI9hWJVEbL6Vzyqg/edit?gid=403636289" target="_blank" title="영업직 4종 페르소나 — B2B·부동산·보험금융·영업기획"><span class="num">📊</span>영업 플레이북</a></li>
+    <li><a href="https://docs.google.com/spreadsheets/d/1T7HaszswVYbbT_99Uh2Rjvp-yUU5d1Zu6u2tGltk17c/edit?gid=403636289" target="_blank" title="경영지원 5종 — HR·총무·경리재무·IT·경영기획"><span class="num">📊</span>경영지원 플레이북</a></li>
+    <li><a href="https://docs.google.com/spreadsheets/d/1AzXCKZmsyz7ClmTslH0i6aSAjshFepr0yUIll_UKkx4/edit?gid=1309109622" target="_blank" title="교육 4종 — 초등·고등·교육위원회·학원강사"><span class="num">📊</span>교육 플레이북</a></li>
+    <li><a href="https://docs.google.com/spreadsheets/d/1oBrwOciGZ2UspERFCcWEZfZq84MYf-4Xk83VAPi1lG0/edit?gid=1309109622" target="_blank" title="마케팅 3종 — SNS 크리에이터·에이전시 AE·브랜드 PR"><span class="num">📊</span>마케팅 플레이북</a></li>
+    <li><a href="https://miridih.atlassian.net/wiki/spaces/" target="_blank" title="AI 프레젠테이션 경쟁사 비교 — Page ID 1247477942"><span class="num">📘</span>Confluence 경쟁사 비교</a></li>
+    <li><a href="https://www.notion.so/" target="_blank" title="미캔 인플루언서 가이드라인 — 콘텐츠/스크립트/체크리스트 원본"><span class="num">📝</span>Notion 인플루언서 가이드</a></li>
     <li><a href="https://www.miricanvas.com/ja" target="_blank" title="미리캔버스 일본 공식 사이트"><span class="num">🌐</span>공식 사이트(JP)</a></li>
   </ul>
 </aside>
@@ -334,14 +340,14 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </div>
 
 <div class="callout" style="font-size:12.5px;margin-top:14px">
-  <strong>💡 검수자 안내 (임시):</strong> 각 섹션 제목·페르소나 카드·STEP별 카피 카드에 마우스를 올리면 <strong>📎 출처 툴팁</strong>이 표시됩니다 (약칭: <code>PB-ALL</code> 통합 플레이북 · <code>PB-영업/경영/교육/마케팅</code> 직군별 플레이북 · <code>WIKI-1/2</code> Confluence 경쟁사 비교 · <code>INFLU-서비스/콘텐츠</code> Notion 인플루언서 가이드). 좌측 사이드바 하단 <strong>원본 자료 (외부 ↗)</strong>에서 원본으로 바로 이동. (검수 완료 후 삭제 예정)
+  <strong>💡 검수자 안내 (임시):</strong> 각 섹션 제목·페르소나 카드·STEP별 카피 카드에 마우스를 올리면 <strong>📎 출처 툴팁</strong>이 표시됩니다. 좌측 사이드바 하단의 <strong>원본 자료 (외부 ↗)</strong>에서 플레이북·Confluence·Notion 원본으로 바로 이동할 수 있습니다. (이 안내 블록은 검수 완료 후 삭제 예정)
 </div>
 
 <!-- ═══════ PART 1 ═══════ -->
 <section class="sec" id="overview">
-  <div class="sec-hd">
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 — 서비스 개요·핵심 메시지·타겟 3축">
     <span class="sec-no">1.1</span>
-    <h2 class="sec-title">MiriCanvas란 무엇인가 <span class="chip pb">플레이북</span><span class="chip guide">가이드(개요)</span></h2>
+    <h2 class="sec-title">MiriCanvas란 무엇인가</h2>
   </div>
   <p class="lead-p">MiriCanvas(ミリキャンバス)는 한국 미리디(MIRI D.I.H)가 개발한 <strong>AI 기반 올인원 디자인·프레젠테이션 플랫폼</strong>. 텍스트 입력 한 줄 또는 PDF 업로드만으로 구성·디자인·편집이 완성된 슬라이드를 3분 안에 생성한다.</p>
 
@@ -360,22 +366,61 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
     </div>
   </div>
 
+  <h3>타겟 사용자 3대 축</h3>
+  <div class="cards">
+    <div class="card"><div class="ct">💻 비즈니스</div><div class="cb">영업·경영지원·마케팅. "시간은 없고 퀄리티는 포기 못하는" 직장인.</div></div>
+    <div class="card"><div class="ct">✏️ 교육</div><div class="cb">초중고 교사·학원강사·교육위원회. 수업 자료 반복 제작 부담 해소.</div></div>
+    <div class="card"><div class="ct">👩‍⚕️ 의료·간호</div><div class="cb">간호·의료 관계자. 연수·설명 자료를 빠르게 전문적으로.</div></div>
+  </div>
+
   <div class="callout">
     <strong>核心메시지 (일본 유저 목소리):</strong> "AIっぽくなく、そのまま仕事で使えるデザイン" / "日本のビジネス資料にも違和感なく使える" / "デザイン知識がなくても短時間で完成" / "これ1つで完結するからラク"
   </div>
 
-  <div class="hm" style="margin-top:18px">
+  <div class="hm" style="margin-top:18px" data-src="이중 플레이북 (전체 버전, 1Xu80zU...) — 최하단 요약 박스 'New AIP의 최종 목적'">
     <div class="hml">황금 유저 인사이트 (플레이북)</div>
     <div class="hmv">"템플릿 생성 + 편집 경험을 함께 한 사람들이 미리캔버스의 황금 유저"</div>
     <div class="hmd">유의미하게 생성되는 템플릿 자체로도 자료의 80% 완성. 나머지 20%는 편한 편집 경험이 채운다. 두 경험을 모두 느낀 사람이 잔존율·NPS 기준 황금 유저로 정의됨. → 홍보 시 "생성 + 편집" 두 단계를 모두 체험하게 유도할 것.</div>
   </div>
 </section>
 
+<!-- ── よくある悩み ── -->
+<section class="sec" id="worries">
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 — よくある悩み 4유형 (일본 사용자 조사 기반)">
+    <span class="sec-no imp">1.2</span>
+    <h2 class="sec-title">よくある悩み — 4가지 공통 고민과 미캔의 답</h2>
+  </div>
+  <p class="lead-p">일본 사용자 조사에서 반복 등장하는 4가지 핵심 고민. 파트너 콘텐츠의 <strong>공감 포인트</strong>로 직접 활용 가능하다.</p>
+
+  <div class="cards">
+    <div class="card mc">
+      <div class="ct">① スライド作成に時間がかかる</div>
+      <div class="cb">슬라이드 만드는 데 시간이 너무 걸린다. → <strong>미캔: 텍스트 한 줄 → 3분 이내 30장 완성.</strong> 구성부터 디자인까지 AI가 처리.</div>
+    </div>
+    <div class="card mc">
+      <div class="ct">② AIっぽいデザインになってしまう <span style="font-size:11px;color:var(--bad);font-weight:700">(핵심 불안)</span></div>
+      <div class="cb">AI 도구를 쓰면 "AI티가 난다"는 불안. 실제 이탈 1위 원인. → <strong>미캔: 일본 전용 10만+ 템플릿 기반 생성으로 "そのまま提出できるクオリティ".</strong></div>
+    </div>
+    <div class="card mc">
+      <div class="ct">③ 構成を考えるのが面倒</div>
+      <div class="cb">무엇을 어떻게 구성할지 결정하는 것 자체가 귀찮다. → <strong>미캔: 생성 전 목차 채팅으로 방향 수정. AI가 목차·구조를 먼저 제안.</strong></div>
+    </div>
+    <div class="card mc">
+      <div class="ct">④ 本来業務に集中できない</div>
+      <div class="cb">자료 만드는 데 시간이 빼앗겨 본업에 집중 못한다. → <strong>미캔: 자료 제작 시간 단축 → 본업 집중. "これ1つで完結するからラク."</strong></div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:12px">
+    <strong>콘텐츠 활용 팁:</strong> "AIっぽいデザインになってしまう" 고민은 일본 사용자 이탈의 핵심 원인. 홍보 콘텐츠에서 Before(AI티 나는 결과물) / After(미캔 결과물) 비교를 직접 보여주는 것이 가장 강력한 설득 방식.
+  </div>
+</section>
+
 <!-- ── AIP Flow ── -->
 <section class="sec" id="flow">
-  <div class="sec-hd">
-    <span class="sec-no">1.2</span>
-    <h2 class="sec-title">AIPPT 4단계 플로우 개관 <span class="chip pb">플레이북</span></h2>
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — STEP 1~4 시트 종합">
+    <span class="sec-no">1.3</span>
+    <h2 class="sec-title">AIP 4단계 플로우</h2>
   </div>
   <p>MiriCanvas AIP는 입력→AI아이데이션→편집→출력의 4단계로 구성된다. 각 단계에서 경쟁사 대비 결정적 우위를 가진다.</p>
 
@@ -402,9 +447,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 
 <!-- ═══════ PART 2 ═══════ -->
 <section class="sec" id="s1">
-  <div class="sec-hd">
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — STEP 1 입력 시트 · 미캔_소구점_종합리포트 입력 기능">
     <span class="sec-no imp">2.1</span>
-    <h2 class="sec-title">STEP 1 — 입력 · 3분 초안 생성 <span class="chip pb">플레이북</span></h2>
+    <h2 class="sec-title">STEP 1 — 입력 · 3분 초안 생성</h2>
   </div>
   <p class="lead-p">"어떤 형태로 넣어도 AI가 목차와 슬라이드를 자동 설계한다." 3가지 입력 방식과 업계 최다 슬라이드 수가 핵심.</p>
 
@@ -434,9 +479,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="s2">
-  <div class="sec-hd">
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — STEP 2 AI 아이데이션 시트">
     <span class="sec-no">2.2</span>
-    <h2 class="sec-title">STEP 2 — AI 아이데이션 · 채팅 수정 <span class="chip pb">플레이북</span></h2>
+    <h2 class="sec-title">STEP 2 — AI 아이데이션 · 채팅 수정</h2>
   </div>
   <p class="lead-p">생성 전·후 모두 채팅으로 방향·구조·내용을 자유롭게 조정. <strong>다른 AI 툴을 오가지 않아도 된다</strong>는 것이 핵심.</p>
 
@@ -462,9 +507,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="s3">
-  <div class="sec-hd">
+  <div class="sec-hd" data-src="이중 플레이북 STEP 3 편집 시트 + Confluence(Page 1247477942) 약점·로드맵 + 미캔_소구점_종합리포트">
     <span class="sec-no imp">2.3</span>
-    <h2 class="sec-title">STEP 3 — 에디터 편집 · 완전 자유 커스터마이징 <span class="chip pb">플레이북</span><span class="chip comp">경합</span></h2>
+    <h2 class="sec-title">STEP 3 — 에디터 편집 · 완전 자유 커스터마이징</h2>
   </div>
   <p class="lead-p"><strong>Gamma·GenSpark의 핵심 약점을 정면으로 해결하는 영역.</strong> "생성 후 막히는 일이 없다"는 것이 미캔 편집의 정의.</p>
 
@@ -509,9 +554,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="s4">
-  <div class="sec-hd">
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — STEP 4 출력 시트 · 미캔_소구점_종합리포트 출력 기능">
     <span class="sec-no imp">2.4</span>
-    <h2 class="sec-title">STEP 4 — 출력 · 다운로드 <span class="chip pb">플레이북</span></h2>
+    <h2 class="sec-title">STEP 4 — 출력 · 다운로드</h2>
   </div>
   <p class="lead-p">일본 직장인의 90%가 PowerPoint를 사용한다. <strong>PPTX 완벽 호환 무료 출력</strong>은 일본 시장에서 결정적 소구점.</p>
 
@@ -543,12 +588,57 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
   </div>
 </section>
 
-<section class="sec" id="chart">
-  <div class="sec-hd">
-    <span class="sec-no imp">9.1</span>
-    <h2 class="sec-title">차트 · 데이터 시각화 ★ 부록 (경쟁사 중 최다 10종) <span class="chip pb">플레이북</span></h2>
+<section class="sec" id="asset">
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 — AI 에셋·요소·레이아웃·템플릿 카테고리">
+    <span class="sec-no">2.5</span>
+    <h2 class="sec-title">AI 에셋 · 소재</h2>
   </div>
-  <div class="callout warn" style="margin-bottom:14px;font-size:12.5px"><strong>⚠ 현재 AIP 내 사용 불가:</strong> 차트는 장차 AIP에 통합 예정이나, 현재는 별도 사용. AI 슬라이드 자동 생성 결과물에 자동 포함되지는 않음.</div>
+
+  <div class="cards">
+    <div class="card mc"><div class="ct">배경 제거 <span class="diff win">무료</span></div><div class="cb">클릭 한 번에 누끼. <span class="diff pay">Canva: 유료</span></div></div>
+    <div class="card mc"><div class="ct">AI 이미지·일러스트 생성</div><div class="cb">프롬프트 기반 이미지·동영상 생성. 외부 스톡 의존 제거.</div></div>
+    <div class="card mc"><div class="ct">AI 아이콘 생성</div><div class="cb">딱 맞는 아이콘 찾기 어려울 때 AI 즉석 생성. 색상 변경도 가능.</div></div>
+    <div class="card mc"><div class="ct">AI 인포그래픽 생성</div><div class="cb">프롬프트로 인포그래픽 자동 생성.</div></div>
+    <div class="card"><div class="ct">고화질화 (업스케일)</div><div class="cb">저해상도 이미지 고화질 변환.</div></div>
+    <div class="card"><div class="ct">AI 프리셋</div><div class="cb">톤이 일정한 요소 생성. 브랜드 일관성 유지.</div></div>
+    <div class="card"><div class="ct">어울리는 요소 자동 추천</div><div class="cb">이미지 업로드 → 비슷한 스타일 요소 자동 추천.</div></div>
+    <div class="card"><div class="ct">요소 2,000만 개</div><div class="cb">스타일 기반 검색 + 다중 키워드 필터링.</div></div>
+  </div>
+
+  <div class="cards" style="margin-top:14px">
+    <div class="card mc">
+      <div class="ct">3만 종류 이상 레이아웃</div>
+      <div class="cb">레이아웃을 3만 종류 이상에서 자유 선택. 슬라이드 구성 방식의 폭이 경쟁사를 압도.</div>
+    </div>
+    <div class="card mc">
+      <div class="ct">검탐색 <span class="diff win">US only</span></div>
+      <div class="cb">긴 구절·키워드로 소재·템플릿 심층 검색. 현재 미국 지역 한정 제공 중. 일본 출시 시 소구 포인트.</div>
+    </div>
+  </div>
+
+  <h3>템플릿 카테고리 분류</h3>
+  <div class="cards">
+    <div class="card"><div class="ct">💼 비즈니스</div><div class="cb">제안서·기획서, 보고서 전용 템플릿. 일본 비즈니스 감각에 맞춘 레이아웃.</div></div>
+    <div class="card"><div class="ct">✏️ 교육</div><div class="cb">수업 자료 전용 템플릿. 초중고교·학원 교사가 즉시 활용 가능한 구성.</div></div>
+    <div class="card"><div class="ct">👩‍⚕️ 간호·의료</div><div class="cb">간호·의료 향 전용 템플릿. 연수·환자 설명 자료에 특화.</div></div>
+  </div>
+
+  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat"><div class="num mc">3,200만</div><div class="lbl">이미지·일러스트 소재</div></div>
+    <div class="stat"><div class="num mc">63만+</div><div class="lbl">템플릿 종류</div></div>
+    <div class="stat"><div class="num mc">2,000만</div><div class="lbl">편집 가능 요소</div></div>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);margin-top:-4px">
+    <div class="stat"><div class="num mc">3만+</div><div class="lbl">레이아웃 종류</div></div>
+    <div class="stat"><div class="num mc">10만+</div><div class="lbl">일본 전용 템플릿</div></div>
+  </div>
+</section>
+
+<section class="sec" id="chart">
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — 차트 유형 시트 (10종 + 유효 타겟 매핑)">
+    <span class="sec-no">2.6</span>
+    <h2 class="sec-title">차트 · 데이터 시각화</h2>
+  </div>
   <p class="lead-p">경쟁사 대부분이 기본 차트만 지원하는 반면, 미캔은 <strong>10가지 이상 차트 + 세밀 편집 + 데이터 자동 시각화(5월~)</strong>로 경영 보고 수준의 산출물이 가능하다.</p>
 
   <table class="tbl">
@@ -571,9 +661,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="collab">
-  <div class="sec-hd">
-    <span class="sec-no">4.1</span>
-    <h2 class="sec-title">협업 · 공유 <span class="chip pb">플레이북</span><span class="chip comp">경합</span></h2>
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 — 협업·공유 기능 + Confluence Irusiru 동시편집 비교">
+    <span class="sec-no">2.7</span>
+    <h2 class="sec-title">협업 · 공유</h2>
   </div>
   <div class="cards">
     <div class="card mc"><div class="ct">동시 편집</div><div class="cb">워크스페이스 외부 멤버도 참여 가능. 팀이 함께 실시간 편집. <span class="diff lose">Irusiru(이루시루): 불가</span></div></div>
@@ -586,23 +676,16 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="local">
-  <div class="sec-hd">
-    <span class="sec-no imp">3.1</span>
-    <h2 class="sec-title">일본 전용 템플릿 · 로컬 핏 <span class="chip pb">플레이북</span><span class="chip guide">가이드(개요)</span><span class="chip feat">주요기능</span></h2>
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 — 일본 로컬 핏·일본어 AI 완성도·전용 템플릿">
+    <span class="sec-no imp">2.8</span>
+    <h2 class="sec-title">일본 로컬 핏 — 글로벌 툴이 못 채우는 영역</h2>
   </div>
-  <p class="lead-p">Canva·Gamma·GenSpark는 글로벌 서비스로 일본 비즈니스 감각을 채우지 못한다. <strong>일본 전용 10만+ 템플릿 + 디자이너 퀄리티 자동 적용</strong>이 미캔의 차별점.</p>
-
-  <h3>핵심 자산 수치</h3>
-  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="stat"><div class="num mc">10만<span style="font-size:18px">+</span></div><div class="lbl">일본 전용 템플릿</div><div class="sub">글로벌 툴엔 없음</div></div>
-    <div class="stat"><div class="num mc">63만<span style="font-size:18px">+</span></div><div class="lbl">전체 템플릿</div></div>
-    <div class="stat"><div class="num mc">3,200만<span style="font-size:18px">+</span></div><div class="lbl">이미지·일러스트 소재</div></div>
-  </div>
+  <p class="lead-p">Canva·Gamma·GenSpark는 글로벌 서비스다. 일본 비즈니스 감각·언어·비주얼 컨벤션에 특화된 서비스는 미캔이 유일한 포지션.</p>
 
   <div class="cards">
     <div class="card mc">
       <div class="ct">일본 전용 템플릿 10만+</div>
-      <div class="cb">일본 감성 비즈니스 자료에 맞춘 전용 디자인. "日本のビジネス資料にも違和感なく使える." 디자이너 퀄리티가 자동 적용되어 디자인 역량 없어도 OK.</div>
+      <div class="cb">일본 감성 비즈니스 자료에 맞춘 전용 디자인. "日本のビジネス資料にも違和感なく使える."</div>
     </div>
     <div class="card mc">
       <div class="ct">일본어 AI 완성도</div>
@@ -618,7 +701,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
     </div>
   </div>
 
-  <div class="hm">
+  <div class="hm" data-src="미캔_소구점_종합리포트 — 포지셔닝 종합 (Canva 에셋 + Gamma AI + 일본 전용 레이어)">
     <div class="hml">일본 로컬 핏 핵심 소구</div>
     <div class="hmv">"グローバルツールが日本に合わせてくれないなら、最初から日本向けに作られたツールを使えばいい。"</div>
     <div class="hmd">Canva의 "풍부한 에셋"과 Gamma의 "AI 슬라이드"를 합친 자리에, 일본 전용 레이어를 얹은 것이 미캔의 포지션.</div>
@@ -627,9 +710,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 
 <!-- ═══════ PART 3 ═══════ -->
 <section class="sec" id="strengths">
-  <div class="sec-hd">
-    <span class="sec-no imp">5.4</span>
-    <h2 class="sec-title">핵심 강점 Top 8 — 홍보할 때 가장 먼저 꺼낼 포인트 <span class="chip pb">플레이북</span><span class="chip comp">경합</span></h2>
+  <div class="sec-hd" data-src="미캔_소구점_종합리포트 + 이중 플레이북 (전체 버전) 경쟁사 비교 매트릭스 종합">
+    <span class="sec-no imp">3.1</span>
+    <h2 class="sec-title">핵심 강점 Top 8 — 홍보할 때 가장 먼저 꺼낼 포인트</h2>
   </div>
 
   <div class="cards">
@@ -669,9 +752,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="price">
-  <div class="sec-hd">
-    <span class="sec-no">6.1</span>
-    <h2 class="sec-title">가격 경쟁력 <span class="chip pb">플레이북</span></h2>
+  <div class="sec-hd" data-src="이중 플레이북 (전체 버전) — 플랜·가격 시트 + 경쟁사 매트릭스 가격 행">
+    <span class="sec-no">3.2</span>
+    <h2 class="sec-title">가격 경쟁력</h2>
   </div>
 
   <div class="price-grid">
@@ -733,9 +816,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 
 <!-- ═══════ PART 4 ═══════ -->
 <section class="sec" id="matrix">
-  <div class="sec-hd">
-    <span class="sec-no imp">5.1</span>
-    <h2 class="sec-title">경쟁사 전체 비교 매트릭스 <span class="chip comp">경합</span><span class="chip comp-aip">경합(AIP)</span><span class="chip pb">플레이북</span></h2>
+  <div class="sec-hd" data-src="Confluence: AI 프레젠테이션 경쟁사 비교 (Page ID 1247477942) + 이중 플레이북 (전체 버전) 경쟁사 시트">
+    <span class="sec-no imp">4.1</span>
+    <h2 class="sec-title">경쟁사 전체 비교 매트릭스</h2>
   </div>
 
   <div style="overflow-x:auto">
@@ -780,9 +863,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="switch">
-  <div class="sec-hd">
-    <span class="sec-no">5.2</span>
-    <h2 class="sec-title">경쟁사별 전환 메시지 <span class="chip comp-aip">경합(AIP)</span><span class="chip comp">경합</span></h2>
+  <div class="sec-hd" data-src="Confluence 경쟁사 장단점(Page 1247477942) + 미캔_소구점_종합리포트 전환 메시지 + Irusiru 비교 데이터">
+    <span class="sec-no">4.2</span>
+    <h2 class="sec-title">경쟁사별 전환 메시지</h2>
   </div>
   <p>각 경쟁사 사용자의 핵심 불만을 파악하고, 미캔으로 전환하는 소구 메시지를 직접 사용할 수 있다.</p>
 
@@ -838,18 +921,14 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
   </div>
 </section>
 
-<!-- ═══════ PART 10 — 직군별 페르소나 (보조 자료) ═══════ -->
-<div class="callout warn" style="margin-top:36px;font-size:12.5px">
-  <strong>📌 이하 PART 10 — 직군별 페르소나 (광고 콘텐츠 제작용 보조 자료):</strong> 아래 페르소나·직군은 <strong>추후 변경·확장 가능</strong>. 메인 카피로 다루지 말고 <strong>보조 예시</strong>로 활용. 타깃이 바뀌더라도 백서 본문(PART 1~9)은 유효.
-</div>
-
+<!-- ═══════ PART 5 ═══════ -->
 <section class="sec" id="p-biz">
-  <div class="sec-hd">
-    <span class="sec-no">10.1</span>
-    <h2 class="sec-title">타겟 페르소나 — 영업직 (보조 예시) <span class="chip pb-seg">플레이북(세그별)</span></h2>
+  <div class="sec-hd" data-src="영업 플레이북 (1ql8CMcqzI3I3Be2y3yudj1kYmxDVI9hWJVEbL6Vzyqg) — P1 B2B·P2 부동산·P3 보험금융·P4 영업기획">
+    <span class="sec-no">5.1</span>
+    <h2 class="sec-title">타겟 페르소나 — 영업직</h2>
   </div>
   <div class="persona-grid">
-    <div class="pcard">
+    <div class="pcard" data-src="영업 플레이북 (1ql8CMcq...) — Persona 1: B2B 영업 33세 남 / 핵심 페인: 촉박한 마감 + 고객사별 제안서 반복">
       <div class="pname">P1 · B2B 영업 담당</div>
       <div class="ptag">남성 · 33세 · IT/SaaS · 주 3~7회 사용</div>
       <div class="ppain">고객사마다 다른 제안서를 촉박한 마감 안에 반복 제작. "내일 오전 미팅인데 오늘 밤 제안서 완성"이 일상. AI를 쓴 게 고객에게 티날까봐 불안.</div>
@@ -857,7 +936,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "영업 제안서 AI로 만들어봤다" 시연 콘텐츠, 동료 영업 담당자 추천</div>
       <div class="ptrig" style="margin-top:4px">⚠ 첫 결과물이 고객에게 보낼 수 없는 수준이면 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="영업 플레이북 (1ql8CMcq...) — Persona 2: 부동산 영업 38세 남 / 핵심 페인: 동일 구조 물건 제안서 대량 반복">
       <div class="pname">P2 · 부동산 영업 담당</div>
       <div class="ptag">남성 · 38세 · 부동산 · 일 1~5건</div>
       <div class="ppain">동일 구조 물건 제안서를 매일 대량 생성. 수치·사진만 바뀌는데 매번 PPT 수작업. "같은 구조를 왜 매번 처음부터?"</div>
@@ -865,7 +944,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "부동산 제안서 자동 생성" 시연 콘텐츠, 업계 커뮤니티 후기</div>
       <div class="ptrig" style="margin-top:4px">⚠ 수치·사진 교체가 번거로우면 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="영업 플레이북 (1ql8CMcq...) — Persona 3: 보험·금융 영업 31세 여 / 핵심 페인: 신뢰감 있는 완성도 + 컴플라이언스 우려">
       <div class="pname">P3 · 보험·금융 영업</div>
       <div class="ptag">여성 · 31세 · 생명보험 · 월 8~15회</div>
       <div class="ppain">고객별 플랜 제안서 반복 + 신뢰감 있는 완성도 요구 + 컴플라이언스 우려로 AI 도입에 신중.</div>
@@ -873,7 +952,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "보험 제안서 AI로 만들어봤다" 후기, 컴플라이언스 우려 해소 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ AI 결과물에서 금융 표현 오류 발견 시 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="영업 플레이북 (1ql8CMcq...) — Persona 4: 영업기획·영업지원 35세 여 / 핵심 페인: 팀 자료 품질 들쭉날쭉">
       <div class="pname">P4 · 영업기획 담당</div>
       <div class="ptag">여성 · 35세 · 중견기업 · 월 4~8회</div>
       <div class="ppain">팀 자료 품질이 들쭉날쭉. 템플릿을 만들어도 팀원이 안 씀. 누가 만들어도 일정 수준 이상이 나오는 구조가 필요.</div>
@@ -885,12 +964,12 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="p-corp">
-  <div class="sec-hd">
-    <span class="sec-no">10.2</span>
-    <h2 class="sec-title">타겟 페르소나 — 경영지원 (5종, 보조 예시) <span class="chip pb-seg">플레이북(세그별)</span></h2>
+  <div class="sec-hd" data-src="경영지원 플레이북 (1T7HaszswVYbbT_99Uh2Rjvp-yUU5d1Zu6u2tGltk17c) — P1 HR·P2 총무·P3 경리재무·P4 경영기획·P5 IT">
+    <span class="sec-no">5.2</span>
+    <h2 class="sec-title">타겟 페르소나 — 경영지원 (5종)</h2>
   </div>
   <div class="persona-grid">
-    <div class="pcard">
+    <div class="pcard" data-src="경영지원 플레이북 (1T7Hasz...) — Persona 1: HR 34세 여 / 핵심 페인: 채용 자료 반복 + 디자인 역량 없음">
       <div class="pname">P1 · 인사(HR) 담당</div>
       <div class="ptag">여성 · 34세 · 중견기업 · 채용 시즌 집중</div>
       <div class="ppain">온보딩·교육·채용 자료 반복 제작. 디자인 못하지만 결과물은 좋아야 하는 압박. 일본어 AI 불안.</div>
@@ -898,7 +977,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "HR 자료 AI로 만들어봤다" 후기 콘텐츠, 동료 HR 담당자 추천</div>
       <div class="ptrig" style="margin-top:4px">⚠ 일본어 품질 불만족 시 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="경영지원 플레이북 (1T7Hasz...) — Persona 2: 총무 42세 남 / 핵심 페인: 내용 조금 바뀌면 레이아웃 무너짐">
       <div class="pname">P2 · 총무 담당</div>
       <div class="ptag">남성 · 42세 · 중소기업 · 월 4~8회</div>
       <div class="ppain">규정 개정 안내 자료 수시 제작. 내용 한 줄 고쳤더니 레이아웃 전체가 무너져 전체 재작업.</div>
@@ -906,7 +985,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "사내 공지 자료 AI로 만들어봤다" 시연 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 레이아웃 재배치 기능이 기대 이하면 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="경영지원 플레이북 (1T7Hasz...) — Persona 3: 경리·재무 38세 여 / 핵심 페인: Excel→PPT 수동 변환 반복">
       <div class="pname">P3 · 경리·재무 담당</div>
       <div class="ptag">여성 · 38세 · 중견기업 · 월 4~6회</div>
       <div class="ppain">Excel 결산 데이터를 PPT로 옮기는 수동 반복 작업. 숫자 레이아웃이 항상 어색함. 경영진 보고 압박.</div>
@@ -914,7 +993,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "Excel 데이터를 PPT로 자동 변환" 시나리오 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 차트 품질 불만족 시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="경영지원 플레이북 (1T7Hasz...) — Persona 5: 경영기획 36세 남 / 핵심 페인: 임원 PT 수준 + AI 편집 자유도 부족 불만">
       <div class="pname">P4 · 경영기획 담당</div>
       <div class="ptag">남성 · 36세 · 중견기업 · 월 4~8회</div>
       <div class="ppain">임원 PT 수준 품질 + AI 편집 자유도 부족으로 불만. 결국 AI가 만든 걸 처음부터 다시 만들게 됨.</div>
@@ -922,7 +1001,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "임원 PT를 AI로 만들어봤다" 기획자·PM 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 편집 자유도 부족 느끼면 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="경영지원 플레이북 (1T7Hasz...) — Persona 4: IT·정보시스템 31세 남 / 핵심 페인: 비기술직 대상 전달 자료 작성 어려움">
       <div class="pname">P5 · IT·정보시스템 담당</div>
       <div class="ptag">남성 · 31세 · 중소~중견기업 IT부서 · 수시 발생</div>
       <div class="ppain">시스템 설명·운영 매뉴얼을 비기술직에게 전달하는 자료 제작이 어렵다. PPT 진입 장벽이 높고, 내용 업데이트 시마다 레이아웃 재작업.</div>
@@ -934,12 +1013,12 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="p-edu">
-  <div class="sec-hd">
-    <span class="sec-no">10.3</span>
-    <h2 class="sec-title">타겟 페르소나 — 교육 (보조 예시) <span class="chip pb-seg">플레이북(세그별)</span></h2>
+  <div class="sec-hd" data-src="교육 플레이북 (1AzXCKZmsyz7ClmTslH0i6aSAjshFepr0yUIll_UKkx4) — P1 초등·P2 고등·P3 교육위원회·P4 학원강사">
+    <span class="sec-no">5.3</span>
+    <h2 class="sec-title">타겟 페르소나 — 교육</h2>
   </div>
   <div class="persona-grid">
-    <div class="pcard">
+    <div class="pcard" data-src="교육 플레이북 (1AzXCKZm...) — Persona 1: 공립 초등교사 28세 여 / 핵심 페인: PPT 익숙치 않음 + 수업 준비 시간 부족">
       <div class="pname">P1 · 초등교사</div>
       <div class="ptag">여성 · 28세 · 공립초등 · 주 1~3회</div>
       <div class="ppain">수업 슬라이드 매주 만들어야 하지만 PPT 익숙하지 않음. 배울 시간도 없음. "쉽고 빠르게"가 최우선.</div>
@@ -947,7 +1026,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "초등 수업 자료 5분 만에 만들었다" 교사 인플루언서 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 조작이 조금이라도 복잡하면 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="교육 플레이북 (1AzXCKZm...) — Persona 2: 공립 고등교사 37세 남 / 핵심 페인: 수업 구성 고민 과다 + 일본어 AI 불안">
       <div class="pname">P2 · 고등교사</div>
       <div class="ptag">남성 · 37세 · 공립고등 · 주 2~4회</div>
       <div class="ppain">"어떻게 구성할지" 매주 반복 고민. AI에 관심 있지만 "일본어가 이상하게 나오지 않을까" 불안.</div>
@@ -955,7 +1034,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "실제 수업 자료를 AI로 만들어봤다" 비포/애프터 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 일본어 품질 불만족 시 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="교육 플레이북 (1AzXCKZm...) — Persona 3: 교육위원회 지도주사 44세 남 / 핵심 페인: 연수·정책 자료 매년 반복 + 대외 품격 필요">
       <div class="pname">P3 · 교육위원회 지도주사</div>
       <div class="ptag">남성 · 44세 · 시·구 교육위원회 · 월 2~4회</div>
       <div class="ppain">매년 같은 연수·정책 자료를 처음부터 다시 만드는 비효율. 대외 자료라 품격 필요. AI 공식 사용 신중.</div>
@@ -963,7 +1042,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: 교육위원회 내부 DX 추진 흐름, 동료 담당자 추천</div>
       <div class="ptrig" style="margin-top:4px">⚠ 완성도가 공식 기준 미달이면 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="교육 플레이북 (1AzXCKZm...) — Persona 4: 영어·수학 학원 강사 32세 여 / 핵심 페인: 학기마다 자료 수요 급증 + Canva 한계">
       <div class="pname">P4 · 학원 강사·운영 보조</div>
       <div class="ptag">여성 · 32세 · 영어·수학 학원 · 학기 초 집중</div>
       <div class="ppain">학부모 설명회·수업 슬라이드 반복. Canva 쓰지만 구성을 직접 짜야 해서 시간 걸림. 학기마다 자료 수요 급증.</div>
@@ -975,12 +1054,12 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 </section>
 
 <section class="sec" id="p-mkt">
-  <div class="sec-hd">
-    <span class="sec-no">10.4</span>
-    <h2 class="sec-title">타겟 페르소나 — 마케팅 (보조 예시) <span class="chip pb-seg">플레이북(세그별)</span></h2>
+  <div class="sec-hd" data-src="마케팅 플레이북 (1oBrwOciGZ2UspERFCcWEZfZq84MYf-4Xk83VAPi1lG0) — P1 SNS 크리에이터·P2 에이전시 AE·P3 브랜드 PR">
+    <span class="sec-no">5.4</span>
+    <h2 class="sec-title">타겟 페르소나 — 마케팅</h2>
   </div>
   <div class="persona-grid">
-    <div class="pcard">
+    <div class="pcard" data-src="마케팅 플레이북 (1oBrwOci...) — Persona 1: SNS 크리에이터·운영 대행 26세 여 / 핵심 페인: 월간 보고서 반복 + 일본어 AI 불신">
       <div class="pname">P1 · SNS 크리에이터·운영 대행</div>
       <div class="ptag">여성 · 26세 · 프리랜서 · 월 4~8회</div>
       <div class="ppain">클라이언트 월간 보고서 반복 납품. 구성 직접 짜야 함. 일본어 AI 결과물에 실망한 경험 있음.</div>
@@ -988,7 +1067,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "클라이언트 월간 보고서 AI로 만들어봤다" 크리에이터 후기 콘텐츠</div>
       <div class="ptrig" style="margin-top:4px">⚠ 일본어 품질 불만족 시 Canva로 즉시 복귀</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="마케팅 플레이북 (1oBrwOci...) — Persona 2: 광고 에이전시 AE 34세 남 / 핵심 페인: 팀원 자료 품질 편차 + AE 혼자 수정·통합">
       <div class="pname">P2 · 에이전시 AE</div>
       <div class="ptag">남성 · 34세 · 광고 에이전시 · 주 3~5회</div>
       <div class="ppain">팀원 자료 품질 편차로 AE가 매번 수정·통합 반복. 클라이언트 PT가 에이전시 신뢰도인데 수정에 시간 너무 씀.</div>
@@ -996,7 +1075,7 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
       <div class="ptrig" style="color:var(--mc-dark)">💡 서비스 트리거: "에이전시 PT 퀄리티 올린 방법" 사례 콘텐츠, 동료 AE 추천</div>
       <div class="ptrig" style="margin-top:4px">⚠ 클라이언트에게 보여줄 수 없는 수준이면 즉시 이탈</div>
     </div>
-    <div class="pcard">
+    <div class="pcard" data-src="마케팅 플레이북 (1oBrwOci...) — Persona 3: 브랜드·PR 담당 32세 여 / 핵심 페인: 가이드라인 준수 불안 + 외주 의존 탈피">
       <div class="pname">P3 · 브랜드·PR 담당</div>
       <div class="ptag">여성 · 32세 · 중견기업 · 월 2~6회</div>
       <div class="ppain">사내외 브랜드 자료 품격 필요. AI 툴이 브랜드 가이드라인에 맞는지 확신 없음. 외주 의존 탈피 니즈.</div>
@@ -1009,9 +1088,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 
 <!-- ═══════ PART 5.5 — 파트너 알아야 할 약점 ═══════ -->
 <section class="sec" id="weakpoints">
-  <div class="sec-hd">
-    <span class="sec-no" style="background:var(--bad-soft);color:var(--bad)">5.3 ⚠</span>
-    <h2 class="sec-title">파트너가 알아야 할 미캔의 약점 (반박 대응용) <span class="chip comp">경합</span></h2>
+  <div class="sec-hd" data-src="Confluence: AI 프레젠테이션 경쟁사 비교 (Page 1247477942) — 미캔 약점 항목 (첨부파일 유료·Smart Block 되돌리기 일부 불가)">
+    <span class="sec-no" style="background:var(--bad-soft);color:var(--bad)">⚠ 약점</span>
+    <h2 class="sec-title">파트너가 알아야 할 미캔의 약점 (반박 대응용)</h2>
   </div>
   <p>경쟁 비교 시 사용자가 지적할 수 있는 미캔의 실제 약점. 사전에 인지하고 <strong>반박 논리</strong>를 준비해둘 것.</p>
 
@@ -1038,9 +1117,9 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
 
 <!-- ═══════ PART 6 ═══════ -->
 <section class="sec" id="copy">
-  <div class="sec-hd">
-    <span class="sec-no imp">7.1</span>
-    <h2 class="sec-title">소구 메시지 뱅크 — 바로 사용 가능한 카피 <span class="chip pb">플레이북</span><span class="chip comp-aip">경합(AIP)</span><span class="chip guide-d">가이드(상세)</span><span class="chip feat">주요기능</span></h2>
+  <div class="sec-hd" data-src="이중 플레이북 전체·직군별 소비자 언어(카피방향) + STEP 1~4 시트 + Notion 인플루언서 가이드라인 일본어 카피">
+    <span class="sec-no imp">6.1</span>
+    <h2 class="sec-title">소구 메시지 뱅크 — 바로 사용 가능한 카피</h2>
   </div>
   <p>플레이북·Confluence·Notion 가이드라인에서 검증된 카피. 채널·페르소나에 맞게 선택해 사용한다.</p>
 
@@ -1049,18 +1128,6 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
   <div class="copy-card"><div class="cc-label">AI 생성 핵심</div><div class="cc-copy">"AIっぽくなく、そのまま仕事で使えるデザイン。"</div></div>
   <div class="copy-card"><div class="cc-label">진입 장벽 제거</div><div class="cc-copy">"デザイン知識がなくても短時間で完成。これ1つで完結するからラク。"</div></div>
   <div class="copy-card"><div class="cc-label">비디자이너 소구</div><div class="cc-copy">"디자인을 못 해도, 디자인이 된다."</div></div>
-
-  <h3>AIP·템플릿 카피</h3>
-  <div class="copy-card">
-    <div class="cc-label">AIP (AI 슬라이드 자동 생성)</div>
-    <div class="cc-copy">"テキスト一行で、3分で30枚。" / "텍스트만 넣으면 AI가 구성·디자인까지 한 번에." / "PDF 보고서 한 장 → AI 슬라이드 30장 자동 완성."</div>
-    <div class="cc-note">속도·자동화·30장 무료를 강조. 경쟁사 대비 압도적 우위 (Gamma 10장 · Canva 20장)</div>
-  </div>
-  <div class="copy-card">
-    <div class="cc-label">일본 전용 템플릿</div>
-    <div class="cc-copy">"日本のビジネス資料にも違和感なく使える。" / "디자이너가 만든 것처럼. 디자인 몰라도 OK." / "10만+ 일본 전용 템플릿 — 글로벌 툴엔 없는 영역."</div>
-    <div class="cc-note">"디자인 역량 없는 사용자"의 핵심 불안 해소. 일본 감성·로컬 핏 강조</div>
-  </div>
 
   <h3>기능별 카피</h3>
   <div class="copy-card"><div class="cc-label">STEP 1 — AIP 30장</div><div class="cc-copy">"10 slides are never enough. Design 3× more slides with us." / "무료로 30장. 다른 서비스 8~12장 대비 업계 최다."</div></div>
@@ -1087,79 +1154,150 @@ section.sec h4{font-size:14.5px;color:var(--ink);margin:18px 0 8px;font-weight:7
   <div class="copy-card"><div class="cc-label">교육위원회 지도주사</div><div class="cc-copy">"매번 같은 자료를 수정만 하다 지치셨나요? 그 자료 AI에 넣으면 10분 만에 이번 슬라이드 완성합니다." / "대외 제출·의회 보고에 걸맞은 품격 있는 완성도를 AI가 만들어드립니다."</div></div>
 
   <h3>STEP별 소비자 언어 (카피방향 — 플레이북 원문)</h3>
-  <div class="copy-card">
+  <div class="copy-card" data-src="이중 플레이북 (전체 버전) — STEP 1 입력 시트 '소비자 언어' 열 원문">
     <div class="cc-label">STEP 1 — 입력 단계</div>
     <div class="cc-copy">"주제만 던지면 구조가 잡힘" / "보고서 올리면 프레젠테이션 완성" / "방대한 기획안도 통째로" / "원하는 분량 맞춤 설정"</div>
     <div class="cc-note">어떤 형태로 입력해도 AI가 목차와 슬라이드 구조를 자동 설계 — 핵심 소구는 "속도"와 "간편함"</div>
   </div>
-  <div class="copy-card">
+  <div class="copy-card" data-src="이중 플레이북 (전체 버전) — STEP 2 AI 아이데이션 시트 '소비자 언어' 열 원문">
     <div class="cc-label">STEP 2 — AI 아이데이션 단계</div>
     <div class="cc-copy">"생성 전부터 내 방향대로" / "말로 수정하면 AI가 반영" / "초안에서 내용 보충도 채팅 한 줄로" / "目次の段階から方向を調整できる、そのままビジネスに使えるAI。"</div>
     <div class="cc-note">생성 전·후 모두 채팅 조정 가능 — Canva·Gamma·GenSpark에 없는 단독 소구 포인트</div>
   </div>
-  <div class="copy-card">
+  <div class="copy-card" data-src="이중 플레이북 (전체 버전) — STEP 3 에디터 편집 시트 '소비자 언어' 열 원문">
     <div class="cc-label">STEP 3 — 에디터 편집 단계</div>
     <div class="cc-copy">"긴 글 넣으면 표·차트가 데이터로 바로" / "Gamma처럼 만들고 막히는 일 없음" / "원하는 스타일 요소 검색하면 바로" / "내용 고쳐도 레이아웃 안 무너짐" / "표 색상·차트 두께도 내 마음대로" / "브랜드 컬러 그대로 적용"</div>
     <div class="cc-note">생성 후 막히는 일이 없음 — Gamma·GenSpark의 편집 약점을 정면으로 해결</div>
   </div>
-  <div class="copy-card">
+  <div class="copy-card" data-src="이중 플레이북 (전체 버전) — STEP 4 출력 시트 '소비자 언어' 열 원문">
     <div class="cc-label">STEP 4 — 출력 단계</div>
     <div class="cc-copy">"회사에서 파워포인트만 써도 예쁜 프레젠테이션 만들 수 있어요" / "링크 하나로 즉시 공유" / "회사 자료 넣어도 안전"</div>
     <div class="cc-note">일본 직장인 90%가 PPT 사용 — 기존 업무 방식을 바꾸지 않아도 된다는 약속</div>
   </div>
 </section>
 
-<!-- ═══════ PART 8 — AI 기능 부록 ═══════ -->
-<section class="sec" id="ai-features">
-  <div class="sec-hd">
-    <span class="sec-no">8.1</span>
-    <h2 class="sec-title">AI 기능 부록 <span class="chip pb">플레이북</span><span class="chip comp">경합</span><span class="chip feat">주요기능</span></h2>
+<!-- ═══════ PART 7 ═══════ -->
+<section class="sec" id="content">
+  <div class="sec-hd" data-src="Notion 인플루언서 가이드라인 — 콘텐츠 목적·타겟 3축·Before/After 구성·주의사항">
+    <span class="sec-no">7.1</span>
+    <h2 class="sec-title">파트너 콘텐츠 가이드라인</h2>
   </div>
-  <p class="lead-p">미캔의 AI 기반 기능들. AIPPT(PART 2)의 후순위 강점이지만, 차트(PART 9)보다 우선순위가 높다. <strong>이미지·아이콘·인포그래픽 생성</strong>은 특히 사용자에게 인기가 높다.</p>
 
   <div class="cards">
     <div class="card mc">
-      <div class="ct">AI 이미지·일러스트 생성 <span class="diff win">인기</span></div>
-      <div class="cb">프롬프트 기반 이미지·일러스트 즉석 생성. 외부 스톡 의존 제거.</div>
+      <div class="ct">콘텐츠 목적 3가지</div>
+      <div class="cb">① MiriCanvas 인지 확대<br>② AI 프레젠테이션 기능 이해 촉진<br>③ "업무 효율화 툴"로 인상 형성</div>
     </div>
     <div class="card mc">
-      <div class="ct">AI 아이콘 생성 <span class="diff win">인기</span></div>
-      <div class="cb">딱 맞는 아이콘 찾기 어려울 때 AI 즉석 생성. 색상 변경도 가능.</div>
+      <div class="ct">핵심 타겟</div>
+      <div class="cb">💻 비즈니스 담당자<br>✏️ 교육 관계자<br>👩‍⚕️ 간호·의료 관계자</div>
     </div>
     <div class="card mc">
-      <div class="ct">AI 인포그래픽 생성 <span class="diff win">인기</span></div>
-      <div class="cb">프롬프트로 그래프·스킴도 자동 생성. SNS·브랜드 자료에 즉시 활용.</div>
+      <div class="ct">콘텐츠 형식</div>
+      <div class="cb">🎬 쇼트·릴스: 30~60초<br>🎬 장편: 5분 이상<br>플랫폼: Instagram / YouTube / TikTok</div>
     </div>
-    <div class="card mc">
-      <div class="ct">AI 라이팅</div>
-      <div class="cb">원클릭 짧게 / 개조식 변환 — 다른 AI 툴을 왔다갔다 하지 않아도 미캔 안에서 글 다듬기 완결.</div>
-    </div>
-    <div class="card">
-      <div class="ct">배경 제거 / 영역 제거</div>
-      <div class="cb">클릭 한 번에 누끼. 영역 단위 정밀 제거도 가능. <span class="diff pay">Canva·Irusiru: 유료</span></div>
-    </div>
-    <div class="card">
-      <div class="ct">화질 개선 (고화질화)</div>
-      <div class="cb">저해상도 이미지 → 고화질 변환.</div>
-    </div>
-    <div class="card">
-      <div class="ct">문장 생성·교정·레이아웃 제안</div>
-      <div class="cb">에디터 안에서 AI가 텍스트 다듬기·구성 보조.</div>
-    </div>
-    <div class="card">
-      <div class="ct">어울리는 요소 자동 추천</div>
-      <div class="cb">이미지 업로드 → 비슷한 스타일 요소 자동 추천.</div>
-    </div>
-    <div class="card">
-      <div class="ct">요소 2,000만 검색 (AI 스타일 기반)</div>
-      <div class="cb">다중 키워드 검색 + 스타일 기반 필터링.</div>
-    </div>
+  </div>
+
+  <h3>Before/After 구성 (필수)</h3>
+  <div class="ba-grid">
+    <div class="ba bef"><div class="bal">Before</div><div class="bat">구성 작성 → 디자인 → 장시간 작업<br><small style="color:var(--muted)">PPT 수작업, 여러 툴 전전, 밤새 작업</small></div></div>
+    <div class="ba aft"><div class="bal">After</div><div class="bat">테마 입력 → 자동 생성 → 가벼운 수정<br><small style="color:var(--mc-dark)">30분 절약, 그대로 제출 가능한 품질</small></div></div>
+  </div>
+
+  <div class="callout warn"><strong>주의:</strong> 다른 툴(Canva / Genspark / Gamma / Manus 등)과의 직접 비교를 <strong>부정적으로 언급</strong>하지 말 것. 다만 "사용감 비교"나 "이 툴보다 편했다" 수준의 자연스러운 비교는 오히려 권장.</div>
+  <div class="callout warn"><strong>금지:</strong> 유사 서비스 PR 투고와 동시 진행 금지. 브랜드 색상은 반드시 <strong>#03d4da</strong> 사용.</div>
+</section>
+
+<section class="sec" id="script">
+  <div class="sec-hd" data-src="Notion 인플루언서 가이드라인 — 영상 스크립트 예시 (비즈니스·교육 향 쇼트)">
+    <span class="sec-no">7.2</span>
+    <h2 class="sec-title">영상 스크립트 예시</h2>
+  </div>
+
+  <div class="script">
+    <div class="script-hd">📱 비즈니스 향 쇼트 영상 (30~60초)</div>
+    <table>
+      <tr><td>00–10초</td><td><strong>[이ntro]</strong> "プレゼン資料作るとき、ツール行き来してませんか？ 正直、それかなり非効率です。"</td></tr>
+      <tr><td>10–25초</td><td><strong>[프로세스]</strong> "自分も前は、PDF入れて別ツールで整えて…ってやってたんですけど、今はこれで一発で終わります。"</td></tr>
+      <tr><td>25–45초</td><td><strong>[차별화]</strong> "これ、ちゃんと"使えるプレゼン"になるんですよね。 AIっぽくなくて、そのまま出せる自然なクオリティ。"</td></tr>
+      <tr><td>45–55초</td><td><strong>[편집]</strong> "しかも全部この中で編集できるので、別ツールいらないのがかなりラクです。"</td></tr>
+      <tr><td>55–60초</td><td><strong>[아웃트로]</strong> "これだけで、普通に30分くらい浮きます。まだ手作業でやってる人は、一回使ってみて！"</td></tr>
+    </table>
+  </div>
+
+  <div class="script">
+    <div class="script-hd">✏️ 교육 향 쇼트 영상 (30~60초)</div>
+    <table>
+      <tr><td>00–5초</td><td><strong>[이ntro]</strong> "先生の皆さん、まだ１からプレゼン資料作ってませんか？"</td></tr>
+      <tr><td>5–10초</td><td><strong>[페인]</strong> "自分も元教師なんですけど、毎日遅くまでプレゼン作るの正直かなり大変でした。"</td></tr>
+      <tr><td>10–15초</td><td><strong>[공감]</strong> "自分が教師だった時に出会ってたらな…って本気で思います。"</td></tr>
+      <tr><td>15–45초</td><td><strong>[솔루션]</strong> "これ、MiriCanvasっていうツールなんですけど、テーマ入力するかPDF入れるだけで、プレゼン資料を全部一瞬で作ってくれます。しかもそのまま使えるクオリティなのがいい。"</td></tr>
+      <tr><td>45–55초</td><td><strong>[비교]</strong> "他のツールも使ってきましたけど、これは"作り直しがいらない"のが一番大きいです。"</td></tr>
+      <tr><td>55–60초</td><td><strong>[아웃트로]</strong> "同じように資料作成に時間かけてる人は、一回使ってみてください。時間の使い方変わります。"</td></tr>
+    </table>
   </div>
 </section>
 
-<div style="margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
-  © 2026 MIRI D.I.H Co.,Ltd. All rights reserved. 본 자료는 파트너십 목적으로 작성된 기밀 정보입니다. 사전 승낙 없이 파트너십 범위 외에서 공유·배포하지 마십시오.
-</div>
+<section class="sec" id="rules">
+  <div class="sec-hd" data-src="Notion 인플루언서 가이드라인 — 투고 체크리스트·해시태그·브랜드 컬러(#03d4da)·공식 리소스">
+    <span class="sec-no">7.3</span>
+    <h2 class="sec-title">파트너 필수 체크리스트</h2>
+  </div>
+
+  <h3>투고 전 필수 확인</h3>
+  <ul class="chk">
+    <li class="req">(Instagram) <strong>@miricanvas_jp</strong> 공동 투고자 추가</li>
+    <li class="req">(YouTube) <strong>@MiriCanvas_jp</strong> 캡션에 기재</li>
+    <li class="req">광고 배신용 코드 공유 (필요 시)</li>
+    <li class="req">PC (Web 버전) 이용 권장으로 촬영</li>
+    <li class="req">지정 해시태그 전체 포함</li>
+    <li>신규 오리지널 콘텐츠로 제작 (기존 재편집 불가)</li>
+    <li>Before/After 구성 포함</li>
+    <li>AI 슬라이드 생성 과정 화면 포함</li>
+  </ul>
+
+  <h3>지정 해시태그 (전체 필수)</h3>
+  <div class="pills">
+    <span class="pill navy">#PR</span>
+    <span class="pill mc">#MiriCanvas</span>
+    <span class="pill mc">#ミリキャンバス</span>
+    <span class="pill mc">#AIスライド</span>
+    <span class="pill d">#資料作成</span>
+    <span class="pill d">#業務効率化</span>
+  </div>
+
+  <h3>브랜드 가이드</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="ct">브랜드 컬러</div>
+      <div class="cb">
+        <span style="display:inline-block;width:18px;height:18px;background:#03d4da;border-radius:3px;vertical-align:middle;margin-right:6px"></span>
+        <strong>#03d4da</strong> (C66 / M0 / Y25 / K0)<br>
+        <small style="color:var(--muted)">로고·강조 색상 사용 시 이 컬러 준수</small>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">공식 리소스</div>
+      <div class="cb">
+        <a href="https://www.miricanvas.com/ja" style="color:var(--mc-dark)">공식 사이트 ↗</a><br>
+        <a href="https://drive.google.com/drive/folders/1MZrJAZ-BfFVLO60samVopVVyhCLF9jda" style="color:var(--mc-dark)">공식 로고 다운로드 ↗</a><br>
+        <a href="https://www.miricanvas.com/features/ja/ai-presentation-maker" style="color:var(--mc-dark)">AI 프레젠 기능 설명 페이지 ↗</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">문의</div>
+      <div class="cb"><a href="mailto:miricanvas_mkt@miridih.com" style="color:var(--mc-dark)">miricanvas_mkt@miridih.com</a></div>
+    </div>
+  </div>
+
+  <div class="callout good" style="margin-top:24px">
+    <strong>파트너 분들께:</strong> 본 백서의 내용은 플레이북·Confluence·Notion 가이드라인에서 직접 추출한 정보입니다. 가장 최신 메시지·에셋은 항상 <strong>이중 플레이북(Google Sheets)</strong>을 1차 출처로 확인하고, 인플루언서 가이드라인(Notion)을 채널별 응용본으로 활용하세요.
+  </div>
+
+  <div style="margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)">
+    © 2026 MIRI D.I.H Co.,Ltd. All rights reserved. 본 자료는 파트너십 목적으로 작성된 기밀 정보입니다. 사전 승낙 없이 파트너십 범위 외에서 공유·배포하지 마십시오.
+  </div>
+</section>
 
 </main>
 </div>
