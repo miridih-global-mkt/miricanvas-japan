@@ -13,20 +13,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
 #mob-back{display:none;border:none;background:none;font-size:20px;
   cursor:pointer;color:#555;padding:0 4px;line-height:1}
 #miller{display:flex;height:calc(100vh - 48px);overflow-x:auto;overflow-y:hidden}
-.col{min-width:240px;width:240px;height:100%;overflow-y:auto;
+.col{min-width:250px;width:250px;height:100%;overflow-y:auto;
   background:#fff;border-right:1px solid #e2e2e2;flex-shrink:0}
 .col:first-child{background:#f8f8f8}
-.item{display:flex;align-items:baseline;gap:7px;padding:9px 13px;
+.item{display:flex;align-items:center;gap:8px;padding:8px 12px;
   cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:12.5px;
-  line-height:1.45;transition:background .1s}
+  line-height:1.4;transition:background .1s}
 .item:hover{background:#eef2ff}
 .item.sel{background:#dde7ff;font-weight:500}
 .item.arc{opacity:.38;font-style:italic}
-.ic{font-size:10px;flex-shrink:0;color:#bbb;width:12px}
-.nm{flex:1;word-break:break-all}
-.ex{font-size:9.5px;color:#bbb;background:#f2f2f2;
-  border-radius:3px;padding:1px 4px;flex-shrink:0;text-transform:uppercase}
-.ar{font-size:10px;color:#ccc;flex-shrink:0;margin-left:auto;padding-left:4px}
+/* folder icon */
+.ic-dir{font-size:15px;flex-shrink:0;line-height:1;filter:saturate(.85)}
+/* file type badges */
+.ic-file{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:17px;border-radius:3px;font-size:8px;font-weight:700;
+  flex-shrink:0;letter-spacing:.3px;font-family:ui-monospace,monospace}
+.ic-html{background:#dbeafe;color:#1d4ed8;border:1px solid #bfdbfe}
+.ic-md  {background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+.ic-etc {background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb}
+.nm{flex:1;word-break:break-all;min-width:0}
+.ar{font-size:11px;color:#ccc;flex-shrink:0;margin-left:auto;padding-left:2px}
 @media(max-width:680px){
   #miller{overflow-x:hidden}
   .col{width:100vw;min-width:100vw}
@@ -47,6 +53,11 @@ let cc=0,ms=[];
 function esc(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+function fileIcon(ext){
+  if(ext==='html')return '<span class="ic-file ic-html">HTML</span>';
+  if(ext==='md')  return '<span class="ic-file ic-md">MD</span>';
+  return '<span class="ic-file ic-etc">'+esc(ext.toUpperCase().slice(0,4))+'</span>';
+}
 function mkCol(node,idx){
   const col=document.createElement('div');
   col.className='col';col.id='c'+idx;
@@ -59,14 +70,13 @@ function mkCol(node,idx){
     const d=document.createElement('div');
     d.className='item'+(k.archive?' arc':'');
     if(k.type==='dir'){
-      d.innerHTML='<span class="ic">&#9658;</span>'
+      d.innerHTML='<span class="ic-dir">📁</span>'
         +'<span class="nm">'+esc(k.name)+'</span>'
-        +'<span class="ar">&#8250;</span>';
+        +'<span class="ar">›</span>';
       d.onclick=()=>openDir(k,d,idx);
     }else{
-      d.innerHTML='<span class="ic">&#183;</span>'
-        +'<span class="nm">'+esc(k.display)+'</span>'
-        +(k.ext?'<span class="ex">'+esc(k.ext)+'</span>':'');
+      d.innerHTML=fileIcon(k.ext)
+        +'<span class="nm">'+esc(k.display)+'</span>';
       d.onclick=()=>window.open(k.url,'_blank');
     }
     col.appendChild(d);
