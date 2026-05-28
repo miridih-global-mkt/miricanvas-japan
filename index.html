@@ -19,13 +19,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
 #main{display:flex;flex:1;min-height:0;overflow:hidden}
 
 /* ── Miller columns ── */
-#miller-wrap{flex:0 0 auto;width:52%;min-width:250px;max-width:52%;
+#miller-wrap{flex:0 0 auto;width:52%;min-width:250px;
   overflow-x:auto;overflow-y:hidden;display:flex;height:100%;background:#f8f8f8}
-#miller{display:flex;height:100%;min-width:100%}
-.col{min-width:250px;width:250px;height:100%;overflow-y:auto;
-  background:#fff;border-right:1px solid #e8e8e8;flex-shrink:0}
+#miller{display:flex;height:100%;width:100%}
+.col{flex:0 1 250px;min-width:140px;height:100%;overflow-y:auto;
+  background:#fff;border-right:1px solid #e8e8e8}
 .col:first-child{background:#f8f8f8}
-.col:last-child{flex:1;min-width:250px}
+.col:last-child{flex-grow:1}
 .item{display:flex;align-items:center;gap:8px;padding:8px 12px;
   cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:12.5px;
   line-height:1.4;transition:background .1s}
@@ -44,8 +44,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
 .ar{font-size:11px;color:#ccc;flex-shrink:0;margin-left:auto;padding-left:2px}
 
 /* ── Resizer ── */
-#resizer{flex:0 0 4px;cursor:col-resize;background:#e8e8e8;transition:background .15s;
-  flex-shrink:0}
+#resizer{flex:0 0 5px;cursor:col-resize;background:#e8e8e8;
+  transition:background .15s;flex-shrink:0;position:relative}
+#resizer::after{content:'';position:absolute;top:0;bottom:0;
+  left:-5px;right:-5px}
 #resizer:hover,#resizer.drag{background:#94a3b8}
 
 /* ── Preview panel ── */
@@ -265,8 +267,8 @@ function updMob(){
   });
   document.addEventListener('mousemove',e=>{
     if(!drag)return;
-    const nw=Math.max(250,Math.min(sw+e.clientX-sx,window.innerWidth-300));
-    mw.style.width=nw+'px';mw.style.flex='none';
+    const nw=Math.max(250,Math.min(sw+e.clientX-sx,window.innerWidth-400));
+    mw.style.width=nw+'px';mw.style.maxWidth='none';mw.style.flex='none';
   });
   document.addEventListener('mouseup',()=>{
     if(drag){drag=false;document.body.style.cursor='';
