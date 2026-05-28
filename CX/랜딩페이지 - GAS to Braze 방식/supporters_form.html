@@ -647,6 +647,9 @@
 <!-- ─────────────── 送信スクリプト ──────────────────── -->
 <script>
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhHyXKuHCqlhn0Gwv9JkYGGH8siN-p4Mb_cQPZSOKliM2bp67iaxRI5HYZ_EdwExZu/exec';
+  const ROUND   = '262508';
+  const COUNTRY = 'JP';
+  const SOURCE  = new URLSearchParams(window.location.search).get('source') || 'direct';
 
   let submitted = false;
 
