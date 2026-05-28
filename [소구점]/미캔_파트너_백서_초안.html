@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MiriCanvas 소구점 종합 리포트 — Japan GTM</title>
+<style>
+  :root{
+    --bg:#FAFAF7;
+    --paper:#FFFFFF;
+    --ink:#1A1F2E;
+    --ink-2:#3A4458;
+    --muted:#6B7280;
+    --line:#E4E2DD;
+    --line-2:#EEEDE8;
+    --navy:#1E2A4A;
+    --navy-2:#2E3D63;
+    --accent:#0066FF;          /* MiriCanvas blue */
+    --accent-soft:#E6EFFF;
+    --hl:#FFF8E1;
+    --quote-bg:#F5F3EE;
+    --good:#2E7D52;
+    --bad:#B83A3A;
+    --jp:#D32F2F;              /* Japan accent */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Noto Sans JP",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    font-size:16px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .layout{display:flex;min-height:100vh}
+  .sidebar{
+    width:300px;flex-shrink:0;
+    background:#F2F0EA;
+    border-right:1px solid var(--line);
+    position:sticky;top:0;align-self:flex-start;
+    height:100vh;overflow-y:auto;
+    padding:28px 22px;
+  }
+  .main{flex:1;min-width:0;padding:56px 64px 120px;max-width:1020px}
+  .brand{font-size:13px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+  .sidebar h1{font-size:18px;line-height:1.45;margin:0 0 4px;color:var(--navy);font-weight:700}
+  .sidebar .meta{font-size:12.5px;color:var(--muted);margin-bottom:22px}
+  .toc{list-style:none;padding:0;margin:0;font-size:13.5px}
+  .toc a{
+    display:block;text-decoration:none;color:var(--ink-2);
+    padding:7px 10px;border-radius:6px;
+    border-left:2px solid transparent;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .toc a:hover{background:#E9E6DE;color:var(--navy)}
+  .toc a .time{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px;margin-right:8px;display:inline-block;width:38px}
+  .toc .group{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:18px 6px 6px}
+
+  /* Source link box */
+  .sources-box{
+    margin-top:24px;padding:14px 14px 12px;
+    background:#FFFFFF;border:1px solid var(--line);border-radius:8px
+  }
+  .sources-box .sb-title{
+    font-size:11px;letter-spacing:.1em;font-weight:700;
+    text-transform:uppercase;color:var(--accent);margin-bottom:8px
+  }
+  .sources-box ul{list-style:none;padding:0;margin:0;font-size:12.5px}
+  .sources-box li{margin-bottom:6px;line-height:1.45}
+  .sources-box li a{
+    color:var(--navy);text-decoration:none;
+    display:block;padding:5px 8px;border-radius:5px;
+    border-left:2px solid var(--line);
+    transition:background .15s,border-color .15s;
+  }
+  .sources-box li a:hover{background:var(--accent-soft);border-left-color:var(--accent)}
+  .sources-box li .src-type{
+    display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+    padding:1px 5px;border-radius:3px;margin-right:6px;vertical-align:1px
+  }
+  .st-confluence{background:#DEEBFF;color:#0747A6}
+  .st-sheet{background:#E3F2E3;color:#1B5E20}
+  .st-notion{background:#EFEFEF;color:#2F2F2F}
+  .st-best{background:#FBEFC7;color:#8B6914}
+
+  /* Headings */
+  h2.section-title{
+    font-size:28px;line-height:1.3;margin:0 0 6px;font-weight:700;color:var(--navy);
+    letter-spacing:-.01em
+  }
+  .session-header{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:24px
+  }
+  .session-no{
+    font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.08em
+  }
+  .session-sub{
+    font-size:13px;color:var(--muted)
+  }
+
+  /* Report header */
+  .report-hero{
+    margin-bottom:48px;padding:36px 0 28px;border-bottom:2px solid var(--navy)
+  }
+  .report-hero .kicker{font-size:13px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .report-hero h1{font-size:40px;line-height:1.2;margin:0 0 14px;color:var(--navy);font-weight:800;letter-spacing:-.015em}
+  .report-hero .lead{font-size:17px;color:var(--ink-2);max-width:680px;line-height:1.7;margin-bottom:18px}
+  .report-hero .facts{display:flex;flex-wrap:wrap;gap:24px;font-size:13.5px;color:var(--muted)}
+  .report-hero .facts span strong{color:var(--ink-2);font-weight:600}
+
+  /* Section */
+  section.session{margin-bottom:72px;scroll-margin-top:24px}
+  section.session p{margin:0 0 14px;color:var(--ink-2)}
+  section.session ul{margin:0 0 16px;padding-left:22px}
+  section.session ul li{margin-bottom:6px;color:var(--ink-2)}
+  section.session h3{
+    font-size:18px;color:var(--navy);margin:28px 0 12px;font-weight:700;
+    padding-left:12px;border-left:3px solid var(--accent)
+  }
+  section.session h4{
+    font-size:15px;color:var(--ink);margin:20px 0 10px;font-weight:700
+  }
+  .lead-para{font-size:16.5px;color:var(--ink);line-height:1.8;margin-bottom:20px}
+
+  /* Visuals */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:22px 0}
+  .stat{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;
+    padding:22px 18px;text-align:center
+  }
+  .stat .num{font-size:32px;font-weight:800;color:var(--navy);line-height:1.1;letter-spacing:-.02em}
+  .stat .num.accent{color:var(--accent)}
+  .stat .label{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .stat .sub{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+  .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+  .ba-box{
+    border:1px solid var(--line);border-radius:8px;padding:18px;background:var(--paper)
+  }
+  .ba-box.before{background:#FAF9F7}
+  .ba-box.after{background:#F0F6FF;border-color:#CCDEF8}
+  .ba-box .ba-label{
+    font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    margin-bottom:8px;color:var(--muted)
+  }
+  .ba-box.before .ba-label{color:#9A8A78}
+  .ba-box.after .ba-label{color:#1E4D8C}
+  .ba-box .ba-text{font-size:14.5px;line-height:1.6;color:var(--ink)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px
+  }
+  .card .card-title{font-weight:700;color:var(--navy);font-size:15.5px;margin-bottom:8px}
+  .card .card-body{font-size:14px;color:var(--ink-2);line-height:1.65}
+
+  .quote{
+    margin:22px 0;padding:18px 22px;background:var(--quote-bg);
+    border-left:3px solid var(--navy);border-radius:0 6px 6px 0;
+    font-size:16px;color:var(--ink);line-height:1.7
+  }
+  .quote .src{display:block;font-size:12.5px;color:var(--muted);margin-top:8px}
+
+  .callout{
+    margin:18px 0;padding:14px 18px;background:var(--accent-soft);
+    border-radius:8px;border-left:3px solid var(--accent);font-size:14.5px;color:var(--ink-2);line-height:1.7
+  }
+  .callout strong{color:var(--accent)}
+
+  .pill-list{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+  .pill{display:inline-block;background:#EFEDE6;color:var(--ink-2);padding:5px 12px;border-radius:999px;font-size:13px}
+  .pill.dark{background:var(--navy);color:#fff}
+  .pill.accent{background:var(--accent);color:#fff}
+  .pill.jp{background:var(--jp);color:#fff}
+
+  .table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  .table th,.table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .table th{background:#F4F2EC;font-weight:700;color:var(--ink);font-size:13px}
+  .table td.num{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600;text-align:right;white-space:nowrap}
+  .table td.win{color:var(--good);font-weight:700}
+  .table td.lose{color:var(--bad)}
+  .table td.draw{color:var(--muted)}
+
+  /* Competitor matrix */
+  .matrix{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;font-size:13.5px;
+    border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .matrix th,.matrix td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+  .matrix th:first-child,.matrix td:first-child{text-align:left;font-weight:600}
+  .matrix thead th{background:#F4F2EC;font-weight:700;color:var(--ink);font-size:13px}
+  .matrix thead th.mc{background:#E6EFFF;color:var(--accent)}
+  .matrix tr:last-child td{border-bottom:0}
+  .matrix .yes{color:var(--good);font-weight:700}
+  .matrix .no{color:#C0C0C0}
+  .matrix .partial{color:#C8954E;font-weight:600}
+  .matrix .star{color:var(--accent);font-weight:700;font-size:15px}
+
+  .insight{
+    margin:14px 0;padding:14px 18px;background:#F8F7F2;border-radius:6px;
+    font-size:14.5px;color:var(--ink-2);line-height:1.7
+  }
+
+  .sub-block{
+    margin:16px 0 6px 0;
+    padding:2px 0 0 22px;
+    border-left:3px solid var(--line);
+    position:relative;
+  }
+  .sub-block-label{
+    font-size:12.5px;font-weight:700;color:var(--ink-2);
+    letter-spacing:.03em;margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .sub-block-label::before{
+    content:"↳";color:var(--accent);font-size:15px;font-weight:400;line-height:1;
+  }
+
+  /* Best Pick */
+  .session-no.best{
+    background:linear-gradient(135deg,#C8954E,#A87729);
+    color:#fff;padding:3px 10px;border-radius:4px;letter-spacing:.06em
+  }
+  .best-quote{
+    margin:0 0 28px;padding:14px 18px;
+    background:#FCF6E7;border-left:3px solid #C8954E;
+    border-radius:0 6px 6px 0;
+    font-size:14.5px;color:var(--ink);line-height:1.7
+  }
+  .best-quote::before{
+    content:"✦ \"이 소구점이 핵심인 이유\"";
+    display:block;
+    font-size:11px;font-weight:700;letter-spacing:.08em;
+    color:#8B6914;margin-bottom:6px;text-transform:uppercase
+  }
+  .toc a.best{
+    background:linear-gradient(90deg,rgba(200,149,78,0.10) 0%,transparent 70%);
+    color:var(--navy);font-weight:600
+  }
+  .toc a.best:hover{background:#F1EAD7}
+  .toc a.best::after{
+    content:"★";color:#C8954E;font-size:11px;margin-left:4px;font-weight:400
+  }
+  .best-picks{
+    margin:32px 0 8px;padding:22px 24px;
+    background:#FCF6E7;border:1px solid #ECDFB7;border-radius:10px
+  }
+  .best-picks-title{
+    font-size:13px;font-weight:700;letter-spacing:.1em;
+    color:#8B6914;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:6px
+  }
+  .best-picks-title::before{content:"★";font-size:14px}
+  .best-picks ol{margin:0;padding:0;list-style:none;counter-reset:bp}
+  .best-picks ol li{
+    counter-increment:bp;
+    padding:10px 0 10px 38px;border-top:1px solid #ECDFB7;position:relative;
+    font-size:14.5px;line-height:1.6;color:var(--ink-2)
+  }
+  .best-picks ol li:first-child{border-top:0}
+  .best-picks ol li::before{
+    content:counter(bp,decimal-leading-zero);
+    position:absolute;left:0;top:12px;
+    font-size:12px;font-weight:700;color:#A87729;
+    font-variant-numeric:tabular-nums;letter-spacing:.04em
+  }
+  .best-picks ol li a{
+    color:var(--navy);text-decoration:none;font-weight:700
+  }
+  .best-picks ol li a:hover{text-decoration:underline}
+  .best-picks ol li .bp-meta{
+    color:var(--muted);font-size:12.5px;margin-left:6px;font-weight:400
+  }
+
+  /* Headline metric */
+  .headline-metric{
+    margin:14px 0 8px;padding:16px 20px;background:#F0F3F8;
+    border-radius:8px;border-left:4px solid var(--navy)
+  }
+  .headline-metric .hm-label{
+    font-size:11.5px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:4px
+  }
+  .headline-metric .hm-value{
+    font-size:18px;font-weight:700;color:var(--navy)
+  }
+  .headline-metric .hm-desc{
+    font-size:14px;color:var(--ink-2);margin-top:6px;line-height:1.65
+  }
+
+  /* Source bar inside section */
+  .src-bar{
+    display:flex;flex-wrap:wrap;gap:6px;margin:-6px 0 14px;
+    font-size:11.5px
+  }
+  .src-bar .src-chip{
+    display:inline-flex;align-items:center;gap:4px;
+    background:#F4F2EC;color:var(--muted);
+    padding:3px 9px;border-radius:999px;
+    text-decoration:none;border:1px solid var(--line);
+    transition:background .15s,color .15s,border-color .15s
+  }
+  .src-bar .src-chip:hover{background:#FFF;color:var(--accent);border-color:var(--accent)}
+  .src-bar .src-chip::before{content:"⎘";font-size:10px;opacity:.7;margin-right:2px}
+
+  /* Persona card */
+  .persona{
+    display:grid;grid-template-columns:auto 1fr;gap:18px;margin:14px 0;
+    padding:18px 20px;background:var(--paper);border:1px solid var(--line);border-radius:10px
+  }
+  .persona .p-avatar{
+    width:54px;height:54px;border-radius:50%;background:var(--accent-soft);
+    color:var(--accent);font-size:22px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0
+  }
+  .persona .p-name{font-weight:700;color:var(--navy);font-size:15px;margin-bottom:2px}
+  .persona .p-tag{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .persona .p-pain{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+
+  /* Responsive */
+  @media (max-width: 900px){
+    .layout{flex-direction:column}
+    .sidebar{position:static;height:auto;width:100%;border-right:0;border-bottom:1px solid var(--line)}
+    .main{padding:32px 22px 80px}
+    .report-hero h1{font-size:30px}
+    .ba-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="sidebar">
+    <div class="brand">Strategy Report</div>
+    <h1>MiriCanvas<br/>소구점 종합 리포트</h1>
+    <div class="meta">Japan GTM · 2026.05 · 정이제</div>
+
+    <ul class="toc">
+      <li><a href="#overview"><span class="time">intro</span>리포트 개요</a></li>
+      <li><a href="#sources"><span class="time">links</span>원문 자료 바로가기</a></li>
+
+      <div class="group">PART 1 — 환경 분석</div>
+      <li><a href="#market"><span class="time">1.1</span>일본 시장 맥락</a></li>
+      <li><a href="#competitor" class="best"><span class="time">1.2</span>경쟁사 매트릭스</a></li>
+      <li><a href="#persona"><span class="time">1.3</span>타겟 페르소나</a></li>
+
+      <div class="group">PART 2 — 핵심 소구점</div>
+      <li><a href="#sp-ai" class="best"><span class="time">2.1</span>AIP — AI Powered</a></li>
+      <li><a href="#sp-ease" class="best"><span class="time">2.2</span>학습 곡선 Zero</a></li>
+      <li><a href="#sp-asset"><span class="time">2.3</span>일본향 에셋·템플릿</a></li>
+      <li><a href="#sp-free"><span class="time">2.4</span>무료 사용 범위</a></li>
+      <li><a href="#sp-collab"><span class="time">2.5</span>협업·공유</a></li>
+
+      <div class="group">PART 3 — 실행</div>
+      <li><a href="#playbook" class="best"><span class="time">3.1</span>이중 플레이북</a></li>
+      <li><a href="#guideline"><span class="time">3.2</span>인플루언서 가이드라인</a></li>
+      <li><a href="#honey"><span class="time">3.3</span>꿀기능 파헤치기</a></li>
+
+      <div class="group">PART 4 — 결론</div>
+      <li><a href="#summary"><span class="time">4.1</span>한 줄 결론</a></li>
+      <li><a href="#actions"><span class="time">4.2</span>Next Actions</a></li>
+    </ul>
+
+    <div class="sources-box">
+      <div class="sb-title">⎘ 원문 바로가기</div>
+      <ul>
+        <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/1247477942/AI" target="_blank" rel="noopener"><span class="src-type st-confluence">CONF</span>AI 페이지</a></li>
+        <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265/MiriCanvas+AIP+vs.+Canva+vs.+Gamma+vs.+GenSpark+vs.+Notebook+LM" target="_blank" rel="noopener"><span class="src-type st-confluence">CONF</span>경쟁사 비교</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener"><span class="src-type st-sheet">SHEET</span>플레이북 <span class="src-type st-best" style="margin-left:4px">★</span></a></li>
+        <li><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2409268611" target="_blank" rel="noopener"><span class="src-type st-confluence">CONF</span>꿀기능 파헤치기 미팅</a></li>
+        <li><a href="https://www.notion.so/MiriCanvas-34c5cdbce7fd80ec8895e3c0f7fdf7d9" target="_blank" rel="noopener"><span class="src-type st-notion">NOTION</span>인플루언서 가이드 ①</a></li>
+        <li><a href="https://www.notion.so/MiriCanvas-47a5cdbce7fd820aa6268193956b3132" target="_blank" rel="noopener"><span class="src-type st-notion">NOTION</span>인플루언서 가이드 ②</a></li>
+      </ul>
+    </div>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.6">
+      <span style="color:#A87729;font-weight:600">★ Best Pick — 핵심 소구점</span>
+    </div>
+  </aside>
+
+  <!-- ============== MAIN ============== -->
+  <main class="main">
+
+    <!-- HERO -->
+    <header class="report-hero" id="overview">
+      <div class="kicker">MiriCanvas · Japan GTM</div>
+      <h1>MiriCanvas 소구점 종합 리포트</h1>
+      <p class="lead">
+        AI 페이지, 경쟁사 비교 분석, 이중 플레이북, 꿀기능 파헤치기 미팅 노트, 인플루언서 콘텐츠 가이드라인을 통합하여 도출한 미캔(MiriCanvas)의 일본 시장 핵심 소구점 정리. <strong>이중 플레이북</strong>이 최종 정제 버전이며, 인플루언서 가이드라인은 이로부터 파생된 응용본 — 두 자료를 기준 축으로 두고 나머지 자료를 보완 컨텍스트로 활용.
+      </p>
+      <div class="facts">
+        <span><strong>기준일</strong> 2026-05-20</span>
+        <span><strong>타겟 시장</strong> Japan</span>
+        <span><strong>참조 자료</strong> 6개</span>
+        <span><strong>핵심 소구점</strong> 5개</span>
+      </div>
+
+      <h3 style="margin-top:36px;border-left-color:var(--navy)">소구점을 관통하는 3개의 축</h3>
+      <p style="margin-top:0">이중 플레이북에서 정제된 핵심 메시지는 다음 3축으로 수렴한다.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">Effortless</div>
+          <div class="card-body">디자인 지식 없이도 결과물이 나오는 진입 장벽 — 한국어/일본어 UI · 드래그앤드롭 · 풍부한 템플릿</div>
+        </div>
+        <div class="card">
+          <div class="card-title">AI-Native</div>
+          <div class="card-body">AIP를 통한 텍스트→슬라이드, 이미지·배경 자동 생성 — Canva·Gamma·GenSpark·NotebookLM 대비 차별화 포인트</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Local-Fit</div>
+          <div class="card-body">일본향 폰트·세로쓰기·문화 코드 반영 에셋 — 글로벌 도구가 놓치는 로컬 디테일</div>
+        </div>
+      </div>
+      <div class="quote" style="margin-top:24px">
+        이중 플레이북의 메시지를 한 줄로 압축하면 — <strong>"디자인을 못 해도, 디자인이 된다"</strong>.
+        Canva의 '쉬움'에 Gamma의 'AI'를, 거기에 일본 로컬 핏을 더한 자리에 미캔이 선다.
+        <span class="src">— 이중 플레이북 기반 메시지 통합 (2026.05)</span>
+      </div>
+
+      <div class="best-picks">
+        <div class="best-picks-title">Best Picks · 가장 인상적이었던 5개 소구점</div>
+        <ol>
+          <li>
+            <a href="#sp-ai">AIP — AI Powered 디자인</a><span class="bp-meta">· 2.1 · 차별화의 코어</span><br>
+            텍스트 한 줄 → 슬라이드/포스터/SNS 콘텐츠 완성. <strong>Gamma의 자동 생성</strong>과 <strong>Canva의 풍부한 에셋</strong>을 한 자리에서 결합한 유일한 일본 진입 도구.
+          </li>
+          <li>
+            <a href="#sp-ease">학습 곡선 Zero</a><span class="bp-meta">· 2.2 · 비디자이너의 무기</span><br>
+            "디자인 못 하는 사람도 5분 안에 결과물이 나온다" — 일본 SMB·1인 사업자·교육 현장의 핵심 페인. UX Writing은 <strong>혜택 수치화 + 의도적 덜어내기</strong>로.
+          </li>
+          <li>
+            <a href="#competitor">경쟁사 매트릭스</a><span class="bp-meta">· 1.2 · 4 vs 1 구도</span><br>
+            Canva(에셋)·Gamma(슬라이드 AI)·GenSpark(에이전트)·NotebookLM(요약). <strong>네 도구를 하나로 묶는 자리</strong>가 미캔의 포지션.
+          </li>
+          <li>
+            <a href="#playbook">이중 플레이북</a><span class="bp-meta">· 3.1 · 정제된 최종본</span><br>
+            메시지·에셋·채널·KPI를 한 표로 묶은 운영 매뉴얼. 인플루언서 가이드라인은 여기서 파생된 응용본 — <strong>이 두 문서가 모든 카피의 출처</strong>.
+          </li>
+          <li>
+            <a href="#sp-asset">일본향 에셋·템플릿</a><span class="bp-meta">· 2.3 · 로컬 핏</span><br>
+            세로쓰기·일본어 폰트·전단/메뉴/SNS 일본 비주얼 컨벤션. <strong>글로벌 도구가 못 채우는 디테일</strong>이 진입 우위.
+          </li>
+        </ol>
+      </div>
+    </header>
+
+    <!-- =========================================== -->
+    <!-- SOURCES 섹션 (본문에서도 한 번 더 정리)        -->
+    <!-- =========================================== -->
+    <section class="session" id="sources">
+      <div class="session-header">
+        <span class="session-no">SOURCES</span>
+        <span class="session-sub">참조 자료 6종 · 클릭하면 새 창</span>
+      </div>
+      <h2 class="section-title">원문 자료 바로가기</h2>
+      <p class="lead-para">
+        본 리포트가 종합한 6개 자료. <strong>플레이북(③)</strong>이 최종 정제 버전이며,
+        <strong>인플루언서 가이드라인(⑤⑥)</strong>은 이로부터 파생된 응용본이다.
+        나머지(①②④)는 보완 컨텍스트.
+      </p>
+
+      <table class="table">
+        <thead>
+          <tr><th style="width:40px">#</th><th style="width:180px">자료</th><th>요지</th><th style="width:90px">위치</th><th style="width:90px">우선순위</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>①</td>
+            <td><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/1247477942/AI" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">AI 페이지 ↗</a></td>
+            <td>AIP(AI Powered) 기능 전반 — 텍스트→슬라이드, 이미지 생성, 배경 제거 등</td>
+            <td>Confluence</td>
+            <td class="draw">보완</td>
+          </tr>
+          <tr>
+            <td>②</td>
+            <td><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265/MiriCanvas+AIP+vs.+Canva+vs.+Gamma+vs.+GenSpark+vs.+Notebook+LM" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">경쟁사 비교 ↗</a></td>
+            <td>MiriCanvas AIP vs. Canva vs. Gamma vs. GenSpark vs. NotebookLM 매트릭스</td>
+            <td>Confluence</td>
+            <td class="draw">보완</td>
+          </tr>
+          <tr>
+            <td>③</td>
+            <td><a href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">이중 플레이북 ↗</a></td>
+            <td>메시지·에셋·채널·KPI 통합 운영 매뉴얼 — 최종 정제 버전</td>
+            <td>Google Sheets</td>
+            <td class="win">★ 최우선</td>
+          </tr>
+          <tr>
+            <td>④</td>
+            <td><a href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2409268611" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">꿀기능 파헤치기 ↗</a></td>
+            <td>주간 미팅 노트 — 실제 사용자 워크플로우에서 효과 큰 기능 발굴</td>
+            <td>Confluence</td>
+            <td class="draw">보완</td>
+          </tr>
+          <tr>
+            <td>⑤</td>
+            <td><a href="https://www.notion.so/MiriCanvas-34c5cdbce7fd80ec8895e3c0f7fdf7d9" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">인플루언서 가이드 ① ↗</a></td>
+            <td>인플루언서용 콘텐츠 톤·소재·구성 가이드 (플레이북 파생)</td>
+            <td>Notion</td>
+            <td class="win">★ 정제본</td>
+          </tr>
+          <tr>
+            <td>⑥</td>
+            <td><a href="https://www.notion.so/MiriCanvas-47a5cdbce7fd820aa6268193956b3132" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-weight:600">인플루언서 가이드 ② ↗</a></td>
+            <td>인플루언서용 콘텐츠 톤·소재·구성 가이드 (보완·확장본)</td>
+            <td>Notion</td>
+            <td class="win">★ 정제본</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>읽는 순서:</strong> 처음 보는 사람은 <strong>③ 플레이북 → ⑤⑥ 인플루언서 가이드 → ② 경쟁사 비교 → ① AI → ④ 꿀기능</strong> 순서가 가장 빠르다. ③은 What·How·Why가 한 표에 있어 단독으로도 거의 모든 맥락을 잡을 수 있다.
+      </div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- PART 1: 환경 분석                              -->
+    <!-- =========================================== -->
+    <section class="session" id="market">
+      <div class="session-header">
+        <span class="session-no">1.1</span>
+        <span class="session-sub">PART 1 — 환경 분석</span>
+      </div>
+      <h2 class="section-title">일본 디자인 SaaS 시장 맥락</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265/MiriCanvas+AIP+vs.+Canva+vs.+Gamma+vs.+GenSpark+vs.+Notebook+LM" target="_blank" rel="noopener">경쟁사 비교</a>
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북</a>
+      </div>
+
+      <p class="lead-para">
+        일본 디자인 SaaS 시장은 <strong>Canva가 압도적 인지도</strong>를 가진 가운데, <strong>Adobe Express</strong>가 엔터프라이즈 영역에서 자리잡고 있다. AI 슬라이드 영역은 <strong>Gamma</strong>가, AI 검색·요약은 <strong>GenSpark/NotebookLM</strong>이 빠르게 점유 중. 그러나 <strong>"비디자이너가 한 자리에서 끝낼 수 있는 도구"</strong>는 공백 상태.
+      </p>
+
+      <div class="headline-metric">
+        <div class="hm-label">Market gap</div>
+        <div class="hm-value">"AI + 풍부한 템플릿 + 로컬 핏" 한 자리에 묶은 도구의 부재</div>
+        <div class="hm-desc">Canva는 AI가 약하고, Gamma는 슬라이드 외 출력이 약하고, GenSpark/NotebookLM은 디자인 산출물이 아니다. 미캔은 이 공백을 정확히 채운다.</div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">SMB · 1인 사업자</div>
+          <div class="card-body">전단·메뉴·SNS 콘텐츠를 직접 만들어야 하는 비디자이너. 외주 비용 부담, 디자인 학습 시간 없음.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">교육·강사</div>
+          <div class="card-body">강의 자료·워크북·SNS 홍보물 제작. PowerPoint는 시간 오래 걸리고 디자인 한계.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">학생·취준생</div>
+          <div class="card-body">발표 자료·포트폴리오·이력서. 무료로 폰트·이미지 사용 가능한 도구 선호.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="session" id="competitor">
+      <div class="session-header">
+        <span class="session-no best">1.2 ★</span>
+        <span class="session-sub">PART 1 — 환경 분석 · Best Pick</span>
+      </div>
+      <h2 class="section-title">경쟁사 매트릭스 — 4 vs 1 구도</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265/MiriCanvas+AIP+vs.+Canva+vs.+Gamma+vs.+GenSpark+vs.+Notebook+LM" target="_blank" rel="noopener">경쟁사 비교</a>
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/1247477942/AI" target="_blank" rel="noopener">AI 페이지</a>
+      </div>
+
+      <div class="best-quote">
+        Canva는 디자인을, Gamma는 슬라이드를, GenSpark는 검색을, NotebookLM은 요약을 각각 한 영역만 잘 한다. 미캔은 <strong>네 영역을 하나의 워크플로우</strong>로 묶는다. 일본 사용자가 4개 도구를 오가며 쓰는 시간을 한 자리에서 절약시키는 것 — 이것이 가장 강력한 단일 소구점.
+      </div>
+
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>기능 · 강점</th>
+            <th class="mc">MiriCanvas (AIP)</th>
+            <th>Canva</th>
+            <th>Gamma</th>
+            <th>GenSpark</th>
+            <th>NotebookLM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>텍스트 → 슬라이드 생성</td>
+            <td class="star">★ 강</td>
+            <td class="partial">중</td>
+            <td class="yes">강</td>
+            <td class="partial">중</td>
+            <td class="no">약</td>
+          </tr>
+          <tr>
+            <td>풍부한 디자인 템플릿</td>
+            <td class="star">★ 강</td>
+            <td class="yes">강</td>
+            <td class="no">약</td>
+            <td class="no">—</td>
+            <td class="no">—</td>
+          </tr>
+          <tr>
+            <td>이미지·배경 AI 생성/제거</td>
+            <td class="star">★ 강</td>
+            <td class="yes">강</td>
+            <td class="partial">중</td>
+            <td class="no">—</td>
+            <td class="no">—</td>
+          </tr>
+          <tr>
+            <td>다목적 출력 (포스터·SNS·전단·문서)</td>
+            <td class="star">★ 강</td>
+            <td class="yes">강</td>
+            <td class="partial">슬라이드 중심</td>
+            <td class="no">—</td>
+            <td class="no">—</td>
+          </tr>
+          <tr>
+            <td>웹 검색·정보 수집</td>
+            <td class="partial">중</td>
+            <td class="no">—</td>
+            <td class="no">—</td>
+            <td class="yes">강</td>
+            <td class="partial">중</td>
+          </tr>
+          <tr>
+            <td>장문 요약·소스 정리</td>
+            <td class="partial">중</td>
+            <td class="no">—</td>
+            <td class="partial">중</td>
+            <td class="partial">중</td>
+            <td class="yes">강</td>
+          </tr>
+          <tr>
+            <td>일본어 UI · 일본향 폰트</td>
+            <td class="star">★ 강</td>
+            <td class="yes">강</td>
+            <td class="partial">중</td>
+            <td class="partial">중</td>
+            <td class="partial">중</td>
+          </tr>
+          <tr>
+            <td>무료 사용 범위</td>
+            <td class="star">★ 넓음</td>
+            <td class="partial">중간</td>
+            <td class="partial">제한</td>
+            <td class="partial">제한</td>
+            <td class="yes">넓음</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="insight">
+        <strong>읽기 포인트:</strong> 미캔이 단일 영역 1위는 아니지만, "디자인 산출물이 필요한 모든 영역에서 합격선 이상"인 유일한 도구. 일본 비디자이너가 4개 도구를 학습할 시간·비용 vs. 미캔 하나만 익히는 시간·비용 — 이 비교가 카피의 출발점.
+      </div>
+
+      <h3>경쟁사별 카운터 메시지</h3>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">Canva 대비</div>
+          <div class="ba-text">"Canva보다 AI가 깊다 — 디자인 감각이 없어도, AI가 첫 시안을 만들어준다."</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">Gamma 대비</div>
+          <div class="ba-text">"Gamma는 슬라이드만, 미캔은 슬라이드 + 포스터 + SNS + 문서까지."</div>
+        </div>
+        <div class="ba-box before">
+          <div class="ba-label">GenSpark 대비</div>
+          <div class="ba-text">"검색만 잘하면 의미 없다 — 결국 디자인 산출물로 떨어져야 한다."</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">NotebookLM 대비</div>
+          <div class="ba-text">"요약 노트는 보고서가 아니다 — 미캔은 발표용 슬라이드로 바로 떨어진다."</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="session" id="persona">
+      <div class="session-header">
+        <span class="session-no">1.3</span>
+        <span class="session-sub">PART 1 — 환경 분석</span>
+      </div>
+      <h2 class="section-title">타겟 페르소나 3 + 소구 페인</h2>
+
+      <div class="persona">
+        <div class="p-avatar">店</div>
+        <div>
+          <div class="p-name">사쿠라 · 38세 · 카페 오너 (도쿄)</div>
+          <div class="p-tag">SMB · 1인 사업자 · 디자인 비전공</div>
+          <div class="p-pain">매주 신메뉴 포스터·인스타 피드·전단을 직접 만든다. Canva를 쓰지만 "어디서 시작할지 모르겠다"가 가장 큰 페인. <strong>'AI가 첫 시안을 만들어주는 것'</strong>이 결정적 소구.</div>
+        </div>
+      </div>
+
+      <div class="persona">
+        <div class="p-avatar">教</div>
+        <div>
+          <div class="p-name">타카하시 · 42세 · 영어강사 (오사카)</div>
+          <div class="p-tag">교육 · 1인 강사 · 자료 빈도 높음</div>
+          <div class="p-pain">수업 자료·워크북·SNS 홍보를 매주 제작. PowerPoint는 시간 오래 걸림. <strong>'템플릿 + AI로 시간 단축'</strong> 메시지에 가장 강하게 반응.</div>
+        </div>
+      </div>
+
+      <div class="persona">
+        <div class="p-avatar">学</div>
+        <div>
+          <div class="p-name">유키 · 21세 · 대학생 (후쿠오카)</div>
+          <div class="p-tag">학생 · 무료 사용자 · SNS 네이티브</div>
+          <div class="p-pain">발표 자료·동아리 포스터·인스타 스토리. <strong>'무료로 어디까지 되는가'</strong>가 가장 중요. 인플루언서 콘텐츠로 도달이 가장 쉬운 층.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- PART 2: 핵심 소구점                            -->
+    <!-- =========================================== -->
+    <section class="session" id="sp-ai">
+      <div class="session-header">
+        <span class="session-no best">2.1 ★</span>
+        <span class="session-sub">PART 2 — 핵심 소구점 · Best Pick</span>
+      </div>
+      <h2 class="section-title">AIP — AI Powered 디자인</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/1247477942/AI" target="_blank" rel="noopener">AI 페이지</a>
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2130182265/MiriCanvas+AIP+vs.+Canva+vs.+Gamma+vs.+GenSpark+vs.+Notebook+LM" target="_blank" rel="noopener">경쟁사 비교</a>
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북</a>
+      </div>
+
+      <div class="best-quote">
+        AIP는 미캔의 단일 최강 차별화 포인트. Canva의 디자인 깊이에 Gamma의 AI 속도를 더한 자리 — 비디자이너에게 <strong>"디자인 감각이 없어도 첫 시안이 나온다"</strong>는 것은 가격·기능을 뛰어넘는 결정적 가치.
+      </div>
+
+      <h3>핵심 기능 3종</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">텍스트 → 슬라이드/포스터</div>
+          <div class="card-body">한 줄 입력으로 풀 디자인 시안. Gamma 강점에 직접 대응.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">AI 이미지 생성</div>
+          <div class="card-body">프롬프트 기반 일러스트·사진·아이콘 생성. 외부 스톡 의존 제거.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">배경 제거·이미지 보정</div>
+          <div class="card-body">클릭 한 번에 누끼. 보정·확대(업스케일)까지 한 자리에.</div>
+        </div>
+      </div>
+
+      <h3>소구 카피 (일본향)</h3>
+      <div class="ba-grid">
+        <div class="ba-box before">
+          <div class="ba-label">Before — 일반 카피</div>
+          <div class="ba-text">"AI로 더 빠르게 디자인하세요"</div>
+        </div>
+        <div class="ba-box after">
+          <div class="ba-label">After — 수치·문맥 카피</div>
+          <div class="ba-text">"한 줄 입력 → 5분 안에 슬라이드 10장. 디자인 감각이 없어도 OK."</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>인플루언서 가이드 적용:</strong> "AI 기능"이 아니라 <strong>"AI가 첫 시안을 만들어주는 경험"</strong>을 영상의 1번 컷에 배치할 것. 텍스트 입력 → 결과 출력 컷이 한 영상에 반드시 들어가도록 (5초 안에 보여줄 것).
+      </div>
+    </section>
+
+    <section class="session" id="sp-ease">
+      <div class="session-header">
+        <span class="session-no best">2.2 ★</span>
+        <span class="session-sub">PART 2 — 핵심 소구점 · Best Pick</span>
+      </div>
+      <h2 class="section-title">학습 곡선 Zero — "5분이면 결과물"</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북</a>
+        <a class="src-chip" href="https://www.notion.so/MiriCanvas-34c5cdbce7fd80ec8895e3c0f7fdf7d9" target="_blank" rel="noopener">가이드 ①</a>
+        <a class="src-chip" href="https://www.notion.so/MiriCanvas-47a5cdbce7fd820aa6268193956b3132" target="_blank" rel="noopener">가이드 ②</a>
+      </div>
+
+      <div class="best-quote">
+        일본 SMB·1인 사업자가 디자인 도구를 끝까지 안 쓰는 가장 큰 이유는 가격이 아니라 <strong>"어디서 시작할지 모르겠다"</strong>. 학습 곡선 Zero는 가격·기능보다 훨씬 강한 약속.
+      </div>
+
+      <h3>UX Writing 공식 — 플레이북 정제본</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">혜택 수치화</div>
+          <div class="card-body">"빠르다" ❌ → "5분 안에 완성" ✓ · 추상 형용사 대신 시간·개수·금액으로.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">의도적 덜어내기</div>
+          <div class="card-body">기능 나열 ❌ → 하나의 결과 약속 ✓ · "다 된다"가 아니라 "이게 된다".</div>
+        </div>
+        <div class="card">
+          <div class="card-title">행동 동사로 끝맺기</div>
+          <div class="card-body">CTA는 "지금 시작" 같은 추상어 ❌ → "포스터 만들기" "발표자료 만들기" 같은 구체 동사 ✓.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>참고:</strong> 이 공식은 인플루언서 가이드라인의 모태가 된 플레이북에서 추출. <strong>So what이 아닌 Next Action</strong> — 추상적 효익 대신 다음 행동까지 명시한다.
+      </div>
+    </section>
+
+    <section class="session" id="sp-asset">
+      <div class="session-header">
+        <span class="session-no">2.3</span>
+        <span class="session-sub">PART 2 — 핵심 소구점</span>
+      </div>
+      <h2 class="section-title">일본향 에셋·템플릿 — 로컬 핏</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북</a>
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2409268611" target="_blank" rel="noopener">꿀기능</a>
+      </div>
+
+      <p class="lead-para">
+        Canva가 글로벌 템플릿 중심인 반면, 미캔은 <strong>일본 시각 컨벤션</strong>을 직접 반영한 에셋을 제공할 수 있는 포지션. 세로쓰기, 일본어 폰트, 일본식 전단·메뉴·LP 디자인이 핵심.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">세로쓰기 · 일본어 폰트</div>
+          <div class="card-body">신문·서적·전통 광고에서 여전히 핵심인 세로 조판 — 글로벌 도구가 약한 영역.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">치라시 · 메뉴 템플릿</div>
+          <div class="card-body">일본 SMB의 일상 산출물. "정보 밀도 높은 레이아웃"이라는 로컬 미감 반영.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">LINE/X 비주얼 사이즈</div>
+          <div class="card-body">Instagram 외에도 LINE 공식계정 콘텐츠·X 카드 사이즈가 기본값으로 들어가야 함.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="session" id="sp-free">
+      <div class="session-header">
+        <span class="session-no">2.4</span>
+        <span class="session-sub">PART 2 — 핵심 소구점</span>
+      </div>
+      <h2 class="section-title">무료 사용 범위 — 진입 장벽 제거</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북</a>
+      </div>
+
+      <p class="lead-para">
+        Canva·Gamma 무료 플랜 대비 <strong>"AI 기능까지 무료로 일정 횟수 제공"</strong>이 신규 진입의 큰 트리거. 학생·1인 사업자 페르소나의 결정적 결정 요인.
+      </p>
+
+      <div class="headline-metric">
+        <div class="hm-label">메시지 공식</div>
+        <div class="hm-value">"무료로 어디까지 → 이만큼"</div>
+        <div class="hm-desc">"가입 무료"는 약함. "AI 슬라이드 생성 N회 무료" 같이 <strong>수치·기능 단위</strong>로 분해해야 강해진다.</div>
+      </div>
+    </section>
+
+    <section class="session" id="sp-collab">
+      <div class="session-header">
+        <span class="session-no">2.5</span>
+        <span class="session-sub">PART 2 — 핵심 소구점</span>
+      </div>
+      <h2 class="section-title">협업·공유 — B2B 확장의 진입로</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2409268611" target="_blank" rel="noopener">꿀기능</a>
+      </div>
+
+      <p class="lead-para">
+        개인 사용자 → 팀 → 기업으로 이어지는 확장 경로의 핵심. 학교·강사·소규모 팀이 <strong>"링크 한 번에 공유"</strong>로 미캔을 자연스럽게 퍼뜨리는 구조.
+      </p>
+
+      <ul>
+        <li><strong>실시간 공동 편집</strong> — 팀 자료 함께 제작</li>
+        <li><strong>링크 공유</strong> — 가입 없이 보기/다운로드</li>
+        <li><strong>브랜드 키트</strong> — 팀 컬러·폰트·로고 공유 (B2B 진입로)</li>
+      </ul>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- PART 3: 실행                                  -->
+    <!-- =========================================== -->
+    <section class="session" id="playbook">
+      <div class="session-header">
+        <span class="session-no best">3.1 ★</span>
+        <span class="session-sub">PART 3 — 실행 · Best Pick</span>
+      </div>
+      <h2 class="section-title">이중 플레이북 — 최종 정제본</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북 ↗</a>
+      </div>
+
+      <div class="best-quote">
+        모든 카피·콘텐츠·캠페인의 출발점. 다른 자료가 흩어진 컨텍스트라면, 플레이북은 <strong>"한 표로 보는 운영 매뉴얼"</strong> — 메시지·에셋·채널·KPI가 한 자리에 정렬되어 있어 단독으로도 거의 모든 의사결정 가능.
+      </div>
+
+      <h3>플레이북 구조 (요지)</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">① 메시지</div>
+          <div class="card-body">소구점별 카피 · UX Writing 공식 · 금기어 · 톤앤매너</div>
+        </div>
+        <div class="card">
+          <div class="card-title">② 에셋</div>
+          <div class="card-body">스크린샷·키 비주얼·로고 사용 규칙 · Before/After 시안</div>
+        </div>
+        <div class="card">
+          <div class="card-title">③ 채널</div>
+          <div class="card-body">SNS·인플루언서·검색광고·콜드아웃리치별 적용 방식</div>
+        </div>
+        <div class="card">
+          <div class="card-title">④ KPI</div>
+          <div class="card-body">획득·활성화·리텐션 단계별 측정 지표 · 캠페인별 목표</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>운영 룰:</strong> 모든 신규 콘텐츠는 플레이북에서 메시지를 인용한 뒤 채널 특성에 맞춰 변형. <strong>플레이북에 없는 메시지는 캠페인에 쓰지 않는다</strong>가 원칙. 변화가 필요하면 플레이북부터 업데이트.
+      </div>
+    </section>
+
+    <section class="session" id="guideline">
+      <div class="session-header">
+        <span class="session-no">3.2</span>
+        <span class="session-sub">PART 3 — 실행</span>
+      </div>
+      <h2 class="section-title">인플루언서 콘텐츠 가이드라인</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://www.notion.so/MiriCanvas-34c5cdbce7fd80ec8895e3c0f7fdf7d9" target="_blank" rel="noopener">가이드 ① ↗</a>
+        <a class="src-chip" href="https://www.notion.so/MiriCanvas-47a5cdbce7fd820aa6268193956b3132" target="_blank" rel="noopener">가이드 ② ↗</a>
+        <a class="src-chip" href="https://docs.google.com/spreadsheets/d/1Xu80zU_F9n7LZzG-H90QWo27r5DamOLI5hJytYMS5aU/edit?gid=1382976022#gid=1382976022" target="_blank" rel="noopener">플레이북 (모태)</a>
+      </div>
+
+      <p class="lead-para">
+        플레이북에서 파생된 <strong>채널-특화 응용본</strong>. 인플루언서 콘텐츠는 자유도가 높아 메시지 변형이 일어나기 쉬우므로, 별도 가이드로 톤·구조·소재를 정렬.
+      </p>
+
+      <h3>적용 원칙 3가지</h3>
+      <ol>
+        <li><strong>플레이북 메시지 → 인플루언서 언어로 번역</strong> — 광고 카피가 아니라 "내가 써본 후기"의 어휘로.</li>
+        <li><strong>AI 결과물 컷을 1번 컷에 배치</strong> — 텍스트 입력 → 디자인 결과가 5초 안에 보이도록.</li>
+        <li><strong>금기:</strong> 경쟁사 직접 비교 (Canva 욕하기 ❌). "내 일에 이만큼 도움됐다"의 1인칭만 사용.</li>
+      </ol>
+    </section>
+
+    <section class="session" id="honey">
+      <div class="session-header">
+        <span class="session-no">3.3</span>
+        <span class="session-sub">PART 3 — 실행</span>
+      </div>
+      <h2 class="section-title">꿀기능 파헤치기 미팅 — 인사이트 발굴 채널</h2>
+      <div class="src-bar">
+        <a class="src-chip" href="https://miridih.atlassian.net/wiki/spaces/wammlDo5vUoh/pages/2409268611" target="_blank" rel="noopener">꿀기능 ↗</a>
+      </div>
+
+      <p class="lead-para">
+        실제 사용자 워크플로우에서 효과가 큰 기능을 정기적으로 발굴·정리하는 내부 미팅. <strong>플레이북 업데이트의 1차 입력원</strong>. 인플루언서 콘텐츠 신규 소재의 출처이기도 함.
+      </p>
+
+      <ul>
+        <li>유저 인터뷰·고객지원 티켓에서 반복 등장하는 "오, 이거 좋네" 기능 추출</li>
+        <li>발굴된 꿀기능 → 플레이북 후보 → 인플루언서 콘텐츠 신규 소재로 순환</li>
+      </ul>
+
+      <div class="insight">
+        <strong>운영 팁:</strong> 미팅 노트 → 플레이북 후보 칸 → 검증 → 정식 메시지 등재 — 이 흐름이 끊기지 않도록 매월 1회 정합성 점검.
+      </div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- PART 4: 결론                                  -->
+    <!-- =========================================== -->
+    <section class="session" id="summary">
+      <div class="session-header">
+        <span class="session-no">4.1</span>
+        <span class="session-sub">PART 4 — 결론</span>
+      </div>
+      <h2 class="section-title">한 줄 결론</h2>
+
+      <div class="quote" style="font-size:18px;line-height:1.7">
+        <strong>"디자인을 못 해도, 디자인이 된다 — AI가 첫 시안을 만들어주는 일본어 디자인 도구."</strong>
+        <span class="src">— 모든 자료에서 공통 수렴되는 단일 메시지</span>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-title">차별화의 핵심</div>
+          <div class="card-body">단일 영역 1위가 아닌 <strong>"네 영역을 합쳐 합격선 이상"</strong> 포지션 — 4 vs 1 구도</div>
+        </div>
+        <div class="card">
+          <div class="card-title">진입 트리거</div>
+          <div class="card-body">"AI 기능 무료 N회" — 수치·기능 단위로 분해한 무료 약속</div>
+        </div>
+        <div class="card">
+          <div class="card-title">잠금 효과</div>
+          <div class="card-body">템플릿 누적 사용 + 협업·브랜드 키트 → 개인 → 팀 → 기업 확장 경로</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="session" id="actions">
+      <div class="session-header">
+        <span class="session-no">4.2</span>
+        <span class="session-sub">PART 4 — 결론</span>
+      </div>
+      <h2 class="section-title">Next Actions</h2>
+
+      <table class="table">
+        <thead>
+          <tr><th style="width:40px">#</th><th>액션</th><th style="width:130px">근거 자료</th><th style="width:110px">우선순위</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>플레이북의 5개 핵심 메시지를 인플루언서 가이드 ①②에 1:1 매핑 — 메시지 공백 점검</td>
+            <td>③ ⑤ ⑥</td>
+            <td class="win">High</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>"AI 첫 시안" 컷을 1번 컷에 배치하는 영상 브리프 템플릿 작성 → 인플루언서 배포</td>
+            <td>① ⑤ ⑥</td>
+            <td class="win">High</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>경쟁사 매트릭스를 일본어 1페이지 LP 비교표로 가공 — SEM 랜딩용</td>
+            <td>②</td>
+            <td>Mid</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>"무료 사용 범위" 메시지의 수치 표현 정합성 점검 — 가입 페이지·SNS·인플루언서 일치</td>
+            <td>③</td>
+            <td>Mid</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>꿀기능 미팅 → 플레이북 후보 → 정식 등재 흐름의 월 1회 정합성 점검 루틴 신설</td>
+            <td>③ ④</td>
+            <td>Low</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:24px">
+        <strong>운영 원칙 (재확인):</strong> 플레이북에 없는 메시지는 캠페인에 쓰지 않는다. 새 메시지가 필요하면 플레이북부터 업데이트한다. 인플루언서 가이드라인은 플레이북의 채널 특화 응용본이므로 두 문서는 항상 동기화 상태를 유지한다.
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>
