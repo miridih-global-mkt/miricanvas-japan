@@ -2,363 +2,114 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiriCanvas Japan — 마케팅 리포트 & 이벤트</title>
-<style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 780px; margin: 0 auto; padding: 40px 20px; background: #f8f9fa; color: #333; }
-  h1 { font-size: 1.5rem; color: #111; margin-bottom: 4px; }
-  .subtitle { color: #666; font-size: 0.9rem; margin-bottom: 32px; }
-
-  /* ── Level 1 accordion (main sections) ── */
-  details { border-bottom: 1px solid #e0e0e0; }
-  details > summary {
-    font-size: 0.9rem; font-weight: 700; color: #444;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 14px 0; cursor: pointer;
-    list-style: none; display: flex; align-items: center; gap: 8px;
-  }
-  details > summary::-webkit-details-marker { display: none; }
-  details > summary::before { content: "▶"; font-size: 0.6rem; color: #bbb; transition: transform 0.15s; flex-shrink: 0; }
-  details[open] > summary::before { transform: rotate(90deg); }
-  details > summary .sec-label { flex: 1; }
-
-  /* ── Level 2 accordion (sub-folders) ── */
-  details details { border-bottom: none; margin: 0 0 4px 0; }
-  details details > summary {
-    font-size: 0.82rem; font-weight: 600; color: #666;
-    text-transform: none; letter-spacing: 0;
-    padding: 7px 0 7px 16px;
-  }
-
-  /* ── Lists ── */
-  ul { list-style: none; padding: 0; margin: 4px 0 10px 0; }
-  details details > ul { margin-left: 16px; }
-  li { margin: 5px 0; }
-  a { color: #0066cc; text-decoration: none; font-size: 0.92rem; }
-  a:hover { text-decoration: underline; }
-
-  /* ── Badges ── */
-  .badge { display: inline-block; font-size: 0.68rem; padding: 1px 6px; border-radius: 3px; margin-left: 5px; vertical-align: middle; font-weight: 600; }
-  .html { background: #fff0e0; color: #b85c00; }
-  .md   { background: #e8f4e8; color: #2a6b2a; }
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>미캔재팬</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans-serif;
+  background:#ebebeb;color:#333;height:100vh;overflow:hidden}
+#topbar{display:flex;align-items:center;gap:10px;padding:0 18px;
+  background:#fff;border-bottom:1px solid #d8d8d8;height:48px;flex-shrink:0}
+#topbar h1{font-size:13.5px;font-weight:600;color:#444;letter-spacing:.02em}
+#mob-back{display:none;border:none;background:none;font-size:20px;
+  cursor:pointer;color:#555;padding:0 4px;line-height:1}
+#miller{display:flex;height:calc(100vh - 48px);overflow-x:auto;overflow-y:hidden}
+.col{min-width:240px;width:240px;height:100%;overflow-y:auto;
+  background:#fff;border-right:1px solid #e2e2e2;flex-shrink:0}
+.col:first-child{background:#f8f8f8}
+.item{display:flex;align-items:baseline;gap:7px;padding:9px 13px;
+  cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:12.5px;
+  line-height:1.45;transition:background .1s}
+.item:hover{background:#eef2ff}
+.item.sel{background:#dde7ff;font-weight:500}
+.item.arc{opacity:.38;font-style:italic}
+.ic{font-size:10px;flex-shrink:0;color:#bbb;width:12px}
+.nm{flex:1;word-break:break-all}
+.ex{font-size:9.5px;color:#bbb;background:#f2f2f2;
+  border-radius:3px;padding:1px 4px;flex-shrink:0;text-transform:uppercase}
+.ar{font-size:10px;color:#ccc;flex-shrink:0;margin-left:auto;padding-left:4px}
+@media(max-width:680px){
+  #miller{overflow-x:hidden}
+  .col{width:100vw;min-width:100vw}
+  .col:not(.mact){display:none}
+  #mob-back.vis{display:block}
+}</style>
 </head>
 <body>
-<h1>MiriCanvas Japan</h1>
-<p class="subtitle">글로벌마케팅팀 · 산출물 모음</p>
-
-
-<!-- ════════════════════════════════════════
-     CRM Phase 01 — 성과분석
-═════════════════════════════════════════ -->
-<details open>
-<summary><span class="sec-label">CRM Phase 01 — 성과분석</span></summary>
-
-<ul>
-  <li><a href="CRM/CRM Phase 01/캠페인_성과_KPI기반.html">캠페인 성과 — KPI 기반 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 01/캠페인_성과_활성지표기반.html">캠페인 성과 — 활성지표 기반 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 01/2026-05_웨비나_분석리포트.html">2026-05 웨비나 분석리포트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 01/2026-05_웨비나_단골뉴비_분석.html">2026-05 웨비나 단골/뉴비 분석 <span class="badge html">html</span></a></li>
-</ul>
-
-<details>
-<summary>메트릭 방법론</summary>
-<ul>
-  <li><a href="CRM/CRM Phase 01/기초 - 메트릭_방법론/메트릭_후보리스트_부록.html">메트릭 후보리스트 부록 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%ED%9B%84%EB%B3%B4%EB%A6%AC%EC%8A%A4%ED%8A%B8_%EB%B6%80%EB%A1%9D.md" target="_blank">메트릭 후보리스트 부록 (md) <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%9E%AD%ED%82%B9%ED%85%8C%EC%9D%B4%EB%B8%94.md" target="_blank">메트릭 랭킹테이블 v7 (40종) <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EC%84%A0%EC%A0%95_%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95_%EA%B7%BC%EA%B1%B0.md" target="_blank">메트릭 선정 의사결정 근거 v7 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8_%EC%9B%90%EC%B9%99.md" target="_blank">파이프라인 원칙 v7 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EC%B4%88%EA%B8%B0_%EB%B6%84%EC%84%9D_%ED%94%8C%EB%9E%9C.md" target="_blank">초기 분석 플랜 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-
-<details>
-<summary>온보딩 시퀀스 분석</summary>
-<ul>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%9C%ED%80%80%EC%8A%A4/%EB%B6%84%EC%84%9D%EC%9A%94%EC%95%BD.md" target="_blank">온보딩 시퀀스 효과 분석 v2 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%9C%ED%80%80%EC%8A%A4/%EC%8B%9C%ED%80%80%EC%8A%A4%EC%84%A4%EA%B3%84_%EA%B6%8C%EC%9E%A5%EC%95%88.md" target="_blank">시퀀스 설계 권장안 v1 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>메일 안착효과 분석</summary>
-<ul>
-  <li><a href="CRM/CRM Phase 01/성과분석 - 메일_안착효과/캠페인_성과_KPI기반.html">캠페인 성과 KPI기반 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%A2%85%ED%95%A9%EB%B3%B4%EA%B3%A0%EC%84%9C_%EB%A9%94%ED%8A%B8%EB%A6%AD%ED%8A%B8%EB%A6%AC.md" target="_blank">종합보고서 · 메트릭트리 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%84%A4%EA%B3%84%EC%95%88/KPI%EA%B8%B0%EB%B0%98_%EC%84%A4%EA%B3%84%EC%95%88_9proxy%EC%A2%85%ED%95%A9%EC%A0%90%EC%88%98.md" target="_blank">KPI 기반 설계안 — 9proxy <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%84%A4%EA%B3%84%EC%95%88/KPI%EA%B8%B0%EB%B0%98_%EC%84%A4%EA%B3%84%EC%95%88_%EB%8B%A8%EC%9D%BCproxy%EA%B8%B0%EC%A4%80.md" target="_blank">KPI 기반 설계안 — 단일proxy <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/framework_limitations.md" target="_blank">Framework Limitations <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EB%8B%A4%EC%9D%8C%EC%84%B8%EC%85%98_%EC%9D%B8%EA%B3%84%EB%A9%94%EC%8B%9C%EC%A7%80.md" target="_blank">다음 세션 인계 메시지 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>메일 활성효과 분석</summary>
-<ul>
-  <li><a href="CRM/CRM Phase 01/성과분석 - 메일_활성효과/캠페인_성과_활성지표기반.html">캠페인 성과 활성지표기반 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84_%EB%85%BC%EC%9D%98_%EB%A7%A5%EB%9D%BD.md" target="_blank">온보딩 실험설계 논의 맥락 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/%EB%A9%94%EC%9D%BC_%EB%B0%B0%ED%8F%AC%EC%98%A4%EB%A5%98_%EC%9B%90%EC%9D%B8%EC%B6%94%EC%A0%81.md" target="_blank">메일 배포 오류 원인 추적 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-</details>
-
-
-<!-- ════════════════════════════════════════
-     CRM Phase 02 — 실험설계 & 템플릿
-═════════════════════════════════════════ -->
-<details open>
-<summary><span class="sec-label">CRM Phase 02 — 실험설계 & 템플릿</span></summary>
-
-<ul>
-  <li><a href="CRM/CRM Phase 02/module_catalog_v3.html">모듈 카탈로그 v3 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/module_catalog_v2.html">모듈 카탈로그 v2 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/실험설계/메일성과_시각화.html">메일성과 시각화 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C.md" target="_blank">Braze 이메일 디자인 시스템 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%BD%98%ED%85%90%EC%B8%A0%EC%8B%9C%EC%8A%A4%ED%85%9C.md" target="_blank">콘텐츠 시스템 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EB%A0%88%EC%9D%B4%EC%96%B4/%EC%8B%A0%EA%B7%9C%EB%A9%94%EC%9D%BC_%EC%95%84%EC%9D%B4%EB%94%94%EC%96%B4.md" target="_blank">신규메일 아이디어 <span class="badge md">md</span></a></li>
-</ul>
-
-<details>
-<summary>패턴 템플릿 v3</summary>
-<ul>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T1_feature_spotlight.html">T1 — Feature Spotlight <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T2_discount_offer.html">T2 — Discount Offer <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T3_reengagement.html">T3 — Reengagement <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T4_feature_grid.html">T4 — Feature Grid <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T5_onboarding_steps.html">T5 — Onboarding Steps <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T6_social_proof.html">T6 — Social Proof <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T7_case_study.html">T7 — Case Study <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T8_newsletter.html">T8 — Newsletter <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T9_comparison.html">T9 — Comparison <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T10a_relationship_qa.html">T10a — Relationship Q&amp;A <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿v3/T10b_relationship_video.html">T10b — Relationship Video <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>패턴 템플릿 v2</summary>
-<ul>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T1_feature_spotlight.html">T1 — Feature Spotlight <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T2_multi_demo.html">T2 — Multi Demo <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T3_step_guide.html">T3 — Step Guide <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T4_grid_showcase.html">T4 — Grid Showcase <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T5_conceptual_deep_dive.html">T5 — Conceptual Deep Dive <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T6_social_proof.html">T6 — Social Proof <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T7_event_webinar.html">T7 — Event/Webinar <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T8_newsletter_digest.html">T8 — Newsletter Digest <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T9_referral_comparison.html">T9 — Referral/Comparison <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T10a_relationship_qa.html">T10a — Relationship Q&amp;A <span class="badge html">html</span></a></li>
-  <li><a href="CRM/CRM Phase 02/패턴템플릿/T10b_relationship_video.html">T10b — Relationship Video <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-</details>
-
-
-<!-- ════════════════════════════════════════
-     Braze 학습
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">Braze 학습</span></summary>
-<ul>
-  <li><a href="CRM/Braze 학습/Braze_2026_종합리포트.html">Braze 2026 종합리포트 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/Braze%20%ED%95%99%EC%8A%B5/2026-04-08_Braze%ED%95%99%EC%8A%B5_%EC%84%B8%EC%85%98%EB%A9%94%EB%AA%A8.md" target="_blank">Braze 학습 세션 메모 (2026-04-08) <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     HTML 이메일
-═════════════════════════════════════════ -->
-<details open>
-<summary><span class="sec-label">HTML 이메일</span></summary>
-
-<details open>
-<summary>온보딩</summary>
-<ul>
-  <li><a href="CRM/HTML/HTML - 온보딩D5/북마크.html">온보딩D5 — 북마크 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D5/템플릿믹스.html">온보딩D5 — 템플릿믹스 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D3/배경제거.html">온보딩D3 — 배경제거 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D3/차트.html">온보딩D3 — 차트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D3/폰트.html">온보딩D3 — 폰트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D3/표.html">온보딩D3 — 표 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D3/프레임.html">온보딩D3 — 프레임 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - 4스텝.html">온보딩D1 — 4스텝 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - 4스텝_simplify.html">온보딩D1 — 4스텝 (심플) <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - AIP.html">온보딩D1 — AIP <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - AIP_curiosity.html">온보딩D1 — AIP (호기심) <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - 리뷰.html">온보딩D1 — 리뷰 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩D1/온보딩 - 리뷰_number.html">온보딩D1 — 리뷰 (숫자) <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>온보딩 시리즈 / 구버전</summary>
-<ul>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/1 온보딩 - 4스텝.html">온보딩시리즈 1 — 4스텝 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/2 온보딩 - AIP.html">온보딩시리즈 2 — AIP <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/3 폰트.html">온보딩시리즈 3 — 폰트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/4 배경제거.html">온보딩시리즈 4 — 배경제거 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/5 표.html">온보딩시리즈 5 — 표 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/6 차트.html">온보딩시리즈 6 — 차트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/7 템플릿믹스.html">온보딩시리즈 7 — 템플릿믹스 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩시리즈/8 북마크.html">온보딩시리즈 8 — 북마크 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260407/온보딩 - 4스텝.html">온보딩 20260407 — 4스텝 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260407/온보딩 - AIP.html">온보딩 20260407 — AIP <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260407/온보딩 - 리뷰.html">온보딩 20260407 — 리뷰 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260407/온보딩 - 무료필터.html">온보딩 20260407 — 무료필터 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260326/en.html">온보딩 20260326 — EN <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 온보딩 20260326/ja.html">온보딩 20260326 — JA <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>웨비나</summary>
-<ul>
-  <li><a href="CRM/HTML/HTML - 웨비나 2605/260430.html">웨비나 2605 — 260430 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나 2605/260506.html">웨비나 2605 — 260506 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나 2605/260508.html">웨비나 2605 — 260508 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나 2605/260512.html">웨비나 2605 — 260512 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나/웨비나 Keitaro&Konmari churn.html">웨비나 Keitaro&amp;Konmari — churn <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나/웨비나 Keitaro&Konmari new.html">웨비나 Keitaro&amp;Konmari — new <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나/웨비나 Keitaro&Konmari remind churn.html">웨비나 Keitaro&amp;Konmari — remind churn <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 웨비나/웨비나 Keitaro&Konmari remind new.html">웨비나 Keitaro&amp;Konmari — remind new <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>에듀 & 다운로드 직후</summary>
-<ul>
-  <li><a href="CRM/HTML/HTML - 에듀/edu_01_class.html">에듀 — 수업 소개 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 에듀/edu_02_quiz.html">에듀 — 퀴즈 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 에듀/edu_03_character.html">에듀 — 캐릭터 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 다운로드 직후/001 친구소개.html">다운로드 직후 — 001 친구소개 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 다운로드 직후/002 북마크A.html">다운로드 직후 — 002 북마크A <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 다운로드 직후/003 북마크B.html">다운로드 직후 — 003 북마크B <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 다운로드 직후/004 감사A.html">다운로드 직후 — 004 감사A <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 다운로드 직후/005 감사B.html">다운로드 직후 — 005 감사B <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-<details>
-<summary>템플릿</summary>
-<ul>
-  <li><a href="CRM/HTML/HTML - 템플릿/HTML템플릿 찐찐최종.html">HTML 템플릿 찐찐최종 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 템플릿/HTML템플릿 찐최종.html">HTML 템플릿 찐최종 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 템플릿/HTML템플릿 최종.html">HTML 템플릿 최종 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 템플릿/HTML템플릿 테스트.html">HTML 템플릿 테스트 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 템플릿/module_catalog.html">모듈 카탈로그 <span class="badge html">html</span></a></li>
-  <li><a href="CRM/HTML/HTML - 템플릿/module_catalog_annotated.html">모듈 카탈로그 (annotated) <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-</details>
-
-
-<!-- ════════════════════════════════════════
-     CX
-═════════════════════════════════════════ -->
-<details open>
-<summary><span class="sec-label">CX</span></summary>
-
-<ul>
-  <li><a href="CX/supporters_integrated.html">서포터즈 integrated <span class="badge html">html</span></a></li>
-  <li><a href="CX/웨비나 - 분석/2026-05_웨비나_분석리포트.html">2026-05 웨비나 분석리포트 <span class="badge html">html</span></a></li>
-  <li><a href="CX/웨비나 - 분석/2026-05_웨비나_단골뉴비_분석.html">2026-05 웨비나 단골/뉴비 분석 <span class="badge html">html</span></a></li>
-</ul>
-
-<details>
-<summary>이메일</summary>
-<ul>
-  <li><a href="CX/서포터즈 - 이메일html/email_supporters_01.html">email supporters 01 <span class="badge html">html</span></a></li>
-  <li><a href="CX/서포터즈 - 이메일html/email_supporters_02.html">email supporters 02 <span class="badge html">html</span></a></li>
-  <li><a href="CX/서포터즈 - 이메일html/email_supporters_03_after.html">email supporters 03 (after) <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-
-
-</details>
-
-
-<!-- ════════════════════════════════════════
-     B2B
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">B2B</span></summary>
-<ul>
-  <li><a href="B2B/b2b_domain_industry_analysis_2025Q4.html">B2B 도메인 업종 분석 2025Q4 <span class="badge html">html</span></a></li>
-  <li><a href="B2B/b2b_domain_industry_analysis_2025Q4_ja.html">B2B 도메인 업종 분석 2025Q4 (JA) <span class="badge html">html</span></a></li>
-  <li><a href="B2B/b2b_inquiry_form_preview.html">B2B 문의폼 프리뷰 <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/B2B/SmartHR_%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0_%EC%84%B1%EC%9E%A5_%EC%82%AC%EB%A1%80.md" target="_blank">SmartHR 커뮤니티 성장 사례 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     소구점 자료
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">소구점 자료</span></summary>
-<ul>
-  <li><a href="소구점/미캔_파트너_백서.html">미캔 파트너 백서 <span class="badge html">html</span></a></li>
-  <li><a href="소구점/영업자료_작성_노하우.html">영업자료 작성 노하우 (276 슬라이드 요약) <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/미캔재팬_맥락.md" target="_blank">미캔재팬 종합 맥락 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%86%8C%EA%B5%AC%EC%A0%90/서비스소개서_기획안.md" target="_blank">서비스소개서 기획안 v1 <span class="badge md">md</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%86%8C%EA%B5%AC%EC%A0%90/서비스소개서_ClaudeDesign_프롬프트_v2.md" target="_blank">서비스소개서 ClaudeDesign 프롬프트 v2 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     이벤트 사이트
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">이벤트 사이트</span></summary>
-<ul>
-  <li><a href="이벤트/이벤트_PPT자랑_1차.html">ミーキャンPPTで私の○○自慢 (1차) <span class="badge html">html</span></a></li>
-  <li><a href="이벤트/이벤트_PPT자랑_2차.html">ミーキャンPPTで私の○○自慢 (2차) <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     인터뷰이 모집
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">인터뷰이 모집</span></summary>
-<ul>
-  <li><a href="CRM/인터뷰이 모집/유저인터뷰 모집 EN.html">유저 인터뷰 모집 (EN) <span class="badge html">html</span></a></li>
-  <li><a href="CRM/인터뷰이 모집/유저인터뷰 모집 JA.html">유저 인터뷰 모집 (JA) <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     스터디
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">스터디</span></summary>
-<ul>
-  <li><a href="스터디/비즈니스 특화형 파워포인트 템플릿/영업자료_작성_노하우.html">영업자료 작성 노하우 (스터디) <span class="badge html">html</span></a></li>
-  <li><a href="https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%8A%A4%ED%84%B0%EB%94%94/비즈니스%20특화형%20파워포인트%20템플릿/영업자료_작성_노하우_정리.md" target="_blank">영업자료 작성 노하우 정리 <span class="badge md">md</span></a></li>
-</ul>
-</details>
-
-
-<!-- ════════════════════════════════════════
-     Claude 리서치
-═════════════════════════════════════════ -->
-<details>
-<summary><span class="sec-label">Claude 리서치</span></summary>
-<ul>
-  <li><a href="Claude - Braze vs Framer B2B 랜딩페이지 논의.html">Claude — Braze vs Framer B2B 랜딩페이지 논의 <span class="badge html">html</span></a></li>
-  <li><a href="Claude - PMax 광고 소재 자동화 가이드.html">Claude — PMax 광고 소재 자동화 가이드 <span class="badge html">html</span></a></li>
-</ul>
-</details>
-
+<div id="topbar">
+  <button id="mob-back" onclick="mobBack()">&#8592;</button>
+  <h1 id="page-title">미캔재팬</h1>
+</div>
+<div id="miller"></div>
+<script>
+const TREE={"type":"dir","name":"","children":{"B2B":{"type":"dir","name":"B2B","archive":false,"children":{"SmartHR_커뮤니티_성장_사례.md":{"type":"file","name":"SmartHR_커뮤니티_성장_사례.md","display":"SmartHR_커뮤니티_성장_사례","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/B2B/SmartHR_%EC%BB%A4%EB%AE%A4%EB%8B%88%ED%8B%B0_%EC%84%B1%EC%9E%A5_%EC%82%AC%EB%A1%80.md"},"b2b_domain_industry_analysis_2025Q4.html":{"type":"file","name":"b2b_domain_industry_analysis_2025Q4.html","display":"b2b_domain_industry_analysis_2025Q4","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/B2B/b2b_domain_industry_analysis_2025Q4.html"},"b2b_domain_industry_analysis_2025Q4_ja.html":{"type":"file","name":"b2b_domain_industry_analysis_2025Q4_ja.html","display":"b2b_domain_industry_analysis_2025Q4_ja","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/B2B/b2b_domain_industry_analysis_2025Q4_ja.html"},"b2b_inquiry_form_preview.html":{"type":"file","name":"b2b_inquiry_form_preview.html","display":"b2b_inquiry_form_preview","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/B2B/b2b_inquiry_form_preview.html"},"braze_lp_guide_(#26c7d9).md":{"type":"file","name":"braze_lp_guide_(#26c7d9).md","display":"braze_lp_guide_(#26c7d9)","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/B2B/braze_lp_guide_%28%2326c7d9%29.md"}}},"CRM":{"type":"dir","name":"CRM","archive":false,"children":{"Braze 학습":{"type":"dir","name":"Braze 학습","archive":false,"children":{"2026-04-08_Braze학습_세션메모.md":{"type":"file","name":"2026-04-08_Braze학습_세션메모.md","display":"2026-04-08_Braze학습_세션메모","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/Braze%20%ED%95%99%EC%8A%B5/2026-04-08_Braze%ED%95%99%EC%8A%B5_%EC%84%B8%EC%85%98%EB%A9%94%EB%AA%A8.md"},"Braze_2026_종합리포트.html":{"type":"file","name":"Braze_2026_종합리포트.html","display":"Braze_2026_종합리포트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/Braze%20%ED%95%99%EC%8A%B5/Braze_2026_%EC%A2%85%ED%95%A9%EB%A6%AC%ED%8F%AC%ED%8A%B8.html"}}},"CRM Phase 01":{"type":"dir","name":"CRM Phase 01","archive":false,"children":{"기초 - 메트릭_방법론":{"type":"dir","name":"기초 - 메트릭_방법론","archive":false,"children":{"_archive":{"type":"dir","name":"_archive","archive":true,"children":{"v1_Databricks_SQL집계":{"type":"dir","name":"v1_Databricks_SQL집계","archive":false,"children":{"메트릭_랭킹테이블_Databricks방식.html":{"type":"file","name":"메트릭_랭킹테이블_Databricks방식.html","display":"메트릭_랭킹테이블_Databricks방식","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/_archive/v1_Databricks_SQL%EC%A7%91%EA%B3%84/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%9E%AD%ED%82%B9%ED%85%8C%EC%9D%B4%EB%B8%94_Databricks%EB%B0%A9%EC%8B%9D.html"},"메트릭_랭킹테이블_v1_SQL방식.md":{"type":"file","name":"메트릭_랭킹테이블_v1_SQL방식.md","display":"메트릭_랭킹테이블_v1_SQL방식","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/_archive/v1_Databricks_SQL%EC%A7%91%EA%B3%84/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%9E%AD%ED%82%B9%ED%85%8C%EC%9D%B4%EB%B8%94_v1_SQL%EB%B0%A9%EC%8B%9D.md"},"메트릭_선정근거_Databricks방식.html":{"type":"file","name":"메트릭_선정근거_Databricks방식.html","display":"메트릭_선정근거_Databricks방식","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/_archive/v1_Databricks_SQL%EC%A7%91%EA%B3%84/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EC%84%A0%EC%A0%95%EA%B7%BC%EA%B1%B0_Databricks%EB%B0%A9%EC%8B%9D.html"},"메트릭_선정근거_v1_SQL방식.md":{"type":"file","name":"메트릭_선정근거_v1_SQL방식.md","display":"메트릭_선정근거_v1_SQL방식","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/_archive/v1_Databricks_SQL%EC%A7%91%EA%B3%84/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EC%84%A0%EC%A0%95%EA%B7%BC%EA%B1%B0_v1_SQL%EB%B0%A9%EC%8B%9D.md"}}},"v6_Welch전용_Winsorize미적용":{"type":"dir","name":"v6_Welch전용_Winsorize미적용","archive":false,"children":{"파이프라인_v6_원칙.md":{"type":"file","name":"파이프라인_v6_원칙.md","display":"파이프라인_v6_원칙","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/_archive/v6_Welch%EC%A0%84%EC%9A%A9_Winsorize%EB%AF%B8%EC%A0%81%EC%9A%A9/%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8_v6_%EC%9B%90%EC%B9%99.md"}}}}},"메트릭_랭킹테이블.md":{"type":"file","name":"메트릭_랭킹테이블.md","display":"메트릭_랭킹테이블","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%9E%AD%ED%82%B9%ED%85%8C%EC%9D%B4%EB%B8%94.md"},"메트릭_선정_의사결정_근거.md":{"type":"file","name":"메트릭_선정_의사결정_근거.md","display":"메트릭_선정_의사결정_근거","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%EC%84%A0%EC%A0%95_%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95_%EA%B7%BC%EA%B1%B0.md"},"메트릭_후보리스트_부록.html":{"type":"file","name":"메트릭_후보리스트_부록.html","display":"메트릭_후보리스트_부록","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%ED%9B%84%EB%B3%B4%EB%A6%AC%EC%8A%A4%ED%8A%B8_%EB%B6%80%EB%A1%9D.html"},"메트릭_후보리스트_부록.md":{"type":"file","name":"메트릭_후보리스트_부록.md","display":"메트릭_후보리스트_부록","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EB%A9%94%ED%8A%B8%EB%A6%AD_%ED%9B%84%EB%B3%B4%EB%A6%AC%EC%8A%A4%ED%8A%B8_%EB%B6%80%EB%A1%9D.md"},"초기_분석_플랜.md":{"type":"file","name":"초기_분석_플랜.md","display":"초기_분석_플랜","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%EC%B4%88%EA%B8%B0_%EB%B6%84%EC%84%9D_%ED%94%8C%EB%9E%9C.md"},"테이블 정보 (Braze).md":{"type":"file","name":"테이블 정보 (Braze).md","display":"테이블 정보 (Braze)","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%ED%85%8C%EC%9D%B4%EB%B8%94%20%EC%A0%95%EB%B3%B4%20%28Braze%29.md"},"테이블 정보 (Databricks).md":{"type":"file","name":"테이블 정보 (Databricks).md","display":"테이블 정보 (Databricks)","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%ED%85%8C%EC%9D%B4%EB%B8%94%20%EC%A0%95%EB%B3%B4%20%28Databricks%29.md"},"파이프라인_원칙.md":{"type":"file","name":"파이프라인_원칙.md","display":"파이프라인_원칙","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EA%B8%B0%EC%B4%88%20-%20%EB%A9%94%ED%8A%B8%EB%A6%AD_%EB%B0%A9%EB%B2%95%EB%A1%A0/%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8_%EC%9B%90%EC%B9%99.md"}}},"성과분석 - 메일_안착효과":{"type":"dir","name":"성과분석 - 메일_안착효과","archive":false,"children":{"_archive":{"type":"dir","name":"_archive","archive":true,"children":{"v1_로그인지표only":{"type":"dir","name":"v1_로그인지표only","archive":false,"children":{"5_상부보고용_narrative.md":{"type":"file","name":"5_상부보고용_narrative.md","display":"5_상부보고용_narrative","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/_archive/v1_%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%A7%80%ED%91%9Conly/5_%EC%83%81%EB%B6%80%EB%B3%B4%EA%B3%A0%EC%9A%A9_narrative.md"},"종합보고서_로그인지표만.md":{"type":"file","name":"종합보고서_로그인지표만.md","display":"종합보고서_로그인지표만","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/_archive/v1_%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%A7%80%ED%91%9Conly/%EC%A2%85%ED%95%A9%EB%B3%B4%EA%B3%A0%EC%84%9C_%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%A7%80%ED%91%9C%EB%A7%8C.md"}}},"v2_다운로드추가_메일효과약화":{"type":"dir","name":"v2_다운로드추가_메일효과약화","archive":false,"children":{"종합보고서_다운로드추가.md":{"type":"file","name":"종합보고서_다운로드추가.md","display":"종합보고서_다운로드추가","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/_archive/v2_%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%EC%B6%94%EA%B0%80_%EB%A9%94%EC%9D%BC%ED%9A%A8%EA%B3%BC%EC%95%BD%ED%99%94/%EC%A2%85%ED%95%A9%EB%B3%B4%EA%B3%A0%EC%84%9C_%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%EC%B6%94%EA%B0%80.md"}}}}},"framework_limitations.md":{"type":"file","name":"framework_limitations.md","display":"framework_limitations","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/framework_limitations.md"},"다음세션_인계메시지.md":{"type":"file","name":"다음세션_인계메시지.md","display":"다음세션_인계메시지","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EB%8B%A4%EC%9D%8C%EC%84%B8%EC%85%98_%EC%9D%B8%EA%B3%84%EB%A9%94%EC%8B%9C%EC%A7%80.md"},"설계안":{"type":"dir","name":"설계안","archive":false,"children":{"KPI기반_설계안_9proxy종합점수.md":{"type":"file","name":"KPI기반_설계안_9proxy종합점수.md","display":"KPI기반_설계안_9proxy종합점수","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%84%A4%EA%B3%84%EC%95%88/KPI%EA%B8%B0%EB%B0%98_%EC%84%A4%EA%B3%84%EC%95%88_9proxy%EC%A2%85%ED%95%A9%EC%A0%90%EC%88%98.md"},"KPI기반_설계안_단일proxy기준.md":{"type":"file","name":"KPI기반_설계안_단일proxy기준.md","display":"KPI기반_설계안_단일proxy기준","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%84%A4%EA%B3%84%EC%95%88/KPI%EA%B8%B0%EB%B0%98_%EC%84%A4%EA%B3%84%EC%95%88_%EB%8B%A8%EC%9D%BCproxy%EA%B8%B0%EC%A4%80.md"}}},"종합보고서_메트릭트리.md":{"type":"file","name":"종합보고서_메트릭트리.md","display":"종합보고서_메트릭트리","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%A2%85%ED%95%A9%EB%B3%B4%EA%B3%A0%EC%84%9C_%EB%A9%94%ED%8A%B8%EB%A6%AD%ED%8A%B8%EB%A6%AC.md"},"캠페인_성과_KPI기반.html":{"type":"file","name":"캠페인_성과_KPI기반.html","display":"캠페인_성과_KPI기반","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%EC%95%88%EC%B0%A9%ED%9A%A8%EA%B3%BC/%EC%BA%A0%ED%8E%98%EC%9D%B8_%EC%84%B1%EA%B3%BC_KPI%EA%B8%B0%EB%B0%98.html"}}},"성과분석 - 메일_활성효과":{"type":"dir","name":"성과분석 - 메일_활성효과","archive":false,"children":{"Databricks_스냅샷":{"type":"dir","name":"Databricks_스냅샷","archive":false,"children":{"세그먼트별_메일성과_compact_Databricks_중간.html":{"type":"file","name":"세그먼트별_메일성과_compact_Databricks_중간.html","display":"세그먼트별_메일성과_compact_Databricks_중간","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/Databricks_%EC%8A%A4%EB%83%85%EC%83%B7/%EC%84%B8%EA%B7%B8%EB%A8%BC%ED%8A%B8%EB%B3%84_%EB%A9%94%EC%9D%BC%EC%84%B1%EA%B3%BC_compact_Databricks_%EC%A4%91%EA%B0%84.html"},"세그먼트별_메일성과_compact_Databricks_최종.html":{"type":"file","name":"세그먼트별_메일성과_compact_Databricks_최종.html","display":"세그먼트별_메일성과_compact_Databricks_최종","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/Databricks_%EC%8A%A4%EB%83%85%EC%83%B7/%EC%84%B8%EA%B7%B8%EB%A8%BC%ED%8A%B8%EB%B3%84_%EB%A9%94%EC%9D%BC%EC%84%B1%EA%B3%BC_compact_Databricks_%EC%B5%9C%EC%A2%85.html"}}},"_archive":{"type":"dir","name":"_archive","archive":true,"children":{"cell단위_메일성과_v4파이프라인_실험설계메모.md":{"type":"file","name":"cell단위_메일성과_v4파이프라인_실험설계메모.md","display":"cell단위_메일성과_v4파이프라인_실험설계메모","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/_archive/cell%EB%8B%A8%EC%9C%84_%EB%A9%94%EC%9D%BC%EC%84%B1%EA%B3%BC_v4%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8_%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84%EB%A9%94%EB%AA%A8.md"},"user_type별_효과_L2_Databricks구버전.md":{"type":"file","name":"user_type별_효과_L2_Databricks구버전.md","display":"user_type별_효과_L2_Databricks구버전","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/_archive/user_type%EB%B3%84_%ED%9A%A8%EA%B3%BC_L2_Databricks%EA%B5%AC%EB%B2%84%EC%A0%84.md"},"세그먼트별_메일성과_Databricks방식.html":{"type":"file","name":"세그먼트별_메일성과_Databricks방식.html","display":"세그먼트별_메일성과_Databricks방식","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/_archive/%EC%84%B8%EA%B7%B8%EB%A8%BC%ED%8A%B8%EB%B3%84_%EB%A9%94%EC%9D%BC%EC%84%B1%EA%B3%BC_Databricks%EB%B0%A9%EC%8B%9D.html"},"캔버스별_양역효과_L1L2_Databricks구버전.md":{"type":"file","name":"캔버스별_양역효과_L1L2_Databricks구버전.md","display":"캔버스별_양역효과_L1L2_Databricks구버전","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/_archive/%EC%BA%94%EB%B2%84%EC%8A%A4%EB%B3%84_%EC%96%91%EC%97%AD%ED%9A%A8%EA%B3%BC_L1L2_Databricks%EA%B5%AC%EB%B2%84%EC%A0%84.md"}}},"메일_배포오류_원인추적.md":{"type":"file","name":"메일_배포오류_원인추적.md","display":"메일_배포오류_원인추적","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/%EB%A9%94%EC%9D%BC_%EB%B0%B0%ED%8F%AC%EC%98%A4%EB%A5%98_%EC%9B%90%EC%9D%B8%EC%B6%94%EC%A0%81.md"},"온보딩_실험설계_논의_맥락.md":{"type":"file","name":"온보딩_실험설계_논의_맥락.md","display":"온보딩_실험설계_논의_맥락","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84_%EB%85%BC%EC%9D%98_%EB%A7%A5%EB%9D%BD.md"},"캠페인_성과_활성지표기반.html":{"type":"file","name":"캠페인_성과_활성지표기반.html","display":"캠페인_성과_활성지표기반","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EB%A9%94%EC%9D%BC_%ED%99%9C%EC%84%B1%ED%9A%A8%EA%B3%BC/%EC%BA%A0%ED%8E%98%EC%9D%B8_%EC%84%B1%EA%B3%BC_%ED%99%9C%EC%84%B1%EC%A7%80%ED%91%9C%EA%B8%B0%EB%B0%98.html"}}},"성과분석 - 온보딩_시퀀스":{"type":"dir","name":"성과분석 - 온보딩_시퀀스","archive":false,"children":{"_archive_v1_cohort잘못된분석":{"type":"dir","name":"_archive_v1_cohort잘못된분석","archive":true,"children":{"시퀀스효과_분석요약_v1_코호트오류.md":{"type":"file","name":"시퀀스효과_분석요약_v1_코호트오류.md","display":"시퀀스효과_분석요약_v1_코호트오류","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%9C%ED%80%80%EC%8A%A4/_archive_v1_cohort%EC%9E%98%EB%AA%BB%EB%90%9C%EB%B6%84%EC%84%9D/%EC%8B%9C%ED%80%80%EC%8A%A4%ED%9A%A8%EA%B3%BC_%EB%B6%84%EC%84%9D%EC%9A%94%EC%95%BD_v1_%EC%BD%94%ED%98%B8%ED%8A%B8%EC%98%A4%EB%A5%98.md"}}},"분석요약.md":{"type":"file","name":"분석요약.md","display":"분석요약","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%9C%ED%80%80%EC%8A%A4/%EB%B6%84%EC%84%9D%EC%9A%94%EC%95%BD.md"},"시퀀스설계_권장안.md":{"type":"file","name":"시퀀스설계_권장안.md","display":"시퀀스설계_권장안","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2001/%EC%84%B1%EA%B3%BC%EB%B6%84%EC%84%9D%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9_%EC%8B%9C%ED%80%80%EC%8A%A4/%EC%8B%9C%ED%80%80%EC%8A%A4%EC%84%A4%EA%B3%84_%EA%B6%8C%EC%9E%A5%EC%95%88.md"}}}}},"CRM Phase 02":{"type":"dir","name":"CRM Phase 02","archive":false,"children":{"module_catalog_v2.html":{"type":"file","name":"module_catalog_v2.html","display":"module_catalog_v2","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/module_catalog_v2.html"},"module_catalog_v3.html":{"type":"file","name":"module_catalog_v3.html","display":"module_catalog_v3","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/module_catalog_v3.html"},"디자인시스템.md":{"type":"file","name":"디자인시스템.md","display":"디자인시스템","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C.md"},"레퍼런스.md":{"type":"file","name":"레퍼런스.md","display":"레퍼런스","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EB%A0%88%ED%8D%BC%EB%9F%B0%EC%8A%A4.md"},"모듈화시스템.md":{"type":"file","name":"모듈화시스템.md","display":"모듈화시스템","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EB%AA%A8%EB%93%88%ED%99%94%EC%8B%9C%EC%8A%A4%ED%85%9C.md"},"실험레이어":{"type":"dir","name":"실험레이어","archive":false,"children":{"신규메일_아이디어.md":{"type":"file","name":"신규메일_아이디어.md","display":"신규메일_아이디어","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EB%A0%88%EC%9D%B4%EC%96%B4/%EC%8B%A0%EA%B7%9C%EB%A9%94%EC%9D%BC_%EC%95%84%EC%9D%B4%EB%94%94%EC%96%B4.md"}}},"실험설계":{"type":"dir","name":"실험설계","archive":false,"children":{"0. 아이데이션.md":{"type":"file","name":"0. 아이데이션.md","display":"0. 아이데이션","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84/0.%20%EC%95%84%EC%9D%B4%EB%8D%B0%EC%9D%B4%EC%85%98.md"},"1. 세그먼트 별 성과.md":{"type":"file","name":"1. 세그먼트 별 성과.md","display":"1. 세그먼트 별 성과","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84/1.%20%EC%84%B8%EA%B7%B8%EB%A8%BC%ED%8A%B8%20%EB%B3%84%20%EC%84%B1%EA%B3%BC.md"},"2. 세그먼트 별 유효메일 선정.md":{"type":"file","name":"2. 세그먼트 별 유효메일 선정.md","display":"2. 세그먼트 별 유효메일 선정","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84/2.%20%EC%84%B8%EA%B7%B8%EB%A8%BC%ED%8A%B8%20%EB%B3%84%20%EC%9C%A0%ED%9A%A8%EB%A9%94%EC%9D%BC%20%EC%84%A0%EC%A0%95.md"},"메일성과_시각화.html":{"type":"file","name":"메일성과_시각화.html","display":"메일성과_시각화","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84/%EB%A9%94%EC%9D%BC%EC%84%B1%EA%B3%BC_%EC%8B%9C%EA%B0%81%ED%99%94.html"},"설계원칙.md":{"type":"file","name":"설계원칙.md","display":"설계원칙","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%8B%A4%ED%97%98%EC%84%A4%EA%B3%84/%EC%84%A4%EA%B3%84%EC%9B%90%EC%B9%99.md"}}},"콘텐츠시스템.md":{"type":"file","name":"콘텐츠시스템.md","display":"콘텐츠시스템","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM%20Phase%2002/%EC%BD%98%ED%85%90%EC%B8%A0%EC%8B%9C%EC%8A%A4%ED%85%9C.md"},"패턴템플릿":{"type":"dir","name":"패턴템플릿","archive":false,"children":{"T10a_relationship_qa.html":{"type":"file","name":"T10a_relationship_qa.html","display":"T10a_relationship_qa","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T10a_relationship_qa.html"},"T10b_relationship_video.html":{"type":"file","name":"T10b_relationship_video.html","display":"T10b_relationship_video","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T10b_relationship_video.html"},"T1_feature_spotlight.html":{"type":"file","name":"T1_feature_spotlight.html","display":"T1_feature_spotlight","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T1_feature_spotlight.html"},"T2_multi_demo.html":{"type":"file","name":"T2_multi_demo.html","display":"T2_multi_demo","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T2_multi_demo.html"},"T3_step_guide.html":{"type":"file","name":"T3_step_guide.html","display":"T3_step_guide","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T3_step_guide.html"},"T4_grid_showcase.html":{"type":"file","name":"T4_grid_showcase.html","display":"T4_grid_showcase","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T4_grid_showcase.html"},"T5_conceptual_deep_dive.html":{"type":"file","name":"T5_conceptual_deep_dive.html","display":"T5_conceptual_deep_dive","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T5_conceptual_deep_dive.html"},"T6_social_proof.html":{"type":"file","name":"T6_social_proof.html","display":"T6_social_proof","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T6_social_proof.html"},"T7_event_webinar.html":{"type":"file","name":"T7_event_webinar.html","display":"T7_event_webinar","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T7_event_webinar.html"},"T8_newsletter_digest.html":{"type":"file","name":"T8_newsletter_digest.html","display":"T8_newsletter_digest","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T8_newsletter_digest.html"},"T9_referral_comparison.html":{"type":"file","name":"T9_referral_comparison.html","display":"T9_referral_comparison","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BF/T9_referral_comparison.html"}}},"패턴템플릿v3":{"type":"dir","name":"패턴템플릿v3","archive":false,"children":{"T10a_relationship_qa.html":{"type":"file","name":"T10a_relationship_qa.html","display":"T10a_relationship_qa","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T10a_relationship_qa.html"},"T10b_relationship_video.html":{"type":"file","name":"T10b_relationship_video.html","display":"T10b_relationship_video","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T10b_relationship_video.html"},"T1_feature_spotlight.html":{"type":"file","name":"T1_feature_spotlight.html","display":"T1_feature_spotlight","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T1_feature_spotlight.html"},"T2_discount_offer.html":{"type":"file","name":"T2_discount_offer.html","display":"T2_discount_offer","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T2_discount_offer.html"},"T3_reengagement.html":{"type":"file","name":"T3_reengagement.html","display":"T3_reengagement","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T3_reengagement.html"},"T4_feature_grid.html":{"type":"file","name":"T4_feature_grid.html","display":"T4_feature_grid","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T4_feature_grid.html"},"T5_onboarding_steps.html":{"type":"file","name":"T5_onboarding_steps.html","display":"T5_onboarding_steps","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T5_onboarding_steps.html"},"T6_social_proof.html":{"type":"file","name":"T6_social_proof.html","display":"T6_social_proof","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T6_social_proof.html"},"T7_case_study.html":{"type":"file","name":"T7_case_study.html","display":"T7_case_study","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T7_case_study.html"},"T8_newsletter.html":{"type":"file","name":"T8_newsletter.html","display":"T8_newsletter","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T8_newsletter.html"},"T9_comparison.html":{"type":"file","name":"T9_comparison.html","display":"T9_comparison","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8C%A8%ED%84%B4%ED%85%9C%ED%94%8C%EB%A6%BFv3/T9_comparison.html"}}},"페이즈2_발송메일":{"type":"dir","name":"페이즈2_발송메일","archive":false,"children":{"D1_aip_empathy.html":{"type":"file","name":"D1_aip_empathy.html","display":"D1_aip_empathy","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/D1_aip_empathy.html"},"D2_data_table.html":{"type":"file","name":"D2_data_table.html","display":"D2_data_table","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/D2_data_table.html"},"D2_image_bgremove.html":{"type":"file","name":"D2_image_bgremove.html","display":"D2_image_bgremove","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/D2_image_bgremove.html"},"EDU_01_class.html":{"type":"file","name":"EDU_01_class.html","display":"EDU_01_class","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/EDU_01_class.html"},"EDU_02_quiz.html":{"type":"file","name":"EDU_02_quiz.html","display":"EDU_02_quiz","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/EDU_02_quiz.html"},"EDU_03_character.html":{"type":"file","name":"EDU_03_character.html","display":"EDU_03_character","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/EDU_03_character.html"},"EN1_welcome_001.html":{"type":"file","name":"EN1_welcome_001.html","display":"EN1_welcome_001","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/EN1_welcome_001.html"},"JA1_review.html":{"type":"file","name":"JA1_review.html","display":"JA1_review","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JA1_review.html"},"JAS_01_4step.html":{"type":"file","name":"JAS_01_4step.html","display":"JAS_01_4step","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_01_4step.html"},"JAS_02_aip.html":{"type":"file","name":"JAS_02_aip.html","display":"JAS_02_aip","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_02_aip.html"},"JAS_03_font.html":{"type":"file","name":"JAS_03_font.html","display":"JAS_03_font","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_03_font.html"},"JAS_04_bgremove.html":{"type":"file","name":"JAS_04_bgremove.html","display":"JAS_04_bgremove","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_04_bgremove.html"},"JAS_05_table.html":{"type":"file","name":"JAS_05_table.html","display":"JAS_05_table","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_05_table.html"},"JAS_06_graph.html":{"type":"file","name":"JAS_06_graph.html","display":"JAS_06_graph","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_06_graph.html"},"JAS_07_templatemix.html":{"type":"file","name":"JAS_07_templatemix.html","display":"JAS_07_templatemix","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_07_templatemix.html"},"JAS_08_bookmark.html":{"type":"file","name":"JAS_08_bookmark.html","display":"JAS_08_bookmark","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/CRM%20Phase%2002/%ED%8E%98%EC%9D%B4%EC%A6%882_%EB%B0%9C%EC%86%A1%EB%A9%94%EC%9D%BC/JAS_08_bookmark.html"}}}}},"CRM_프로젝트히스토리.md":{"type":"file","name":"CRM_프로젝트히스토리.md","display":"CRM_프로젝트히스토리","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CRM/CRM_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%ED%9E%88%EC%8A%A4%ED%86%A0%EB%A6%AC.md"},"HTML":{"type":"dir","name":"HTML","archive":false,"children":{"HTML - 다운로드 직후":{"type":"dir","name":"HTML - 다운로드 직후","archive":false,"children":{"001 친구소개.html":{"type":"file","name":"001 친구소개.html","display":"001 친구소개","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%A7%81%ED%9B%84/001%20%EC%B9%9C%EA%B5%AC%EC%86%8C%EA%B0%9C.html"},"002 북마크A.html":{"type":"file","name":"002 북마크A.html","display":"002 북마크A","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%A7%81%ED%9B%84/002%20%EB%B6%81%EB%A7%88%ED%81%ACA.html"},"003 북마크B.html":{"type":"file","name":"003 북마크B.html","display":"003 북마크B","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%A7%81%ED%9B%84/003%20%EB%B6%81%EB%A7%88%ED%81%ACB.html"},"004 감사A.html":{"type":"file","name":"004 감사A.html","display":"004 감사A","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%A7%81%ED%9B%84/004%20%EA%B0%90%EC%82%ACA.html"},"005 감사B.html":{"type":"file","name":"005 감사B.html","display":"005 감사B","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%A7%81%ED%9B%84/005%20%EA%B0%90%EC%82%ACB.html"}}},"HTML - 에듀":{"type":"dir","name":"HTML - 에듀","archive":false,"children":{"edu_01_class.html":{"type":"file","name":"edu_01_class.html","display":"edu_01_class","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%97%90%EB%93%80/edu_01_class.html"},"edu_02_quiz.html":{"type":"file","name":"edu_02_quiz.html","display":"edu_02_quiz","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%97%90%EB%93%80/edu_02_quiz.html"},"edu_03_character.html":{"type":"file","name":"edu_03_character.html","display":"edu_03_character","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%97%90%EB%93%80/edu_03_character.html"}}},"HTML - 온보딩 20260326":{"type":"dir","name":"HTML - 온보딩 20260326","archive":false,"children":{"en.html":{"type":"file","name":"en.html","display":"en","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260326/en.html"},"ja.html":{"type":"file","name":"ja.html","display":"ja","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260326/ja.html"}}},"HTML - 온보딩 20260407":{"type":"dir","name":"HTML - 온보딩 20260407","archive":false,"children":{"온보딩 - 4스텝.html":{"type":"file","name":"온보딩 - 4스텝.html","display":"온보딩 - 4스텝","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260407/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%204%EC%8A%A4%ED%85%9D.html"},"온보딩 - AIP.html":{"type":"file","name":"온보딩 - AIP.html","display":"온보딩 - AIP","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260407/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20AIP.html"},"온보딩 - 리뷰.html":{"type":"file","name":"온보딩 - 리뷰.html","display":"온보딩 - 리뷰","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260407/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20%EB%A6%AC%EB%B7%B0.html"},"온보딩 - 무료필터.html":{"type":"file","name":"온보딩 - 무료필터.html","display":"온보딩 - 무료필터","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%2020260407/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20%EB%AC%B4%EB%A3%8C%ED%95%84%ED%84%B0.html"}}},"HTML - 온보딩D1":{"type":"dir","name":"HTML - 온보딩D1","archive":false,"children":{"온보딩 - 4스텝.html":{"type":"file","name":"온보딩 - 4스텝.html","display":"온보딩 - 4스텝","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%204%EC%8A%A4%ED%85%9D.html"},"온보딩 - 4스텝_simplify.html":{"type":"file","name":"온보딩 - 4스텝_simplify.html","display":"온보딩 - 4스텝_simplify","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%204%EC%8A%A4%ED%85%9D_simplify.html"},"온보딩 - AIP.html":{"type":"file","name":"온보딩 - AIP.html","display":"온보딩 - AIP","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20AIP.html"},"온보딩 - AIP_curiosity.html":{"type":"file","name":"온보딩 - AIP_curiosity.html","display":"온보딩 - AIP_curiosity","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20AIP_curiosity.html"},"온보딩 - 리뷰.html":{"type":"file","name":"온보딩 - 리뷰.html","display":"온보딩 - 리뷰","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20%EB%A6%AC%EB%B7%B0.html"},"온보딩 - 리뷰_number.html":{"type":"file","name":"온보딩 - 리뷰_number.html","display":"온보딩 - 리뷰_number","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D1/%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20%EB%A6%AC%EB%B7%B0_number.html"}}},"HTML - 온보딩D3":{"type":"dir","name":"HTML - 온보딩D3","archive":false,"children":{"배경제거.html":{"type":"file","name":"배경제거.html","display":"배경제거","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D3/%EB%B0%B0%EA%B2%BD%EC%A0%9C%EA%B1%B0.html"},"차트.html":{"type":"file","name":"차트.html","display":"차트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D3/%EC%B0%A8%ED%8A%B8.html"},"폰트.html":{"type":"file","name":"폰트.html","display":"폰트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D3/%ED%8F%B0%ED%8A%B8.html"},"표.html":{"type":"file","name":"표.html","display":"표","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D3/%ED%91%9C.html"},"프레임.html":{"type":"file","name":"프레임.html","display":"프레임","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D3/%ED%94%84%EB%A0%88%EC%9E%84.html"}}},"HTML - 온보딩D5":{"type":"dir","name":"HTML - 온보딩D5","archive":false,"children":{"북마크.html":{"type":"file","name":"북마크.html","display":"북마크","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D5/%EB%B6%81%EB%A7%88%ED%81%AC.html"},"템플릿믹스.html":{"type":"file","name":"템플릿믹스.html","display":"템플릿믹스","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9D5/%ED%85%9C%ED%94%8C%EB%A6%BF%EB%AF%B9%EC%8A%A4.html"}}},"HTML - 온보딩시리즈":{"type":"dir","name":"HTML - 온보딩시리즈","archive":false,"children":{"1 온보딩 - 4스텝.html":{"type":"file","name":"1 온보딩 - 4스텝.html","display":"1 온보딩 - 4스텝","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/1%20%EC%98%A8%EB%B3%B4%EB%94%A9%20-%204%EC%8A%A4%ED%85%9D.html"},"2 온보딩 - AIP.html":{"type":"file","name":"2 온보딩 - AIP.html","display":"2 온보딩 - AIP","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/2%20%EC%98%A8%EB%B3%B4%EB%94%A9%20-%20AIP.html"},"3 폰트.html":{"type":"file","name":"3 폰트.html","display":"3 폰트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/3%20%ED%8F%B0%ED%8A%B8.html"},"4 배경제거.html":{"type":"file","name":"4 배경제거.html","display":"4 배경제거","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/4%20%EB%B0%B0%EA%B2%BD%EC%A0%9C%EA%B1%B0.html"},"5 표.html":{"type":"file","name":"5 표.html","display":"5 표","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/5%20%ED%91%9C.html"},"6 차트.html":{"type":"file","name":"6 차트.html","display":"6 차트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/6%20%EC%B0%A8%ED%8A%B8.html"},"7 템플릿믹스.html":{"type":"file","name":"7 템플릿믹스.html","display":"7 템플릿믹스","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/7%20%ED%85%9C%ED%94%8C%EB%A6%BF%EB%AF%B9%EC%8A%A4.html"},"8 북마크.html":{"type":"file","name":"8 북마크.html","display":"8 북마크","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%98%A8%EB%B3%B4%EB%94%A9%EC%8B%9C%EB%A6%AC%EC%A6%88/8%20%EB%B6%81%EB%A7%88%ED%81%AC.html"}}},"HTML - 웨비나 2605":{"type":"dir","name":"HTML - 웨비나 2605","archive":false,"children":{"260430.html":{"type":"file","name":"260430.html","display":"260430","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98%202605/260430.html"},"260506.html":{"type":"file","name":"260506.html","display":"260506","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98%202605/260506.html"},"260508.html":{"type":"file","name":"260508.html","display":"260508","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98%202605/260508.html"},"260512.html":{"type":"file","name":"260512.html","display":"260512","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98%202605/260512.html"}}},"HTML - 웨비나":{"type":"dir","name":"HTML - 웨비나","archive":false,"children":{"웨비나 Keitaro&Konmari churn.html":{"type":"file","name":"웨비나 Keitaro&Konmari churn.html","display":"웨비나 Keitaro&Konmari churn","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98/%EC%9B%A8%EB%B9%84%EB%82%98%20Keitaro%26Konmari%20churn.html"},"웨비나 Keitaro&Konmari new.html":{"type":"file","name":"웨비나 Keitaro&Konmari new.html","display":"웨비나 Keitaro&Konmari new","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98/%EC%9B%A8%EB%B9%84%EB%82%98%20Keitaro%26Konmari%20new.html"},"웨비나 Keitaro&Konmari remind churn.html":{"type":"file","name":"웨비나 Keitaro&Konmari remind churn.html","display":"웨비나 Keitaro&Konmari remind churn","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98/%EC%9B%A8%EB%B9%84%EB%82%98%20Keitaro%26Konmari%20remind%20churn.html"},"웨비나 Keitaro&Konmari remind new.html":{"type":"file","name":"웨비나 Keitaro&Konmari remind new.html","display":"웨비나 Keitaro&Konmari remind new","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%EC%9B%A8%EB%B9%84%EB%82%98/%EC%9B%A8%EB%B9%84%EB%82%98%20Keitaro%26Konmari%20remind%20new.html"}}},"HTML - 템플릿":{"type":"dir","name":"HTML - 템플릿","archive":false,"children":{"HTML템플릿 찐찐최종.html":{"type":"file","name":"HTML템플릿 찐찐최종.html","display":"HTML템플릿 찐찐최종","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/HTML%ED%85%9C%ED%94%8C%EB%A6%BF%20%EC%B0%90%EC%B0%90%EC%B5%9C%EC%A2%85.html"},"HTML템플릿 찐최종.html":{"type":"file","name":"HTML템플릿 찐최종.html","display":"HTML템플릿 찐최종","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/HTML%ED%85%9C%ED%94%8C%EB%A6%BF%20%EC%B0%90%EC%B5%9C%EC%A2%85.html"},"HTML템플릿 최종.html":{"type":"file","name":"HTML템플릿 최종.html","display":"HTML템플릿 최종","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/HTML%ED%85%9C%ED%94%8C%EB%A6%BF%20%EC%B5%9C%EC%A2%85.html"},"HTML템플릿 테스트.html":{"type":"file","name":"HTML템플릿 테스트.html","display":"HTML템플릿 테스트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/HTML%ED%85%9C%ED%94%8C%EB%A6%BF%20%ED%85%8C%EC%8A%A4%ED%8A%B8.html"},"module_catalog.html":{"type":"file","name":"module_catalog.html","display":"module_catalog","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/module_catalog.html"},"module_catalog_annotated.html":{"type":"file","name":"module_catalog_annotated.html","display":"module_catalog_annotated","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/HTML/HTML%20-%20%ED%85%9C%ED%94%8C%EB%A6%BF/module_catalog_annotated.html"}}}}},"인터뷰이 모집":{"type":"dir","name":"인터뷰이 모집","archive":false,"children":{"유저인터뷰 모집 EN.html":{"type":"file","name":"유저인터뷰 모집 EN.html","display":"유저인터뷰 모집 EN","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/%EC%9D%B8%ED%84%B0%EB%B7%B0%EC%9D%B4%20%EB%AA%A8%EC%A7%91/%EC%9C%A0%EC%A0%80%EC%9D%B8%ED%84%B0%EB%B7%B0%20%EB%AA%A8%EC%A7%91%20EN.html"},"유저인터뷰 모집 JA.html":{"type":"file","name":"유저인터뷰 모집 JA.html","display":"유저인터뷰 모집 JA","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CRM/%EC%9D%B8%ED%84%B0%EB%B7%B0%EC%9D%B4%20%EB%AA%A8%EC%A7%91/%EC%9C%A0%EC%A0%80%EC%9D%B8%ED%84%B0%EB%B7%B0%20%EB%AA%A8%EC%A7%91%20JA.html"}}}}},"CX":{"type":"dir","name":"CX","archive":false,"children":{"서포터즈 - 랜딩페이지 Braze 자체수집 방식":{"type":"dir","name":"서포터즈 - 랜딩페이지 Braze 자체수집 방식","archive":false,"children":{"braze_lp_guide_(#26c7d9).md":{"type":"file","name":"braze_lp_guide_(#26c7d9).md","display":"braze_lp_guide_(#26c7d9)","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20Braze%20%EC%9E%90%EC%B2%B4%EC%88%98%EC%A7%91%20%EB%B0%A9%EC%8B%9D/braze_lp_guide_%28%2326c7d9%29.md"},"jp_spt_custom_attributes.md":{"type":"file","name":"jp_spt_custom_attributes.md","display":"jp_spt_custom_attributes","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20Braze%20%EC%9E%90%EC%B2%B4%EC%88%98%EC%A7%91%20%EB%B0%A9%EC%8B%9D/jp_spt_custom_attributes.md"},"supporters_footer.html":{"type":"file","name":"supporters_footer.html","display":"supporters_footer","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20Braze%20%EC%9E%90%EC%B2%B4%EC%88%98%EC%A7%91%20%EB%B0%A9%EC%8B%9D/supporters_footer.html"},"supporters_integrated.html":{"type":"file","name":"supporters_integrated.html","display":"supporters_integrated","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20Braze%20%EC%9E%90%EC%B2%B4%EC%88%98%EC%A7%91%20%EB%B0%A9%EC%8B%9D/supporters_integrated.html"}}},"서포터즈 - 랜딩페이지 GAS to Braze 방식":{"type":"dir","name":"서포터즈 - 랜딩페이지 GAS to Braze 방식","archive":false,"children":{"braze_api_ingest_guide.md":{"type":"file","name":"braze_api_ingest_guide.md","display":"braze_api_ingest_guide","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20GAS%20to%20Braze%20%EB%B0%A9%EC%8B%9D/braze_api_ingest_guide.md"},"supporters_form.html":{"type":"file","name":"supporters_form.html","display":"supporters_form","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20GAS%20to%20Braze%20%EB%B0%A9%EC%8B%9D/supporters_form.html"}}},"서포터즈 - 이메일html":{"type":"dir","name":"서포터즈 - 이메일html","archive":false,"children":{"email_supporters_01.html":{"type":"file","name":"email_supporters_01.html","display":"email_supporters_01","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EC%9D%B4%EB%A9%94%EC%9D%BChtml/email_supporters_01.html"},"email_supporters_02.html":{"type":"file","name":"email_supporters_02.html","display":"email_supporters_02","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EC%9D%B4%EB%A9%94%EC%9D%BChtml/email_supporters_02.html"},"email_supporters_03_after.html":{"type":"file","name":"email_supporters_03_after.html","display":"email_supporters_03_after","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EC%9D%B4%EB%A9%94%EC%9D%BChtml/email_supporters_03_after.html"},"메일제목_플레이스홀더.md":{"type":"file","name":"메일제목_플레이스홀더.md","display":"메일제목_플레이스홀더","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%84%9C%ED%8F%AC%ED%84%B0%EC%A6%88%20-%20%EC%9D%B4%EB%A9%94%EC%9D%BChtml/%EB%A9%94%EC%9D%BC%EC%A0%9C%EB%AA%A9_%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%ED%99%80%EB%8D%94.md"}}},"웨비나 - 분석":{"type":"dir","name":"웨비나 - 분석","archive":false,"children":{"2026-05_웨비나_단골뉴비_분석.html":{"type":"file","name":"2026-05_웨비나_단골뉴비_분석.html","display":"2026-05_웨비나_단골뉴비_분석","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/2026-05_%EC%9B%A8%EB%B9%84%EB%82%98_%EB%8B%A8%EA%B3%A8%EB%89%B4%EB%B9%84_%EB%B6%84%EC%84%9D.html"},"2026-05_웨비나_분석리포트.html":{"type":"file","name":"2026-05_웨비나_분석리포트.html","display":"2026-05_웨비나_분석리포트","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/2026-05_%EC%9B%A8%EB%B9%84%EB%82%98_%EB%B6%84%EC%84%9D%EB%A6%AC%ED%8F%AC%ED%8A%B8.html"},"_archive":{"type":"dir","name":"_archive","archive":true,"children":{"webinar_2026-05-07_분석리포트_v2.md":{"type":"file","name":"webinar_2026-05-07_분석리포트_v2.md","display":"webinar_2026-05-07_분석리포트_v2","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/_archive/webinar_2026-05-07_%EB%B6%84%EC%84%9D%EB%A6%AC%ED%8F%AC%ED%8A%B8_v2.md"},"webinar_2026-05-07_상세분포표_v2.md":{"type":"file","name":"webinar_2026-05-07_상세분포표_v2.md","display":"webinar_2026-05-07_상세분포표_v2","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/_archive/webinar_2026-05-07_%EC%83%81%EC%84%B8%EB%B6%84%ED%8F%AC%ED%91%9C_v2.md"},"웨비나_단골뉴비_분석_구버전.html":{"type":"file","name":"웨비나_단골뉴비_분석_구버전.html","display":"웨비나_단골뉴비_분석_구버전","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/_archive/%EC%9B%A8%EB%B9%84%EB%82%98_%EB%8B%A8%EA%B3%A8%EB%89%B4%EB%B9%84_%EB%B6%84%EC%84%9D_%EA%B5%AC%EB%B2%84%EC%A0%84.html"},"웨비나_단골뉴비_상세분포표_구버전.html":{"type":"file","name":"웨비나_단골뉴비_상세분포표_구버전.html","display":"웨비나_단골뉴비_상세분포표_구버전","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/CX/%EC%9B%A8%EB%B9%84%EB%82%98%20-%20%EB%B6%84%EC%84%9D/_archive/%EC%9B%A8%EB%B9%84%EB%82%98_%EB%8B%A8%EA%B3%A8%EB%89%B4%EB%B9%84_%EC%83%81%EC%84%B8%EB%B6%84%ED%8F%AC%ED%91%9C_%EA%B5%AC%EB%B2%84%EC%A0%84.html"}}}}}}},"Claude - Braze vs Framer B2B 랜딩페이지 논의.html":{"type":"file","name":"Claude - Braze vs Framer B2B 랜딩페이지 논의.html","display":"Claude - Braze vs Framer B2B 랜딩페이지 논의","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/Claude%20-%20Braze%20vs%20Framer%20B2B%20%EB%9E%9C%EB%94%A9%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%85%BC%EC%9D%98.html"},"Claude - PMax 광고 소재 자동화 가이드.html":{"type":"file","name":"Claude - PMax 광고 소재 자동화 가이드.html","display":"Claude - PMax 광고 소재 자동화 가이드","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/Claude%20-%20PMax%20%EA%B4%91%EA%B3%A0%20%EC%86%8C%EC%9E%AC%20%EC%9E%90%EB%8F%99%ED%99%94%20%EA%B0%80%EC%9D%B4%EB%93%9C.html"},"미캔재팬_맥락.md":{"type":"file","name":"미캔재팬_맥락.md","display":"미캔재팬_맥락","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EB%AF%B8%EC%BA%94%EC%9E%AC%ED%8C%AC_%EB%A7%A5%EB%9D%BD.md"},"소구점":{"type":"dir","name":"소구점","archive":false,"children":{"미캔_파트너_백서.html":{"type":"file","name":"미캔_파트너_백서.html","display":"미캔_파트너_백서","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%86%8C%EA%B5%AC%EC%A0%90/%EB%AF%B8%EC%BA%94_%ED%8C%8C%ED%8A%B8%EB%84%88_%EB%B0%B1%EC%84%9C.html"},"미캔_파트너_백서_v1_backup.html":{"type":"file","name":"미캔_파트너_백서_v1_backup.html","display":"미캔_파트너_백서_v1_backup","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%86%8C%EA%B5%AC%EC%A0%90/%EB%AF%B8%EC%BA%94_%ED%8C%8C%ED%8A%B8%EB%84%88_%EB%B0%B1%EC%84%9C_v1_backup.html"},"미캔_파트너_백서_초안.html":{"type":"file","name":"미캔_파트너_백서_초안.html","display":"미캔_파트너_백서_초안","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%86%8C%EA%B5%AC%EC%A0%90/%EB%AF%B8%EC%BA%94_%ED%8C%8C%ED%8A%B8%EB%84%88_%EB%B0%B1%EC%84%9C_%EC%B4%88%EC%95%88.html"},"서비스소개서_ClaudeDesign_프롬프트.md":{"type":"file","name":"서비스소개서_ClaudeDesign_프롬프트.md","display":"서비스소개서_ClaudeDesign_프롬프트","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%86%8C%EA%B5%AC%EC%A0%90/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C%EC%84%9C_ClaudeDesign_%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8.md"},"서비스소개서_ClaudeDesign_프롬프트_v2.md":{"type":"file","name":"서비스소개서_ClaudeDesign_프롬프트_v2.md","display":"서비스소개서_ClaudeDesign_프롬프트_v2","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%86%8C%EA%B5%AC%EC%A0%90/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C%EC%84%9C_ClaudeDesign_%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_v2.md"},"서비스소개서_기획안.md":{"type":"file","name":"서비스소개서_기획안.md","display":"서비스소개서_기획안","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%86%8C%EA%B5%AC%EC%A0%90/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C%EC%84%9C_%EA%B8%B0%ED%9A%8D%EC%95%88.md"}}},"스터디":{"type":"dir","name":"스터디","archive":false,"children":{"비즈니스 특화형 파워포인트 템플릿":{"type":"dir","name":"비즈니스 특화형 파워포인트 템플릿","archive":false,"children":{"영업자료_작성_노하우.html":{"type":"file","name":"영업자료_작성_노하우.html","display":"영업자료_작성_노하우","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4%20%ED%8A%B9%ED%99%94%ED%98%95%20%ED%8C%8C%EC%9B%8C%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%ED%85%9C%ED%94%8C%EB%A6%BF/%EC%98%81%EC%97%85%EC%9E%90%EB%A3%8C_%EC%9E%91%EC%84%B1_%EB%85%B8%ED%95%98%EC%9A%B0.html"},"영업자료_작성_노하우_정리.md":{"type":"file","name":"영업자료_작성_노하우_정리.md","display":"영업자료_작성_노하우_정리","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%B9%84%EC%A6%88%EB%8B%88%EC%8A%A4%20%ED%8A%B9%ED%99%94%ED%98%95%20%ED%8C%8C%EC%9B%8C%ED%8F%AC%EC%9D%B8%ED%8A%B8%20%ED%85%9C%ED%94%8C%EB%A6%BF/%EC%98%81%EC%97%85%EC%9E%90%EB%A3%8C_%EC%9E%91%EC%84%B1_%EB%85%B8%ED%95%98%EC%9A%B0_%EC%A0%95%EB%A6%AC.md"}}},"영업자료_작성_노하우.html":{"type":"file","name":"영업자료_작성_노하우.html","display":"영업자료_작성_노하우","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%8A%A4%ED%84%B0%EB%94%94/%EC%98%81%EC%97%85%EC%9E%90%EB%A3%8C_%EC%9E%91%EC%84%B1_%EB%85%B8%ED%95%98%EC%9A%B0.html"}}},"이벤트":{"type":"dir","name":"이벤트","archive":false,"children":{"_docs":{"type":"dir","name":"_docs","archive":true,"children":{"GUIDELINE_full.md":{"type":"file","name":"GUIDELINE_full.md","display":"GUIDELINE_full","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%9D%B4%EB%B2%A4%ED%8A%B8/_docs/GUIDELINE_full.md"},"GUIDELINE_shell.md":{"type":"file","name":"GUIDELINE_shell.md","display":"GUIDELINE_shell","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%9D%B4%EB%B2%A4%ED%8A%B8/_docs/GUIDELINE_shell.md"},"ROADMAP_setup.md":{"type":"file","name":"ROADMAP_setup.md","display":"ROADMAP_setup","ext":"md","url":"https://github.com/miridih-global-mkt/miricanvas-japan/blob/main/%EC%9D%B4%EB%B2%A4%ED%8A%B8/_docs/ROADMAP_setup.md"}}},"이벤트_PPT자랑_1차.html":{"type":"file","name":"이벤트_PPT자랑_1차.html","display":"이벤트_PPT자랑_1차","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%9D%B4%EB%B2%A4%ED%8A%B8/%EC%9D%B4%EB%B2%A4%ED%8A%B8_PPT%EC%9E%90%EB%9E%91_1%EC%B0%A8.html"},"이벤트_PPT자랑_2차.html":{"type":"file","name":"이벤트_PPT자랑_2차.html","display":"이벤트_PPT자랑_2차","ext":"html","url":"https://miridih-global-mkt.github.io/miricanvas-japan/%EC%9D%B4%EB%B2%A4%ED%8A%B8/%EC%9D%B4%EB%B2%A4%ED%8A%B8_PPT%EC%9E%90%EB%9E%91_2%EC%B0%A8.html"}}}}};
+const T=TREE;
+let cc=0,ms=[];
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function mkCol(node,idx){
+  const col=document.createElement('div');
+  col.className='col';col.id='c'+idx;
+  const kids=Object.values(node.children||{});
+  kids.sort((a,b)=>{
+    if(a.type!==b.type)return a.type==='dir'?-1:1;
+    return a.name.localeCompare(b.name,'ja');
+  });
+  for(const k of kids){
+    const d=document.createElement('div');
+    d.className='item'+(k.archive?' arc':'');
+    if(k.type==='dir'){
+      d.innerHTML='<span class="ic">&#9658;</span>'
+        +'<span class="nm">'+esc(k.name)+'</span>'
+        +'<span class="ar">&#8250;</span>';
+      d.onclick=()=>openDir(k,d,idx);
+    }else{
+      d.innerHTML='<span class="ic">&#183;</span>'
+        +'<span class="nm">'+esc(k.display)+'</span>'
+        +(k.ext?'<span class="ex">'+esc(k.ext)+'</span>':'');
+      d.onclick=()=>window.open(k.url,'_blank');
+    }
+    col.appendChild(d);
+  }
+  return col;
+}
+function openDir(node,el,fromIdx){
+  const fromCol=document.getElementById('c'+fromIdx);
+  fromCol.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  const m=document.getElementById('miller');
+  m.querySelectorAll('.col').forEach(c=>{if(+c.id.slice(1)>fromIdx)c.remove()});
+  cc=fromIdx+1;
+  const nc=mkCol(node,cc++);
+  m.appendChild(nc);
+  setTimeout(()=>nc.scrollIntoView({behavior:'smooth',block:'nearest',inline:'end'}),30);
+  if(window.innerWidth<=680)mobPush(nc,node.name);
+}
+function mobPush(nc,title){
+  document.getElementById('miller').querySelectorAll('.col').forEach(c=>c.classList.remove('mact'));
+  nc.classList.add('mact');
+  ms.push({id:nc.id,title});
+  updMob();
+}
+function mobBack(){
+  if(!ms.length)return;
+  ms.pop();
+  const m=document.getElementById('miller');
+  m.querySelectorAll('.col').forEach(c=>c.classList.remove('mact'));
+  document.getElementById(ms.length?ms[ms.length-1].id:'c0').classList.add('mact');
+  updMob();
+}
+function updMob(){
+  const b=document.getElementById('mob-back');
+  const t=document.getElementById('page-title');
+  if(ms.length){b.classList.add('vis');t.textContent=ms[ms.length-1].title;}
+  else{b.classList.remove('vis');t.textContent='미캔재팬';}
+}
+(function(){
+  const m=document.getElementById('miller');
+  const c0=mkCol(T,0);c0.id='c0';c0.classList.add('mact');
+  m.appendChild(c0);cc=1;
+})();
+</script>
 </body>
 </html>
