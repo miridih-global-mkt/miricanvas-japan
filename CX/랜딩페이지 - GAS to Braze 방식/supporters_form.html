@@ -708,6 +708,9 @@
         channels         : [...document.querySelectorAll('input[name="jp_spt_channels[]"]:checked')].map(el => el.value),
         acquisition      : [...document.querySelectorAll('input[name="jp_spt_acquisition[]"]:checked')].map(el => el.value),
         comments         : document.getElementById('q18_comments').value.trim(),
+        round            : ROUND,
+        country          : COUNTRY,
+        source           : SOURCE,
       };
 
       try {
