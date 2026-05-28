@@ -6,7 +6,7 @@
 <title>미캔재팬</title>
 <style>*{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans-serif;
-  color:#333;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  color:#333;height:100vh;display:flex;flex-direction:column;overflow:hidden;background:#fff}
 
 /* ── Topbar ── */
 #topbar{display:flex;align-items:center;gap:10px;padding:0 16px;
@@ -16,24 +16,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
   cursor:pointer;color:#555;padding:0 4px;line-height:1;flex-shrink:0}
 
 /* ── Main split ── */
-#main{display:flex;flex:1;min-height:0;overflow:hidden;background:#ebebeb}
+#main{display:flex;flex:1;min-height:0;overflow:hidden}
 
 /* ── Miller columns ── */
-#miller-wrap{flex:0 0 52%;min-width:250px;overflow-x:auto;overflow-y:hidden;
-  display:flex;height:100%}
-#miller{display:flex;height:100%}
+#miller-wrap{flex:0 0 auto;width:52%;min-width:250px;max-width:52%;
+  overflow-x:auto;overflow-y:hidden;display:flex;height:100%;background:#f8f8f8}
+#miller{display:flex;height:100%;min-width:100%}
 .col{min-width:250px;width:250px;height:100%;overflow-y:auto;
-  background:#fff;border-right:1px solid #e2e2e2;flex-shrink:0}
+  background:#fff;border-right:1px solid #e8e8e8;flex-shrink:0}
 .col:first-child{background:#f8f8f8}
+.col:last-child{flex:1;min-width:250px}
 .item{display:flex;align-items:center;gap:8px;padding:8px 12px;
   cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:12.5px;
   line-height:1.4;transition:background .1s}
 .item:hover{background:#eef2ff}
 .item.sel{background:#dde7ff;font-weight:500}
 .item.arc{opacity:.38;font-style:italic}
-.item.pub-dir{background:#eff6ff;border-left:3px solid #3b82f6}
-.item.pub-dir:hover{background:#dbeafe}
-.item.pub-dir.sel{background:#bfdbfe}
+.item.pub-dir{font-weight:500;border-bottom:1px solid #d8d8d8;margin-bottom:2px}
 .ic-dir{font-size:15px;flex-shrink:0;line-height:1}
 .ic-file{display:inline-flex;align-items:center;justify-content:center;
   width:26px;height:17px;border-radius:3px;font-size:8px;font-weight:700;
@@ -46,9 +45,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
 
 /* ── Preview panel ── */
 #preview{flex:1;min-width:0;display:flex;flex-direction:column;
-  border-left:2px solid #e0e0e0;background:#f9fafb}
+  border-left:1px solid #e2e2e2;background:#fff}
 #pv-bar{display:flex;align-items:center;gap:6px;padding:0 12px;
-  height:40px;background:#fff;border-bottom:1px solid #e5e7eb;flex-shrink:0}
+  height:40px;background:#fff;border-bottom:1px solid #e8e8e8;flex-shrink:0}
 #pv-name{flex:1;font-size:12px;color:#6b7280;overflow:hidden;
   text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .pv-btn{border:1px solid #d1d5db;background:#f9fafb;border-radius:5px;
@@ -58,9 +57,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans JP',sans
 .pv-btn.ok{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
 #pv-body{flex:1;position:relative;overflow:hidden}
 #pv-empty{position:absolute;inset:0;display:flex;align-items:center;
-  justify-content:center;color:#d1d5db;font-size:13px;pointer-events:none}
+  justify-content:center;color:#e0e0e0;font-size:12px;pointer-events:none;
+  user-select:none}
 #pv-frame{width:100%;height:100%;border:none;display:none}
-#pv-md{padding:28px 32px;overflow-y:auto;height:100%;display:none;
+#pv-md{padding:32px 36px;overflow-y:auto;height:100%;display:none;
   font-size:13.5px;line-height:1.75;color:#374151;background:#fff}
 #pv-md h1,#pv-md h2,#pv-md h3{margin:1.1em 0 .4em;font-weight:600;color:#111}
 #pv-md h1{font-size:1.3em;border-bottom:1px solid #f0f0f0;padding-bottom:.3em}
