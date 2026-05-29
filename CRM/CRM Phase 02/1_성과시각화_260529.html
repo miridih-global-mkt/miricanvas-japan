@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>캠페인 성과 시각화 — 2026-05-29 재집계</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+
+  header {
+    background: #1a1a2e; color: #fff;
+    padding: 20px 32px;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header span { font-size: 12px; color: #aaa; }
+
+  .legend {
+    display: flex; gap: 12px; padding: 12px 32px;
+    background: #fff; border-bottom: 1px solid #e0e0e0; flex-wrap: wrap;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  .seg-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 16px 24px;
+    align-items: flex-start;
+  }
+  .seg-grid::-webkit-scrollbar { height: 6px; }
+  .seg-grid::-webkit-scrollbar-track { background: #e8e8e8; border-radius: 3px; }
+  .seg-grid::-webkit-scrollbar-thumb { background: #aaa; border-radius: 3px; }
+
+  .seg-card {
+    background: #fff; border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08); overflow: hidden;
+    flex: 0 0 360px; min-width: 360px;
+  }
+  .seg-header {
+    padding: 12px 16px; background: #1a1a2e; color: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .seg-header h2 { font-size: 14px; font-weight: 600; }
+  .seg-header .seg-meta { font-size: 11px; color: #aaa; }
+  .seg-warn { font-size: 10px; background: #ff9800; color: #fff;
+    padding: 2px 6px; border-radius: 10px; margin-left: 6px; }
+
+  /* 고정 너비 테이블 */
+  .mail-table {
+    width: 100%; border-collapse: collapse; table-layout: fixed;
+  }
+  .mail-table col.c-name  { width: auto; }
+  .mail-table col.c-act   { width: 48px; }
+  .mail-table col.c-kpi   { width: 48px; }
+  .mail-table col.c-n     { width: 90px; }
+  .mail-table col.c-grade { width: 44px; }
+
+  .mail-table thead th {
+    font-size: 10px; color: #aaa; text-transform: uppercase;
+    letter-spacing: .5px; padding: 5px 8px;
+    background: #fafafa; border-bottom: 1px solid #eee;
+    text-align: center; font-weight: 500;
+  }
+  .mail-table thead th:first-child { text-align: left; }
+
+  .mail-table tbody tr { border-left: 4px solid transparent; }
+  .mail-table tbody td {
+    padding: 6px 8px; font-size: 12px; vertical-align: middle;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .row-A { border-left-color: #27ae60 !important; background: #f0fff4; }
+  .row-B { border-left-color: #2980b9 !important; background: #f0f8ff; }
+  .row-C { border-left-color: #f39c12 !important; background: #fffdf0; }
+  .row-G { border-left-color: #bdc3c7 !important; }
+  .row-D, .row-E { border-left-color: #c0392b !important; background: #fff0f0; }
+
+  .mail-name { font-weight: 500; color: #2c3e50;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .camp-tag { font-size: 10px; color: #999; margin-top: 1px; }
+
+  .td-score { text-align: center; font-weight: 600; font-size: 12px; }
+  .pos { color: #27ae60; }
+  .neg { color: #c0392b; }
+  .zero { color: #bbb; }
+
+  .td-n { text-align: right; font-size: 10px; color: #888; }
+  .td-n.small-n { color: #e67e22; font-weight: 600; }
+  .ctrl-n { color: #bbb; font-size: 9px; }
+
+  .grade-badge {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    padding: 2px 7px; border-radius: 12px; text-align: center;
+  }
+  .badge-A { background: #27ae60; color: #fff; }
+  .badge-B { background: #2980b9; color: #fff; }
+  .badge-C { background: #f39c12; color: #fff; }
+  .badge-G { background: #e0e0e0; color: #666; }
+  .badge-D, .badge-E { background: #c0392b; color: #fff; }
+
+  /* 등급 구분 행 */
+  .section-row td {
+    font-size: 10px; color: #777; padding: 6px 8px 3px;
+    background: #f8f8f8; border-top: 1px solid #eee;
+    font-weight: 600; letter-spacing: .4px;
+  }
+
+  /* JAS / 단발 구분 헤더 행 */
+  .block-header-row td {
+    font-size: 11px; color: #fff; font-weight: 700;
+    letter-spacing: .5px; padding: 6px 10px;
+    background: #2c3e50;
+  }
+
+  /* JAS → 단발 구분선 */
+  .divider-row td {
+    padding: 0; height: 4px;
+    background: #ecf0f1;
+    border: none;
+  }
+
+  footer { padding: 24px; text-align: center; font-size: 11px; color: #aaa; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>캠페인 성과 시각화</h1>
+  <span>2026-05-29 재집계 | 단기활성 (Welch z + Winsorize) × 장기안착 (W0/W1/BW1 composite)</span>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div><b>A</b>&nbsp;단기+장기 모두 양</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2980b9"></div><b>B</b>&nbsp;장기안착만 양</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f39c12"></div><b>C</b>&nbsp;단기활성만 양</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#bdc3c7"></div><b>G</b>&nbsp;중립</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c0392b"></div><b>D/E</b>&nbsp;역효과·발송금지</div>
+  <div class="legend-item" style="margin-left:auto;color:#e67e22;font-size:12px;">⚠ ctrl&lt;80 소표본 &nbsp;|&nbsp; <span style="color:#c0392b">🔴 ctrl&lt;30 극소</span></div>
+</div>
+
+<div class="seg-grid" id="grid"></div>
+
+<footer>
+  단기활성: composite (|z|≥3 + consistency≥0.7 = ±2pt, |z|≥2 = ±1pt) &nbsp;|&nbsp;
+  장기안착: 9 proxy z-score composite (W0/W1/BW1 × login/download/design)
+</footer>
+
+<script>
+const RAW = [{"seg":"BUSINESS","camp":"JA_SERIES","mail":"bookmark","nT":132,"nC":49,"act":33,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"aip_curiosity","nT":211,"nC":49,"act":33,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"table","nT":175,"nC":49,"act":33,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"4step_empathy","nT":227,"nC":49,"act":32,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"font","nT":197,"nC":49,"act":31,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"templatemix","nT":145,"nC":49,"act":31,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"graph","nT":155,"nC":49,"act":31,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA_SERIES","mail":"bgremove","nT":187,"nC":49,"act":31,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"D2","mail":"image_bgremove","nT":176,"nC":288,"act":18,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"EN1","mail":"en welcome 001","nT":983,"nC":249,"act":15,"kpi":"2","grade":"A"},{"seg":"BUSINESS","camp":"D2","mail":"data_graph","nT":188,"nC":288,"act":6,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"D2","mail":"font","nT":373,"nC":288,"act":6,"kpi":"1","grade":"C"},{"seg":"BUSINESS","camp":"JA1","mail":"ja onboarding 4step","nT":75,"nC":78,"act":7,"kpi":"0","grade":"C"},{"seg":"BUSINESS","camp":"JA1","mail":"ja onboarding review","nT":78,"nC":78,"act":6,"kpi":"3","grade":"A"},{"seg":"BUSINESS","camp":"JA1","mail":"ja onboarding aip","nT":88,"nC":78,"act":4,"kpi":"2","grade":"A"},{"seg":"BUSINESS","camp":"JA1","mail":"ja onboarding free","nT":99,"nC":78,"act":2,"kpi":"1","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"4step_empathy","nT":144,"nC":225,"act":2,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"review_ampathy","nT":139,"nC":225,"act":0,"kpi":"-1","grade":"G"},{"seg":"BUSINESS","camp":"D2","mail":"data_table","nT":166,"nC":288,"act":0,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"aip_curiosity","nT":180,"nC":225,"act":0,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D2","mail":"image_frame","nT":165,"nC":288,"act":0,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"aip_empathy","nT":143,"nC":225,"act":-2,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"4step_simplify","nT":155,"nC":225,"act":-2,"kpi":"0","grade":"G"},{"seg":"BUSINESS","camp":"D1","mail":"review_number","nT":156,"nC":225,"act":-2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"bookmark","nT":382,"nC":193,"act":10,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"font","nT":652,"nC":193,"act":9,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"bgremove","nT":601,"nC":193,"act":9,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"aip_curiosity","nT":691,"nC":193,"act":9,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"templatemix","nT":438,"nC":193,"act":8,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"table","nT":550,"nC":193,"act":8,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"4step_empathy","nT":746,"nC":193,"act":8,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"JA_SERIES","mail":"graph","nT":491,"nC":193,"act":7,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"D2","mail":"data_table","nT":604,"nC":935,"act":4,"kpi":"0","grade":"C"},{"seg":"COMPANY","camp":"D2","mail":"image_bgremove","nT":588,"nC":935,"act":2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"JA1","mail":"ja onboarding free","nT":395,"nC":434,"act":2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D2","mail":"font","nT":1171,"nC":935,"act":2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"EN1","mail":"en welcome 001","nT":1337,"nC":361,"act":2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"JA1","mail":"ja onboarding aip","nT":406,"nC":434,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"review_number","nT":490,"nC":754,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"4step_simplify","nT":507,"nC":754,"act":0,"kpi":"1","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"aip_empathy","nT":466,"nC":754,"act":0,"kpi":"-1","grade":"G"},{"seg":"COMPANY","camp":"D2","mail":"image_frame","nT":607,"nC":935,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"4step_empathy","nT":497,"nC":754,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D2","mail":"data_graph","nT":601,"nC":935,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"review_ampathy","nT":527,"nC":754,"act":0,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"D1","mail":"aip_curiosity","nT":535,"nC":754,"act":0,"kpi":"-1","grade":"G"},{"seg":"COMPANY","camp":"JA1","mail":"ja onboarding review","nT":393,"nC":434,"act":-2,"kpi":"0","grade":"G"},{"seg":"COMPANY","camp":"JA1","mail":"ja onboarding 4step","nT":418,"nC":434,"act":-5,"kpi":"0","grade":"E"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"graph","nT":287,"nC":81,"act":17,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"templatemix","nT":259,"nC":81,"act":16,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"aip_curiosity","nT":377,"nC":81,"act":15,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"4step_empathy","nT":402,"nC":81,"act":13,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"bookmark","nT":235,"nC":81,"act":12,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"table","nT":309,"nC":81,"act":9,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"bgremove","nT":333,"nC":81,"act":8,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"JA_SERIES","mail":"font","nT":357,"nC":81,"act":8,"kpi":"0","grade":"C"},{"seg":"EDUCATION","camp":"EDU_SERIES","mail":"edu01_class","nT":1160,"nC":285,"act":4,"kpi":"1","grade":"C"},{"seg":"EDUCATION","camp":"EDU_SERIES","mail":"edu02_quiz","nT":1062,"nC":285,"act":3,"kpi":"1","grade":"C"},{"seg":"EDUCATION","camp":"D2","mail":"image_frame","nT":309,"nC":477,"act":0,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"D2","mail":"font","nT":610,"nC":477,"act":0,"kpi":"1","grade":"G"},{"seg":"EDUCATION","camp":"D2","mail":"data_table","nT":289,"nC":477,"act":0,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"D2","mail":"data_graph","nT":298,"nC":477,"act":0,"kpi":"-1","grade":"G"},{"seg":"EDUCATION","camp":"JA1","mail":"ja onboarding free","nT":495,"nC":536,"act":0,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"JA1","mail":"ja onboarding aip","nT":533,"nC":536,"act":-2,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"EDU_SERIES","mail":"edu03_character","nT":1008,"nC":285,"act":-2,"kpi":"1","grade":"E"},{"seg":"EDUCATION","camp":"EN1","mail":"en welcome 001","nT":2184,"nC":556,"act":-3,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"JA1","mail":"ja onboarding review","nT":539,"nC":536,"act":-6,"kpi":"0","grade":"G"},{"seg":"EDUCATION","camp":"JA1","mail":"ja onboarding 4step","nT":513,"nC":536,"act":-6,"kpi":"-1","grade":"E"},{"seg":"EDUCATION","camp":"D2","mail":"image_bgremove","nT":310,"nC":477,"act":-12,"kpi":"0","grade":"E"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"4step_empathy","nT":533,"nC":128,"act":10,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"aip_curiosity","nT":505,"nC":128,"act":10,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"bgremove","nT":449,"nC":128,"act":10,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"templatemix","nT":348,"nC":128,"act":10,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"table","nT":423,"nC":128,"act":9,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"graph","nT":380,"nC":128,"act":9,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"font","nT":478,"nC":128,"act":9,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA1","mail":"ja onboarding review","nT":236,"nC":209,"act":6,"kpi":"0","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA_SERIES","mail":"bookmark","nT":315,"nC":128,"act":5,"kpi":"1","grade":"C"},{"seg":"INDIVIDUAL","camp":"JA1","mail":"ja onboarding aip","nT":241,"nC":209,"act":4,"kpi":"0","grade":"C"},{"seg":"INDIVIDUAL","camp":"EN1","mail":"en welcome 001","nT":3802,"nC":955,"act":2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"4step_simplify","nT":332,"nC":539,"act":2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D2","mail":"font","nT":861,"nC":685,"act":0,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D2","mail":"image_frame","nT":423,"nC":685,"act":0,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"aip_empathy","nT":367,"nC":539,"act":0,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D2","mail":"data_graph","nT":453,"nC":685,"act":0,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D2","mail":"data_table","nT":423,"nC":685,"act":0,"kpi":"-1","grade":"G"},{"seg":"INDIVIDUAL","camp":"JA1","mail":"ja onboarding 4step","nT":206,"nC":209,"act":-1,"kpi":"-1","grade":"G"},{"seg":"INDIVIDUAL","camp":"JA1","mail":"ja onboarding free","nT":195,"nC":209,"act":-1,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"review_number","nT":334,"nC":539,"act":-2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"4step_empathy","nT":378,"nC":539,"act":-2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"aip_curiosity","nT":401,"nC":539,"act":-2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D2","mail":"image_bgremove","nT":436,"nC":685,"act":-2,"kpi":"0","grade":"G"},{"seg":"INDIVIDUAL","camp":"D1","mail":"review_ampathy","nT":370,"nC":539,"act":-4,"kpi":"0","grade":"E"},{"seg":"INSTITUTION","camp":"D1","mail":"4step_empathy","nT":63,"nC":105,"act":23,"kpi":"0","grade":"C"},{"seg":"INSTITUTION","camp":"D1","mail":"aip_empathy","nT":52,"nC":105,"act":12,"kpi":"0","grade":"C"},{"seg":"INSTITUTION","camp":"JA1","mail":"ja onboarding review","nT":33,"nC":39,"act":5,"kpi":"0","grade":"C"},{"seg":"INSTITUTION","camp":"JA1","mail":"ja onboarding 4step","nT":35,"nC":39,"act":2,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"JA1","mail":"ja onboarding aip","nT":38,"nC":39,"act":2,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"D1","mail":"review_ampathy","nT":69,"nC":105,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"EN1","mail":"en welcome 001","nT":290,"nC":83,"act":0,"kpi":"6","grade":"B"},{"seg":"INSTITUTION","camp":"D1","mail":"review_number","nT":68,"nC":105,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"templatemix","nT":52,"nC":37,"act":0,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"graph","nT":55,"nC":37,"act":0,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"D2","mail":"image_bgremove","nT":75,"nC":113,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"bookmark","nT":47,"nC":37,"act":0,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"D2","mail":"image_frame","nT":75,"nC":113,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"D2","mail":"font","nT":162,"nC":113,"act":0,"kpi":"1","grade":"G"},{"seg":"INSTITUTION","camp":"JA1","mail":"ja onboarding free","nT":40,"nC":39,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"D2","mail":"data_table","nT":63,"nC":113,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"D1","mail":"4step_simplify","nT":44,"nC":105,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"D1","mail":"aip_curiosity","nT":60,"nC":105,"act":0,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"aip_curiosity","nT":88,"nC":37,"act":-2,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"table","nT":67,"nC":37,"act":-2,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"bgremove","nT":74,"nC":37,"act":-2,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"4step_empathy","nT":95,"nC":37,"act":-2,"kpi":"2","grade":"B"},{"seg":"INSTITUTION","camp":"D2","mail":"data_graph","nT":89,"nC":113,"act":-2,"kpi":"0","grade":"G"},{"seg":"INSTITUTION","camp":"JA_SERIES","mail":"font","nT":80,"nC":37,"act":-2,"kpi":"2","grade":"B"},{"seg":"NULL","camp":"JA_SERIES","mail":"bookmark","nT":1898,"nC":845,"act":15,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"templatemix","nT":2098,"nC":845,"act":14,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"graph","nT":2239,"nC":845,"act":14,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"table","nT":2417,"nC":845,"act":14,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"bgremove","nT":2634,"nC":845,"act":12,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"font","nT":2826,"nC":845,"act":12,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"aip_curiosity","nT":3050,"nC":845,"act":8,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA_SERIES","mail":"4step_empathy","nT":3320,"nC":845,"act":7,"kpi":"3","grade":"A"},{"seg":"NULL","camp":"JA1","mail":"ja onboarding 4step","nT":743,"nC":720,"act":7,"kpi":"0","grade":"C"},{"seg":"NULL","camp":"D2","mail":"data_table","nT":2772,"nC":4012,"act":4,"kpi":"0","grade":"C"},{"seg":"NULL","camp":"JA1","mail":"ja onboarding aip","nT":749,"nC":720,"act":2,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D2","mail":"data_graph","nT":2719,"nC":4012,"act":1,"kpi":"1","grade":"G"},{"seg":"NULL","camp":"D1","mail":"aip_curiosity","nT":2218,"nC":3458,"act":0,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"JA1","mail":"ja onboarding review","nT":669,"nC":720,"act":0,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D2","mail":"image_frame","nT":2701,"nC":4012,"act":0,"kpi":"-2","grade":"G"},{"seg":"NULL","camp":"D1","mail":"review_ampathy","nT":2219,"nC":3458,"act":0,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"JA1","mail":"ja onboarding free","nT":687,"nC":720,"act":0,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D2","mail":"font","nT":5311,"nC":4012,"act":-1,"kpi":"2","grade":"B"},{"seg":"NULL","camp":"D1","mail":"review_number","nT":2170,"nC":3458,"act":-1,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D1","mail":"aip_empathy","nT":2274,"nC":3458,"act":-1,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D1","mail":"4step_simplify","nT":2273,"nC":3458,"act":-1,"kpi":"-3","grade":"G"},{"seg":"NULL","camp":"EN1","mail":"en welcome 001","nT":130895,"nC":32792,"act":-2,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D1","mail":"4step_empathy","nT":2304,"nC":3458,"act":-2,"kpi":"0","grade":"G"},{"seg":"NULL","camp":"D2","mail":"image_bgremove","nT":2673,"nC":4012,"act":-2,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"table","nT":381,"nC":134,"act":34,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"graph","nT":344,"nC":134,"act":33,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"bookmark","nT":294,"nC":134,"act":33,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"bgremove","nT":417,"nC":134,"act":31,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"templatemix","nT":325,"nC":134,"act":31,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"font","nT":445,"nC":134,"act":29,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"aip_curiosity","nT":470,"nC":134,"act":24,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA_SERIES","mail":"4step_empathy","nT":511,"nC":134,"act":21,"kpi":"1","grade":"C"},{"seg":"STUDENT","camp":"JA1","mail":"ja onboarding review","nT":233,"nC":221,"act":9,"kpi":"0","grade":"C"},{"seg":"STUDENT","camp":"JA1","mail":"ja onboarding 4step","nT":229,"nC":221,"act":6,"kpi":"0","grade":"C"},{"seg":"STUDENT","camp":"JA1","mail":"ja onboarding aip","nT":231,"nC":221,"act":5,"kpi":"0","grade":"C"},{"seg":"STUDENT","camp":"JA1","mail":"ja onboarding free","nT":220,"nC":221,"act":3,"kpi":"0","grade":"C"},{"seg":"STUDENT","camp":"EN1","mail":"en welcome 001","nT":11034,"nC":2919,"act":1,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D2","mail":"font","nT":845,"nC":661,"act":0,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D2","mail":"data_table","nT":422,"nC":661,"act":0,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D2","mail":"image_frame","nT":446,"nC":661,"act":0,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"4step_empathy","nT":375,"nC":494,"act":0,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D2","mail":"image_bgremove","nT":418,"nC":661,"act":0,"kpi":"-1","grade":"G"},{"seg":"STUDENT","camp":"D2","mail":"data_graph","nT":409,"nC":661,"act":0,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"4step_simplify","nT":381,"nC":494,"act":-1,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"aip_empathy","nT":351,"nC":494,"act":-3,"kpi":"-1","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"review_ampathy","nT":335,"nC":494,"act":-6,"kpi":"0","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"review_number","nT":343,"nC":494,"act":-10,"kpi":"-1","grade":"G"},{"seg":"STUDENT","camp":"D1","mail":"aip_curiosity","nT":379,"nC":494,"act":-20,"kpi":"-1","grade":"E"}];
+
+const SEG_ORDER = ['NULL','STUDENT','COMPANY','INDIVIDUAL','EDUCATION','BUSINESS','INSTITUTION'];
+const GRADE_ORDER = {A:0,B:1,C:2,G:3,D:4,E:5};
+
+function sc(v) {
+  const n = parseInt(v);
+  if (isNaN(n)||n===0) return 'zero';
+  return n>0?'pos':'neg';
+}
+function ss(v) {
+  const n = parseInt(v);
+  if (isNaN(n)) return '—';
+  return (n>0?'+':'')+n;
+}
+
+function renderRows(cells) {
+  if (!cells.length) return '';
+  const SMALL_WARN = 80;   // ⚠ ctrl_n < 80
+  const SMALL_CRIT = 30;  // 🔴 ctrl_n < 30
+  const sorted = [...cells].sort((a,b)=>{
+    const ga=GRADE_ORDER[a.grade]??9, gb=GRADE_ORDER[b.grade]??9;
+    return ga!==gb ? ga-gb : b.act-a.act;
+  });
+  const label = {
+    A:'✅ A — 단기 + 장기 확인',
+    B:'🔵 B — 장기안착만',
+    C:'🟡 C — 단기활성만',
+    G:'⬜ G — 중립',
+    D:'🔴 D — 역효과',
+    E:'🔴 E — 발송금지 후보'
+  };
+  let html='', lastGrade=null;
+  sorted.forEach(c=>{
+    if(c.grade!==lastGrade){
+      html+=`<tr class="section-row"><td colspan="5">${label[c.grade]||c.grade}</td></tr>`;
+      lastGrade=c.grade;
+    }
+    const isCrit = c.nC < SMALL_CRIT;
+    const isWarn = !isCrit && c.nC < SMALL_WARN;
+    const nTag = isCrit ? ' 🔴' : (isWarn ? ' ⚠' : '');
+    const nCls = isCrit ? ' small-n' : (isWarn ? ' small-n' : '');
+    const cl=c.camp.replace('JA_SERIES','JAS').replace('EDU_SERIES','EDU');
+    html+=`<tr class="row-${c.grade}">
+      <td><div class="mail-name">${c.mail}</div><div class="camp-tag">${cl}</div></td>
+      <td class="td-score ${sc(c.act)}">${ss(c.act)}</td>
+      <td class="td-score ${sc(c.kpi)}">${ss(c.kpi)}</td>
+      <td class="td-n${nCls}">n=${c.nT.toLocaleString()}${nTag}
+        <div class="ctrl-n">ctrl ${c.nC.toLocaleString()}</div></td>
+      <td style="text-align:center"><span class="grade-badge badge-${c.grade}">${c.grade}</span></td>
+    </tr>`;
+  });
+  return html;
+}
+
+function buildCard(seg, cells) {
+  const isInst = seg==='INSTITUTION';
+  const jas   = cells.filter(c=>c.camp==='JA_SERIES');
+  const other = cells.filter(c=>c.camp!=='JA_SERIES');
+  const avgCtrl = Math.round(cells.reduce((s,c)=>s+c.nC,0)/cells.length);
+
+  const jasRows   = renderRows(jas);
+  const otherRows = renderRows(other);
+
+  const jasBlock = jasRows
+    ? `<tr class="block-header-row"><td colspan="5">📬 JAS 시리즈 (8통)</td></tr>${jasRows}`
+    : '';
+  const sep = jasRows && otherRows
+    ? `<tr class="divider-row"><td colspan="5"></td></tr>
+       <tr class="block-header-row"><td colspan="5">📩 단발 메일 (D1 · D2 · JA1 · EN1 · EDU)</td></tr>`
+    : (otherRows ? `<tr class="block-header-row"><td colspan="5">📩 단발 메일</td></tr>` : '');
+
+  return `<div class="seg-card">
+    <div class="seg-header">
+      <h2>${seg}${isInst?'<span class="seg-warn">⚠ 소표본</span>':''}</h2>
+      <div class="seg-meta">${cells.length}셀 · ctrl avg ${avgCtrl}명</div>
+    </div>
+    <table class="mail-table">
+      <colgroup>
+        <col class="c-name"><col class="c-act"><col class="c-kpi">
+        <col class="c-n"><col class="c-grade">
+      </colgroup>
+      <thead><tr>
+        <th>메일</th><th>단기</th><th>장기</th><th>n (처리군)</th><th>등급</th>
+      </tr></thead>
+      <tbody>${jasBlock}${sep}${otherRows}</tbody>
+    </table>
+  </div>`;
+}
+
+const grid = document.getElementById('grid');
+const bySegment = {};
+RAW.forEach(r=>{ if(!bySegment[r.seg]) bySegment[r.seg]=[]; bySegment[r.seg].push(r); });
+SEG_ORDER.forEach(seg=>{ if(bySegment[seg]) grid.innerHTML+=buildCard(seg,bySegment[seg]); });
+</script>
+</body>
+</html>
