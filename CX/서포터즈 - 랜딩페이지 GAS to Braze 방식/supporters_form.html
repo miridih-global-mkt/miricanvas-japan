@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>MiriCanvasサポーターズ申請フォーム</title>
   <style>
     /*
@@ -326,6 +327,83 @@
 
     /* ── 30文字ヒント ── */
     .mc-char-hint { font-size: 12px; color: #666666; margin-bottom: 6px; line-height: 1.5; }
+
+    /* ── Dark mode ── */
+    @media (prefers-color-scheme: dark) {
+      body { background: #1a1a1a; color: #e8e8e8; }
+
+      #lp-form, #lp-thanks, .mc-submit-wrap { background: #242424; }
+
+      .mc-hero-badge,
+      .mc-hero-meta-item { background: #1a3d42; color: #a8e8f0; }
+      .mc-hero-title { color: #e8e8e8; }
+
+      .mc-intro { border-bottom-color: #3a3a3a; }
+      .mc-intro-lead, .mc-intro-body, .mc-intro-closing { color: #d0d0d0; }
+      .mc-info-block-title { color: #4bc4d4; }
+      .mc-info-block-list li { color: #d0d0d0; }
+      .mc-info-block-list li::before { color: #4bc4d4; }
+
+      .mc-warning-box {
+        background: #2a2000;
+        border-color: #6b4e00;
+        border-left-color: #c47f00;
+      }
+      .mc-warning-box p { color: #d0c090; }
+      .mc-warning-box strong { color: #e8a040; }
+
+      .mc-contact-line { color: #a0a0a0; }
+      .mc-contact-line a, .mc-thanks-link { color: #4bc4d4; }
+
+      .mc-section-divider { background: #111111; }
+      .mc-section-header { border-bottom-color: #3a3a3a; }
+      .mc-section-num { background: #0d8a9e; }
+      .mc-section-title { color: #e8e8e8; }
+
+      .mc-field-label { color: #e8e8e8; }
+      .mc-field-hint, .mc-char-hint, .mc-optional { color: #a0a0a0; }
+
+      input[type="text"],
+      input[type="email"],
+      textarea,
+      select {
+        background: #333333;
+        border-color: #4a4a4a;
+        color: #e8e8e8;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #4bc4d4;
+        box-shadow: 0 0 0 3px rgba(75,196,212,0.2);
+      }
+      .mc-select-wrap::after { color: #a0a0a0; }
+
+      .mc-option-label { color: #d0d0d0; }
+
+      .mc-consent-box { background: #2a2a2a; border-color: #3a3a3a; }
+      .mc-consent-title { color: #e8e8e8; }
+      .mc-consent-body { color: #a0a0a0; }
+
+      .mc-submit-note { color: #a0a0a0; }
+      .mc-submit-btn { background: #0d8a9e; }
+      .mc-submit-btn:hover:not(:disabled) { background: #0a7080; }
+
+      .mc-footer { background: #111111; }
+
+      .mc-thanks-title { color: #e8e8e8; }
+      .mc-thanks-body { color: #b0b0b0; }
+      .mc-thanks-note { color: #a0a0a0; }
+
+      .mc-field-error input[type="text"],
+      .mc-field-error input[type="email"],
+      .mc-field-error textarea,
+      .mc-field-error select { border-color: #f87171 !important; }
+      .mc-field-error .mc-options-list { border-left-color: #f87171; }
+      .mc-field-error .mc-consent-box { border-color: #f87171; }
+      .mc-error-msg { color: #f87171; }
+    }
   </style>
 </head>
 <body>
