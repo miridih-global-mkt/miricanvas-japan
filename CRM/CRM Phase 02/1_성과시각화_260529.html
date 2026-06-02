@@ -5,102 +5,146 @@
 <title>캠페인 성과 시각화 — 260529</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7f8fa;color:#111827;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
 /* 헤더 */
-header{background:#1a1a2e;color:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-shrink:0}
-header h1{font-size:16px;font-weight:600}
-header span{font-size:11px;color:#aaa}
+header{background:#1a202e;color:#fff;padding:0 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;height:40px}
+header h1{font-size:13px;font-weight:500;color:#f3f4f6;white-space:nowrap}
+.header-sub{font-size:11px;color:#4b5563;white-space:nowrap}
+.header-sep{color:#2d3748;font-size:12px}
+.header-file{margin-left:auto;display:flex;align-items:center;gap:7px}
+.file-dot{font-size:9px;line-height:1;flex-shrink:0;transition:color .3s}
+.file-name{font-family:ui-monospace,monospace;font-size:11px;color:#4b5563;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-hf{height:26px;padding:0 10px;border:1px solid rgba(255,255,255,.15);border-radius:6px;background:transparent;color:rgba(255,255,255,.5);font-size:11px;cursor:pointer;white-space:nowrap;transition:all .12s}
+.btn-hf:hover{border-color:rgba(255,255,255,.3);color:#e5e7eb;background:rgba(255,255,255,.05)}
+/* 연결 오버레이 */
+.connect-overlay{position:fixed;inset:0;top:40px;background:rgba(247,248,250,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:100}
+.co-title{font-size:14px;font-weight:600;color:#374151}
+.co-sub{font-size:12px;color:#9ca3af}
+.co-btn{height:32px;padding:0 20px;background:#1a202e;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
+.co-btn:hover{background:#242d40}
 
 /* 칩 바 */
-.chip-bar{background:#fff;border-bottom:1px solid #e0e0e0;padding:10px 24px;display:flex;gap:8px;flex-shrink:0}
-.chip{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:all .15s;background:#f0f2f5;color:#555}
-.chip:hover{background:#e8eaf0}
-.chip.active{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.chip-bar{background:#fff;border-bottom:1px solid #e5e7eb;padding:7px 20px;display:flex;gap:4px;flex-shrink:0}
+.chip{height:26px;padding:0 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:#6b7280;user-select:none;transition:all .12s;display:inline-flex;align-items:center}
+.chip:hover{background:#f3f4f6;color:#374151}
+.chip.active{background:#1a202e;color:#fff}
 
-/* 본문 스플릿 */
-.main{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;overflow:hidden}
+/* 레이아웃 */
+.main{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden}
 
-/* 좌측 결과 */
-.panel-left{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;border-right:2px solid #e0e0e0;min-height:0}
+/* ── 좌측 ── */
+.panel-left{overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #e5e7eb;min-height:0;background:#f7f8fa}
+.section-box{background:#fff;border-radius:6px;border:1px solid #e5e7eb;overflow:hidden;flex-shrink:0}
+.section-title{padding:6px 12px;font-size:10px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:#374151;background:#fafafa;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:7px}
+/* 섹션 구분 — 작은 컬러 닷으로만 */
+.tdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block}
+.title-jas    .tdot,.tdot.title-jas    {background:#818cf8}
+.title-good   .tdot,.tdot.title-good   {background:#6ee7b7}
+.title-signal .tdot,.tdot.title-signal {background:#fcd34d}
+.title-neutral.tdot,.tdot.title-neutral{background:#cbd5e1}
+.title-bad    .tdot,.tdot.title-bad    {background:#fdba74}
+.title-banned .tdot,.tdot.title-banned {background:#fca5a5}
 
-.section-box{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:hidden;flex-shrink:0}
-.section-title{padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff}
-.title-jas{background:#2c3e50}
-.title-good{background:#27ae60}
-.title-neutral{background:#95a5a6}
-.title-bad{background:#e67e22}
-.title-banned{background:#c0392b}
-
+/* 테이블 */
 table{width:100%;border-collapse:collapse;table-layout:fixed}
-table col.c-camp{width:52px}
+table col.c-camp{width:44px}
 table col.c-mail{width:auto}
-table col.c-act{width:44px}
-table col.c-kpi{width:44px}
-table col.c-n{width:76px}
-table col.c-gr{width:40px}
-thead th{font-size:10px;color:#aaa;text-transform:uppercase;padding:5px 8px;background:#fafafa;border-bottom:1px solid #eee;text-align:center;font-weight:500}
-thead th:first-child{text-align:left}
-tbody tr{border-left:4px solid transparent;cursor:grab}
-tbody tr:hover{filter:brightness(.97)}
-tbody tr.dragging-row{opacity:.4}
-tbody td{padding:5px 8px;font-size:12px;vertical-align:middle;border-bottom:1px solid #f5f5f5}
-.row-A{border-left-color:#27ae60!important;background:#f0fff4}
-.row-B{border-left-color:#2980b9!important;background:#f0f8ff}
-.row-C{border-left-color:#f39c12!important;background:#fffdf0}
-.row-G{border-left-color:#bdc3c7!important}
-.row-D,.row-E{border-left-color:#c0392b!important;background:#fff0f0}
-.mail-name{font-weight:500;color:#2c3e50;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.camp-tag{font-size:10px;color:#999}
+table col.c-act{width:40px}
+table col.c-kpi{width:40px}
+table col.c-n{width:70px}
+table col.c-gr{width:34px}
+thead th{font-size:10px;color:#9ca3af;text-transform:uppercase;padding:4px 10px;background:#fafafa;border-bottom:1px solid #f3f4f6;text-align:center;font-weight:600;letter-spacing:.3px}
+thead th:first-child,thead th:nth-child(2){text-align:left}
+tbody tr{border-left:3px solid transparent;cursor:grab}
+tbody tr:hover td{background:rgba(0,0,0,.018)!important}
+tbody tr.dragging-row{opacity:.25}
+tbody td{padding:4px 10px;font-size:12px;vertical-align:middle;border-bottom:1px solid #f5f6f8;color:#374151}
+tbody tr:last-child td{border-bottom:none}
+/* 행 배경 없음 — 좌측 보더로만 등급 표시 */
+.row-jas{border-left-color:#818cf8!important}
+.row-A  {border-left-color:#6ee7b7!important}
+.row-B  {border-left-color:#93c5fd!important}
+.row-C  {border-left-color:#fcd34d!important}
+.row-G  {border-left-color:#e5e7eb!important}
+.row-D  {border-left-color:#fdba74!important}
+.row-E  {border-left-color:#fca5a5!important}
+.mail-name{font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.camp-tag{font-size:10px;color:#9ca3af}
 .td-score{text-align:center;font-weight:600;font-size:12px}
-.pos{color:#27ae60}.neg{color:#c0392b}.zero{color:#bbb}
-.td-n{text-align:right;font-size:10px;color:#888}
-.n-warn{color:#e67e22;font-weight:600}.n-crit{color:#c0392b;font-weight:700}
-.ctrl-n{color:#bbb;font-size:9px}
-.grade-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;text-align:center}
-.badge-A{background:#27ae60;color:#fff}.badge-B{background:#2980b9;color:#fff}
-.badge-C{background:#f39c12;color:#fff}.badge-G{background:#e0e0e0;color:#666}
-.badge-D,.badge-E{background:#c0392b;color:#fff}
-.empty-msg{padding:10px 14px;font-size:12px;color:#bbb}
+.pos{color:#059669}.neg{color:#dc2626}.zero{color:#d1d5db}
+.td-n{text-align:right;font-size:10px;color:#9ca3af}
+.n-warn{color:#d97706;font-weight:600}.n-crit{color:#dc2626;font-weight:600}
+.ctrl-n{color:#d1d5db;font-size:9px}
+.grade-badge{display:inline-block;font-size:9px;font-weight:600;padding:1px 5px;border-radius:4px;letter-spacing:.2px}
+.badge-A{background:#ecfdf5;color:#065f46}
+.badge-B{background:#eff6ff;color:#1e40af}
+.badge-C{background:#fffbeb;color:#92400e}
+.badge-G{background:#f9fafb;color:#9ca3af}
+.badge-D{background:#fff7ed;color:#9a3412}
+.badge-E{background:#fff1f2;color:#9f1239}
+.empty-msg{padding:10px 12px;font-size:11px;color:#d1d5db;font-style:italic}
 
-/* 우측 구성 */
-.panel-right{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:0}
-.right-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.right-header h3{font-size:13px;font-weight:600;color:#333}
-.right-actions{display:flex;gap:8px}
-.btn-save{padding:6px 16px;background:#1a1a2e;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
-.btn-save:hover{background:#2c3e50}
-.btn-reset{padding:6px 12px;background:#f0f2f5;color:#555;border:1px solid #ddd;border-radius:6px;font-size:12px;cursor:pointer}
-.btn-reset:hover{background:#e0e0e0}
-.save-toast{font-size:11px;color:#27ae60;font-weight:600;opacity:0;transition:opacity .3s}
+/* ── 우측 ── */
+.panel-right{overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-height:0;background:#fff}
+.right-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid #f3f4f6}
+.right-header h3{font-size:12px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:.4px}
+.right-actions{display:flex;gap:6px;align-items:center}
+.btn-save,.btn-reset{height:26px;padding:0 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .12s;border:1px solid transparent;white-space:nowrap}
+.btn-save{background:#1a202e;color:#fff;border-color:#1a202e}
+.btn-save:hover:not(:disabled){background:#242d40}
+.btn-save:disabled{opacity:0.2;cursor:default;pointer-events:none}
+.btn-reset{background:#f9fafb;color:#6b7280;border-color:#e5e7eb}
+.btn-reset:hover{background:#f3f4f6;border-color:#d1d5db;color:#374151}
+.save-toast{font-size:11px;color:#059669;font-weight:500;opacity:0;transition:opacity .3s;white-space:nowrap}
 .save-toast.show{opacity:1}
+.right-note{font-size:11px;color:#9ca3af}
+.drag-list{display:flex;flex-direction:column;gap:4px}
 
-.drag-list{display:flex;flex-direction:column;gap:6px}
-.drag-card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:8px 12px;display:flex;align-items:center;gap:10px;cursor:grab;border-left:4px solid transparent;user-select:none;transition:box-shadow .15s,opacity .15s}
+.drag-card{background:#fff;border-radius:6px;border:1px solid #e5e7eb;border-left:3px solid transparent;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:grab;user-select:none;transition:border-color .12s,box-shadow .12s}
+.drag-card:hover{border-color:#d1d5db;box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .drag-card:active{cursor:grabbing}
-.drag-card.dragging{opacity:.4;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.drag-card.drag-over{box-shadow:0 0 0 2px #1a1a2e}
-.drag-handle{color:#ccc;font-size:16px;flex-shrink:0}
-.drag-seq{width:24px;height:24px;background:#1a1a2e;color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.drag-card.dragging{opacity:.25}
+.drag-card.row-jas{border-left-color:#818cf8}
+.drag-card.row-A  {border-left-color:#6ee7b7}
+.drag-card.row-B  {border-left-color:#93c5fd}
+.drag-card.row-C  {border-left-color:#fcd34d}
+.drag-card.row-G  {border-left-color:#e5e7eb}
+.drag-card.row-D  {border-left-color:#fdba74}
+.drag-card.row-E  {border-left-color:#fca5a5}
+.drag-handle{color:#d1d5db;font-size:14px;flex-shrink:0}
+.drag-seq{width:18px;height:18px;background:#374151;color:#fff;border-radius:4px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .drag-info{flex:1;min-width:0}
-.drag-mail{font-size:12px;font-weight:500;color:#2c3e50;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.drag-camp{font-size:10px;color:#999}
-.drag-remove{background:none;border:none;color:#ccc;font-size:15px;cursor:pointer;padding:0 2px;line-height:1;flex-shrink:0}
-.drag-remove:hover{color:#c0392b}
-.right-note{font-size:11px;color:#aaa;padding:4px 2px}
-.drag-placeholder{height:4px;background:#1a1a2e;border-radius:2px;flex-shrink:0;pointer-events:none}
-.empty-drop{border:2px dashed #ddd;border-radius:8px;padding:24px;text-align:center;font-size:12px;color:#bbb;transition:all .15s;margin-top:4px}
-.empty-drop.over{border-color:#1a1a2e;background:#f0f4ff;color:#555}
+.drag-mail{font-size:12px;font-weight:500;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drag-camp{font-size:10px;color:#9ca3af;margin-top:1px}
+.drag-remove{background:none;border:none;color:#d1d5db;font-size:14px;cursor:pointer;padding:2px 3px;line-height:1;flex-shrink:0;transition:color .1s;border-radius:4px}
+.drag-remove:hover{color:#ef4444}
+.drag-placeholder{height:2px;background:#818cf8;border-radius:1px;flex-shrink:0;pointer-events:none}
+.empty-drop{border:1.5px dashed #e5e7eb;border-radius:6px;padding:24px;text-align:center;font-size:12px;color:#d1d5db;transition:all .12s}
+.empty-drop.over{border-color:#818cf8;background:#f5f3ff;color:#6366f1}
+
 </style>
 </head>
 <body>
 
 <header>
   <h1>캠페인 성과 시각화</h1>
-  <span>2026-05-29 재집계 | 단기활성 × 장기안착</span>
+  <span class="header-sep">·</span>
+  <span class="header-sub">2026-05-29 재집계 | 단기활성 × 장기안착</span>
+  <div class="header-file">
+    <span class="file-dot" id="fileDot" style="color:#374151">●</span>
+    <span class="file-name" id="fileName">미연결</span>
+    <button class="btn-hf" id="btnConnect" onclick="handleFileBtn()">파일 선택</button>
+  </div>
 </header>
 
 <div class="chip-bar" id="chipBar"></div>
+
+<div id="connectOverlay" class="connect-overlay">
+  <p class="co-title">구성 파일 연결 필요</p>
+  <p class="co-sub">로컬의 crm_seq_config.json 파일을 선택하세요</p>
+  <button class="co-btn" onclick="handleFileBtn()">파일 선택</button>
+</div>
 
 <div class="main">
   <div class="panel-left" id="panelLeft"></div>
@@ -113,8 +157,122 @@ const RAW = [{"seg":"BUSINESS","camp":"JA_SERIES","mail":"bookmark","nT":132,"nC
 const SEGS = ['NULL','STUDENT','COMPANY','INDIVIDUAL','EDUCATION','BUSINESS','INSTITUTION'];
 const JAS_ORDER = ['4step_empathy','aip_curiosity','font','bgremove','table','graph','templatemix','bookmark'];
 
+const SAVED_ORDERS = {};
+
 let currentSeg = 'NULL';
 let dragSrc = null;
+
+// dirty 추적: 저장 안 된 변경사항 있는 세그 목록
+const dirtySegs = new Set();
+function markDirty(){ dirtySegs.add(currentSeg); updateSaveBtn(); }
+function markClean(seg){ dirtySegs.delete(seg!==undefined?seg:currentSeg); updateSaveBtn(); }
+function updateSaveBtn(){
+  const btn=document.getElementById('btnSave');
+  if(btn) btn.disabled=!dirtySegs.has(currentSeg);
+}
+
+// ===== JSON 파일 저장 (File System Access API — HTTPS에서 동작) =====
+let configFileHandle = null;
+let filePermGranted  = false;
+let configData = {};
+
+function idbOpen(){
+  return new Promise((res,rej)=>{
+    const r=indexedDB.open('crm_fh',1);
+    r.onupgradeneeded=e=>e.target.result.createObjectStore('fh');
+    r.onsuccess=e=>res(e.target.result);r.onerror=rej;
+  });
+}
+async function idbGet(key){
+  const db=await idbOpen();
+  return new Promise(res=>{
+    const r=db.transaction('fh','readonly').objectStore('fh').get(key);
+    r.onsuccess=e=>res(e.target.result||null);r.onerror=()=>res(null);
+  });
+}
+async function idbSet(key,val){
+  const db=await idbOpen();
+  return new Promise(res=>{
+    const tx=db.transaction('fh','readwrite');
+    tx.objectStore('fh').put(val,key);tx.oncomplete=res;
+  });
+}
+
+function setConnected(ok){
+  filePermGranted=ok;
+  const ov=document.getElementById('connectOverlay');
+  if(ov) ov.style.display=ok?'none':'flex';
+  updateFileStatus();
+}
+
+function updateFileStatus(){
+  const dot=document.getElementById('fileDot');
+  const name=document.getElementById('fileName');
+  const btn=document.getElementById('btnConnect');
+  if(!dot||!name) return;
+  if(configFileHandle&&filePermGranted){
+    dot.style.color='#22c55e'; name.textContent=configFileHandle.name;
+    if(btn) btn.textContent='변경';
+  } else if(configFileHandle){
+    dot.style.color='#f59e0b'; name.textContent=configFileHandle.name+' — 재연결 필요';
+    if(btn) btn.textContent='재연결';
+  } else {
+    dot.style.color='#374151'; name.textContent='미연결';
+    if(btn) btn.textContent='파일 선택';
+  }
+}
+
+async function loadFromFile(){
+  if(!configFileHandle) return;
+  try{
+    const file=await configFileHandle.getFile();
+    const fd=JSON.parse(await file.text());
+    SEGS.forEach(seg=>{
+      if(!fd[seg]||!fd[seg].length){
+        try{const s=localStorage.getItem('crm_seq_'+seg);if(s){const v=JSON.parse(s);if(v&&v.length)fd[seg]=v;}}catch{}
+      }
+    });
+    configData=fd;
+  }catch{ configData={}; }
+}
+
+async function saveToFile(){
+  if(!configFileHandle||!filePermGranted) return false;
+  try{
+    const w=await configFileHandle.createWritable();
+    await w.write(JSON.stringify(configData,null,2));
+    await w.close();
+    return true;
+  }catch(e){ setConnected(false); return false; }
+}
+
+async function handleFileBtn(){
+  if(!window.showOpenFilePicker){alert('Chrome 필요');return;}
+  try{
+    if(configFileHandle&&!filePermGranted){
+      const perm=await configFileHandle.requestPermission({mode:'readwrite'});
+      if(perm==='granted'){ await loadFromFile(); setConnected(true); renderRight(currentSeg); }
+      return;
+    }
+    const [h]=await window.showOpenFilePicker({
+      types:[{description:'JSON 구성 파일',accept:{'application/json':['.json']}}],multiple:false
+    });
+    configFileHandle=h; await idbSet('config',h);
+    const perm=await h.requestPermission({mode:'readwrite'});
+    if(perm==='granted'){ await loadFromFile(); setConnected(true); renderRight(currentSeg); }
+  }catch(e){if(e.name!=='AbortError')console.error(e);}
+}
+
+async function tryRestoreHandle(){
+  const handle=await idbGet('config');
+  if(!handle) return;
+  configFileHandle=handle;
+  try{
+    const perm=await handle.queryPermission({mode:'readwrite'});
+    if(perm==='granted'){ await loadFromFile(); setConnected(true); return; }
+  }catch{}
+  updateFileStatus();
+}
 
 // 유틸
 function sc(v){const n=parseInt(v);return isNaN(n)||n===0?'zero':n>0?'pos':'neg'}
@@ -134,6 +292,9 @@ function renderChips(){
 
 // 세그 선택
 function selectSeg(seg){
+  // 현재 DOM 상태를 메모리에 스냅샷 (탭 전환해도 구성 유지)
+  const list=document.getElementById('dragList');
+  if(list) configData[currentSeg]=currentIds();
   currentSeg = seg;
   renderChips();
   renderLeft(seg);
@@ -143,22 +304,25 @@ function selectSeg(seg){
 // 좌측: 4개 섹션 테이블
 function renderLeft(seg){
   const cells = RAW.filter(r=>r.seg===seg);
+  const nonJAS  = r => r.camp !== 'JA_SERIES';
   const jas     = cells.filter(r=>r.camp==='JA_SERIES').sort((a,b)=>JAS_ORDER.indexOf(a.mail)-JAS_ORDER.indexOf(b.mail));
-  const good    = cells.filter(r=>r.camp!=='JA_SERIES'&&(r.grade==='A'||r.grade==='B')).sort((a,b)=>b.act-a.act);
-  const neutral = cells.filter(r=>r.camp!=='JA_SERIES'&&r.grade==='G'&&r.act>=0).sort((a,b)=>b.act-a.act);
-  const bad     = cells.filter(r=>r.camp!=='JA_SERIES'&&((r.grade==='G'&&r.act<0)||r.grade==='D')).sort((a,b)=>a.act-b.act);
-  const banned  = cells.filter(r=>r.camp!=='JA_SERIES'&&r.grade==='E').sort((a,b)=>a.act-b.act);
+  const good    = cells.filter(r=>nonJAS(r)&&(r.grade==='A'||r.grade==='B')).sort((a,b)=>b.act-a.act);
+  const signal  = cells.filter(r=>nonJAS(r)&&r.grade==='C').sort((a,b)=>b.act-a.act);
+  const neutral = cells.filter(r=>nonJAS(r)&&r.grade==='G').sort((a,b)=>b.act-a.act);
+  const bad     = cells.filter(r=>nonJAS(r)&&r.grade==='D').sort((a,b)=>a.act-b.act);
+  const banned  = cells.filter(r=>nonJAS(r)&&r.grade==='E').sort((a,b)=>a.act-b.act);
 
   document.getElementById('panelLeft').innerHTML = [
-    buildTable('JAS 시리즈','title-jas',jas),
+    buildTable('JAS 시리즈','title-jas',jas,'row-jas'),
     buildTable('좋은 것 (A/B)','title-good',good),
-    buildTable('중립 (G, act≥0)','title-neutral',neutral),
-    buildTable('안 좋은 것 (D, act<0)','title-bad',bad),
+    buildTable('반응 신호 (C)','title-signal',signal),
+    buildTable('기타 (미분류)','title-neutral',neutral),
+    buildTable('역효과 (D)','title-bad',bad),
     buildTable('금지 검토 (E)','title-banned',banned),
   ].join('');
 }
 
-function buildTable(title, titleClass, rows){
+function buildTable(title, titleClass, rows, rowClass=''){
   const body = rows.length===0
     ? `<div class="empty-msg">해당 없음</div>`
     : `<table><colgroup><col class="c-camp"><col class="c-mail"><col class="c-act"><col class="c-kpi"><col class="c-n"><col class="c-gr"></colgroup>
@@ -166,7 +330,7 @@ function buildTable(title, titleClass, rows){
       <tbody>${rows.map(r=>{
         const nc=nCls(r.nC),nt=nTag(r.nC);
         const id=mailId(r);
-        return `<tr class="row-${r.grade}" draggable="true" data-id="${id}"
+        return `<tr class="${rowClass||'row-'+r.grade}" draggable="true" data-id="${id}"
           ondragstart="onRowDragStart(event,'${id}')"
           ondragend="onRowDragEnd(event)">
           <td class="camp-tag">${campLabel(r.camp)}</td>
@@ -174,11 +338,11 @@ function buildTable(title, titleClass, rows){
           <td class="td-score ${sc(r.act)}">${ss(r.act)}</td>
           <td class="td-score ${sc(r.kpi)}">${ss(r.kpi)}</td>
           <td class="td-n ${nc}">n=${r.nT.toLocaleString()}${nt}<div class="ctrl-n">ctrl ${r.nC}</div></td>
-          <td style="text-align:center"><span class="grade-badge badge-${r.grade}">${r.grade}</span></td>
+          <td style="text-align:center"><span class="grade-badge badge-${r.grade}">${r.grade==='G'?'—':r.grade}</span></td>
         </tr>`;
       }).join('')}</tbody></table>`;
   return `<div class="section-box">
-    <div class="section-title ${titleClass}">${title}</div>
+    <div class="section-title"><span class="tdot ${titleClass}"></span>${title}</div>
     ${body}
   </div>`;
 }
@@ -234,9 +398,13 @@ function onRowDragEnd(e){
 function defaultOrder(seg){ return []; }
 
 function loadOrder(seg){
-  try{const s=localStorage.getItem('crm_seq_'+seg);return s?JSON.parse(s):null}catch{return null}
+  // 우선순위: 메모리(파일) > localStorage 캐시 > SAVED_ORDERS(코드내장)
+  if(configData[seg]&&configData[seg].length) return configData[seg];
+  try{const s=localStorage.getItem('crm_seq_'+seg);if(s){const v=JSON.parse(s);if(v&&v.length)return v;}}catch{}
+  return SAVED_ORDERS[seg]||null;
 }
 function saveOrder(seg,order){
+  configData[seg]=order;
   localStorage.setItem('crm_seq_'+seg,JSON.stringify(order));
 }
 
@@ -253,7 +421,7 @@ function renderRight(seg){
       <div class="right-actions">
         <span class="save-toast" id="toast">저장됨 ✓</span>
         <button class="btn-reset" onclick="resetOrder()">비우기</button>
-        <button class="btn-save" onclick="doSave()">저장</button>
+        <button class="btn-save" id="btnSave" onclick="doSave()" disabled>저장</button>
       </div>
     </div>
     <div class="right-note">좌측 행을 끌어 카드 앞/뒤에 놓기 · 카드 드래그로 순서 변경</div>
@@ -266,18 +434,20 @@ function renderRight(seg){
 
   initCardDrag();
   initEmptyDrop();
+  updateSaveBtn();
 }
 
 function makeCard(r, seq){
   const id = mailId(r);
-  return `<div class="drag-card row-${r.grade}" draggable="true" data-id="${id}">
+  const rc = r.camp==='JA_SERIES' ? 'row-jas' : 'row-'+r.grade;
+  return `<div class="drag-card ${rc}" draggable="true" data-id="${id}">
     <span class="drag-handle">⠿</span>
     <span class="drag-seq">${seq}</span>
     <div class="drag-info">
       <div class="drag-mail">${r.mail}</div>
       <div class="drag-camp">${campLabel(r.camp)}</div>
     </div>
-    <span class="grade-badge badge-${r.grade}">${r.grade}</span>
+    <span class="grade-badge badge-${r.grade}">${r.grade==='G'?'—':r.grade}</span>
     <button class="drag-remove" onclick="removeCard('${id}')" title="제거">×</button>
   </div>`;
 }
@@ -298,11 +468,12 @@ function addCardEnd(id){
   bindNewCards(list);
   updateSeqNums();
   syncEmptyDrop();
+  markDirty();
 }
 
 function removeCard(id){
   const card = document.querySelector(`#dragList [data-id="${id}"]`);
-  if(card){ card.remove(); updateSeqNums(); syncEmptyDrop(); }
+  if(card){ card.remove(); updateSeqNums(); syncEmptyDrop(); markDirty(); }
 }
 
 function syncEmptyDrop(){
@@ -358,6 +529,7 @@ function initCardDrag(){
       removePH();
       updateSeqNums();
       syncEmptyDrop();
+      markDirty();
       dragType=null; dragCard=null; dragId=null;
     });
   }
@@ -392,21 +564,29 @@ function currentIds(){
   return [...document.querySelectorAll('#dragList .drag-card')].map(c=>c.dataset.id);
 }
 
-function doSave(){
+async function doSave(){
   saveOrder(currentSeg, currentIds());
+  const ok=await saveToFile();
+  if(ok) markClean(currentSeg);
   const toast=document.getElementById('toast');
+  toast.textContent=ok?'저장됨 ✓':'저장 실패 ⚠';
   toast.classList.add('show');
-  setTimeout(()=>toast.classList.remove('show'),1500);
+  setTimeout(()=>toast.classList.remove('show'),1800);
 }
 
 function resetOrder(){
-  saveOrder(currentSeg,[]);
+  delete configData[currentSeg];
+  localStorage.removeItem('crm_seq_'+currentSeg);
   renderRight(currentSeg);
+  markDirty();
 }
 
 // 초기화
-renderChips();
-selectSeg('NULL');
+(async()=>{
+  await tryRestoreHandle();
+  renderChips();
+  selectSeg('NULL');
+})();
 </script>
 </body>
 </html>
