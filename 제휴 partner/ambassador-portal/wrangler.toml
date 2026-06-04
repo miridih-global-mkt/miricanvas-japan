@@ -1,0 +1,14 @@
+name = "mcjp-ambassador-portal"
+compatibility_date = "2026-06-01"
+pages_build_output_dir = "public"
+
+# D1 데이터베이스 (배포 전 `wrangler d1 create ambassador_portal` 후 database_id 교체)
+[[d1_databases]]
+binding = "DB"
+database_name = "ambassador_portal"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+# R2 버킷 (배포 전 `wrangler r2 bucket create ambassador-portal-files`)
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "ambassador-portal-files"

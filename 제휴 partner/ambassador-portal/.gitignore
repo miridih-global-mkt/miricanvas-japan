@@ -1,3 +1,7 @@
+# 루트 .gitignore의 「* (전부 무시)」를 이 폴더에서는 해제 — 소스코드 전체 추적
+!*
+
+# 추적 제외
 node_modules/
 .wrangler/
 .dev.vars

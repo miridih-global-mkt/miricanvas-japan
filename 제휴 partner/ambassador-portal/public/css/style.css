@@ -1,0 +1,210 @@
+/* MiriCanvas アンバサダーポータル — 共通スタイル */
+:root {
+  --accent: #5b5fe9;
+  --accent-dark: #4548c9;
+  --accent-light: #eef0ff;
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #23262f;
+  --muted: #7a7f8e;
+  --border: #e4e6ef;
+  --green: #1da57a;
+  --green-bg: #e7f7f1;
+  --amber: #b97a00;
+  --amber-bg: #fff4dd;
+  --blue: #2b6cd4;
+  --blue-bg: #e8f1fd;
+  --red: #d4453c;
+  --red-bg: #fdeceb;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); }
+.muted { color: var(--muted); font-size: 13px; }
+
+.container { max-width: 880px; margin: 0 auto; padding: 16px 16px 64px; }
+
+/* ── ヘッダー ── */
+.app-header {
+  background: linear-gradient(120deg, var(--accent), #7b6ef6);
+  color: #fff;
+  padding: 22px 16px 26px;
+}
+.app-header .inner { max-width: 880px; margin: 0 auto; }
+.app-header h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: .02em; }
+.app-header .sub { margin-top: 4px; font-size: 13px; opacity: .9; }
+
+/* ── カード ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 16px;
+}
+.card h2 { margin: 0 0 12px; font-size: 16px; }
+.card h3 { margin: 18px 0 8px; font-size: 14px; }
+
+/* サマリーカード */
+.summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: -18px; }
+.summary-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  text-align: center;
+}
+.summary-card .label { font-size: 12px; color: var(--muted); }
+.summary-card .value { font-size: 20px; font-weight: 700; margin-top: 2px; }
+.summary-card .value small { font-size: 12px; font-weight: 400; color: var(--muted); }
+@media (max-width: 560px) {
+  .summary-row { grid-template-columns: 1fr 1fr; }
+  .summary-card:first-child { grid-column: 1 / -1; }
+}
+
+/* ── タブ ── */
+.tabs { display: flex; gap: 6px; margin-top: 20px; flex-wrap: wrap; }
+.tab-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--muted);
+}
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+
+/* ── フォーム ── */
+label.field { display: block; margin-top: 14px; font-size: 13px; font-weight: 600; }
+label.field .req { color: var(--red); margin-left: 2px; }
+input[type=text], input[type=url], input[type=date], input[type=datetime-local],
+input[type=number], input[type=month], input[type=password], select, textarea {
+  width: 100%;
+  margin-top: 5px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+textarea { min-height: 80px; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-light); border-color: var(--accent); }
+
+.radio-cards { display: grid; gap: 8px; margin-top: 6px; }
+.radio-card {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; cursor: pointer; background: #fff;
+}
+.radio-card:has(input:checked) { border-color: var(--accent); background: var(--accent-light); }
+.radio-card input { margin-top: 4px; }
+.radio-card .t { font-weight: 600; font-size: 14px; }
+.radio-card .d { font-size: 12px; color: var(--muted); }
+
+.hint {
+  background: var(--accent-light);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  margin-top: 10px;
+  color: #43468f;
+}
+.hint.warn { background: var(--amber-bg); color: var(--amber); }
+
+button.primary {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 8px; padding: 12px 22px; font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-top: 18px; width: 100%;
+}
+button.primary:hover { background: var(--accent-dark); }
+button.primary:disabled { opacity: .5; cursor: not-allowed; }
+button.ghost {
+  background: #fff; border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer;
+}
+button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+button.danger { background: #fff; border: 1px solid var(--red); color: var(--red); border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer; }
+
+/* ── ステータスバッジ ── */
+.badge { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.badge.submitted { background: var(--amber-bg); color: var(--amber); }
+.badge.approved { background: var(--green-bg); color: var(--green); }
+.badge.paid { background: var(--blue-bg); color: var(--blue); }
+.badge.rejected { background: var(--red-bg); color: var(--red); }
+.badge.type { background: #f0f1f6; color: var(--muted); font-weight: 500; }
+.badge.flag { background: var(--red-bg); color: var(--red); }
+
+/* ── 提出履歴 ── */
+.sub-item {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; margin-top: 10px; background: #fff;
+}
+.sub-item .row1 { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sub-item .title { font-weight: 600; font-size: 14px; }
+.sub-item .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.sub-item .amount { font-weight: 700; font-size: 15px; }
+.sub-item .note { background: var(--red-bg); color: var(--red); border-radius: 6px; padding: 6px 10px; font-size: 12.5px; margin-top: 8px; }
+.sub-item .files { margin-top: 6px; font-size: 12.5px; }
+
+/* ── テーブル (管理画面) ── */
+table.list { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13.5px; }
+table.list th, table.list td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+table.list th { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+table.list tr.clickable { cursor: pointer; }
+table.list tr.clickable:hover { background: var(--accent-light); }
+.table-wrap { overflow-x: auto; }
+
+/* ── フィルター ── */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: flex-end; }
+.filters > div { min-width: 130px; flex: 1; }
+.filters label { font-size: 12px; color: var(--muted); display: block; }
+
+/* ── モーダル ── */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(20,22,35,.5);
+  display: none; align-items: flex-start; justify-content: center;
+  padding: 24px 12px; z-index: 50; overflow-y: auto;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: #fff; border-radius: var(--radius); max-width: 640px; width: 100%;
+  padding: 20px; position: relative;
+}
+.modal .close { position: absolute; top: 10px; right: 14px; font-size: 22px; border: none; background: none; cursor: pointer; color: var(--muted); }
+.kv { display: grid; grid-template-columns: 130px 1fr; gap: 4px 12px; font-size: 13.5px; margin-top: 10px; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; word-break: break-all; }
+.file-thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.file-thumbs img { max-width: 140px; max-height: 100px; border-radius: 6px; border: 1px solid var(--border); }
+
+/* ── トースト ── */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: #fff; padding: 10px 20px; border-radius: 999px;
+  font-size: 14px; display: none; z-index: 99; max-width: 90vw;
+}
+#toast.show { display: block; }
+#toast.error { background: var(--red); }
+
+/* ── ランディング/ログイン ── */
+.landing { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.landing-card { max-width: 420px; text-align: center; padding: 36px 28px; }
+.landing-card h1 { font-size: 22px; margin: 0 0 16px; color: var(--accent); }
+
+/* ── ゲージ ── */
+.gauge { background: #eceef5; border-radius: 999px; height: 8px; margin-top: 6px; overflow: hidden; }
+.gauge > div { height: 100%; background: var(--accent); border-radius: 999px; transition: width .3s; }
+.gauge.full > div { background: var(--red); }
