@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>アンバサダーポータル | MiriCanvas</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <h1>MiriCanvas アンバサダーポータル</h1>
+    <div class="sub" id="greeting">読み込み中...</div>
+  </div>
+</header>
+
+<div class="container" id="app" style="display:none">
+
+  <!-- サマリー -->
+  <div class="summary-row" style="margin-top:16px">
+    <div class="summary-card">
+      <div class="label">今月の報酬（承認済み）</div>
+      <div class="value" id="sum-month">—</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">累計報酬</div>
+      <div class="value" id="sum-total">—</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">今月のコンテンツ報告</div>
+      <div class="value" id="sum-cap">—<small> / 5件</small></div>
+      <div class="gauge" id="cap-gauge"><div style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- タブ -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="history">活動履歴</button>
+    <button class="tab-btn" data-tab="content">コンテンツ報告</button>
+    <button class="tab-btn" data-tab="webinar_pre">ウェビナー事前申請</button>
+    <button class="tab-btn" data-tab="webinar_post">ウェビナー事後報告</button>
+    <button class="tab-btn" data-tab="referral">紹介する</button>
+  </div>
+
+  <!-- 活動履歴 -->
+  <section class="card tab-panel" id="panel-history">
+    <h2>活動履歴</h2>
+    <div id="history-list"></div>
+  </section>
+
+  <!-- ① コンテンツ報告 -->
+  <section class="card tab-panel" id="panel-content" style="display:none">
+    <h2>コンテンツ発信の報告</h2>
+    <div class="hint">報酬の目安：AIスライド関連 <b>1件 10,000円</b> ／ その他のMiriCanvas機能 <b>1件 5,000円</b> ／ 転載（同一内容を一部修正して他チャネルに掲載）<b>1件 3,000円</b><br>※ 月5件まで。金額は運営確認後に確定します。</div>
+    <form id="form-content">
+      <label class="field">カテゴリ<span class="req">*</span></label>
+      <div class="radio-cards">
+        <label class="radio-card"><input type="radio" name="category" value="ai_slide" required>
+          <span><span class="t">AIスライド関連（10,000円）</span><br><span class="d">MiriCanvasのAI資料作成機能の紹介</span></span></label>
+        <label class="radio-card"><input type="radio" name="category" value="other_feature">
+          <span><span class="t">その他の機能（5,000円）</span><br><span class="d">AIスライド以外のMiriCanvas機能・デザイン</span></span></label>
+        <label class="radio-card"><input type="radio" name="category" value="repost">
+          <span><span class="t">転載コンテンツ（3,000円）</span><br><span class="d">同一コンテンツを一部修正して他のSNSに掲載</span></span></label>
+      </div>
+      <label class="field">コンテンツURL<span class="req">*</span>
+        <input type="url" name="url" required placeholder="https://..."></label>
+      <label class="field">掲載チャネル<span class="req">*</span>
+        <select name="channel" required>
+          <option value="">選択してください</option>
+          <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
+          <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
+        </select></label>
+      <label class="field">公開日<span class="req">*</span>
+        <input type="date" name="published_date" required></label>
+      <label class="field">補足（任意）
+        <textarea name="memo" placeholder="使用したAIツールの併用など、補足があればご記入ください"></textarea></label>
+      <button class="primary" type="submit">報告を送信する</button>
+    </form>
+  </section>
+
+  <!-- ② ウェビナー事前申請 -->
+  <section class="card tab-panel" id="panel-webinar_pre" style="display:none">
+    <h2>ウェビナー・セミナーの事前申請</h2>
+    <div class="hint">開催前に必ず事前申請（事前相談）をお願いします。MiriCanvas講義が30分未満になる場合も、事前にご相談いただければ個別に判断いたします。</div>
+    <form id="form-webinar_pre">
+      <label class="field">タイトル・テーマ<span class="req">*</span>
+        <input type="text" name="title" required placeholder="例：AI資料作成セミナー"></label>
+      <label class="field">開催日時<span class="req">*</span>
+        <input type="datetime-local" name="event_date" required></label>
+      <label class="field">形式<span class="req">*</span></label>
+      <div class="radio-cards">
+        <label class="radio-card"><input type="radio" name="webinar_type" value="targeted" required>
+          <span><span class="t">明確なターゲット向け</span><br><span class="d">企業研修・特定コミュニティなど対象が明確（参加者×500円、10名以上）</span></span></label>
+        <label class="radio-card"><input type="radio" name="webinar_type" value="general">
+          <span><span class="t">不特定多数向け</span><br><span class="d">展示会・カンファレンス等でのPR（紹介時間により1〜5万円）</span></span></label>
+      </div>
+      <label class="field">予想参加人数<span class="req">*</span>
+        <input type="number" name="expected_participants" min="1" required></label>
+      <label class="field">MiriCanvas講義の予定時間・比重<span class="req">*</span>
+        <input type="text" name="mc_duration" required placeholder="例：全90分中、MiriCanvas 40分"></label>
+      <label class="field">MiriCanvas講義の内容<span class="req">*</span>
+        <textarea name="mc_content" required placeholder="例：AIスライド機能のデモ、テンプレート活用法 など"></textarea></label>
+      <label class="field">併用予定のAIツール（任意）
+        <input type="text" name="ai_tools" placeholder="例：ChatGPT、Gemini、Claude"></label>
+      <div class="hint warn">併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma（判断に迷う場合は事前にご連絡ください）</div>
+      <button class="primary" type="submit">事前申請を送信する</button>
+    </form>
+  </section>
+
+  <!-- ③ ウェビナー事後報告 -->
+  <section class="card tab-panel" id="panel-webinar_post" style="display:none">
+    <h2>ウェビナー・セミナーの事後報告</h2>
+    <div class="hint">報酬判断のため、<b>発表資料・現場写真・実際の参加人数</b>のご提出が必要です。</div>
+    <form id="form-webinar_post">
+      <label class="field">対応する事前申請
+        <select name="linked_submission_id"><option value="">（事前申請なし／選択しない）</option></select></label>
+      <label class="field">タイトル・テーマ<span class="req">*</span>
+        <input type="text" name="title" required></label>
+      <label class="field">開催日<span class="req">*</span>
+        <input type="date" name="event_date" required></label>
+      <label class="field">形式<span class="req">*</span></label>
+      <div class="radio-cards">
+        <label class="radio-card"><input type="radio" name="webinar_type" value="targeted" required>
+          <span><span class="t">明確なターゲット向け</span><br><span class="d">参加者×500円（10名以上）</span></span></label>
+        <label class="radio-card"><input type="radio" name="webinar_type" value="general">
+          <span><span class="t">不特定多数向け</span><br><span class="d">MiriCanvas紹介時間：〜10分 1万円／〜30分 3万円／30分超 5万円</span></span></label>
+      </div>
+      <label class="field">実際の参加人数<span class="req">*</span>
+        <input type="number" name="participants" min="0" required></label>
+      <label class="field" id="exposure-field" style="display:none">MiriCanvas紹介時間（分）<span class="req">*</span>
+        <input type="number" name="exposure_minutes" min="1"></label>
+      <label class="field">発表資料（PDF等）
+        <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
+      <label class="field">現場写真（複数可）<span class="req">*</span>
+        <input type="file" name="photos" multiple accept="image/*" required></label>
+      <label class="field">補足（任意）
+        <textarea name="memo" placeholder="参加者の確認方法（Zoom・YouTube等）、その他補足"></textarea></label>
+      <label class="radio-card" style="margin-top:14px">
+        <input type="checkbox" name="photo_consent" value="yes">
+        <span><span class="t">写真の二次利用に同意します（任意）</span><br>
+        <span class="d">提供写真を広告素材（CRM・オンライン広告・コンテンツ）として二次利用することがあります。聴衆の顔はモザイク処理を行います。</span></span></label>
+      <button class="primary" type="submit">事後報告を送信する</button>
+    </form>
+  </section>
+
+  <!-- ④ 紹介 -->
+  <section class="card tab-panel" id="panel-referral" style="display:none">
+    <h2>お知り合い・コミュニティの紹介</h2>
+    <div class="hint">「周りにMiriCanvasを紹介してくれそうな方」や「コラボできそうなコミュニティ」をぜひご紹介ください。ご成約・共同活動が実現した場合、紹介報酬をお支払いします。</div>
+    <form id="form-referral">
+      <label class="field">紹介の種類<span class="req">*</span></label>
+      <div class="radio-cards">
+        <label class="radio-card"><input type="radio" name="referral_kind" value="person" checked>
+          <span><span class="t">個人（発信者・講師など）</span><br><span class="d">AI資料作成・デザイン系の発信者（目安：SNS合計フォロワー1万人以上）</span></span></label>
+        <label class="radio-card"><input type="radio" name="referral_kind" value="community">
+          <span><span class="t">コミュニティ</span><br><span class="d">AI副業・業務効率化・デザイン等のコミュニティ（目安：会員1,000名以上）</span></span></label>
+      </div>
+
+      <div id="referral-person">
+        <label class="field">お名前（活動名）<span class="req">*</span>
+          <input type="text" name="p_name"></label>
+        <label class="field">SNSのURL<span class="req">*</span>
+          <input type="url" name="p_sns_url" placeholder="https://..."></label>
+        <label class="field">メインチャネル<span class="req">*</span>
+          <select name="p_main_channel">
+            <option value="">選択してください</option>
+            <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
+            <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
+          </select></label>
+        <label class="field">得意分野<span class="req">*</span></label>
+        <div class="radio-cards">
+          <label class="radio-card"><input type="radio" name="p_track" value="ai">
+            <span><span class="t">AI・資料作成系</span><br><span class="d">PPT・発表資料・AIツールでの業務効率化の発信</span></span></label>
+          <label class="radio-card"><input type="radio" name="p_track" value="design">
+            <span><span class="t">デザイン系</span><br><span class="d">ビジュアルコンテンツのクリエイター</span></span></label>
+        </div>
+      </div>
+
+      <div id="referral-community" style="display:none">
+        <label class="field">コミュニティ名<span class="req">*</span>
+          <input type="text" name="c_name"></label>
+        <label class="field">規模（会員数の目安）<span class="req">*</span>
+          <input type="text" name="c_size" placeholder="例：約3,000名"></label>
+        <label class="field">分野<span class="req">*</span>
+          <input type="text" name="c_field" placeholder="例：AI副業、業務効率化、デザイン"></label>
+        <label class="field">運営者・代表者
+          <input type="text" name="c_owner"></label>
+      </div>
+
+      <label class="field">紹介理由（1〜2行）<span class="req">*</span>
+        <textarea name="reason" required></textarea></label>
+      <label class="field">ご自身との関係<span class="req">*</span>
+        <input type="text" name="relation" required placeholder="例：同じコミュニティのメンバー、知人"></label>
+      <button class="primary" type="submit">紹介を送信する</button>
+    </form>
+  </section>
+
+</div>
+
+<div class="landing" id="error-view" style="display:none">
+  <div class="card landing-card">
+    <h1>リンクが無効です</h1>
+    <p>このリンクは無効か、期限切れです。<br>お手数ですが担当者までご連絡ください。</p>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/js/portal.js"></script>
+</body>
+</html>
