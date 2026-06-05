@@ -4,213 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>アンバサダーポータル | MiriCanvas</title>
+<title>アンバサダー活動・精算ダッシュボード | MiriCanvas</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
 <header class="app-header">
   <div class="inner">
-    <h1>MiriCanvas アンバサダーポータル</h1>
+    <h1>アンバサダー活動・精算ダッシュボード</h1>
     <div class="sub" id="greeting">読み込み中...</div>
   </div>
 </header>
 
 <div class="container" id="app" style="display:none">
 
-  <!-- サマリー（常時表示）：先月・今月・累計 × 金額＋件数内訳 -->
-  <div class="summary-row" style="margin-top:16px">
-    <div class="summary-card">
-      <div class="label">先月の報酬</div>
-      <div class="value" id="sum-last">—</div>
-      <div class="counts" id="cnt-last">—</div>
-    </div>
-    <div class="summary-card hl">
-      <div class="label">今月の報酬</div>
-      <div class="value" id="sum-month">—</div>
-      <div class="counts" id="cnt-month">—</div>
-    </div>
-    <div class="summary-card">
-      <div class="label">累計報酬</div>
-      <div class="value" id="sum-total">—</div>
-      <div class="counts" id="cnt-total">—</div>
-    </div>
-  </div>
+  <!-- サマリー（1カード：種別×期間マトリックス） -->
+  <section class="card" style="margin-top:16px">
+    <table class="sum-table">
+      <thead>
+        <tr><th></th><th>累計</th><th>先月</th><th>今月</th></tr>
+      </thead>
+      <tbody id="sum-body"></tbody>
+    </table>
+    <div class="caption" style="text-align:right;margin-top:6px">金額は承認済みの確定分。コンテンツは月5件まで。</div>
+  </section>
 
-  <!-- モード切替：提出する／活動履歴／精算 -->
+  <!-- タブ：活動報告／リワード確認 -->
   <div class="mode-tabs">
-    <button class="mode-btn active" data-mode="submit">📝 提出する</button>
-    <button class="mode-btn" data-mode="history">📋 活動履歴</button>
-    <button class="mode-btn" data-mode="settle">💰 精算</button>
+    <button class="mode-btn active" data-mode="report">📝 活動報告</button>
+    <button class="mode-btn" data-mode="reward">💰 リワード確認</button>
   </div>
 
-  <!-- ════ モード①：提出する ════ -->
-  <div id="mode-submit">
-
-    <!-- 提出メニュー -->
-    <div id="submit-menu">
-      <button class="menu-card" data-form="content">
-        <span class="mc-icon">✍️</span>
-        <span class="mc-body">
-          <span class="mc-title">コンテンツ報告</span>
-          <span class="mc-desc">SNS・ブログ等で発信したMiriCanvas関連コンテンツの報告（月5件まで）</span>
-        </span>
-        <span class="mc-arrow">›</span>
-      </button>
-      <button class="menu-card" data-form="webinar">
-        <span class="mc-icon">📸</span>
-        <span class="mc-body">
-          <span class="mc-title">ウェビナー・セミナー報告</span>
-          <span class="mc-desc">開催後の報告（発表資料・現場写真・参加人数の提出）</span>
-        </span>
-        <span class="mc-arrow">›</span>
-      </button>
-      <button class="menu-card" data-form="referral">
-        <span class="mc-icon">🤝</span>
-        <span class="mc-body">
-          <span class="mc-title">お知り合い・コミュニティの紹介</span>
-          <span class="mc-desc">MiriCanvasに合いそうな発信者やコミュニティのご紹介</span>
-        </span>
-        <span class="mc-arrow">›</span>
-      </button>
-    </div>
-
-    <!-- ① コンテンツ報告 -->
-    <section class="card form-panel" id="panel-content" style="display:none">
-      <button class="back-btn" type="button">‹ 提出メニューに戻る</button>
-      <h2>コンテンツ発信の報告</h2>
-      <div class="hint">報酬の目安：AIスライド関連 <b>1件 10,000円</b> ／ その他のMiriCanvas機能 <b>1件 5,000円</b> ／ 転載（同一内容を一部修正して他チャネルに掲載）<b>1件 3,000円</b><br>※ 月5件まで。金額は運営確認後に確定します。</div>
-      <form id="form-content">
-        <label class="field">カテゴリ<span class="req">*</span></label>
-        <div class="radio-cards">
-          <label class="radio-card"><input type="radio" name="category" value="ai_slide" required>
-            <span><span class="t">AIスライド関連（10,000円）</span><br><span class="d">MiriCanvasのAI資料作成機能の紹介</span></span></label>
-          <label class="radio-card"><input type="radio" name="category" value="other_feature">
-            <span><span class="t">その他の機能（5,000円）</span><br><span class="d">AIスライド以外のMiriCanvas機能・デザイン</span></span></label>
-          <label class="radio-card"><input type="radio" name="category" value="repost">
-            <span><span class="t">転載コンテンツ（3,000円）</span><br><span class="d">同一コンテンツを一部修正して他のSNSに掲載</span></span></label>
-        </div>
-        <label class="field">コンテンツURL<span class="req">*</span>
-          <input type="url" name="url" required placeholder="https://..."></label>
-        <label class="field">掲載チャネル<span class="req">*</span>
-          <select name="channel" required>
-            <option value="">選択してください</option>
-            <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
-            <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
-          </select></label>
-        <label class="field">公開日<span class="req">*</span>
-          <input type="date" name="published_date" required></label>
-        <label class="field">補足（任意）
-          <textarea name="memo" placeholder="使用したAIツールの併用など、補足があればご記入ください"></textarea></label>
-        <button class="primary" type="submit">報告を送信する</button>
-      </form>
-    </section>
-
-    <!-- ② ウェビナー・セミナー報告 -->
-    <section class="card form-panel" id="panel-webinar" style="display:none">
-      <button class="back-btn" type="button">‹ 提出メニューに戻る</button>
-      <h2>ウェビナー・セミナーの報告</h2>
-      <div class="hint">報酬判断のため、<b>発表資料・現場写真・実際の参加人数</b>のご提出が必要です。<br>※ 開催前の事前相談（Slack等）もお忘れなく。MiriCanvas講義が30分未満になる場合は個別に判断いたします。</div>
-      <form id="form-webinar">
-        <label class="field">タイトル・テーマ<span class="req">*</span>
-          <input type="text" name="title" required placeholder="例：AI資料作成セミナー"></label>
-        <label class="field">開催日<span class="req">*</span>
-          <input type="date" name="event_date" required></label>
-        <label class="field">形式<span class="req">*</span></label>
-        <div class="radio-cards">
-          <label class="radio-card"><input type="radio" name="webinar_type" value="targeted" required>
-            <span><span class="t">明確なターゲット向け</span><br><span class="d">参加者×500円（10名以上）</span></span></label>
-          <label class="radio-card"><input type="radio" name="webinar_type" value="general">
-            <span><span class="t">不特定多数向け</span><br><span class="d">MiriCanvas紹介時間：〜10分 1万円／〜30分 3万円／30分超 5万円</span></span></label>
-        </div>
-        <label class="field">実際の参加人数<span class="req">*</span>
-          <input type="number" name="participants" min="0" required></label>
-        <label class="field" id="exposure-field" style="display:none">MiriCanvas紹介時間（分）<span class="req">*</span>
-          <input type="number" name="exposure_minutes" min="1"></label>
-        <label class="field">発表資料（PDF等）
-          <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
-        <label class="field">現場写真（複数可）<span class="req">*</span>
-          <input type="file" name="photos" multiple accept="image/*" required></label>
-        <label class="field">併用したAIツール（任意）
-          <input type="text" name="ai_tools" placeholder="例：ChatGPT、Gemini、Claude"></label>
-        <div class="hint warn">併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma（判断に迷う場合はご連絡ください）</div>
-        <label class="field">補足（任意）
-          <textarea name="memo" placeholder="参加者の確認方法（Zoom・YouTube等）、その他補足"></textarea></label>
-        <label class="radio-card" style="margin-top:14px">
-          <input type="checkbox" name="photo_consent" value="yes">
-          <span><span class="t">写真の二次利用に同意します（任意）</span><br>
-          <span class="d">提供写真を広告素材（CRM・オンライン広告・コンテンツ）として二次利用することがあります。聴衆の顔はモザイク処理を行います。</span></span></label>
-        <button class="primary" type="submit">報告を送信する</button>
-      </form>
-    </section>
-
-    <!-- ④ 紹介 -->
-    <section class="card form-panel" id="panel-referral" style="display:none">
-      <button class="back-btn" type="button">‹ 提出メニューに戻る</button>
-      <h2>お知り合い・コミュニティの紹介</h2>
-      <div class="hint">「周りにMiriCanvasを紹介してくれそうな方」や「コラボできそうなコミュニティ」をぜひご紹介ください。ご成約・共同活動が実現した場合、紹介報酬をお支払いします。</div>
-      <form id="form-referral">
-        <label class="field">紹介の種類<span class="req">*</span></label>
-        <div class="radio-cards">
-          <label class="radio-card"><input type="radio" name="referral_kind" value="person" checked>
-            <span><span class="t">個人（発信者・講師など）</span><br><span class="d">AI資料作成・デザイン系の発信者（目安：SNS合計フォロワー1万人以上）</span></span></label>
-          <label class="radio-card"><input type="radio" name="referral_kind" value="community">
-            <span><span class="t">コミュニティ</span><br><span class="d">AI副業・業務効率化・デザイン等のコミュニティ（目安：会員1,000名以上）</span></span></label>
-        </div>
-
-        <div id="referral-person">
-          <label class="field">お名前（活動名）<span class="req">*</span>
-            <input type="text" name="p_name"></label>
-          <label class="field">SNSのURL<span class="req">*</span>
-            <input type="url" name="p_sns_url" placeholder="https://..."></label>
-          <label class="field">メインチャネル<span class="req">*</span>
-            <select name="p_main_channel">
-              <option value="">選択してください</option>
-              <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
-              <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
-            </select></label>
-          <label class="field">得意分野<span class="req">*</span></label>
-          <div class="radio-cards">
-            <label class="radio-card"><input type="radio" name="p_track" value="ai">
-              <span><span class="t">AI・資料作成系</span><br><span class="d">PPT・発表資料・AIツールでの業務効率化の発信</span></span></label>
-            <label class="radio-card"><input type="radio" name="p_track" value="design">
-              <span><span class="t">デザイン系</span><br><span class="d">ビジュアルコンテンツのクリエイター</span></span></label>
-          </div>
-        </div>
-
-        <div id="referral-community" style="display:none">
-          <label class="field">コミュニティ名<span class="req">*</span>
-            <input type="text" name="c_name"></label>
-          <label class="field">規模（会員数の目安）<span class="req">*</span>
-            <input type="text" name="c_size" placeholder="例：約3,000名"></label>
-          <label class="field">分野<span class="req">*</span>
-            <input type="text" name="c_field" placeholder="例：AI副業、業務効率化、デザイン"></label>
-          <label class="field">運営者・代表者
-            <input type="text" name="c_owner"></label>
-        </div>
-
-        <label class="field">紹介理由（1〜2行）<span class="req">*</span>
-          <textarea name="reason" required></textarea></label>
-        <label class="field">ご自身との関係<span class="req">*</span>
-          <input type="text" name="relation" required placeholder="例：同じコミュニティのメンバー、知人"></label>
-        <label class="field">紹介日<span class="req">*</span>
-          <input type="date" name="referral_date" required></label>
-        <button class="primary" type="submit">紹介を送信する</button>
-      </form>
-    </section>
-
-  </div>
-
-  <!-- ════ モード②：活動履歴 ════ -->
-  <div id="mode-history" style="display:none">
+  <!-- ════ タブ①：活動報告 ════ -->
+  <div id="mode-report">
     <section class="card">
-      <div class="card-head">
+      <!-- 提出ボタン3種 -->
+      <div class="submit-row">
+        <button class="submit-btn" data-form="content"><span>✍️</span>コンテンツ報告</button>
+        <button class="submit-btn" data-form="webinar"><span>📸</span>ウェビナー・セミナー報告</button>
+        <button class="submit-btn" data-form="referral"><span>🤝</span>紹介する</button>
+      </div>
+
+      <div class="card-head" style="margin-top:18px">
         <h2>活動履歴</h2>
         <select id="hist-month" class="month-select"><option value="">全期間</option></select>
       </div>
       <div class="hist">
         <div class="hist-head">
-          <span>実施日</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span>
+          <span>実施日</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span><span class="c">リワード案件</span>
         </div>
         <div id="history-list"></div>
       </div>
@@ -218,14 +59,14 @@
     </section>
   </div>
 
-  <!-- ════ モード③：精算 ════ -->
-  <div id="mode-settle" style="display:none">
+  <!-- ════ タブ②：リワード確認 ════ -->
+  <div id="mode-reward" style="display:none">
     <section class="card">
-      <h2>精算</h2>
-      <p class="muted">承認済みの活動は運営側で精算単位（お支払い）にまとめられます。行をタップすると内訳が表示されます。</p>
+      <h2>リワード確認</h2>
+      <p class="muted">承認済みの活動は、運営側で「リワード案件」にまとめてお支払いします。行をタップすると対象の活動が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="settle-table">
-          <thead><tr><th>作成日</th><th>タイトル</th><th>件数</th><th>金額</th><th>状況</th><th>支払い内容</th></tr></thead>
+          <thead><tr><th>作成日</th><th>タイトル</th><th>件数</th><th>金額</th><th>状況</th><th>リワード</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -241,7 +82,136 @@
   </div>
 </div>
 
-<!-- 汎用ポップアップ（提出内訳・支払い内容） -->
+<!-- ════ 提出フォーム（ポップアップ） ════ -->
+
+<!-- ① コンテンツ報告 -->
+<div class="modal-bg" id="fm-content-bg">
+  <div class="modal">
+    <button class="close" data-close="fm-content-bg">×</button>
+    <h2>コンテンツ報告</h2>
+    <div class="hint slim">AIスライド関連 1万円／その他機能 5千円／転載 3千円（月5件まで・金額は運営確認後に確定）</div>
+    <form id="form-content" class="cform">
+      <div class="form-grid">
+        <label class="cfield full">カテゴリ<span class="req">*</span>
+          <select name="category" required>
+            <option value="">選択してください</option>
+            <option value="ai_slide">AIスライド関連（10,000円）</option>
+            <option value="other_feature">その他のMiriCanvas機能（5,000円）</option>
+            <option value="repost">転載コンテンツ（3,000円）</option>
+          </select></label>
+        <label class="cfield full">コンテンツURL<span class="req">*</span>
+          <input type="url" name="url" required placeholder="https://..."></label>
+        <label class="cfield">掲載チャネル<span class="req">*</span>
+          <select name="channel" required>
+            <option value="">選択</option>
+            <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
+            <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
+          </select></label>
+        <label class="cfield">公開日<span class="req">*</span>
+          <input type="date" name="published_date" required></label>
+        <label class="cfield full">補足（任意）
+          <input type="text" name="memo" placeholder="併用AIツールなど"></label>
+      </div>
+      <button class="primary" type="submit">送信する</button>
+    </form>
+  </div>
+</div>
+
+<!-- ② ウェビナー・セミナー報告 -->
+<div class="modal-bg" id="fm-webinar-bg">
+  <div class="modal">
+    <button class="close" data-close="fm-webinar-bg">×</button>
+    <h2>ウェビナー・セミナー報告</h2>
+    <div class="hint slim">発表資料・現場写真・実参加人数が必要です。開催前の事前相談もお忘れなく。<br>併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
+    <form id="form-webinar" class="cform">
+      <div class="form-grid">
+        <label class="cfield full">タイトル・テーマ<span class="req">*</span>
+          <input type="text" name="title" required placeholder="例：AI資料作成セミナー"></label>
+        <label class="cfield">開催日<span class="req">*</span>
+          <input type="date" name="event_date" required></label>
+        <label class="cfield">形式<span class="req">*</span>
+          <select name="webinar_type" required>
+            <option value="">選択してください</option>
+            <option value="targeted">ターゲット向け（参加者×500円）</option>
+            <option value="general">不特定多数向け（時間別1〜5万円）</option>
+          </select></label>
+        <label class="cfield">実参加人数<span class="req">*</span>
+          <input type="number" name="participants" min="0" required></label>
+        <label class="cfield" id="exposure-field" style="visibility:hidden">MiriCanvas紹介時間（分）<span class="req">*</span>
+          <input type="number" name="exposure_minutes" min="1"></label>
+        <label class="cfield">発表資料（PDF等）
+          <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
+        <label class="cfield">現場写真（複数可）<span class="req">*</span>
+          <input type="file" name="photos" multiple accept="image/*" required></label>
+        <label class="cfield">併用したAIツール（任意）
+          <input type="text" name="ai_tools" placeholder="例：ChatGPT"></label>
+        <label class="cfield">補足（任意）
+          <input type="text" name="memo" placeholder="参加者の確認方法など"></label>
+        <label class="consent full"><input type="checkbox" name="photo_consent" value="yes">
+          写真の二次利用（広告素材化・顔はモザイク処理）に同意します（任意）</label>
+      </div>
+      <button class="primary" type="submit">送信する</button>
+    </form>
+  </div>
+</div>
+
+<!-- ③ 紹介 -->
+<div class="modal-bg" id="fm-referral-bg">
+  <div class="modal">
+    <button class="close" data-close="fm-referral-bg">×</button>
+    <h2>お知り合い・コミュニティの紹介</h2>
+    <div class="hint slim">ご成約・共同活動が実現した場合、紹介報酬をお支払いします。<br>個人：SNS合計フォロワー1万人以上目安 ／ コミュニティ：会員1,000名以上目安</div>
+    <form id="form-referral" class="cform">
+      <div class="form-grid">
+        <label class="cfield full">紹介の種類<span class="req">*</span>
+          <select name="referral_kind" id="referral-kind">
+            <option value="person">個人（発信者・講師など）</option>
+            <option value="community">コミュニティ</option>
+          </select></label>
+
+        <div class="full form-grid" id="referral-person" style="padding:0">
+          <label class="cfield">お名前（活動名）<span class="req">*</span>
+            <input type="text" name="p_name"></label>
+          <label class="cfield">メインチャネル<span class="req">*</span>
+            <select name="p_main_channel">
+              <option value="">選択</option>
+              <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
+              <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
+            </select></label>
+          <label class="cfield full">SNSのURL<span class="req">*</span>
+            <input type="url" name="p_sns_url" placeholder="https://..."></label>
+          <label class="cfield full">得意分野<span class="req">*</span>
+            <select name="p_track">
+              <option value="">選択</option>
+              <option value="ai">AI・資料作成系</option>
+              <option value="design">デザイン系</option>
+            </select></label>
+        </div>
+
+        <div class="full form-grid" id="referral-community" style="display:none;padding:0">
+          <label class="cfield">コミュニティ名<span class="req">*</span>
+            <input type="text" name="c_name"></label>
+          <label class="cfield">規模（会員数目安）<span class="req">*</span>
+            <input type="text" name="c_size" placeholder="例：約3,000名"></label>
+          <label class="cfield">分野<span class="req">*</span>
+            <input type="text" name="c_field" placeholder="例：AI副業"></label>
+          <label class="cfield">運営者・代表者
+            <input type="text" name="c_owner"></label>
+        </div>
+
+        <label class="cfield full">紹介理由（1〜2行）<span class="req">*</span>
+          <textarea name="reason" required rows="2"></textarea></label>
+        <label class="cfield">ご自身との関係<span class="req">*</span>
+          <input type="text" name="relation" required placeholder="例：知人"></label>
+        <label class="cfield">紹介日<span class="req">*</span>
+          <input type="date" name="referral_date" required></label>
+      </div>
+      <button class="primary" type="submit">送信する</button>
+    </form>
+  </div>
+</div>
+
+<!-- 汎用ポップアップ（提出内訳・リワード詳細） -->
 <div class="modal-bg" id="p-modal-bg">
   <div class="modal">
     <button class="close" id="p-modal-close">×</button>

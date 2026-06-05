@@ -164,11 +164,57 @@ a { color: var(--accent); }
 .codes-block ul { margin: 6px 0 0; padding-left: 18px; }
 .codes-block code { background: #fff; padding: 2px 8px; border-radius: 4px; font-size: 13px; letter-spacing: .03em; }
 
+/* ── サマリー（種別×期間マトリックス） ── */
+.sum-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.sum-table th, .sum-table td { padding: 7px 8px; text-align: right; white-space: nowrap; }
+.sum-table th:first-child, .sum-table td:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+.sum-table thead th { font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); }
+.sum-table thead th:last-child { color: var(--accent); font-weight: 700; }
+.sum-table td:last-child { background: var(--accent-light); }
+.sum-table .cnt { color: var(--muted); font-size: 12px; }
+.sum-table tr.total td { border-top: 2px solid var(--border); font-weight: 700; font-size: 15px; }
+.sum-table tr.total td:first-child { color: var(--text); }
+
+/* ── 提出ボタン3種 ── */
+.submit-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.submit-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: 1px solid var(--border); background: #fff; border-radius: 10px;
+  padding: 12px 6px; font-size: 13px; font-weight: 600; color: var(--text);
+  cursor: pointer; font-family: inherit;
+}
+.submit-btn span { font-size: 20px; }
+.submit-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 2px 8px rgba(91,95,233,.12); }
+@media (max-width: 560px) { .submit-btn { font-size: 11.5px; } }
+
+/* ── コンパクトフォーム（ポップアップ内） ── */
+.hint.slim { font-size: 12px; padding: 8px 10px; margin: 8px 0 2px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 10px; }
+.form-grid .full { grid-column: 1 / -1; }
+.cfield { display: block; font-size: 12px; font-weight: 600; color: var(--text); }
+.cfield input, .cfield select, .cfield textarea {
+  margin-top: 3px; padding: 8px 10px; font-size: 14px;
+}
+.cfield input[type=file] { padding: 6px 8px; font-size: 12px; }
+.consent { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--muted); font-weight: 400; }
+.cform button.primary { margin-top: 14px; padding: 10px 22px; }
+
+/* ── リワード案件：階層・フォーカス ── */
+.bill-children {
+  margin: 4px 0 6px; background: #fafbff;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+}
+.bill-children .bc-head { font-size: 11.5px; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+tr.focused > td { background: var(--accent-light) !important; box-shadow: inset 3px 0 0 var(--accent); }
+.bill-link { color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; font-size: 12.5px; }
+.bill-link:hover { color: var(--accent-dark); }
+
 /* ── 活動履歴グリッド（全行で列位置を統一） ── */
 .hist { margin-top: 4px; }
 .hist-head, .hist-row {
   display: grid;
-  grid-template-columns: 76px 132px 1fr 96px 92px;
+  grid-template-columns: 60px 140px 1fr 92px 78px 110px;
   gap: 8px; align-items: center;
 }
 .hist-head {
@@ -194,7 +240,7 @@ a { color: var(--accent); }
   .hist-head { display: none; }
   .hist-head + #history-list .hist-row, .hist-row {
     grid-template-columns: 1fr auto;
-    grid-template-areas: "type status" "title title" "date amount";
+    grid-template-areas: "type status" "title title" "date amount" "bill bill";
     row-gap: 4px;
   }
   .h-type { grid-area: type; }
@@ -202,6 +248,8 @@ a { color: var(--accent); }
   .h-title { grid-area: title; white-space: normal; }
   .h-date { grid-area: date; }
   .h-amount { grid-area: amount; }
+  .h-bill { grid-area: bill; text-align: left !important; }
+  .form-grid { grid-template-columns: 1fr; }
 }
 
 /* ── タブ ── */

@@ -1,32 +1,31 @@
-// 운영 관리 화면 (한국어)
+// 運営管理画面（日本語）
 const TYPE_LABELS = {
-  content: '콘텐츠 보고',
-  webinar: '웨비나·세미나 보고',
-  referral: '소개',
-  adjustment: '운영정산',
+  content: 'コンテンツ報告',
+  webinar: 'ウェビナー・セミナー報告',
+  referral: '紹介',
+  adjustment: '運営精算',
 };
 const STATUS_LABELS = {
-  submitted: '확인중',
-  approved: '승인완료',
-  rejected: '반려',
+  submitted: '確認中',
+  approved: '承認済み',
+  rejected: '差し戻し',
 };
-const CATEGORY_LABELS = { ai_slide: 'AI슬라이드 관련', other_feature: '기타 기능', repost: '전재(복붙)' };
-const WTYPE_LABELS = { targeted: '타겟형', general: '불특정 다수형' };
-const TRACK_LABELS = { ai: 'AI·자료작성계', design: '디자인계' };
+const CATEGORY_LABELS = { ai_slide: 'AIスライド関連', other_feature: 'その他の機能', repost: '転載' };
+const WTYPE_LABELS = { targeted: 'ターゲット向け', general: '不特定多数向け' };
+const TRACK_LABELS = { ai: 'AI・資料作成系', design: 'デザイン系' };
 
-// payload 키의 한국어 라벨 (상세 표시용)
+// payload キーの日本語ラベル（詳細表示用）
 const FIELD_LABELS = {
-  category: '카테고리', url: 'URL', channel: '채널', published_date: '공개일', memo: '비고',
-  title: '제목', event_date: '개최일', webinar_type: '형식',
-  participants: '실참가 인원',
-  mc_duration: '미캔 강의시간', mc_content: '미캔 강의내용', ai_tools: '병용 AI툴',
-  exposure_minutes: '미캔 소개시간(분)', photo_consent: '사진 2차활용 동의',
-  referral_kind: '소개 종류', referral_date: '소개일',
-  p_name: '이름', p_sns_url: 'SNS URL', p_main_channel: '메인 채널', p_track: '분야',
-  c_name: '커뮤니티명', c_size: '규모', c_field: '분야', c_owner: '운영자',
-  reason: '소개 이유', relation: '관계',
+  category: 'カテゴリ', url: 'URL', channel: 'チャネル', published_date: '公開日', memo: '補足',
+  title: 'タイトル', event_date: '開催日', webinar_type: '形式',
+  participants: '実参加人数', ai_tools: '併用AIツール',
+  exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真二次利用同意',
+  referral_kind: '紹介種類', referral_date: '紹介日',
+  p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
+  c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
+  reason: '紹介理由', relation: '関係',
 };
-const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '개인', community: '커뮤니티', yes: '동의함' };
+const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり' };
 
 const $ = (s) => document.querySelector(s);
 const yen = (n) => n == null ? '—' : Number(n).toLocaleString('ja-JP') + '円';
@@ -36,9 +35,9 @@ const fmtDate = (s) => {
   const [y, m, d] = s.slice(0, 10).split('-');
   return `${y}/${Number(m)}/${Number(d)}`;
 };
-const fmtMonth = (m) => m ? `${m.slice(0, 4)}년 ${Number(m.slice(5, 7))}월` : '';
+const fmtMonth = (m) => m ? m.replace('-', '年') + '月' : '';
 
-// 실시일 (없으면 제출일을 JST로)
+// 実施日（なければ提出日をJSTで）
 function actDate(s) {
   if (s.activity_date) return s.activity_date;
   const d = new Date(s.created_at.replace(' ', 'T') + (s.created_at.endsWith('Z') ? '' : 'Z'));
@@ -66,7 +65,7 @@ async function api(path, opts = {}) {
   return data;
 }
 
-// ── 로그인 ──
+// ── ログイン ──
 function showLogin() {
   $('#login-view').style.display = 'flex';
   $('#main-view').style.display = 'none';
@@ -83,7 +82,7 @@ $('#login-form').addEventListener('submit', async (e) => {
     showMain();
     init();
   } catch (err) {
-    toast(err.message === 'unauthorized' ? '비밀번호가 다릅니다' : err.message, true);
+    toast(err.message === 'unauthorized' ? 'パスワードが違います' : err.message, true);
   }
 });
 
@@ -92,7 +91,7 @@ $('#logout-btn').addEventListener('click', async () => {
   showLogin();
 });
 
-// ── 탭 ──
+// ── タブ ──
 document.querySelectorAll('.tab-btn').forEach((btn) => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b === btn));
@@ -103,10 +102,11 @@ document.querySelectorAll('.tab-btn').forEach((btn) => {
   });
 });
 
-// ══════════ 제출 관리 ══════════
+// ══════════ 活動管理 ══════════
 let SUBS = { submissions: [], files: [] };
 let AMBS = [];
-const SELECTED = new Set(); // 지불건 생성용 선택 (제출 id)
+let SELECT_MODE = false;          // リワード案件作成の選択モード
+const SELECTED = new Set();
 
 async function loadSubs() {
   const q = new URLSearchParams();
@@ -123,9 +123,9 @@ function payloadSummary(s) {
   const p = s.payload || {};
   switch (s.type) {
     case 'content': return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
-    case 'webinar': return `${p.title || ''}・${p.participants ?? '?'}명`;
-    case 'referral': return p.referral_kind === 'community' ? `커뮤니티: ${p.c_name || ''}` : `개인: ${p.p_name || ''}`;
-    case 'adjustment': return p.title || '운영 정산';
+    case 'webinar': return `${p.title || ''}・${p.participants ?? '?'}名`;
+    case 'referral': return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
+    case 'adjustment': return p.title || '運営精算';
     default: return '';
   }
 }
@@ -133,18 +133,23 @@ function payloadSummary(s) {
 function renderSubs() {
   const tbody = $('#subs-table tbody');
   const subs = SUBS.submissions;
+  $('#sel-th').style.display = SELECT_MODE ? '' : 'none';
+
   if (!subs.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="muted">해당하는 제출이 없습니다</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="${SELECT_MODE ? 9 : 8}" class="muted">該当する活動はありません</td></tr>`;
     $('#subs-subtotal').innerHTML = '';
     updateBillBar();
     return;
   }
   tbody.innerHTML = subs.map((s) => {
-    // 체크박스: 승인완료 + 미편성만 선택 가능
+    // 選択モード時のみチェックボックス表示。承認済み＆未編成のみ有効、編成済みは無効表示
     const selectable = s.status === 'approved' && s.bill_id == null;
+    const selCell = SELECT_MODE
+      ? `<td onclick="event.stopPropagation()"><input type="checkbox" class="sel" data-id="${s.id}" ${selectable ? '' : 'disabled'} ${SELECTED.has(s.id) ? 'checked' : ''}></td>`
+      : '';
     return `
     <tr class="clickable" data-id="${s.id}">
-      <td onclick="event.stopPropagation()">${selectable ? `<input type="checkbox" class="sel" data-id="${s.id}" ${SELECTED.has(s.id) ? 'checked' : ''}>` : ''}</td>
+      ${selCell}
       <td>${fmtDate(actDate(s))}</td>
       <td>${escapeHtml(s.ambassador_name)}</td>
       <td><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
@@ -168,52 +173,68 @@ function renderSubs() {
   });
   updateBillBar();
 
-  // 하단 소계 (유형별 + 합계, 필터 연동)
+  // 下部小計（種別ごと＋合計、フィルター連動）
   const groups = [
-    ['콘텐츠 보고', subs.filter((s) => s.type === 'content')],
-    ['웨비나·세미나', subs.filter((s) => s.type === 'webinar')],
-    ['소개·운영정산', subs.filter((s) => s.type === 'referral' || s.type === 'adjustment')],
+    ['コンテンツ報告', subs.filter((s) => s.type === 'content')],
+    ['ウェビナー・セミナー', subs.filter((s) => s.type === 'webinar')],
+    ['紹介・運営精算', subs.filter((s) => s.type === 'referral' || s.type === 'adjustment')],
   ];
   const confirmed = (arr) => arr.reduce((a, s) => a + (s.status === 'approved' ? (s.approved_amount || 0) : 0), 0);
   const liveCount = (arr) => arr.filter((s) => s.status !== 'rejected').length;
   const rows = groups
     .filter(([, arr]) => arr.length)
-    .map(([label, arr]) => `<div class="sub-row"><span>${label}</span><span>${liveCount(arr)}건</span><span>${yen(confirmed(arr))}</span></div>`)
+    .map(([label, arr]) => `<div class="sub-row"><span>${label}</span><span>${liveCount(arr)}件</span><span>${yen(confirmed(arr))}</span></div>`)
     .join('');
   const m = $('#f-month').value;
-  const totalRow = `<div class="sub-row total"><span>합계${m ? ` (${fmtMonth(m)})` : ''}</span><span>${liveCount(subs)}건</span><span>${yen(confirmed(subs))}</span></div>`;
+  const totalRow = `<div class="sub-row total"><span>合計${m ? `（${fmtMonth(m)}）` : ''}</span><span>${liveCount(subs)}件</span><span>${yen(confirmed(subs))}</span></div>`;
   $('#subs-subtotal').innerHTML = rows + totalRow +
-    '<div class="caption">금액은 승인완료의 확정분만. 건수는 반려 제외. 표시 중인 필터 조건으로 집계.</div>';
+    '<div class="caption">金額は承認済みの確定分のみ。件数は差し戻しを除く。表示中のフィルター条件で集計。</div>';
 }
 
-// 선택 바 (지불건 생성)
+// ── 選択モード（リワード案件作成） ──
+function setSelectMode(on) {
+  SELECT_MODE = on;
+  if (!on) SELECTED.clear();
+  renderSubs();
+}
+
+$('#btn-select-mode').addEventListener('click', () => {
+  if (!SELECT_MODE) setSelectMode(true);
+});
+$('#btn-cancel-select').addEventListener('click', () => setSelectMode(false));
+
 function updateBillBar() {
   const bar = $('#bill-bar');
-  if (!SELECTED.size) { bar.style.display = 'none'; return; }
+  if (!SELECT_MODE) { bar.style.display = 'none'; return; }
+  bar.style.display = '';
+  if (!SELECTED.size) {
+    $('#bill-bar-info').innerHTML = '対象の活動（承認済み・未編成）にチェックを入れてください';
+    $('#btn-make-bill').disabled = true;
+    return;
+  }
   const sel = SUBS.submissions.filter((s) => SELECTED.has(s.id));
   const ambNames = [...new Set(sel.map((s) => s.ambassador_name))];
   const total = sel.reduce((a, s) => a + (s.approved_amount || 0), 0);
-  bar.style.display = '';
-  $('#bill-bar-info').innerHTML = ambNames.length > 1
-    ? `<span style="color:var(--red)">⚠ 서로 다른 앰버서더가 선택되어 있습니다 (${ambNames.map(escapeHtml).join(', ')})</span>`
-    : `<b>${escapeHtml(ambNames[0])}</b> · ${sel.length}건 · <b>${yen(total)}</b>`;
+  if (ambNames.length > 1) {
+    $('#bill-bar-info').innerHTML = `<span style="color:var(--red)">⚠ 異なるアンバサダーが選択されています（${ambNames.map(escapeHtml).join('、')}）</span>`;
+    $('#btn-make-bill').disabled = true;
+  } else {
+    $('#bill-bar-info').innerHTML = `<b>${escapeHtml(ambNames[0])}</b> ・ ${sel.length}件 ・ <b>${yen(total)}</b>`;
+    $('#btn-make-bill').disabled = false;
+  }
 }
 
 ['f-month', 'f-type', 'f-status', 'f-amb'].forEach((id) => {
   $('#' + id).addEventListener('change', loadSubs);
 });
-$('#f-csv').addEventListener('click', () => {
-  const month = $('#f-month').value;
-  location.href = '/api/admin/export' + (month ? `?month=${month}` : '');
-});
 
-// ── 지불건 생성 모달 ──
+// ── リワード案件作成モーダル ──
 $('#btn-make-bill').addEventListener('click', () => {
   const sel = SUBS.submissions.filter((s) => SELECTED.has(s.id));
   const ambNames = [...new Set(sel.map((s) => s.ambassador_name))];
-  if (ambNames.length > 1) return toast('서로 다른 앰버서더의 제출건은 한 지불건으로 묶을 수 없습니다', true);
+  if (ambNames.length !== 1) return;
   const total = sel.reduce((a, s) => a + (s.approved_amount || 0), 0);
-  $('#bill-info').innerHTML = `대상자: <b>${escapeHtml(ambNames[0])}</b><br>${sel.length}건 · 합계 <b>${yen(total)}</b>`;
+  $('#bill-info').innerHTML = `対象：<b>${escapeHtml(ambNames[0])}</b><br>${sel.length}件 ・ 合計 <b>${yen(total)}</b>`;
   $('#bill-title').value = '';
   $('#bill-memo').value = '';
   $('#bill-modal-bg').classList.add('open');
@@ -222,20 +243,21 @@ $('#bill-close').addEventListener('click', () => $('#bill-modal-bg').classList.r
 $('#bill-modal-bg').addEventListener('click', (e) => { if (e.target === $('#bill-modal-bg')) $('#bill-modal-bg').classList.remove('open'); });
 
 $('#bill-submit').addEventListener('click', async () => {
-  if (!$('#bill-title').value.trim()) return toast('제목을 입력하세요', true);
+  if (!$('#bill-title').value.trim()) return toast('タイトルを入力してください', true);
   try {
     await api('/api/admin/bills', { method: 'POST', body: {
       submission_ids: [...SELECTED],
       title: $('#bill-title').value.trim(),
       memo: $('#bill-memo').value,
     } });
-    toast('지불건을 생성했습니다');
+    toast('リワード案件を作成しました');
     $('#bill-modal-bg').classList.remove('open');
+    setSelectMode(false);
     await loadSubs();
   } catch (e) { toast(e.message, true); }
 });
 
-// ── 제출 상세 모달 ──
+// ── 提出詳細モーダル ──
 function openDetail(id) {
   const s = SUBS.submissions.find((x) => x.id === id);
   if (!s) return;
@@ -254,39 +276,39 @@ function openDetail(id) {
 
   $('#modal-body').innerHTML = `
     <dl class="kv">
-      <dt>앰버서더</dt><dd>${escapeHtml(s.ambassador_name)}</dd>
-      <dt>실시일</dt><dd>${fmtDate(s.activity_date)}</dd>
-      <dt>제출일</dt><dd>${fmtDate(actDate({ activity_date: null, created_at: s.created_at }))}</dd>
-      ${s.bill_title ? `<dt>지불건</dt><dd>${escapeHtml(s.bill_title)}</dd>` : ''}
+      <dt>アンバサダー</dt><dd>${escapeHtml(s.ambassador_name)}</dd>
+      <dt>実施日</dt><dd>${fmtDate(s.activity_date)}</dd>
+      <dt>提出日</dt><dd>${fmtDate(actDate({ activity_date: null, created_at: s.created_at }))}</dd>
+      ${s.bill_title ? `<dt>リワード案件</dt><dd>${escapeHtml(s.bill_title)}</dd>` : ''}
       ${rows}
-      ${s.admin_note ? `<dt>운영 메모</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
+      ${s.admin_note ? `<dt>運営メモ</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
     </dl>
     ${imgs.length ? `<div class="file-thumbs">${imgs.map((f) => `<a href="/api/files/${f.id}" target="_blank"><img src="/api/files/${f.id}" alt="${escapeHtml(f.filename)}"></a>`).join('')}</div>` : ''}
     ${others.length ? `<p>📎 ${others.map((f) => `<a href="/api/files/${f.id}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</p>` : ''}
   `;
 
   if (s.bill_id != null) {
-    $('#modal-review').innerHTML = '<p class="muted">지불건에 포함된 제출건입니다. 변경하려면 지불 관리에서 해당 지불건을 삭제하세요.</p>';
+    $('#modal-review').innerHTML = '<p class="muted">リワード案件に含まれている活動です。変更するには、リワード管理で該当案件を削除してください。</p>';
   } else {
     const amount = s.approved_amount ?? s.suggested_amount ?? '';
     $('#modal-review').innerHTML = `
-      <h3>검토</h3>
-      <label class="field">확정 금액 (엔)<input type="number" id="rv-amount" min="0" value="${amount}"></label>
-      <p class="muted">자동 제안: ${yen(s.suggested_amount)}${s.type === 'referral' ? ' (소개는 보상안 확정 전이므로 수동 입력)' : ''}</p>
-      <label class="field">실시일 (정산 기준일 조정이 필요한 경우 변경)
+      <h3>審査</h3>
+      <label class="field">確定金額（円）<input type="number" id="rv-amount" min="0" value="${amount}"></label>
+      <p class="muted">自動提案：${yen(s.suggested_amount)}${s.type === 'referral' ? '（紹介は報酬案確定前のため手動入力）' : ''}</p>
+      <label class="field">実施日（精算基準日の調整が必要な場合に変更）
         <input type="date" id="rv-date" value="${s.activity_date || ''}"></label>
-      <label class="field">운영 메모 (반려 사유 등 — 앰버서더에게 표시됨)<textarea id="rv-note">${escapeHtml(s.admin_note || '')}</textarea></label>
+      <label class="field">運営メモ（差し戻し理由など — アンバサダーに表示されます）<textarea id="rv-note">${escapeHtml(s.admin_note || '')}</textarea></label>
       <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="primary" style="width:auto;margin:0;padding:10px 18px" id="rv-approve">승인</button>
-        <button class="danger" id="rv-reject">반려</button>
-        ${s.status !== 'submitted' ? '<button class="ghost" id="rv-reopen">확인중으로 되돌리기</button>' : ''}
+        <button class="primary" style="width:auto;margin:0;padding:10px 18px" id="rv-approve">承認する</button>
+        <button class="danger" id="rv-reject">差し戻す</button>
+        ${s.status !== 'submitted' ? '<button class="ghost" id="rv-reopen">確認中に戻す</button>' : ''}
       </div>
     `;
 
     const act = async (action, extra = {}) => {
       try {
         await api(`/api/admin/submissions/${id}`, { method: 'PATCH', body: { action, admin_note: $('#rv-note').value || null, ...extra } });
-        toast('업데이트했습니다');
+        toast('更新しました');
         closeModal();
         await loadSubs();
       } catch (e) {
@@ -295,7 +317,7 @@ function openDetail(id) {
     };
     $('#rv-approve').addEventListener('click', () => {
       const v = Number($('#rv-amount').value);
-      if (!Number.isFinite(v) || $('#rv-amount').value === '') return toast('확정 금액을 입력하세요', true);
+      if (!Number.isFinite(v) || $('#rv-amount').value === '') return toast('確定金額を入力してください', true);
       act('approve', { approved_amount: v, activity_date: $('#rv-date').value || null });
     });
     $('#rv-reject').addEventListener('click', () => act('reject'));
@@ -309,7 +331,7 @@ function closeModal() { $('#modal-bg').classList.remove('open'); }
 $('#modal-close').addEventListener('click', closeModal);
 $('#modal-bg').addEventListener('click', (e) => { if (e.target === $('#modal-bg')) closeModal(); });
 
-// ══════════ 운영정산 추가 ══════════
+// ══════════ 手動追加（運営精算） ══════════
 $('#btn-adj').addEventListener('click', () => {
   $('#adj-amb').innerHTML = AMBS.filter((a) => a.active)
     .map((a) => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
@@ -322,9 +344,9 @@ $('#adj-modal-bg').addEventListener('click', (e) => { if (e.target === $('#adj-m
 $('#adj-submit').addEventListener('click', async () => {
   try {
     const amount = Number($('#adj-amount').value);
-    if (!$('#adj-title').value.trim()) return toast('내용을 입력하세요', true);
-    if (!Number.isFinite(amount) || $('#adj-amount').value === '') return toast('금액을 입력하세요', true);
-    if (!$('#adj-date').value) return toast('실시일을 입력하세요', true);
+    if (!$('#adj-title').value.trim()) return toast('内容を入力してください', true);
+    if (!Number.isFinite(amount) || $('#adj-amount').value === '') return toast('金額を入力してください', true);
+    if (!$('#adj-date').value) return toast('実施日を入力してください', true);
     await api('/api/admin/submissions', { method: 'POST', body: {
       ambassador_id: Number($('#adj-amb').value),
       title: $('#adj-title').value.trim(),
@@ -332,14 +354,14 @@ $('#adj-submit').addEventListener('click', async () => {
       activity_date: $('#adj-date').value,
       memo: $('#adj-memo').value || '',
     } });
-    toast('운영정산을 등록했습니다 (자동 승인)');
+    toast('登録しました（自動承認）');
     $('#adj-modal-bg').classList.remove('open');
     $('#adj-title').value = ''; $('#adj-amount').value = ''; $('#adj-memo').value = '';
     await loadSubs();
   } catch (e) { toast(e.message, true); }
 });
 
-// ══════════ 지불 관리 ══════════
+// ══════════ リワード管理 ══════════
 let BILLS = { bills: [], members: [] };
 
 async function loadBills() {
@@ -352,8 +374,8 @@ function memberLine(s) {
   switch (s.type) {
     case 'content': return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
     case 'webinar': return `${p.title || ''}`;
-    case 'referral': return p.referral_kind === 'community' ? `커뮤니티: ${p.c_name || ''}` : `개인: ${p.p_name || ''}`;
-    case 'adjustment': return p.title || '운영 정산';
+    case 'referral': return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
+    case 'adjustment': return p.title || '運営精算';
     default: return '';
   }
 }
@@ -362,7 +384,7 @@ function renderBills() {
   const tbody = $('#bills-table tbody');
   const { bills, members } = BILLS;
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="muted">지불건이 없습니다. 제출 관리에서 승인완료 항목을 선택해 생성하세요.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">リワード案件がありません。活動管理から承認済みの活動を選択して作成してください。</td></tr>';
     return;
   }
   tbody.innerHTML = bills.map((b) => {
@@ -377,39 +399,44 @@ function renderBills() {
       </div>`).join('');
     const payDetail = isPaid
       ? (b.method === 'amazon'
-          ? `🎁 아마존 기프트 ${b.gift_codes.length}장`
-          : `🏦 해외송금 ${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : ''}`)
+          ? `🎁 Amazonギフト ${b.gift_codes.length}枚`
+          : `🏦 海外送金 ${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : ''}`)
       : '';
     return `
     <tr class="clickable bill-row" data-id="${b.id}">
       <td>${fmtDate(b.created_at)}</td>
       <td>${escapeHtml(b.ambassador_name)}</td>
       <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted">${escapeHtml(b.memo)}</span>` : ''}</td>
-      <td>${b.count}건</td>
+      <td>${b.count}件</td>
       <td><b>${yen(b.total)}</b></td>
-      <td><span class="badge ${isPaid ? 'approved' : 'submitted'}">${isPaid ? '지불완료' : '지불전'}</span></td>
+      <td><span class="badge ${isPaid ? 'approved' : 'submitted'}">${isPaid ? '支払い済み' : '支払い前'}</span></td>
       <td style="white-space:nowrap">
-        <button class="ghost btn-sm btn-pay" data-id="${b.id}">${isPaid ? '지불내용 수정' : '지불내용 입력'}</button>
+        <button class="ghost btn-sm btn-pay" data-id="${b.id}">${isPaid ? '支払い内容を修正' : '支払い内容を入力'}</button>
         ${payDetail ? `<br><span class="muted" style="font-size:12px">${payDetail}</span>` : ''}
       </td>
     </tr>
     <tr class="settle-detail" id="bill-detail-${b.id}" style="display:none">
-      <td colspan="7">
-        ${detailRows || '<span class="muted">소속 제출건이 없습니다</span>'}
-        <div style="margin-top:10px;text-align:right">
-          <button class="ghost btn-sm btn-bill-edit" data-id="${b.id}">제목·메모 수정</button>
-          <button class="danger btn-sm btn-bill-del" data-id="${b.id}">지불건 삭제</button>
+      <td colspan="7" style="padding:6px 10px 12px">
+        <div class="bill-children">
+          <div class="bc-head">▼ このリワード案件の対象活動（${items.length}件）</div>
+          ${detailRows || '<span class="muted">対象活動がありません</span>'}
+          <div style="margin-top:10px;text-align:right">
+            <button class="ghost btn-sm btn-bill-edit" data-id="${b.id}">タイトル・メモ修正</button>
+            <button class="danger btn-sm btn-bill-del" data-id="${b.id}">案件削除</button>
+          </div>
         </div>
       </td>
     </tr>`;
   }).join('');
 
-  // 행 클릭 → 소속 제출건 펼침
+  // 行クリック → 対象活動の展開＋フォーカス表示
   tbody.querySelectorAll('.bill-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
       const detail = document.getElementById('bill-detail-' + tr.dataset.id);
-      detail.style.display = detail.style.display === 'none' ? '' : 'none';
+      const willOpen = detail.style.display === 'none';
+      detail.style.display = willOpen ? '' : 'none';
+      tr.classList.toggle('focused', willOpen);
     });
   });
   tbody.querySelectorAll('.btn-pay').forEach((btn) => {
@@ -418,38 +445,38 @@ function renderBills() {
   tbody.querySelectorAll('.btn-bill-edit').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const b = BILLS.bills.find((x) => x.id === Number(btn.dataset.id));
-      const title = prompt('제목', b.title);
+      const title = prompt('タイトル', b.title);
       if (title === null) return;
-      const memo = prompt('메모', b.memo || '');
+      const memo = prompt('メモ', b.memo || '');
       if (memo === null) return;
       await api(`/api/admin/bills/${b.id}`, { method: 'PATCH', body: { action: 'edit', title, memo } });
-      toast('수정했습니다');
+      toast('更新しました');
       loadBills();
     });
   });
   tbody.querySelectorAll('.btn-bill-del').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      if (!confirm('이 지불건을 삭제할까요? 소속 제출건은 미편성 상태로 돌아갑니다.')) return;
+      if (!confirm('このリワード案件を削除しますか？対象活動は未編成に戻ります。')) return;
       await api(`/api/admin/bills/${btn.dataset.id}`, { method: 'DELETE' });
-      toast('삭제했습니다');
+      toast('削除しました');
       loadBills();
     });
   });
 }
 
-// ── 지불내용 모달 (입력/수정 공통, 기존 내용 프리필) ──
+// ── 支払い内容モーダル（入力／修正 共通・既存内容プリフィル） ──
 let PAY_BILL_ID = null;
 
 function openPayModal(billId) {
   PAY_BILL_ID = billId;
   const b = BILLS.bills.find((x) => x.id === billId);
   if (!b) return;
-  $('#pay-info').innerHTML = `<b>${escapeHtml(b.ambassador_name)}</b> · ${escapeHtml(b.title)}<br>${b.count}건 · <b>${yen(b.total)}</b>`;
+  $('#pay-info').innerHTML = `<b>${escapeHtml(b.ambassador_name)}</b> ・ ${escapeHtml(b.title)}<br>${b.count}件 ・ <b>${yen(b.total)}</b>`;
   const method = b.method || 'amazon';
   document.querySelector(`input[name=pay_method][value=${method}]`).checked = true;
   $('#pay-codes').value = b.method === 'amazon' ? b.gift_codes.join('\n') : '';
   $('#pay-date').value = b.transfer_date || new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
-  $('#pay-submit').textContent = b.method ? '지불내용 수정' : '지불내용 저장 (지불완료 처리)';
+  $('#pay-submit').textContent = b.method ? '支払い内容を修正する' : '保存する（支払い済みにする）';
   togglePayFields();
   $('#pay-modal-bg').classList.add('open');
 }
@@ -470,26 +497,26 @@ $('#pay-submit').addEventListener('click', async () => {
   const body = { action: 'payment', method };
   if (method === 'amazon') {
     body.gift_codes = $('#pay-codes').value.split('\n').map((s) => s.trim()).filter(Boolean);
-    if (!body.gift_codes.length) return toast('기프트카드 번호를 입력하세요', true);
+    if (!body.gift_codes.length) return toast('ギフトカード番号を入力してください', true);
   } else {
-    if (!$('#pay-date').value) return toast('송금일을 입력하세요', true);
+    if (!$('#pay-date').value) return toast('送金日を入力してください', true);
     body.transfer_date = $('#pay-date').value;
   }
   try {
     await api(`/api/admin/bills/${PAY_BILL_ID}`, { method: 'PATCH', body });
-    toast('저장했습니다 (지불완료)');
+    toast('保存しました（支払い済み）');
     $('#pay-modal-bg').classList.remove('open');
     loadBills();
   } catch (e) { toast(e.message, true); }
 });
 
-// ══════════ 앰버서더 관리 ══════════
+// ══════════ アンバサダー管理 ══════════
 async function loadAmbassadors() {
   const { ambassadors } = await api('/api/admin/ambassadors');
   AMBS = ambassadors;
 
-  // 필터용 풀다운도 갱신
-  $('#f-amb').innerHTML = '<option value="">전체</option>' +
+  // フィルター用プルダウンも更新
+  $('#f-amb').innerHTML = '<option value="">すべて</option>' +
     ambassadors.map((a) => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
 
   const tbody = $('#ambs-table tbody');
@@ -497,13 +524,13 @@ async function loadAmbassadors() {
     <tr>
       <td>${escapeHtml(a.name)}</td>
       <td>${escapeHtml(a.description || '')}</td>
-      <td><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}">편집</button></td>
+      <td><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}">編集</button></td>
       <td>${a.submission_count}</td>
-      <td>${a.active ? '<span class="badge approved">유효</span>' : '<span class="badge rejected">무효</span>'}</td>
+      <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
       <td style="white-space:nowrap">
-        <button class="ghost btn-sm" data-copy="${a.token}">복사</button>
-        <button class="ghost btn-sm" data-reissue="${a.id}">재발급</button>
-        <button class="${a.active ? 'danger' : 'ghost'} btn-sm" data-toggle="${a.id}" data-active="${a.active}">${a.active ? '무효화' : '유효화'}</button>
+        <button class="ghost btn-sm" data-copy="${a.token}">コピー</button>
+        <button class="ghost btn-sm" data-reissue="${a.id}">再発行</button>
+        <button class="${a.active ? 'danger' : 'ghost'} btn-sm" data-toggle="${a.id}" data-active="${a.active}">${a.active ? '無効化' : '有効化'}</button>
       </td>
     </tr>`).join('');
 
@@ -511,31 +538,31 @@ async function loadAmbassadors() {
     btn.addEventListener('click', async () => {
       const url = `${location.origin}/a/${btn.dataset.copy}`;
       await navigator.clipboard.writeText(url);
-      toast('복사했습니다: ' + url);
+      toast('コピーしました：' + url);
     });
   });
   tbody.querySelectorAll('.btn-edit-desc').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      const next = prompt('설명 편집', btn.dataset.desc);
+      const next = prompt('説明を編集', btn.dataset.desc);
       if (next === null) return;
       await api(`/api/admin/ambassadors/${btn.dataset.id}`, { method: 'PATCH', body: { description: next } });
-      toast('설명을 업데이트했습니다');
+      toast('説明を更新しました');
       loadAmbassadors();
     });
   });
   tbody.querySelectorAll('[data-reissue]').forEach((btn) => {
     btn.addEventListener('click', async () => {
-      if (!confirm('전용 링크를 재발급할까요? 기존 링크는 사용할 수 없게 됩니다.')) return;
+      if (!confirm('専用リンクを再発行しますか？古いリンクは使えなくなります。')) return;
       const r = await api(`/api/admin/ambassadors/${btn.dataset.reissue}`, { method: 'PATCH', body: { reissue_token: true } });
       await navigator.clipboard.writeText(`${location.origin}/a/${r.token}`);
-      toast('재발급하고 새 링크를 복사했습니다');
+      toast('再発行し、新しいリンクをコピーしました');
       loadAmbassadors();
     });
   });
   tbody.querySelectorAll('[data-toggle]').forEach((btn) => {
     btn.addEventListener('click', async () => {
       const activating = btn.dataset.active !== '1';
-      if (!activating && !confirm('링크를 무효화할까요? 이 앰버서더는 접속할 수 없게 됩니다.')) return;
+      if (!activating && !confirm('リンクを無効化しますか？このアンバサダーはアクセスできなくなります。')) return;
       await api(`/api/admin/ambassadors/${btn.dataset.toggle}`, { method: 'PATCH', body: { active: activating } });
       loadAmbassadors();
     });
@@ -547,19 +574,19 @@ $('#amb-add').addEventListener('submit', async (e) => {
   try {
     const r = await api('/api/admin/ambassadors', { method: 'POST', body: { name: $('#amb-name').value, description: $('#amb-desc').value } });
     await navigator.clipboard.writeText(`${location.origin}/a/${r.token}`);
-    toast('등록했습니다. 전용 링크를 복사했습니다');
+    toast('登録しました。専用リンクをコピーしました');
     $('#amb-add').reset();
     loadAmbassadors();
   } catch (err) { toast(err.message, true); }
 });
 
-// ══════════ 초기화 ══════════
+// ══════════ 初期化 ══════════
 async function init() {
   await loadAmbassadors();
   await loadSubs();
 }
 
-// 세션이 살아있으면 바로 메인 표시
+// セッションが生きていればそのままメイン表示
 (async () => {
   try {
     await api('/api/admin/ambassadors');

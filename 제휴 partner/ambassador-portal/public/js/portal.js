@@ -1,4 +1,4 @@
-// アンバサダーポータル
+// アンバサダー活動・精算ダッシュボード
 const token = (location.pathname.match(/\/a\/([^/]+)/) || [])[1];
 
 const TYPE_LABELS = {
@@ -88,24 +88,47 @@ function summaryLine(s) {
   }
 }
 
-// 集計：確定金額（承認済み）と種別件数（差し戻し除く）
-function calcStats(subs) {
-  const st = { amount: 0, content: 0, webinar: 0, referral: 0 };
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function billOf(s) {
+  return s.bill_id ? (DATA.bills || []).find((b) => b.id === s.bill_id) : null;
+}
+
+// ── サマリー：種別×期間（件数＋確定金額） ──
+function statsOf(subs) {
+  const mk = () => ({ n: 0, amt: 0 });
+  const st = { content: mk(), webinar: mk(), referral: mk() };
   for (const s of subs) {
-    if (s.status === 'approved') st.amount += s.approved_amount || 0;
     if (s.status === 'rejected') continue;
-    if (s.type === 'content') st.content++;
-    else if (s.type === 'webinar') st.webinar++;
-    else if (s.type === 'referral' || s.type === 'adjustment') st.referral++;
+    const key = s.type === 'content' ? 'content' : s.type === 'webinar' ? 'webinar' : 'referral';
+    st[key].n++;
+    if (s.status === 'approved') st[key].amt += s.approved_amount || 0;
   }
+  st.total = { n: st.content.n + st.webinar.n + st.referral.n, amt: st.content.amt + st.webinar.amt + st.referral.amt };
   return st;
 }
 
-function countsHtml(st, capNote) {
-  const cap = capNote != null
-    ? `<b class="${capNote >= 5 ? 'over' : ''}">${capNote}/5件</b>`
-    : `<b>${st.content}</b>`;
-  return `コンテンツ ${cap} ・ セミナー <b>${st.webinar}</b> ・ 紹介 <b>${st.referral}</b>`;
+function renderSummary() {
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+  const nowMonth = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 7);
+  const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toLocaleDateString('sv-SE').slice(0, 7);
+
+  const all = statsOf(DATA.submissions);
+  const last = statsOf(DATA.submissions.filter((s) => actMonth(s) === lastMonth));
+  const cur = statsOf(DATA.submissions.filter((s) => actMonth(s) === nowMonth));
+
+  const cell = (c) => `<td><span class="cnt">${c.n}件</span> ${yen(c.amt)}</td>`;
+  const cap = DATA.content_count_this_month ?? cur.content.n;
+  const capHtml = `<span class="cnt ${cap >= 5 ? 'over' : ''}" style="${cap >= 5 ? 'color:var(--red);font-weight:700' : ''}">${cap}/5件</span> ${yen(cur.content.amt)}`;
+
+  $('#sum-body').innerHTML = `
+    <tr><td>コンテンツ</td>${cell(all.content)}${cell(last.content)}<td>${capHtml}</td></tr>
+    <tr><td>ウェビナー・セミナー</td>${cell(all.webinar)}${cell(last.webinar)}${cell(cur.webinar)}</tr>
+    <tr><td>紹介・その他</td>${cell(all.referral)}${cell(last.referral)}${cell(cur.referral)}</tr>
+    <tr class="total"><td>リワード小計</td><td>${yen(all.total.amt)}</td><td>${yen(last.total.amt)}</td><td>${yen(cur.total.amt)}</td></tr>
+  `;
 }
 
 function render() {
@@ -113,23 +136,9 @@ function render() {
   $('#error-view').style.display = 'none';
   $('#greeting').textContent = `こんにちは、${DATA.ambassador.name} さん`;
 
-  // ── サマリー：先月・今月・累計（実施月ベース） ──
-  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
-  const nowMonth = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' }).slice(0, 7);
-  const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toLocaleDateString('sv-SE').slice(0, 7);
+  renderSummary();
 
-  const stThis = calcStats(DATA.submissions.filter((s) => actMonth(s) === nowMonth));
-  const stLast = calcStats(DATA.submissions.filter((s) => actMonth(s) === lastMonth));
-  const stAll = calcStats(DATA.submissions);
-
-  $('#sum-last').textContent = yen(stLast.amount);
-  $('#cnt-last').innerHTML = countsHtml(stLast);
-  $('#sum-month').textContent = yen(stThis.amount);
-  $('#cnt-month').innerHTML = countsHtml(stThis, DATA.content_count_this_month ?? stThis.content);
-  $('#sum-total').textContent = yen(stAll.amount);
-  $('#cnt-total').innerHTML = countsHtml(stAll);
-
-  // ── 履歴：月フィルター選択肢（データに存在する実施月） ──
+  // 履歴：月フィルター選択肢（データに存在する実施月）
   const monthSel = $('#hist-month');
   const months = [...new Set(DATA.submissions.map(actMonth))].sort().reverse();
   const cur = monthSel.value;
@@ -138,27 +147,28 @@ function render() {
   if (months.includes(cur)) monthSel.value = cur;
 
   renderHistory();
-  renderSettle();
+  renderRewards();
 
   // 紹介日デフォルト＝今日
   const refDate = document.querySelector('#form-referral input[name=referral_date]');
   if (refDate && !refDate.value) refDate.value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
 }
 
-// ── 履歴リスト＋小計（実施月フィルター適用） ──
+// ── 活動履歴（リワード案件列つき） ──
 function renderHistory() {
   const month = $('#hist-month').value;
   const subs = month ? DATA.submissions.filter((s) => actMonth(s) === month) : DATA.submissions;
 
   const list = $('#history-list');
   if (!subs.length) {
-    list.innerHTML = '<p class="muted" style="padding:12px 10px">該当する提出はありません。</p>';
+    list.innerHTML = '<p class="muted" style="padding:12px 10px">該当する提出はありません。上のボタンから報告できます。</p>';
     $('#hist-subtotal').innerHTML = '';
     return;
   }
 
   list.innerHTML = subs.map((s) => {
     const files = (DATA.files || []).filter((f) => f.submission_id === s.id);
+    const bill = billOf(s);
     const isFixed = s.status === 'approved';
     const amountHtml = isFixed
       ? yen(s.approved_amount)
@@ -176,14 +186,19 @@ function renderHistory() {
         <span class="h-title" title="${escapeHtml(summaryLine(s))}">${escapeHtml(summaryLine(s))}</span>
         <span class="h-amount">${amountHtml}</span>
         <span class="h-status"><span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></span>
+        <span class="h-bill" style="text-align:center">${bill ? `<span class="bill-link" data-bill="${bill.id}">${escapeHtml(bill.title)}</span>` : '<span class="muted">—</span>'}</span>
       </div>
       ${extra ? `<div class="hist-extra">${extra}</div>` : ''}
     </div>`;
   }).join('');
 
-  // 行クリック → 提出内訳ポップアップ
+  // 行クリック → 提出内訳ポップアップ／リワード案件クリック → リワード確認タブへフォーカス
   list.querySelectorAll('.hist-row').forEach((row) => {
-    row.addEventListener('click', () => openSubmissionDetail(Number(row.dataset.id)));
+    row.addEventListener('click', (e) => {
+      const link = e.target.closest('.bill-link');
+      if (link) { focusBill(Number(link.dataset.bill)); return; }
+      openSubmissionDetail(Number(row.dataset.id));
+    });
   });
 
   // 小計（種別ごと）＋合計
@@ -204,12 +219,12 @@ function renderHistory() {
     '<div class="caption">金額は承認済みの確定分のみ。件数は差し戻しを除く。</div>';
 }
 
-// ── 精算タブ：支払い単位（運営作成）ごとに1行 ──
-function renderSettle() {
+// ── リワード確認タブ ──
+function renderRewards() {
   const tbody = $('#settle-table tbody');
   const bills = DATA.bills || [];
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="muted">精算はまだありません。承認済みの活動は運営側でまとめられ、こちらに表示されます。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="muted">リワード案件はまだありません。承認済みの活動は運営側でまとめられ、こちらに表示されます。</td></tr>';
     return;
   }
 
@@ -218,8 +233,8 @@ function renderSettle() {
     const total = items.reduce((a, s) => a + (s.approved_amount || 0), 0);
     const isPaid = !!b.method;
 
-    const detailRows = items.map((s) => `
-      <div class="settle-detail-row">
+    const childRows = items.map((s) => `
+      <div class="settle-detail-row child-act" data-id="${s.id}" style="cursor:pointer">
         <span>${fmtDate(actDate(s))}</span>
         <span><span class="badge type">${TYPE_LABELS[s.type]}</span></span>
         <span class="h-title">${escapeHtml(summaryLine(s))}</span>
@@ -227,34 +242,67 @@ function renderSettle() {
       </div>`).join('');
 
     return `
-      <tr class="clickable settle-row" data-id="${b.id}">
+      <tr class="clickable settle-row" data-id="${b.id}" id="bill-row-${b.id}">
         <td>${fmtDate(b.created_at)}</td>
         <td><b>${escapeHtml(b.title)}</b></td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
         <td><span class="badge ${isPaid ? 'paid' : 'submitted'}">${isPaid ? '支払い済み' : '支払い前'}</span></td>
-        <td>${isPaid ? `<button class="ghost btn-sm btn-paydetail" data-id="${b.id}">内容を見る</button>` : '<span class="muted">—</span>'}</td>
+        <td>${isPaid ? `<button class="ghost btn-sm btn-paydetail" data-id="${b.id}">詳細確認</button>` : '<span class="muted">—</span>'}</td>
       </tr>
       <tr class="settle-detail" id="detail-${b.id}" style="display:none">
-        <td colspan="6">${detailRows || '<span class="muted">内訳がありません</span>'}</td>
+        <td colspan="6" style="padding:6px 10px 12px">
+          <div class="bill-children">
+            <div class="bc-head">▼ このリワード案件の対象活動（${items.length}件）— タップで詳細</div>
+            ${childRows || '<span class="muted">内訳がありません</span>'}
+          </div>
+        </td>
       </tr>`;
   }).join('');
 
-  // 行クリック → 内訳トグル
+  // 行クリック → 内訳トグル＋フォーカス表示
   tbody.querySelectorAll('.settle-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
       if (e.target.closest('.btn-paydetail')) return;
-      const detail = document.getElementById('detail-' + tr.dataset.id);
-      detail.style.display = detail.style.display === 'none' ? '' : 'none';
+      toggleBill(Number(tr.dataset.id));
     });
   });
-  // 支払い内容ポップアップ
+  // リワード詳細ポップアップ
   tbody.querySelectorAll('.btn-paydetail').forEach((btn) => {
     btn.addEventListener('click', () => openPaymentDetail(Number(btn.dataset.id)));
   });
+  // 対象活動クリック → 提出内訳ポップアップ
+  tbody.querySelectorAll('.child-act').forEach((row) => {
+    row.addEventListener('click', () => openSubmissionDetail(Number(row.dataset.id)));
+  });
 }
 
-// ── 支払い内容ポップアップ ──
+// 開閉＋フォーカス（開いている行 = focused 表示）
+function toggleBill(billId, forceOpen = false) {
+  const row = document.getElementById('bill-row-' + billId);
+  const detail = document.getElementById('detail-' + billId);
+  if (!row || !detail) return;
+  const willOpen = forceOpen || detail.style.display === 'none';
+  // 他の行のフォーカスを解除
+  document.querySelectorAll('#settle-table .settle-row.focused').forEach((r) => {
+    if (r !== row) {
+      r.classList.remove('focused');
+      const d = document.getElementById('detail-' + r.dataset.id);
+      if (d) d.style.display = 'none';
+    }
+  });
+  detail.style.display = willOpen ? '' : 'none';
+  row.classList.toggle('focused', willOpen);
+}
+
+// 履歴のリワード案件クリック → リワード確認タブへ移動してフォーカス
+function focusBill(billId) {
+  setMode('reward');
+  toggleBill(billId, true);
+  document.getElementById('bill-row-' + billId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── リワード詳細ポップアップ ──
 function openPaymentDetail(billId) {
   const b = (DATA.bills || []).find((x) => x.id === billId);
   if (!b) return;
@@ -272,14 +320,15 @@ function openPaymentDetail(billId) {
       <ul>${b.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
     </div>` : ''}
   `;
-  openModal(`支払い内容（${escapeHtml(b.title)}）`, body);
+  openModal(`リワード（${escapeHtml(b.title)}）`, body);
 }
 
-// ── 提出内訳ポップアップ（履歴の行クリック） ──
+// ── 提出内訳ポップアップ ──
 function openSubmissionDetail(id) {
   const s = DATA.submissions.find((x) => x.id === id);
   if (!s) return;
   const files = (DATA.files || []).filter((f) => f.submission_id === id);
+  const bill = billOf(s);
 
   const rows = Object.entries(s.payload || {})
     .filter(([, v]) => v !== '' && v != null)
@@ -293,6 +342,7 @@ function openSubmissionDetail(id) {
     <dl class="kv">
       <dt>実施日</dt><dd>${fmtDate(actDate(s))}</dd>
       <dt>金額</dt><dd>${isFixed ? `<b>${yen(s.approved_amount)}</b>（確定）` : s.suggested_amount != null ? `目安 ${yen(s.suggested_amount)}（確認中）` : '確認中'}</dd>
+      ${bill ? `<dt>リワード案件</dt><dd>${escapeHtml(bill.title)}</dd>` : ''}
       ${rows}
       ${s.status === 'rejected' && s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
     </dl>
@@ -310,57 +360,42 @@ function openModal(title, html) {
 $('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
 $('#p-modal-bg').addEventListener('click', (e) => { if (e.target === $('#p-modal-bg')) $('#p-modal-bg').classList.remove('open'); });
 
-function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
-
-// ── モード切替 ──
+// ── タブ切替 ──
 function setMode(mode) {
   document.querySelectorAll('.mode-btn').forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
-  $('#mode-submit').style.display = mode === 'submit' ? '' : 'none';
-  $('#mode-history').style.display = mode === 'history' ? '' : 'none';
-  $('#mode-settle').style.display = mode === 'settle' ? '' : 'none';
-  if (mode === 'submit') showMenu(); // 提出モードに入るときはメニューから
+  $('#mode-report').style.display = mode === 'report' ? '' : 'none';
+  $('#mode-reward').style.display = mode === 'reward' ? '' : 'none';
 }
 document.querySelectorAll('.mode-btn').forEach((btn) => {
   btn.addEventListener('click', () => setMode(btn.dataset.mode));
 });
 
-// ── 提出メニュー ⇄ フォーム ──
-function showMenu() {
-  $('#submit-menu').style.display = '';
-  document.querySelectorAll('.form-panel').forEach((p) => (p.style.display = 'none'));
-}
-function showForm(type) {
-  $('#submit-menu').style.display = 'none';
-  document.querySelectorAll('.form-panel').forEach((p) => (p.style.display = 'none'));
-  $(`#panel-${type}`).style.display = '';
-  window.scrollTo({ top: 0 });
-}
-document.querySelectorAll('.menu-card').forEach((card) => {
-  card.addEventListener('click', () => showForm(card.dataset.form));
-});
-document.querySelectorAll('.back-btn').forEach((btn) => {
-  btn.addEventListener('click', showMenu);
-});
-
-// ── ウェビナー報告:形式によって紹介時間フィールド切替 ──
-document.querySelectorAll('#form-webinar input[name=webinar_type]').forEach((r) => {
-  r.addEventListener('change', () => {
-    const isGeneral = r.value === 'general' && r.checked;
-    const field = $('#exposure-field');
-    field.style.display = isGeneral ? '' : 'none';
-    field.querySelector('input').required = isGeneral;
+// ── 提出フォーム（ポップアップ）開閉 ──
+document.querySelectorAll('.submit-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.getElementById(`fm-${btn.dataset.form}-bg`).classList.add('open');
   });
 });
+document.querySelectorAll('[data-close]').forEach((btn) => {
+  btn.addEventListener('click', () => document.getElementById(btn.dataset.close).classList.remove('open'));
+});
+document.querySelectorAll('#fm-content-bg, #fm-webinar-bg, #fm-referral-bg').forEach((bg) => {
+  bg.addEventListener('click', (e) => { if (e.target === bg) bg.classList.remove('open'); });
+});
 
-// ── 紹介:個人/コミュニティ切替 ──
-document.querySelectorAll('#form-referral input[name=referral_kind]').forEach((r) => {
-  r.addEventListener('change', () => {
-    const isPerson = document.querySelector('#form-referral input[name=referral_kind]:checked').value === 'person';
-    $('#referral-person').style.display = isPerson ? '' : 'none';
-    $('#referral-community').style.display = isPerson ? 'none' : '';
-  });
+// ── ウェビナー：形式によって紹介時間フィールド切替 ──
+document.querySelector('#form-webinar select[name=webinar_type]').addEventListener('change', (e) => {
+  const isGeneral = e.target.value === 'general';
+  const field = $('#exposure-field');
+  field.style.visibility = isGeneral ? 'visible' : 'hidden';
+  field.querySelector('input').required = isGeneral;
+});
+
+// ── 紹介：個人/コミュニティ切替 ──
+$('#referral-kind').addEventListener('change', (e) => {
+  const isPerson = e.target.value === 'person';
+  $('#referral-person').style.display = isPerson ? '' : 'none';
+  $('#referral-community').style.display = isPerson ? 'none' : '';
 });
 
 // ── 送信 ──
@@ -372,7 +407,7 @@ async function submitForm(type, form) {
     payload[k] = v;
   }
 
-  // 紹介フォーム:種類別の必須チェック
+  // 紹介フォーム：種類別の必須チェック
   if (type === 'referral') {
     const kind = payload.referral_kind;
     const required = kind === 'person'
@@ -402,8 +437,9 @@ async function submitForm(type, form) {
     if (!res.ok) throw new Error(data.error || 'error');
     toast('送信しました。運営確認後にステータスが更新されます。');
     form.reset();
+    document.getElementById(`fm-${type}-bg`).classList.remove('open');
     await load();
-    setMode('history'); // 送信後は活動履歴へ
+    setMode('report');
   } catch (e) {
     toast('送信に失敗しました：' + e.message, true);
   } finally {
