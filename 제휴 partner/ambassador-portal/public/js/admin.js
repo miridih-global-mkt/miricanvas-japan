@@ -547,7 +547,7 @@ async function loadAmbassadors() {
     <tr>
       <td>${escapeHtml(a.name)}</td>
       <td>${escapeHtml(a.description || '')}</td>
-      <td><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}">編集</button></td>
+      <td style="white-space:nowrap"><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}">編集</button></td>
       <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
       <td style="white-space:nowrap">
         <button class="ghost btn-sm" data-copy="${a.token}">コピー</button>
@@ -564,12 +564,9 @@ async function loadAmbassadors() {
     });
   });
   tbody.querySelectorAll('.btn-edit-desc').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const next = prompt('説明を編集', btn.dataset.desc);
-      if (next === null) return;
-      await api(`/api/admin/ambassadors/${btn.dataset.id}`, { method: 'PATCH', body: { description: next } });
-      toast('説明を更新しました');
-      loadAmbassadors();
+    btn.addEventListener('click', () => {
+      const a = AMBS.find((x) => x.id === Number(btn.dataset.id));
+      if (a) openAmbEditModal(a);
     });
   });
   tbody.querySelectorAll('[data-reissue]').forEach((btn) => {
@@ -590,6 +587,28 @@ async function loadAmbassadors() {
     });
   });
 }
+
+// ── アンバサダー編集モーダル ──
+let AMB_EDIT_ID = null;
+
+function openAmbEditModal(a) {
+  AMB_EDIT_ID = a.id;
+  $('#amb-edit-name').value = a.name;
+  $('#amb-edit-desc').value = a.description || '';
+  $('#amb-modal-bg').classList.add('open');
+}
+
+$('#amb-edit-submit').addEventListener('click', async () => {
+  if (!AMB_EDIT_ID) return;
+  const name = $('#amb-edit-name').value.trim();
+  if (!name) return toast('名前を入力してください', true);
+  try {
+    await api(`/api/admin/ambassadors/${AMB_EDIT_ID}`, { method: 'PATCH', body: { name, description: $('#amb-edit-desc').value } });
+    toast('更新しました');
+    $('#amb-modal-bg').classList.remove('open');
+    loadAmbassadors();
+  } catch (e) { toast(e.message, true); }
+});
 
 $('#amb-add').addEventListener('submit', async (e) => {
   e.preventDefault();
