@@ -26,7 +26,7 @@ export async function onRequestGet({ request, env }) {
 
   // 리워드 안건 (발송된 것만 앰버서더에게 노출)
   const { results: bills } = await env.DB.prepare(
-    `SELECT id, title, pay_month, method, gift_codes, transfer_date, sent_at, created_at
+    `SELECT id, title, memo, pay_month, method, gift_codes, transfer_date, sent_at, created_at
      FROM bills WHERE ambassador_id = ? AND sent_at IS NOT NULL
      ORDER BY sent_at DESC, id DESC`
   ).bind(amb.id).all();

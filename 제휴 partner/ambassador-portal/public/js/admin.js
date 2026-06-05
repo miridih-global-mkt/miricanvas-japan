@@ -284,7 +284,6 @@ function openBillModal(mode, bill = null) {
 
 $('#btn-make-bill').addEventListener('click', () => openBillModal({ kind: 'create', id: null }));
 $('#bill-close').addEventListener('click', () => $('#bill-modal-bg').classList.remove('open'));
-$('#bill-modal-bg').addEventListener('click', (e) => { if (e.target === $('#bill-modal-bg')) $('#bill-modal-bg').classList.remove('open'); });
 
 $('#bill-submit').addEventListener('click', async () => {
   const v = billFormValues();
@@ -377,7 +376,7 @@ function openDetail(id) {
 
 function closeModal() { $('#modal-bg').classList.remove('open'); }
 $('#modal-close').addEventListener('click', closeModal);
-$('#modal-bg').addEventListener('click', (e) => { if (e.target === $('#modal-bg')) closeModal(); });
+// ※ 誤操作防止のため、背景クリックでは閉じない（「閉じる」ボタンのみ）
 
 // ══════════ 手動追加（運営精算） ══════════
 $('#btn-adj').addEventListener('click', () => {
@@ -387,7 +386,6 @@ $('#btn-adj').addEventListener('click', () => {
   $('#adj-modal-bg').classList.add('open');
 });
 $('#adj-close').addEventListener('click', () => $('#adj-modal-bg').classList.remove('open'));
-$('#adj-modal-bg').addEventListener('click', (e) => { if (e.target === $('#adj-modal-bg')) $('#adj-modal-bg').classList.remove('open'); });
 
 $('#adj-submit').addEventListener('click', async () => {
   try {

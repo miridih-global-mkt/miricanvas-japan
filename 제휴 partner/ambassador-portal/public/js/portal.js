@@ -270,9 +270,7 @@ document.querySelectorAll('.submit-btn').forEach((btn) => {
 document.querySelectorAll('[data-close]').forEach((btn) => {
   btn.addEventListener('click', () => document.getElementById(btn.dataset.close).classList.remove('open'));
 });
-document.querySelectorAll('#fm-content-bg, #fm-webinar-bg, #fm-referral-bg').forEach((bg) => {
-  bg.addEventListener('click', (e) => { if (e.target === bg) bg.classList.remove('open'); });
-});
+// ※ 誤操作防止のため、背景クリックでは閉じない（「閉じる」ボタンのみ）
 
 // 条件付きフィールド切替
 document.querySelector('#form-webinar select[name=webinar_type]').addEventListener('change', (e) => {
@@ -368,6 +366,9 @@ function renderHistory() {
       : s.suggested_amount != null
         ? `<span class="est">目安 ${yen(s.suggested_amount)}</span>`
         : '<span class="est">—</span>';
+    // リワード受領日（発送済みの案件に含まれる場合のみ）
+    const bill = s.bill_id ? (DATA.bills || []).find((b) => b.id === s.bill_id) : null;
+    const recv = bill ? fmtDate((bill.method === 'transfer' && bill.transfer_date) ? bill.transfer_date : bill.sent_at) : '';
     const extra = [
       files.length ? `<div class="files">📎 ${files.map((f) => `<a href="/api/files/${f.id}?token=${encodeURIComponent(token)}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</div>` : '',
       s.status === 'rejected' && s.admin_note ? `<div class="note">運営より：${escapeHtml(s.admin_note)}</div>` : '',
@@ -379,6 +380,7 @@ function renderHistory() {
         <span class="h-title" title="${escapeHtml(summaryLine(s))}">${escapeHtml(summaryLine(s))}</span>
         <span class="h-amount">${amountHtml}</span>
         <span class="h-status"><span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></span>
+        <span class="h-recv">${recv ? '🎁 ' + recv : '<span class="muted">—</span>'}</span>
       </div>
       ${extra ? `<div class="hist-extra">${extra}</div>` : ''}
     </div>`;
@@ -413,7 +415,7 @@ function renderRewards() {
   const tbody = $('#settle-table tbody');
   const bills = DATA.bills || [];
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="4" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
     return;
   }
 
@@ -434,12 +436,13 @@ function renderRewards() {
     return `
       <tr class="clickable settle-row" data-id="${b.id}" id="bill-row-${b.id}">
         <td>${fmtDate(receivedDate)}</td>
+        <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted" style="font-size:12px">${escapeHtml(b.memo)}</span>` : ''}</td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
         <td><button class="ghost btn-sm btn-paydetail" data-id="${b.id}">詳細確認</button></td>
       </tr>
       <tr class="settle-detail" id="detail-${b.id}" style="display:none">
-        <td colspan="4">
+        <td colspan="5">
           <div class="nested-wrap"><table class="nested-table"><tbody>${childRows || ''}</tbody></table></div>
         </td>
       </tr>`;
@@ -525,7 +528,6 @@ function openModal(title, html) {
   $('#p-modal-bg').classList.add('open');
 }
 $('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
-$('#p-modal-bg').addEventListener('click', (e) => { if (e.target === $('#p-modal-bg')) $('#p-modal-bg').classList.remove('open'); });
 
 // ── タブ切替 ──
 function setMode(mode) {
