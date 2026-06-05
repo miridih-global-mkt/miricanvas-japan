@@ -43,7 +43,7 @@ const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&a
 const fmtDate = (s) => {
   if (!s) return '—';
   const [y, m, d] = s.slice(0, 10).split('-');
-  return `${y}/${Number(m)}/${Number(d)}`;
+  return `${y}/${m}/${d}`;
 };
 const fmtMonth = (m) => m ? m.replace('-', '年') + '月' : '';
 
@@ -169,11 +169,11 @@ function renderSubs() {
       <td>${fmtDate(actDate(s))}</td>
       <td>${escapeHtml(s.ambassador_name)}</td>
       <td><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
-      <td>${escapeHtml(payloadSummary(s))}</td>
+      <td class="cell-title" title="${escapeHtml(payloadSummary(s))}">${escapeHtml(payloadSummary(s))}</td>
       <td>${yen(s.suggested_amount)}</td>
       <td>${yen(s.approved_amount)}</td>
       <td><span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></td>
-      <td>${s.bill_title ? escapeHtml(s.bill_title) : '<span class="muted">—</span>'}</td>
+      <td>${s.bill_sent_at ? fmtDate(s.bill_sent_at) : s.bill_id ? '<span class="muted">発送待ち</span>' : '<span class="muted">—</span>'}</td>
     </tr>`;
   }).join('');
 

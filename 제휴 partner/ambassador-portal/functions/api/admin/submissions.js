@@ -23,7 +23,7 @@ export async function onRequestGet({ request, env }) {
 
   const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
   const { results } = await env.DB.prepare(
-    `SELECT s.*, a.name AS ambassador_name, b.title AS bill_title
+    `SELECT s.*, a.name AS ambassador_name, b.title AS bill_title, b.sent_at AS bill_sent_at
      FROM submissions s
      JOIN ambassadors a ON a.id = s.ambassador_id
      LEFT JOIN bills b ON b.id = s.bill_id
