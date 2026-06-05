@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>相談・資料請求｜法人向けMiriCanvas</title>
+  <meta name="description" content="MiriCanvasの導入のご相談・資料請求・無料トライアル（PoC）のお申し込みフォーム。企業・コミュニティ・教育機関・DX/AXパートナーのお問い合わせを受け付けています。1〜2営業日以内にご連絡します。">
+  <meta property="og:title" content="相談・資料請求｜法人向けMiriCanvas">
+  <meta property="og:description" content="導入のご相談・資料請求・無料トライアルのお申し込みはこちらから。">
+  <meta property="og:type" content="website">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-jp.min.css">
+  <link rel="stylesheet" href="assets/jp-type.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Pretendard JP', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: { DEFAULT: '#21afbf', hover: '#1b8b98', dark: '#1c95a2', light: '#e7f9fb', mid: '#b6ecf2' },
+            ink: '#0f1117', sub: '#515462', muted: '#73788c'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .reveal { opacity: 0; transform: translateY(2rem); }
+    .reveal.shown { animation: fadeInUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards; animation-delay: calc(var(--i, 0) * 90ms); }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(2rem); filter:blur(4px);} to { opacity:1; transform:translateY(0); filter:blur(0);} }
+    .mesh-bg {
+      background:
+        radial-gradient(38rem 24rem at 88% -10%, rgba(33,175,191,0.10), transparent 60%),
+        #ffffff;
+    }
+  </style>
+</head>
+<body class="bg-white text-ink antialiased">
+
+  <!-- ========== ページヘッダー ========== -->
+  <section class="mesh-bg border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-12 md:pb-14">
+      <div class="max-w-3xl">
+        <span class="inline-block rounded-full px-3 py-1 text-[11px] tracking-[0.15em] font-medium bg-brand/10 text-brand-dark uppercase reveal shown">Contact</span>
+        <h1 class="jp-head mt-5 text-3xl md:text-4xl font-bold reveal shown" style="--i:1">相談・資料請求</h1>
+        <p class="mt-5 text-[15px] text-sub leading-[1.9] reveal shown" style="--i:2">
+          導入のご相談、サービス紹介資料のご請求、無料トライアル（PoC）のお申し込みは、下記フォームからどうぞ。内容を確認のうえ、担当者より<span class="font-semibold text-ink">1〜2営業日以内</span>にご連絡いたします。
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3 reveal shown" style="--i:3">
+          <span class="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] text-sub">
+            <iconify-icon icon="solar:document-text-linear" class="text-brand-dark" width="16"></iconify-icon>サービス紹介資料をお送りします
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] text-sub">
+            <iconify-icon icon="solar:videocamera-linear" class="text-brand-dark" width="16"></iconify-icon>オンライン相談（30分〜）
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] text-sub">
+            <iconify-icon icon="solar:test-tube-linear" class="text-brand-dark" width="16"></iconify-icon>無料トライアル（PoC）のご相談
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== フォーム（前面配置） ========== -->
+  <div id="b2b-form" class="form-section"></div>
+
+  <!-- ========== 補助案内 ========== -->
+  <section class="bg-white border-t border-black/5">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <h2 class="jp-head text-xl md:text-2xl font-bold reveal">お問い合わせの前に</h2>
+      <div class="mt-7 space-y-4">
+        <details class="reveal bg-[#f7f9fc] rounded-2xl border border-black/5 p-6 group" style="--i:0">
+          <summary class="cursor-pointer font-bold text-[15px] list-none flex items-center justify-between">
+            返信はどのくらいで届きますか。
+            <iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-muted transition-transform duration-300 group-open:rotate-180"></iconify-icon>
+          </summary>
+          <p class="mt-4 text-[14px] text-sub leading-[1.9]">1〜2営業日以内に、ご記入いただいたメールアドレス宛にご連絡します。資料請求をご希望の場合は、サービス紹介資料を添えてお送りします。</p>
+        </details>
+        <details class="reveal bg-[#f7f9fc] rounded-2xl border border-black/5 p-6 group" style="--i:1">
+          <summary class="cursor-pointer font-bold text-[15px] list-none flex items-center justify-between">
+            導入前にセキュリティの確認は可能ですか。
+            <iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-muted transition-transform duration-300 group-open:rotate-180"></iconify-icon>
+          </summary>
+          <p class="mt-4 text-[14px] text-sub leading-[1.9]">可能です。ISO/IEC 27001・27701の認証情報やデータの取り扱いは<a href="security.html" class="text-brand-dark font-semibold">セキュリティページ</a>でご確認いただけます。貴社のセキュリティチェックシートへのご回答にも対応しています。</p>
+        </details>
+        <details class="reveal bg-[#f7f9fc] rounded-2xl border border-black/5 p-6 group" style="--i:2">
+          <summary class="cursor-pointer font-bold text-[15px] list-none flex items-center justify-between">
+            フォームが利用できない場合は。
+            <iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-muted transition-transform duration-300 group-open:rotate-180"></iconify-icon>
+          </summary>
+          <p class="mt-4 text-[14px] text-sub leading-[1.9]">メールでも受け付けています。<span class="font-semibold text-ink">team.miricanvas.jp@miridih.com</span> 宛に、会社名・お名前・ご相談内容をお送りください。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/components.js"></script>
+  <script src="assets/form.js"></script>
+  <script>
+    B2BForm.mount('#b2b-form');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('shown'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal:not(.shown)').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
