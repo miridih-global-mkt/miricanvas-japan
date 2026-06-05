@@ -450,7 +450,7 @@ function renderBills() {
       <td>${b.count}件</td>
       <td><b>${yen(b.total)}</b></td>
       <td>${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
-      <td>${isSent ? fmtDate(b.sent_at) : `<button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`}</td>
+      <td>${isSent ? fmtDate(b.sent_at) : `<button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0;padding:0 14px">発送</button>`}</td>
     </tr>`;
   }).join('');
 

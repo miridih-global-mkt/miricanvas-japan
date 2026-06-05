@@ -130,8 +130,8 @@ function bigYen(n) {
 }
 
 function breakdownHtml(st, cap) {
-  const row = (label, c, capStr) => `<div class="bd-row"><span>${label}</span><span>${capStr ?? c.n + '件'}・<b>${yen(c.amt)}</b></span></div>`;
-  return row('コンテンツ', st.content, cap != null ? `<span class="${cap >= 5 ? 'over' : ''}">${cap}/5件</span>・<b>${yen(st.content.amt)}</b>` : null)
+  const row = (label, c, cntStr) => `<div class="bd-row"><span>${label}</span><span>${cntStr ?? c.n + '件'}・<b>${yen(c.amt)}</b></span></div>`;
+  return row('コンテンツ', st.content, cap != null ? `<span class="${cap >= 5 ? 'over' : ''}">${cap}/5件</span>` : null)
     + row('セミナー', st.webinar)
     + row('紹介・他', st.referral);
 }
@@ -158,9 +158,27 @@ function render() {
   $('#error-view').style.display = 'none';
   $('#greeting').textContent = `こんにちは、${DATA.ambassador.name} さん`;
   renderSummary();
+
+  // 履歴の年月ドロップダウン（実際に内訳が存在する月のみ）
+  const monthSel = $('#hist-month');
+  const months = [...new Set(DATA.submissions.map(actMonth))].sort().reverse();
+  const cur = monthSel.value;
+  monthSel.innerHTML = '<option value="">全期間</option>' +
+    months.map((m) => `<option value="${m}">${fmtMonth(m)}</option>`).join('');
+  if (months.includes(cur)) monthSel.value = cur;
+
   renderHistory();
   renderRewards();
   renderDrafts();
+}
+
+// 「20260508」「2026-05-08」どちらでもOK → YYYY-MM-DD に正規化（無効な日付は null）
+function normDate(s) {
+  const d = String(s || '').replace(/[^0-9]/g, '');
+  if (d.length !== 8) return null;
+  const iso = `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`;
+  const t = new Date(iso + 'T00:00:00Z');
+  return (!isNaN(t) && t.toISOString().slice(0, 10) === iso) ? iso : null;
 }
 
 // ══════════ 活動報告（まとめて提出） ══════════
@@ -392,6 +410,12 @@ async function handleFormSubmit(type, form) {
     payload.channels = getChips(form, 'channels');
     payload.tracks = getChips(form, 'tracks');
     if (!payload.channels.length) { toast('活動チャネルを1つ以上選択してください', true); return; }
+  }
+
+  if (type === 'webinar') {
+    const norm = normDate(payload.event_date);
+    if (!norm) { toast('開催日は「2026-05-08」または「20260508」の形式で入力してください', true); return; }
+    payload.event_date = norm;
   }
 
   if (FORM_MODE.kind === 'sub-edit') {

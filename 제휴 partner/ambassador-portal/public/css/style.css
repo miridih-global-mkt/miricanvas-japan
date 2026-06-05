@@ -263,17 +263,20 @@ button.primary {
 }
 button.primary:hover { background: var(--accent-dark); box-shadow: 0 3px 10px rgba(14,154,171,.3); }
 button.primary:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+/* ボタンのサイズ体系：表内 28px ／ 通常 36px ／ フォーム行 42px ／ モーダル下部 46px */
 button.ghost {
   background: #fff; border: 1px solid var(--border); color: var(--text);
-  border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: inherit;
+  border-radius: 8px; height: 36px; padding: 0 14px; font-size: 13.5px; cursor: pointer; font-family: inherit;
 }
 button.ghost:hover { border-color: var(--accent-bright); color: var(--accent); background: var(--accent-light); }
 button.danger {
   background: #fff; border: 1px solid #f3b6b1; color: var(--red);
-  border-radius: 8px; padding: 8px 14px; font-size: 13px; cursor: pointer; font-family: inherit;
+  border-radius: 8px; height: 36px; padding: 0 14px; font-size: 13.5px; cursor: pointer; font-family: inherit;
 }
 button.danger:hover { border-color: var(--red); background: var(--red-bg); }
-.btn-sm { padding: 4px 10px !important; font-size: 12px !important; }
+.btn-sm { height: 28px !important; padding: 0 10px !important; font-size: 12px !important; border-radius: 7px !important; }
+.btn-inline { width: auto !important; margin: 0 !important; height: 36px !important; padding: 0 18px !important; font-size: 14px !important; }
+.filters .btn-inline { height: 42px !important; }
 
 /* ── ステータスバッジ ── */
 .badge { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }

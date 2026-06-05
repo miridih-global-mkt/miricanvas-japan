@@ -69,7 +69,7 @@
     <section class="card">
       <div class="card-head">
         <h2>活動履歴</h2>
-        <input type="month" id="hist-month" class="month-select" title="空欄で全期間">
+        <select id="hist-month" class="month-select"><option value="">全期間</option></select>
       </div>
       <div class="hist">
         <div class="hist-head">
@@ -160,7 +160,8 @@
         <label class="cfield full">タイトル・テーマ<span class="req">*</span>
           <input type="text" name="title" required placeholder="例：AI資料作成セミナー"></label>
         <label class="cfield">開催日<span class="req">*</span>
-          <input type="date" name="event_date" required></label>
+          <input type="text" name="event_date" required inputmode="numeric" maxlength="10"
+                 placeholder="2026-05-08（数字のみ可）"></label>
         <label class="cfield">形式<span class="req">*</span>
           <select name="webinar_type" required>
             <option value="">選択してください</option>
