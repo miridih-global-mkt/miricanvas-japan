@@ -73,7 +73,7 @@
       </div>
       <div class="hist">
         <div class="hist-head">
-          <span>実施日</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span><span class="c">リワード受領日</span>
+          <span>日付</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span><span class="c">リワード受領日</span>
         </div>
         <div id="history-list"></div>
       </div>
@@ -123,14 +123,6 @@
           </select></label>
         <label class="cfield full">コンテンツURL<span class="req">*</span>
           <input type="url" name="url" required placeholder="https://..."></label>
-        <label class="cfield">掲載チャネル<span class="req">*</span>
-          <select name="channel" required>
-            <option value="">選択</option>
-            <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
-            <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
-          </select></label>
-        <label class="cfield">公開日<span class="req">*</span>
-          <input type="date" name="published_date" required></label>
         <label class="cfield full">補足（任意）
           <input type="text" name="memo" placeholder="併用AIツールなど"></label>
       </div>
@@ -162,20 +154,31 @@
             <option value="targeted">ターゲット向け（参加者×500円）</option>
             <option value="general">不特定多数向け（時間別1〜5万円）</option>
           </select></label>
-        <label class="cfield">実参加人数<span class="req">*</span>
-          <input type="number" name="participants" min="0" required></label>
-        <label class="cfield" id="exposure-field" style="visibility:hidden">MiriCanvas紹介時間（分）<span class="req">*</span>
-          <input type="number" name="exposure_minutes" min="1"></label>
-        <label class="cfield file-field">発表資料（PDF等）
-          <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
-        <label class="cfield file-field">現場写真（複数可・任意）
-          <input type="file" name="photos" multiple accept="image/*"></label>
-        <label class="cfield">併用したAIツール（任意）
-          <input type="text" name="ai_tools" placeholder="例：ChatGPT"></label>
-        <label class="cfield">補足（任意）
-          <input type="text" name="memo" placeholder="参加者の確認方法など"></label>
-        <label class="consent full"><input type="checkbox" name="photo_consent" value="no">
-          写真の二次利用（広告素材への活用・顔はモザイク処理）を<b>希望しない</b>場合はチェックしてください</label>
+        <label class="cfield full" id="participants-field" style="display:none">実参加人数<span class="req">*</span>
+          <input type="number" name="participants" min="0"></label>
+        <label class="cfield full">メモ（任意）
+          <input type="text" name="memo" placeholder="参加者の確認方法、併用AIツールなど"></label>
+
+        <div class="cfield full file-field">発表資料（PDF等・任意）
+          <div class="dropzone" data-name="slides">
+            <input type="file" multiple accept=".pdf,.ppt,.pptx,.key,image/*" hidden>
+            <div class="dz-prompt">📄 ここにドラッグ＆ドロップ、またはクリックして選択</div>
+            <div class="dz-list"></div>
+          </div>
+        </div>
+        <div class="cfield full file-field">現場写真（任意）
+          <div class="dropzone" data-name="photos">
+            <input type="file" multiple accept="image/*" hidden>
+            <div class="dz-prompt">🖼️ ここにドラッグ＆ドロップ、またはクリックして選択</div>
+            <div class="dz-list"></div>
+          </div>
+        </div>
+
+        <label class="consent-card full">
+          <input type="checkbox" name="photo_consent" value="no">
+          <span><b>写真の二次利用を希望しない</b><br>
+          <span class="consent-sub">チェックがない場合、広告素材として活用させていただくことがあります（顔はモザイク処理）</span></span>
+        </label>
       </div>
       <div class="modal-actions">
         <button class="primary" type="submit">リストに追加</button>
@@ -200,43 +203,32 @@
             <option value="person">個人（発信者・講師など）</option>
             <option value="community">コミュニティ</option>
           </select></label>
+        <label class="cfield" id="referral-name-label">お名前（活動名）<span class="req">*</span>
+          <input type="text" name="name" required></label>
+        <label class="cfield">ご自身との関係<span class="req">*</span>
+          <input type="text" name="relation" required placeholder="例：知人"></label>
 
-        <div class="full form-grid" id="referral-person" style="padding:0">
-          <label class="cfield">お名前（活動名）<span class="req">*</span>
-            <input type="text" name="p_name"></label>
-          <label class="cfield">メインチャネル<span class="req">*</span>
-            <select name="p_main_channel">
-              <option value="">選択</option>
-              <option>YouTube</option><option>X (Twitter)</option><option>Instagram</option>
-              <option>TikTok</option><option>note</option><option>ブログ</option><option>その他</option>
-            </select></label>
-          <label class="cfield full">SNSのURL<span class="req">*</span>
-            <input type="url" name="p_sns_url" placeholder="https://..."></label>
-          <label class="cfield full">得意分野<span class="req">*</span>
-            <select name="p_track">
-              <option value="">選択</option>
-              <option value="ai">AI・資料作成系</option>
-              <option value="design">デザイン系</option>
-            </select></label>
+        <div class="cfield full">メインの活動チャネル<span class="req">*</span>（複数選択可）
+          <div class="chip-select" data-name="channels">
+            <button type="button" class="chip" data-v="corp_seminar">🏢 企業講演・コンサル</button>
+            <button type="button" class="chip" data-v="seminar">🎤 勉強会・セミナー</button>
+            <button type="button" class="chip" data-v="sns">📱 SNS・YouTube</button>
+            <button type="button" class="chip" data-v="blog">✏️ ブログ・note</button>
+            <button type="button" class="chip" data-v="community_mgmt">👥 コミュニティ運営</button>
+          </div>
         </div>
 
-        <div class="full form-grid" id="referral-community" style="display:none;padding:0">
-          <label class="cfield">コミュニティ名<span class="req">*</span>
-            <input type="text" name="c_name"></label>
-          <label class="cfield">規模（会員数目安）<span class="req">*</span>
-            <input type="text" name="c_size" placeholder="例：約3,000名"></label>
-          <label class="cfield">分野<span class="req">*</span>
-            <input type="text" name="c_field" placeholder="例：AI副業"></label>
-          <label class="cfield">運営者・代表者
-            <input type="text" name="c_owner"></label>
+        <div class="cfield full">得意分野（複数選択可）
+          <div class="chip-select" data-name="tracks">
+            <button type="button" class="chip" data-v="ai">🤖 AI活用</button>
+            <button type="button" class="chip" data-v="docs">📊 資料作成・PPT</button>
+            <button type="button" class="chip" data-v="design">🎨 デザイン</button>
+            <button type="button" class="chip" data-v="efficiency">⚡ 業務効率化</button>
+          </div>
         </div>
 
         <label class="cfield full">紹介理由（1〜2行）<span class="req">*</span>
           <textarea name="reason" required rows="2"></textarea></label>
-        <label class="cfield">ご自身との関係<span class="req">*</span>
-          <input type="text" name="relation" required placeholder="例：知人"></label>
-        <label class="cfield">紹介日<span class="req">*</span>
-          <input type="date" name="referral_date" required></label>
       </div>
       <div class="modal-actions">
         <button class="primary" type="submit">リストに追加</button>

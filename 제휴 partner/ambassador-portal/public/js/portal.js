@@ -28,11 +28,21 @@ const FIELD_LABELS = {
   participants: '実参加人数', ai_tools: '併用AIツール',
   exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真の二次利用',
   referral_kind: '紹介種類', referral_date: '紹介日',
+  name: '名前', channels: '活動チャネル', tracks: '得意分野',
   p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
   c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
   reason: '紹介理由', relation: '関係',
 };
-const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり', no: '許可しない' };
+const VALUE_LABELS = {
+  ...CATEGORY_LABELS, ...WTYPE_LABELS,
+  person: '個人', community: 'コミュニティ', yes: '同意あり', no: '許可しない',
+  corp_seminar: '企業講演・コンサル', seminar: '勉強会・セミナー', sns: 'SNS・YouTube', blog: 'ブログ・note', community_mgmt: 'コミュニティ運営',
+  ai: 'AI活用', docs: '資料作成・PPT', design: 'デザイン', efficiency: '業務効率化',
+};
+// 表示用：配列はラベル化して「・」区切り
+const dispValue = (v) => Array.isArray(v)
+  ? v.map((x) => VALUE_LABELS[x] ?? x).join('・')
+  : (VALUE_LABELS[v] ?? v);
 const METHOD_LABELS = { amazon: 'Amazonギフト', transfer: '海外送金（口座へ）' };
 
 const $ = (s) => document.querySelector(s);
@@ -80,12 +90,22 @@ function showError() {
   $('#greeting').textContent = '';
 }
 
+function urlHost(u) {
+  try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; }
+}
+
 function summaryLine(s) {
   const p = s.payload || {};
   switch (s.type) {
-    case 'content': return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
-    case 'webinar': return `${p.title || ''}・参加 ${p.participants ?? '?'}名`;
-    case 'referral': return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
+    case 'content': {
+      const host = p.channel || urlHost(p.url);
+      return `${CATEGORY_LABELS[p.category] || ''}${host ? '・' + host : ''}`;
+    }
+    case 'webinar': return `${p.title || ''}${p.participants ? `・参加 ${p.participants}名` : ''}`;
+    case 'referral': {
+      const nm = p.name || p.p_name || p.c_name || '';
+      return `${p.referral_kind === 'community' ? 'コミュニティ' : '個人'}：${nm}`;
+    }
     case 'adjustment': return p.title || '運営による精算';
     default: return '';
   }
@@ -224,9 +244,75 @@ $('#btn-submit-all').addEventListener('click', async () => {
   }
 });
 
+// ── ドラッグ＆ドロップ（ウェビナーの資料・写真） ──
+const DZ = { slides: [], photos: [] };
+
+function fmtSize(n) {
+  return n > 1048576 ? (n / 1048576).toFixed(1) + 'MB' : Math.ceil(n / 1024) + 'KB';
+}
+
+function renderDZ(name) {
+  const zone = document.querySelector(`.dropzone[data-name="${name}"]`);
+  zone.querySelector('.dz-list').innerHTML = DZ[name].map((f, i) => `
+    <div class="dz-item">
+      <span class="nm">${escapeHtml(f.name)}</span>
+      <span class="sz">${fmtSize(f.size)}</span>
+      <button type="button" class="dz-rm" data-zone="${name}" data-i="${i}">×</button>
+    </div>`).join('');
+}
+
+document.querySelectorAll('.dropzone').forEach((zone) => {
+  const name = zone.dataset.name;
+  const input = zone.querySelector('input[type=file]');
+  const accept = input.accept;
+  const acceptable = (f) => !accept.includes('image/*') || accept.includes('.pdf') || f.type.startsWith('image/');
+
+  zone.addEventListener('click', (e) => {
+    const rm = e.target.closest('.dz-rm');
+    if (rm) {
+      DZ[rm.dataset.zone].splice(Number(rm.dataset.i), 1);
+      renderDZ(rm.dataset.zone);
+      return;
+    }
+    input.click();
+  });
+  input.addEventListener('change', () => {
+    DZ[name].push(...input.files);
+    input.value = '';
+    renderDZ(name);
+  });
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('drag');
+    DZ[name].push(...[...e.dataTransfer.files].filter(acceptable));
+    renderDZ(name);
+  });
+});
+
+// ── 複数選択チップ ──
+document.querySelectorAll('.chip-select').forEach((box) => {
+  box.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip');
+    if (chip) chip.classList.toggle('on');
+  });
+});
+
+function setChips(form, name, values) {
+  form.querySelectorAll(`.chip-select[data-name="${name}"] .chip`).forEach((c) => {
+    c.classList.toggle('on', (values || []).includes(c.dataset.v));
+  });
+}
+
+function getChips(form, name) {
+  return [...form.querySelectorAll(`.chip-select[data-name="${name}"] .chip.on`)].map((c) => c.dataset.v);
+}
+
 // ── フォームを開く（追加・下書き修正・提出済み修正 共通） ──
 function setFormValues(form, payload) {
   for (const [k, v] of Object.entries(payload)) {
+    if (Array.isArray(v)) { setChips(form, k, v); continue; }
     const el = form.querySelector(`[name="${k}"]`);
     if (!el || el.type === 'file') continue;
     if (el.type === 'checkbox') el.checked = v === el.value;
@@ -238,6 +324,7 @@ function openForm(type, mode, payload = null) {
   FORM_MODE = mode;
   const form = $(`#form-${type}`);
   form.reset();
+  form.querySelectorAll('.chip.on').forEach((c) => c.classList.remove('on'));
   if (payload) setFormValues(form, payload);
 
   // タイトル・ボタン文言・ファイル欄の表示をモードに合わせる
@@ -251,18 +338,17 @@ function openForm(type, mode, payload = null) {
     el.style.display = isSubEdit ? 'none' : '';
   });
 
-  // 条件付きフィールドの状態を合わせる
   if (type === 'webinar') {
-    const isGeneral = (payload?.webinar_type || form.querySelector('[name=webinar_type]').value) === 'general';
-    $('#exposure-field').style.visibility = isGeneral ? 'visible' : 'hidden';
-    $('#exposure-field input').required = isGeneral;
+    // ドロップゾーンを初期化（下書き修正なら既存ファイルを表示）
+    const d = mode.kind === 'draft-edit' ? DRAFTS.find((x) => x.tmpId === mode.id) : null;
+    DZ.slides = d ? [...(d.slides || [])] : [];
+    DZ.photos = d ? [...(d.photos || [])] : [];
+    renderDZ('slides');
+    renderDZ('photos');
+    toggleParticipants(payload?.webinar_type || '');
   }
   if (type === 'referral') {
-    const isPerson = (payload?.referral_kind || 'person') === 'person';
-    $('#referral-person').style.display = isPerson ? '' : 'none';
-    $('#referral-community').style.display = isPerson ? 'none' : '';
-    const refDate = form.querySelector('[name=referral_date]');
-    if (!refDate.value) refDate.value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
+    toggleReferralName(payload?.referral_kind || 'person');
   }
 
   document.getElementById(`fm-${type}-bg`).classList.add('open');
@@ -276,17 +362,22 @@ document.querySelectorAll('[data-close]').forEach((btn) => {
 });
 // ※ 誤操作防止のため、背景クリックでは閉じない（「閉じる」ボタンのみ）
 
-// 条件付きフィールド切替
+// 条件付きフィールド：参加人数はターゲット向けのみ
+function toggleParticipants(wtype) {
+  const isTargeted = wtype === 'targeted';
+  const field = $('#participants-field');
+  field.style.display = isTargeted ? '' : 'none';
+  field.querySelector('input').required = isTargeted;
+}
 document.querySelector('#form-webinar select[name=webinar_type]').addEventListener('change', (e) => {
-  const isGeneral = e.target.value === 'general';
-  $('#exposure-field').style.visibility = isGeneral ? 'visible' : 'hidden';
-  $('#exposure-field input').required = isGeneral;
+  toggleParticipants(e.target.value);
 });
-$('#referral-kind').addEventListener('change', (e) => {
-  const isPerson = e.target.value === 'person';
-  $('#referral-person').style.display = isPerson ? '' : 'none';
-  $('#referral-community').style.display = isPerson ? 'none' : '';
-});
+
+// 紹介：種類で名前ラベル切替
+function toggleReferralName(kind) {
+  $('#referral-name-label').firstChild.textContent = kind === 'community' ? 'コミュニティ名' : 'お名前（活動名）';
+}
+$('#referral-kind').addEventListener('change', (e) => toggleReferralName(e.target.value));
 
 // ── フォーム submit：モードに応じて 下書き保存 or 修正PATCH ──
 async function handleFormSubmit(type, form) {
@@ -298,12 +389,9 @@ async function handleFormSubmit(type, form) {
   }
 
   if (type === 'referral') {
-    const required = payload.referral_kind === 'person'
-      ? ['p_name', 'p_sns_url', 'p_main_channel', 'p_track']
-      : ['c_name', 'c_size', 'c_field'];
-    for (const f of required) {
-      if (!payload[f]) { toast('必須項目が未入力です', true); return; }
-    }
+    payload.channels = getChips(form, 'channels');
+    payload.tracks = getChips(form, 'tracks');
+    if (!payload.channels.length) { toast('活動チャネルを1つ以上選択してください', true); return; }
   }
 
   if (FORM_MODE.kind === 'sub-edit') {
@@ -325,16 +413,16 @@ async function handleFormSubmit(type, form) {
     return;
   }
 
-  // 下書き（新規 or 修正）
-  const photos = [...(form.querySelector('[name=photos]')?.files || [])];
-  const slides = [...(form.querySelector('[name=slides]')?.files || [])];
+  // 下書き（新規 or 修正）— ファイルはドロップゾーンの内容で確定
+  const photos = type === 'webinar' ? [...DZ.photos] : [];
+  const slides = type === 'webinar' ? [...DZ.slides] : [];
 
   if (FORM_MODE.kind === 'draft-edit') {
     const d = DRAFTS.find((x) => x.tmpId === FORM_MODE.id);
     if (d) {
       d.payload = payload;
-      if (photos.length) d.photos = photos;   // 再選択時のみ差し替え
-      if (slides.length) d.slides = slides;
+      d.photos = photos;
+      d.slides = slides;
     }
   } else {
     DRAFTS.push({ tmpId: draftSeq++, type, payload, photos, slides });
@@ -431,7 +519,7 @@ function renderRewards() {
     return `
       <tr class="clickable settle-row" data-id="${b.id}">
         <td>${fmtDate(receivedDate)}</td>
-        <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted" style="font-size:12px">${escapeHtml(b.memo)}</span>` : ''}</td>
+        <td><b>${escapeHtml(b.title)}</b></td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
         <td>${b.method === 'amazon' ? '🎁 Amazonギフト' : '🏦 海外送金'}</td>
@@ -466,7 +554,6 @@ function openRewardDetail(billId) {
       <dt>金額</dt><dd><b>${yen(total)}</b>（${items.length}件）</dd>
       <dt>お渡し方法</dt><dd>${b.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[b.method]}</dd>
       ${b.method === 'transfer' && b.transfer_date ? `<dt>送金日</dt><dd>${b.transfer_date.replaceAll('-', '/')}</dd>` : ''}
-      ${b.memo ? `<dt>摘要</dt><dd>${escapeHtml(b.memo)}</dd>` : ''}
     </dl>
     ${b.method === 'amazon' ? `
     <div class="codes-block">
@@ -475,7 +562,7 @@ function openRewardDetail(billId) {
     </div>` : ''}
     <h3 style="margin:16px 0 8px;font-size:14px">対象活動（${items.length}件）</h3>
     <table class="nested-table">
-      <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+      <thead><tr><th>日付</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
       <tbody>${childRows}</tbody>
     </table>
   `;
@@ -489,9 +576,10 @@ function openSubmissionDetail(id) {
   const files = (DATA.files || []).filter((f) => f.submission_id === id);
 
   const rows = Object.entries(s.payload || {})
-    .filter(([, v]) => v !== '' && v != null)
+    .filter(([, v]) => v !== '' && v != null && !(Array.isArray(v) && !v.length))
+    .filter(([k]) => !(s.type === 'adjustment' && k === 'memo'))  // 手動追加の運営メモは非表示
     .map(([k, v]) => `<dt>${escapeHtml(FIELD_LABELS[k] || k)}</dt><dd>${
-      /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(VALUE_LABELS[v] ?? v)
+      /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(dispValue(v))
     }</dd>`).join('');
 
   const isFixed = s.status === 'approved';
@@ -499,7 +587,7 @@ function openSubmissionDetail(id) {
   const body = `
     <p><span class="badge type">${TYPE_LABELS[s.type]}</span> <span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></p>
     <dl class="kv">
-      <dt>実施日</dt><dd>${fmtDate(actDate(s))}</dd>
+      <dt>日付</dt><dd>${fmtDate(actDate(s))}</dd>
       <dt>金額</dt><dd>${isFixed ? `<b>${yen(s.approved_amount)}</b>（確定）` : s.suggested_amount != null ? `目安 ${yen(s.suggested_amount)}（確認中）` : '確認中'}</dd>
       ${rows}
       ${s.status === 'rejected' && s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}

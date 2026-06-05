@@ -46,7 +46,8 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-// 운영 정산 등록 — {ambassador_id, title, amount, activity_date, memo?} → 자동 승인
+// 운영 수동추가 — {ambassador_id, title, amount, memo?, activity_date?} → 자동 승인
+// 날짜는 미지정 시 등록일(JST 오늘)
 export async function onRequestPost({ request, env }) {
   if (!(await requireAdmin(env, request))) return err('unauthorized', 401);
   let body;
@@ -60,9 +61,11 @@ export async function onRequestPost({ request, env }) {
   const amount = Number(body.amount);
   const title = (body.title || '').trim();
   if (!ambassadorId) return err('ambassador_id required');
-  if (!title) return err('내용(title)을 입력하세요');
-  if (!Number.isFinite(amount) || amount < 0) return err('금액이 올바르지 않습니다');
-  if (!isDate(body.activity_date)) return err('실시일(YYYY-MM-DD)이 필요합니다');
+  if (!title) return err('内容(title)を入力してください');
+  if (!Number.isFinite(amount) || amount < 0) return err('金額が正しくありません');
+  const activityDate = isDate(body.activity_date)
+    ? body.activity_date
+    : new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 
   const amb = await env.DB.prepare('SELECT id FROM ambassadors WHERE id = ?').bind(ambassadorId).first();
   if (!amb) return err('ambassador not found', 404);
@@ -72,7 +75,7 @@ export async function onRequestPost({ request, env }) {
     `INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount,
        approved_amount, status, reviewed_at)
      VALUES (?, 'adjustment', ?, ?, ?, ?, 'approved', datetime('now'))`
-  ).bind(ambassadorId, payload, body.activity_date, amount, amount).run();
+  ).bind(ambassadorId, payload, activityDate, amount, amount).run();
 
   return json({ ok: true, id: ins.meta.last_row_id });
 }

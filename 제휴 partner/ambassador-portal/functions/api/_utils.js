@@ -51,12 +51,13 @@ export async function requireAdmin(env, request) {
   return !!row;
 }
 
-// ── 실행일 도출 (전 폼에 일자 필수) ──
+// ── 실행일 도출 (콘텐츠·소개는 날짜 미입력 시 제출일=JST 오늘로) ──
 export function deriveActivityDate(type, payload) {
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
   let d = null;
-  if (type === 'content') d = payload.published_date;
+  if (type === 'content') d = payload.published_date || today;
   else if (type === 'webinar') d = String(payload.event_date || '').slice(0, 10);
-  else if (type === 'referral') d = payload.referral_date;
+  else if (type === 'referral') d = payload.referral_date || today;
   return isDate(d) ? d : null;
 }
 

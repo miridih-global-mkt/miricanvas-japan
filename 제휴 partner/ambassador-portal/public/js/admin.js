@@ -21,11 +21,21 @@ const FIELD_LABELS = {
   participants: '実参加人数', ai_tools: '併用AIツール',
   exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真の二次利用',
   referral_kind: '紹介種類', referral_date: '紹介日',
+  name: '名前', channels: '活動チャネル', tracks: '得意分野',
   p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
   c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
   reason: '紹介理由', relation: '関係',
 };
-const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり', no: '許可しない' };
+const VALUE_LABELS = {
+  ...CATEGORY_LABELS, ...WTYPE_LABELS,
+  person: '個人', community: 'コミュニティ', yes: '同意あり', no: '許可しない',
+  corp_seminar: '企業講演・コンサル', seminar: '勉強会・セミナー', sns: 'SNS・YouTube', blog: 'ブログ・note', community_mgmt: 'コミュニティ運営',
+  ai: 'AI活用', docs: '資料作成・PPT', design: 'デザイン', efficiency: '業務効率化',
+};
+const dispValue = (v) => Array.isArray(v)
+  ? v.map((x) => VALUE_LABELS[x] ?? x).join('・')
+  : (VALUE_LABELS[v] ?? v);
+const urlHost = (u) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
 
 const $ = (s) => document.querySelector(s);
 const yen = (n) => n == null ? '—' : Number(n).toLocaleString('ja-JP') + '円';
@@ -122,9 +132,15 @@ async function loadSubs() {
 function payloadSummary(s) {
   const p = s.payload || {};
   switch (s.type) {
-    case 'content': return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
-    case 'webinar': return `${p.title || ''}・${p.participants ?? '?'}名`;
-    case 'referral': return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
+    case 'content': {
+      const host = p.channel || urlHost(p.url);
+      return `${CATEGORY_LABELS[p.category] || ''}${host ? '・' + host : ''}`;
+    }
+    case 'webinar': return `${p.title || ''}${p.participants ? `・${p.participants}名` : ''}`;
+    case 'referral': {
+      const nm = p.name || p.p_name || p.c_name || '';
+      return `${p.referral_kind === 'community' ? 'コミュニティ' : '個人'}：${nm}`;
+    }
     case 'adjustment': return p.title || '運営精算';
     default: return '';
   }
@@ -312,9 +328,9 @@ function openDetail(id) {
   $('#modal-title').innerHTML = `${TYPE_LABELS[s.type]} <span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span>`;
 
   const rows = Object.entries(s.payload || {})
-    .filter(([, v]) => v !== '' && v != null)
+    .filter(([, v]) => v !== '' && v != null && !(Array.isArray(v) && !v.length))
     .map(([k, v]) => `<dt>${escapeHtml(FIELD_LABELS[k] || k)}</dt><dd>${
-      /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(VALUE_LABELS[v] ?? v)
+      /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(dispValue(v))
     }</dd>`).join('');
 
   const imgs = files.filter((f) => /\.(png|jpe?g|gif|webp|heic)$/i.test(f.filename));
@@ -323,7 +339,6 @@ function openDetail(id) {
   $('#modal-body').innerHTML = `
     <dl class="kv">
       <dt>アンバサダー</dt><dd>${escapeHtml(s.ambassador_name)}</dd>
-      <dt>実施日</dt><dd>${fmtDate(s.activity_date)}</dd>
       <dt>提出日</dt><dd>${fmtDate(actDate({ activity_date: null, created_at: s.created_at }))}</dd>
       ${s.bill_title ? `<dt>リワード案件</dt><dd>${escapeHtml(s.bill_title)}</dd>` : ''}
       ${rows}
@@ -342,8 +357,6 @@ function openDetail(id) {
       <h3>審査</h3>
       <label class="field">確定金額（円）<input type="number" id="rv-amount" min="0" value="${amount}"></label>
       <p class="muted">自動提案：${yen(s.suggested_amount)}${s.type === 'referral' ? '（紹介は報酬案確定前のため手動入力）' : ''}</p>
-      <label class="field">実施日（精算基準日の調整が必要な場合に変更）
-        <input type="date" id="rv-date" value="${s.activity_date || ''}"></label>
       <label class="field">運営メモ（差し戻し理由など — アンバサダーに表示されます）<textarea id="rv-note">${escapeHtml(s.admin_note || '')}</textarea></label>
     `;
     setModalActions(`
@@ -365,7 +378,7 @@ function openDetail(id) {
     $('#rv-approve').addEventListener('click', () => {
       const v = Number($('#rv-amount').value);
       if (!Number.isFinite(v) || $('#rv-amount').value === '') return toast('確定金額を入力してください', true);
-      act('approve', { approved_amount: v, activity_date: $('#rv-date').value || null });
+      act('approve', { approved_amount: v });
     });
     $('#rv-reject').addEventListener('click', () => act('reject'));
     $('#rv-reopen')?.addEventListener('click', () => act('reopen'));
@@ -389,7 +402,6 @@ document.querySelectorAll('[data-close]').forEach((btn) => {
 $('#btn-adj').addEventListener('click', () => {
   $('#adj-amb').innerHTML = AMBS.filter((a) => a.active)
     .map((a) => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
-  $('#adj-date').value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
   $('#adj-modal-bg').classList.add('open');
 });
 
@@ -398,12 +410,10 @@ $('#adj-submit').addEventListener('click', async () => {
     const amount = Number($('#adj-amount').value);
     if (!$('#adj-title').value.trim()) return toast('内容を入力してください', true);
     if (!Number.isFinite(amount) || $('#adj-amount').value === '') return toast('金額を入力してください', true);
-    if (!$('#adj-date').value) return toast('実施日を入力してください', true);
     await api('/api/admin/submissions', { method: 'POST', body: {
       ambassador_id: Number($('#adj-amb').value),
       title: $('#adj-title').value.trim(),
       amount,
-      activity_date: $('#adj-date').value,
       memo: $('#adj-memo').value || '',
     } });
     toast('登録しました（自動承認）');
@@ -421,16 +431,7 @@ async function loadBills() {
   renderBills();
 }
 
-function memberLine(s) {
-  const p = s.payload || {};
-  switch (s.type) {
-    case 'content': return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
-    case 'webinar': return `${p.title || ''}`;
-    case 'referral': return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
-    case 'adjustment': return p.title || '運営精算';
-    default: return '';
-  }
-}
+const memberLine = payloadSummary;
 
 function renderBills() {
   const tbody = $('#bills-table tbody');
@@ -506,7 +507,7 @@ function openBillDetail(b) {
     </div>` : ''}
     <h3>対象活動（${items.length}件）</h3>
     <table class="nested-table">
-      <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+      <thead><tr><th>日付</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
       <tbody>${childRows || '<tr><td colspan="4" class="muted">対象活動がありません</td></tr>'}</tbody>
     </table>
   `;
@@ -545,10 +546,10 @@ async function loadAmbassadors() {
   const tbody = $('#ambs-table tbody');
   tbody.innerHTML = ambassadors.map((a) => `
     <tr>
+      <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
       <td>${escapeHtml(a.name)}</td>
       <td>${escapeHtml(a.description || '')}</td>
       <td style="white-space:nowrap"><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}">編集</button></td>
-      <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
       <td style="white-space:nowrap">
         <button class="ghost btn-sm" data-copy="${a.token}">コピー</button>
         <button class="ghost btn-sm" data-reissue="${a.id}">再発行</button>
