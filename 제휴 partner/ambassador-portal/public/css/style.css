@@ -67,9 +67,131 @@ a { color: var(--accent); }
 .summary-card .label { font-size: 12px; color: var(--muted); }
 .summary-card .value { font-size: 20px; font-weight: 700; margin-top: 2px; }
 .summary-card .value small { font-size: 12px; font-weight: 400; color: var(--muted); }
+.summary-card .counts { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.summary-card .counts b { color: var(--text); font-weight: 600; }
+.summary-card .counts .over { color: var(--red); font-weight: 700; }
+.summary-card.hl { border-color: var(--accent); background: linear-gradient(180deg, #fff, var(--accent-light)); }
 @media (max-width: 560px) {
   .summary-row { grid-template-columns: 1fr 1fr; }
-  .summary-card:first-child { grid-column: 1 / -1; }
+  .summary-card.hl { grid-column: 1 / -1; order: -1; }
+}
+
+/* ── モード切替（提出する／活動履歴） ── */
+.mode-tabs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  margin-top: 20px;
+  background: #e9ebf3;
+  border-radius: 12px;
+  padding: 4px;
+}
+.mode-btn {
+  border: none; background: transparent;
+  border-radius: 9px; padding: 12px 8px;
+  font-size: 15px; font-weight: 600; color: var(--muted);
+  cursor: pointer; font-family: inherit;
+}
+.mode-btn.active { background: #fff; color: var(--accent); box-shadow: 0 1px 4px rgba(20,22,35,.1); }
+
+/* ── 提出メニューカード ── */
+#submit-menu { display: grid; gap: 10px; margin-top: 16px; }
+.menu-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  cursor: pointer; text-align: left; font-family: inherit; width: 100%;
+}
+.menu-card:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(91,95,233,.12); }
+.menu-card .mc-icon { font-size: 24px; }
+.menu-card .mc-body { flex: 1; }
+.menu-card .mc-title { display: block; font-size: 15px; font-weight: 700; color: var(--text); }
+.menu-card .mc-desc { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.menu-card .mc-arrow { font-size: 22px; color: var(--muted); }
+
+.back-btn {
+  border: none; background: none; color: var(--accent);
+  font-size: 13.5px; font-weight: 600; cursor: pointer;
+  padding: 0; margin-bottom: 10px; font-family: inherit;
+}
+.back-btn:hover { text-decoration: underline; }
+
+/* ── 活動履歴：ヘッダー行＋月フィルター ── */
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.card-head h2 { margin: 0; }
+.month-select {
+  width: auto !important; margin-top: 0 !important;
+  padding: 7px 10px; font-size: 13.5px;
+}
+
+/* ── 活動履歴：種別ごとの小計＋合計 ── */
+.hist-sub {
+  margin-top: 14px; border-top: 2px solid var(--border);
+  padding-top: 10px;
+}
+.hist-sub .sub-row {
+  display: grid; grid-template-columns: 1fr 70px 110px;
+  gap: 8px; padding: 4px 10px; font-size: 13px;
+}
+.hist-sub .sub-row span:nth-child(2) { text-align: right; color: var(--muted); }
+.hist-sub .sub-row span:nth-child(3) { text-align: right; font-variant-numeric: tabular-nums; }
+.hist-sub .sub-row.total {
+  border-top: 1px solid var(--border); margin-top: 4px; padding-top: 8px;
+  font-weight: 700; font-size: 14px;
+}
+.hist-sub .caption { font-size: 11px; color: var(--muted); text-align: right; padding: 2px 10px 0; }
+
+/* ── 精算タブ ── */
+.settle-detail td { background: #fafbff; }
+.settle-detail-row {
+  display: grid; grid-template-columns: 60px 130px 1fr 100px;
+  gap: 8px; padding: 5px 4px; font-size: 13px; align-items: center;
+  border-bottom: 1px dashed var(--border);
+}
+.settle-detail-row:last-of-type { border-bottom: none; }
+.codes-block {
+  margin-top: 10px; background: var(--accent-light);
+  border-radius: 8px; padding: 10px 14px; font-size: 13px;
+}
+.codes-block ul { margin: 6px 0 0; padding-left: 18px; }
+.codes-block code { background: #fff; padding: 2px 8px; border-radius: 4px; font-size: 13px; letter-spacing: .03em; }
+
+/* ── 活動履歴グリッド（全行で列位置を統一） ── */
+.hist { margin-top: 4px; }
+.hist-head, .hist-row {
+  display: grid;
+  grid-template-columns: 76px 132px 1fr 96px 92px;
+  gap: 8px; align-items: center;
+}
+.hist-head {
+  font-size: 11.5px; color: var(--muted); font-weight: 600;
+  padding: 6px 10px; border-bottom: 1px solid var(--border);
+}
+.hist-head .r, .hist-row .h-amount { text-align: right; }
+.hist-head .c, .hist-row .h-status { text-align: center; }
+.hist-row { padding: 11px 10px 0; }
+.hist-item { border-bottom: 1px solid var(--border); padding-bottom: 11px; }
+.hist-item:last-child { border-bottom: none; }
+.h-date { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.h-title { font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.h-amount { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.h-amount .est { font-weight: 400; color: var(--muted); font-size: 12px; }
+.hist-extra { padding: 4px 10px 0 10px; }
+.hist-extra .files { font-size: 12.5px; }
+.hist-extra .note { background: var(--red-bg); color: var(--red); border-radius: 6px; padding: 6px 10px; font-size: 12.5px; margin-top: 6px; }
+
+@media (max-width: 640px) {
+  .hist-head { display: none; }
+  .hist-head + #history-list .hist-row, .hist-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "type status" "title title" "date amount";
+    row-gap: 4px;
+  }
+  .h-type { grid-area: type; }
+  .h-status { grid-area: status; text-align: right; }
+  .h-title { grid-area: title; white-space: normal; }
+  .h-date { grid-area: date; }
+  .h-amount { grid-area: amount; }
 }
 
 /* ── タブ ── */

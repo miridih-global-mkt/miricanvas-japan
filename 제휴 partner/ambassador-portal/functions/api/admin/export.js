@@ -6,6 +6,7 @@ const TYPE_LABELS = {
   webinar_pre: 'ウェビナー事前申請',
   webinar_post: 'ウェビナー事後報告',
   referral: '紹介',
+  adjustment: '運営精算',
 };
 const STATUS_LABELS = {
   submitted: '確認中',
@@ -28,7 +29,7 @@ export async function onRequestGet({ request, env }) {
   const conds = [];
   const binds = [];
   if (month) {
-    conds.push("substr(datetime(s.created_at, '+9 hours'), 1, 7) = ?");
+    conds.push('substr(s.activity_date, 1, 7) = ?');
     binds.push(month);
   }
   const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
@@ -36,14 +37,14 @@ export async function onRequestGet({ request, env }) {
   const { results } = await env.DB.prepare(
     `SELECT s.*, a.name AS ambassador_name
      FROM submissions s JOIN ambassadors a ON a.id = s.ambassador_id
-     ${where} ORDER BY s.created_at`
+     ${where} ORDER BY COALESCE(s.activity_date, s.created_at)`
   ).bind(...binds).all();
 
-  const header = ['ID', 'アンバサダー', '種別', '提出日(JST)', 'ステータス',
+  const header = ['ID', 'アンバサダー', '種別', '実施日', '提出日(UTC)', 'ステータス',
     '提案金額', '確定金額', '内容(JSON)', '運営メモ'];
   const rows = results.map(s => [
     s.id, s.ambassador_name, TYPE_LABELS[s.type] || s.type,
-    s.created_at, STATUS_LABELS[s.status] || s.status,
+    s.activity_date ?? '', s.created_at, STATUS_LABELS[s.status] || s.status,
     s.suggested_amount ?? '', s.approved_amount ?? '',
     s.payload, s.admin_note ?? '',
   ].map(csvCell).join(','));

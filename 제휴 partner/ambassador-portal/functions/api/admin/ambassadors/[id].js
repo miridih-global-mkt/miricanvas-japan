@@ -1,4 +1,4 @@
-// PATCH /api/admin/ambassadors/:id — {name?, channel?, active?, reissue_token?}
+// PATCH /api/admin/ambassadors/:id — {name?, description?, active?, reissue_token?}
 import { json, err, requireAdmin, randomToken } from '../../_utils.js';
 
 export async function onRequestPatch({ request, env, params }) {
@@ -17,7 +17,7 @@ export async function onRequestPatch({ request, env, params }) {
   const sets = [];
   const binds = [];
   if (typeof body.name === 'string' && body.name.trim()) { sets.push('name = ?'); binds.push(body.name.trim()); }
-  if ('channel' in body) { sets.push('channel = ?'); binds.push(body.channel || null); }
+  if ('description' in body) { sets.push('description = ?'); binds.push((body.description || '').trim() || null); }
   if ('active' in body) { sets.push('active = ?'); binds.push(body.active ? 1 : 0); }
 
   let newToken = null;

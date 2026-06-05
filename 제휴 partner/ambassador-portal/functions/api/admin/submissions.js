@@ -1,5 +1,6 @@
-// GET /api/admin/submissions?month=YYYY-MM&type=&status=&ambassador_id=
-import { json, err, requireAdmin } from '../_utils.js';
+// GET  /api/admin/submissions?month=YYYY-MM&type=&status=&ambassador_id= — 목록 (month는 실행월 기준)
+// POST /api/admin/submissions — 운영 정산 등록 (자동 승인: 소개 잔금 등)
+import { json, err, requireAdmin, isDate } from '../_utils.js';
 
 export async function onRequestGet({ request, env }) {
   if (!(await requireAdmin(env, request))) return err('unauthorized', 401);
@@ -10,7 +11,7 @@ export async function onRequestGet({ request, env }) {
 
   const month = url.searchParams.get('month');
   if (month) {
-    conds.push("substr(datetime(s.created_at, '+9 hours'), 1, 7) = ?");
+    conds.push("substr(s.activity_date, 1, 7) = ?");
     binds.push(month);
   }
   const type = url.searchParams.get('type');
@@ -24,7 +25,7 @@ export async function onRequestGet({ request, env }) {
   const { results } = await env.DB.prepare(
     `SELECT s.*, a.name AS ambassador_name
      FROM submissions s JOIN ambassadors a ON a.id = s.ambassador_id
-     ${where} ORDER BY s.created_at DESC LIMIT 500`
+     ${where} ORDER BY COALESCE(s.activity_date, s.created_at) DESC, s.id DESC LIMIT 500`
   ).bind(...binds).all();
 
   const ids = results.map(r => r.id);
@@ -41,4 +42,35 @@ export async function onRequestGet({ request, env }) {
     submissions: results.map(s => ({ ...s, payload: JSON.parse(s.payload || '{}') })),
     files,
   });
+}
+
+// 운영 정산 등록 — {ambassador_id, title, amount, activity_date, memo?} → 자동 승인
+export async function onRequestPost({ request, env }) {
+  if (!(await requireAdmin(env, request))) return err('unauthorized', 401);
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return err('JSON body required');
+  }
+
+  const ambassadorId = Number(body.ambassador_id);
+  const amount = Number(body.amount);
+  const title = (body.title || '').trim();
+  if (!ambassadorId) return err('ambassador_id required');
+  if (!title) return err('内容(title)を入力してください');
+  if (!Number.isFinite(amount) || amount < 0) return err('金額が不正です');
+  if (!isDate(body.activity_date)) return err('実施日(YYYY-MM-DD)が必要です');
+
+  const amb = await env.DB.prepare('SELECT id FROM ambassadors WHERE id = ?').bind(ambassadorId).first();
+  if (!amb) return err('ambassador not found', 404);
+
+  const payload = JSON.stringify({ title, memo: body.memo || '' });
+  const ins = await env.DB.prepare(
+    `INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount,
+       approved_amount, status, reviewed_at)
+     VALUES (?, 'adjustment', ?, ?, ?, ?, 'approved', datetime('now'))`
+  ).bind(ambassadorId, payload, body.activity_date, amount, amount).run();
+
+  return json({ ok: true, id: ins.meta.last_row_id });
 }

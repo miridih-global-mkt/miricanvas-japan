@@ -1,6 +1,6 @@
 // PATCH /api/admin/submissions/:id — 검토 처리
-// body: {action: 'approve'|'reject'|'paid'|'reopen', approved_amount?, admin_note?}
-import { json, err, requireAdmin } from '../../_utils.js';
+// body: {action: 'approve'|'reject'|'paid'|'reopen', approved_amount?, admin_note?, activity_date?}
+import { json, err, requireAdmin, isDate } from '../../_utils.js';
 
 export async function onRequestPatch({ request, env, params }) {
   if (!(await requireAdmin(env, request))) return err('unauthorized', 401);
@@ -17,6 +17,8 @@ export async function onRequestPatch({ request, env, params }) {
   if (!sub) return err('not found', 404);
 
   const note = body.admin_note ?? null;
+  // 승인 시 실행일 수정 가능 (소개 성사일 등 운영자가 확정)
+  const activityDate = isDate(body.activity_date) ? body.activity_date : null;
 
   switch (body.action) {
     case 'approve': {
@@ -24,9 +26,10 @@ export async function onRequestPatch({ request, env, params }) {
       if (!Number.isFinite(amount) || amount < 0) return err('approved_amount required');
       await env.DB.prepare(
         `UPDATE submissions SET status = 'approved', approved_amount = ?,
-         admin_note = COALESCE(?, admin_note), reviewed_at = datetime('now'), paid_at = NULL
+         admin_note = COALESCE(?, admin_note), activity_date = COALESCE(?, activity_date),
+         reviewed_at = datetime('now'), paid_at = NULL
          WHERE id = ?`
-      ).bind(amount, note, id).run();
+      ).bind(amount, note, activityDate, id).run();
       break;
     }
     case 'reject':

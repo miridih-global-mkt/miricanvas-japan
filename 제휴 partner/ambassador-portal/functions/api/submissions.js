@@ -1,6 +1,6 @@
 // POST /api/submissions — 앰버서더 제출 (multipart/form-data)
 // fields: token, type, payload(JSON string), photos[](file), slides[](file)
-import { json, err, getAmbassadorByToken, calcSuggestedAmount } from './_utils.js';
+import { json, err, getAmbassadorByToken, calcSuggestedAmount, deriveActivityDate } from './_utils.js';
 
 const TYPES = ['content', 'webinar_pre', 'webinar_post', 'referral'];
 const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB/파일
@@ -27,6 +27,10 @@ export async function onRequestPost({ request, env }) {
     return err('invalid payload JSON');
   }
 
+  // 실행일 필수 (정산 월 합산 기준)
+  const activityDate = deriveActivityDate(type, payload);
+  if (!activityDate) return err('実施日（公開日・開催日・紹介日）が必要です');
+
   // 사후보고 → 사전신청 연결 검증 (본인 것 + webinar_pre만)
   let linkedId = null;
   if (type === 'webinar_post' && payload.linked_submission_id) {
@@ -48,12 +52,12 @@ export async function onRequestPost({ request, env }) {
   }
   if (fileEntries.length > MAX_FILES) return err(`too many files (max ${MAX_FILES})`);
 
-  const suggested = await calcSuggestedAmount(env, amb.id, type, payload);
+  const suggested = await calcSuggestedAmount(env, amb.id, type, payload, activityDate);
 
   const ins = await env.DB.prepare(
-    `INSERT INTO submissions (ambassador_id, type, payload, suggested_amount, linked_submission_id)
-     VALUES (?, ?, ?, ?, ?)`
-  ).bind(amb.id, type, JSON.stringify(payload), suggested, linkedId).run();
+    `INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount, linked_submission_id)
+     VALUES (?, ?, ?, ?, ?, ?)`
+  ).bind(amb.id, type, JSON.stringify(payload), activityDate, suggested, linkedId).run();
   const submissionId = ins.meta.last_row_id;
 
   for (const { kind, file } of fileEntries) {

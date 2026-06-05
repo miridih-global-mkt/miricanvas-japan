@@ -20,11 +20,13 @@ export function randomToken(len = 24) {
   return out;
 }
 
+export const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
+
 // ── 앰버서더 인증 (URL 토큰) ──────────────────────────────
 export async function getAmbassadorByToken(env, token) {
   if (!token) return null;
   return await env.DB.prepare(
-    'SELECT id, name, channel, active FROM ambassadors WHERE token = ? AND active = 1'
+    'SELECT id, name, description, active FROM ambassadors WHERE token = ? AND active = 1'
   ).bind(token).first();
 }
 
@@ -49,21 +51,31 @@ export async function requireAdmin(env, request) {
   return !!row;
 }
 
+// ── 실행일 도출 (정산 월 합산 기준 — 전 폼에 일자 필수) ──
+export function deriveActivityDate(type, payload) {
+  let d = null;
+  if (type === 'content') d = payload.published_date;
+  else if (type === 'webinar_pre' || type === 'webinar_post') d = String(payload.event_date || '').slice(0, 10);
+  else if (type === 'referral') d = payload.referral_date;
+  return isDate(d) ? d : null;
+}
+
 // ── 보상 금액 자동 제안 ──────────────────────────────────
 // 콘텐츠 단가 (계약서 2026-06 기준)
 const CONTENT_PRICES = { ai_slide: 10000, other_feature: 5000, repost: 3000 };
 const CONTENT_MONTHLY_CAP = 5;
 
-export async function calcSuggestedAmount(env, ambassadorId, type, payload) {
+export async function calcSuggestedAmount(env, ambassadorId, type, payload, activityDate) {
   if (type === 'content') {
     const unit = CONTENT_PRICES[payload.category];
     if (unit == null) return null;
-    // 이번 달(JST) 기제출 콘텐츠 건수 — 반려 제외
+    // 같은 실행월의 기제출 콘텐츠 건수 — 반려 제외 (월 상한 5건)
+    const month = String(activityDate || '').slice(0, 7);
     const row = await env.DB.prepare(
       `SELECT COUNT(*) AS n FROM submissions
        WHERE ambassador_id = ? AND type = 'content' AND status != 'rejected'
-         AND substr(datetime(created_at, '+9 hours'), 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
-    ).bind(ambassadorId).first();
+         AND substr(activity_date, 1, 7) = ?`
+    ).bind(ambassadorId, month).first();
     if ((row?.n ?? 0) >= CONTENT_MONTHLY_CAP) return 0; // 월 상한 초과 → 0엔 제안
     return unit;
   }

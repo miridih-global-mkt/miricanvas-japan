@@ -35,7 +35,7 @@
   <div class="container">
     <div class="tabs">
       <button class="tab-btn active" data-tab="subs">提出一覧</button>
-      <button class="tab-btn" data-tab="summary">支払いサマリー</button>
+      <button class="tab-btn" data-tab="summary">支払い管理</button>
       <button class="tab-btn" data-tab="ambs">アンバサダー管理</button>
     </div>
 
@@ -43,7 +43,7 @@
     <section class="card tab-panel" id="panel-subs">
       <h2>提出一覧</h2>
       <div class="filters">
-        <div><label>月</label><input type="month" id="f-month"></div>
+        <div><label>実施月</label><input type="month" id="f-month"></div>
         <div><label>種別</label>
           <select id="f-type">
             <option value="">すべて</option>
@@ -51,6 +51,7 @@
             <option value="webinar_pre">ウェビナー事前申請</option>
             <option value="webinar_post">ウェビナー事後報告</option>
             <option value="referral">紹介</option>
+            <option value="adjustment">運営精算</option>
           </select></div>
         <div><label>ステータス</label>
           <select id="f-status">
@@ -61,26 +62,28 @@
             <option value="paid">支払い済み</option>
           </select></div>
         <div><label>アンバサダー</label><select id="f-amb"><option value="">すべて</option></select></div>
+        <div style="flex:0"><button class="ghost" id="btn-adj">＋運営精算</button></div>
         <div style="flex:0"><button class="ghost" id="f-csv">CSV出力</button></div>
       </div>
       <div class="table-wrap">
         <table class="list" id="subs-table">
-          <thead><tr><th>提出日</th><th>アンバサダー</th><th>種別</th><th>内容</th><th>提案額</th><th>確定額</th><th>ステータス</th></tr></thead>
+          <thead><tr><th>実施日</th><th>アンバサダー</th><th>種別</th><th>内容</th><th>提案額</th><th>確定額</th><th>ステータス</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
+      <div class="hist-sub" id="subs-subtotal"></div>
     </section>
 
-    <!-- 支払いサマリー -->
+    <!-- 支払い管理 -->
     <section class="card tab-panel" id="panel-summary" style="display:none">
-      <h2>支払いサマリー（月別 × アンバサダー別）</h2>
+      <h2>支払い管理（実施月 × アンバサダー別）</h2>
       <div class="filters">
-        <div><label>月</label><input type="month" id="s-month"></div>
+        <div><label>実施月</label><input type="month" id="s-month"></div>
       </div>
-      <p class="muted">合計が月5万円以上の場合は海外送金フラグが付きます。「一括支払い」は該当月の承認済み案件をすべて支払い済みにします。</p>
+      <p class="muted">実施日基準で月ごとに合算し、お支払いは<b>翌月末</b>が目安です。月5万円以上は海外送金を推奨表示します。</p>
       <div class="table-wrap">
         <table class="list" id="summary-table">
-          <thead><tr><th>月</th><th>アンバサダー</th><th>件数</th><th>合計（承認+支払）</th><th>うち支払済</th><th>送金方法</th><th></th></tr></thead>
+          <thead><tr><th>実施月</th><th>アンバサダー</th><th>件数</th><th>合計</th><th>支払予定</th><th>支払い記録</th><th>状況</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -91,12 +94,12 @@
       <h2>アンバサダー管理</h2>
       <form id="amb-add" class="filters">
         <div><label>名前</label><input type="text" id="amb-name" required placeholder="例：けいたろう"></div>
-        <div><label>メインチャネル</label><input type="text" id="amb-channel" placeholder="例：YouTube"></div>
+        <div style="flex:2"><label>説明</label><input type="text" id="amb-desc" placeholder="例：Shift AI講師・YouTube発信"></div>
         <div style="flex:0"><button class="primary" style="margin-top:0;width:auto;padding:10px 18px" type="submit">登録</button></div>
       </form>
       <div class="table-wrap">
         <table class="list" id="ambs-table">
-          <thead><tr><th>名前</th><th>チャネル</th><th>提出数</th><th>状態</th><th>専用リンク</th><th></th></tr></thead>
+          <thead><tr><th>名前</th><th>説明</th><th>提出数</th><th>状態</th><th>専用リンク</th><th>操作</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -111,6 +114,42 @@
     <h2 id="modal-title"></h2>
     <div id="modal-body"></div>
     <div id="modal-review"></div>
+  </div>
+</div>
+
+<!-- 支払いモーダル -->
+<div class="modal-bg" id="pay-modal-bg">
+  <div class="modal">
+    <button class="close" id="pay-close">×</button>
+    <h2>支払い処理</h2>
+    <div id="pay-info" class="hint"></div>
+    <label class="field">支払い方法</label>
+    <div class="radio-cards">
+      <label class="radio-card"><input type="radio" name="pay_method" value="amazon" checked>
+        <span><span class="t">Amazonギフト</span><br><span class="d">ギフトカード番号を入力（複数枚可）</span></span></label>
+      <label class="radio-card"><input type="radio" name="pay_method" value="transfer">
+        <span><span class="t">海外送金</span><br><span class="d">送金を実施した日付を記録</span></span></label>
+    </div>
+    <label class="field" id="pay-codes-field">ギフトカード番号（1行に1枚）
+      <textarea id="pay-codes" placeholder="AMZN-XXXX-XXXX-XXXX&#10;AMZN-YYYY-YYYY-YYYY"></textarea></label>
+    <label class="field" id="pay-date-field" style="display:none">送金日
+      <input type="date" id="pay-date"></label>
+    <button class="primary" id="pay-submit">支払いを確定する</button>
+  </div>
+</div>
+
+<!-- 運営精算モーダル -->
+<div class="modal-bg" id="adj-modal-bg">
+  <div class="modal">
+    <button class="close" id="adj-close">×</button>
+    <h2>運営精算の追加</h2>
+    <p class="muted">紹介成約の残金など、運営側から計上する精算項目です。<b>登録と同時に承認されます。</b></p>
+    <label class="field">アンバサダー<select id="adj-amb"></select></label>
+    <label class="field">内容<input type="text" id="adj-title" placeholder="例：紹介成約の残金（○○さん・初回活動完了）"></label>
+    <label class="field">金額（円）<input type="number" id="adj-amount" min="0"></label>
+    <label class="field">実施日（精算基準日）<input type="date" id="adj-date"></label>
+    <label class="field">メモ（任意）<textarea id="adj-memo"></textarea></label>
+    <button class="primary" id="adj-submit">登録する（自動承認）</button>
   </div>
 </div>
 

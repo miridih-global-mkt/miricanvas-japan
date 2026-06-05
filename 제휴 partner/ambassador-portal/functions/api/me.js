@@ -1,4 +1,4 @@
-// GET /api/me?token=xxx — 앰버서더 본인 정보 + 활동내역 + 월별 집계
+// GET /api/me?token=xxx — 앰버서더 본인 정보 + 활동내역 + 지불 기록
 import { json, err, getAmbassadorByToken, extractToken } from './_utils.js';
 
 export async function onRequestGet({ request, env }) {
@@ -6,9 +6,9 @@ export async function onRequestGet({ request, env }) {
   if (!amb) return err('invalid token', 401);
 
   const { results: submissions } = await env.DB.prepare(
-    `SELECT id, type, payload, suggested_amount, approved_amount, status,
+    `SELECT id, type, payload, activity_date, suggested_amount, approved_amount, status,
             admin_note, linked_submission_id, created_at, reviewed_at, paid_at
-     FROM submissions WHERE ambassador_id = ? ORDER BY created_at DESC`
+     FROM submissions WHERE ambassador_id = ? ORDER BY COALESCE(activity_date, created_at) DESC, id DESC`
   ).bind(amb.id).all();
 
   const { results: files } = await env.DB.prepare(
@@ -17,27 +17,24 @@ export async function onRequestGet({ request, env }) {
      WHERE s.ambassador_id = ?`
   ).bind(amb.id).all();
 
-  // 이번 달(JST) 콘텐츠 건수 (월 5건 상한 게이지용, 반려 제외)
+  // 이번 달(JST, 실행월 기준) 콘텐츠 건수 (월 5건 상한 게이지용, 반려 제외)
   const capRow = await env.DB.prepare(
     `SELECT COUNT(*) AS n FROM submissions
      WHERE ambassador_id = ? AND type = 'content' AND status != 'rejected'
-       AND substr(datetime(created_at, '+9 hours'), 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
+       AND substr(activity_date, 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
   ).bind(amb.id).first();
 
-  // 월별 합계 (승인/지급 기준)
-  const { results: monthly } = await env.DB.prepare(
-    `SELECT substr(datetime(created_at, '+9 hours'), 1, 7) AS month,
-            SUM(COALESCE(approved_amount, 0)) AS total
-     FROM submissions
-     WHERE ambassador_id = ? AND status IN ('approved', 'paid')
-     GROUP BY month ORDER BY month DESC`
+  // 지불 기록 (정산 탭용)
+  const { results: payments } = await env.DB.prepare(
+    `SELECT id, month, method, gift_codes, transfer_date, amount, created_at
+     FROM payments WHERE ambassador_id = ? ORDER BY month DESC, id`
   ).bind(amb.id).all();
 
   return json({
-    ambassador: { id: amb.id, name: amb.name, channel: amb.channel },
+    ambassador: { id: amb.id, name: amb.name },
     submissions: submissions.map(s => ({ ...s, payload: JSON.parse(s.payload || '{}') })),
     files,
     content_count_this_month: capRow?.n ?? 0,
-    monthly_totals: monthly,
+    payments: payments.map(p => ({ ...p, gift_codes: p.gift_codes ? JSON.parse(p.gift_codes) : [] })),
   });
 }
