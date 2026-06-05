@@ -24,10 +24,11 @@ export async function onRequestGet({ request, env }) {
        AND substr(activity_date, 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
   ).bind(amb.id).first();
 
-  // 지불건 (정산 탭용 — method 입력됨 = 지불완료)
+  // 리워드 안건 (발송된 것만 앰버서더에게 노출)
   const { results: bills } = await env.DB.prepare(
-    `SELECT id, title, method, gift_codes, transfer_date, created_at, paid_at
-     FROM bills WHERE ambassador_id = ? ORDER BY created_at DESC, id DESC`
+    `SELECT id, title, pay_month, method, gift_codes, transfer_date, sent_at, created_at
+     FROM bills WHERE ambassador_id = ? AND sent_at IS NOT NULL
+     ORDER BY sent_at DESC, id DESC`
   ).bind(amb.id).all();
 
   return json({

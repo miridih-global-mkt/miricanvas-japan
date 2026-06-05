@@ -29,6 +29,21 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
+// 지불방법 관련 필드 검증·정규화 (생성/수정 공용. method 자체는 선택)
+export function normalizePayment(body) {
+  const method = body.method || null;
+  if (method && method !== 'amazon' && method !== 'transfer') {
+    return { error: 'method must be amazon or transfer' };
+  }
+  const giftCodes = method === 'amazon'
+    ? (body.gift_codes || []).map(s => String(s).trim()).filter(Boolean)
+    : [];
+  const transferDate = method === 'transfer' && /^\d{4}-\d{2}-\d{2}$/.test(body.transfer_date || '')
+    ? body.transfer_date : null;
+  const payMonth = /^\d{4}-\d{2}$/.test(body.pay_month || '') ? body.pay_month : null;
+  return { method, giftCodes, transferDate, payMonth };
+}
+
 export async function onRequestPost({ request, env }) {
   if (!(await requireAdmin(env, request))) return err('unauthorized', 401);
   let body;
@@ -40,8 +55,11 @@ export async function onRequestPost({ request, env }) {
 
   const ids = (body.submission_ids || []).map(Number).filter(Boolean);
   const title = (body.title || '').trim();
-  if (!ids.length) return err('제출건을 1개 이상 선택하세요');
-  if (!title) return err('제목을 입력하세요');
+  if (!ids.length) return err('活動を1件以上選択してください');
+  if (!title) return err('タイトルを入力してください');
+
+  const pay = normalizePayment(body);
+  if (pay.error) return err(pay.error);
 
   // 검증: 전부 존재 + 승인완료 + 미편성 + 동일 앰버서더
   const ph = ids.map(() => '?').join(',');
@@ -49,17 +67,19 @@ export async function onRequestPost({ request, env }) {
     `SELECT id, ambassador_id, status, bill_id FROM submissions WHERE id IN (${ph})`
   ).bind(...ids).all();
 
-  if (subs.length !== ids.length) return err('존재하지 않는 제출건이 포함되어 있습니다');
+  if (subs.length !== ids.length) return err('存在しない活動が含まれています');
   const notApproved = subs.filter(s => s.status !== 'approved');
-  if (notApproved.length) return err(`승인완료 상태가 아닌 제출건이 있습니다 (ID: ${notApproved.map(s => s.id).join(', ')})`);
+  if (notApproved.length) return err(`承認済みでない活動があります (ID: ${notApproved.map(s => s.id).join(', ')})`);
   const billed = subs.filter(s => s.bill_id != null);
-  if (billed.length) return err(`이미 다른 지불건에 속한 제출건이 있습니다 (ID: ${billed.map(s => s.id).join(', ')})`);
+  if (billed.length) return err(`既に他のリワード案件に含まれる活動があります (ID: ${billed.map(s => s.id).join(', ')})`);
   const ambIds = [...new Set(subs.map(s => s.ambassador_id))];
-  if (ambIds.length > 1) return err('서로 다른 앰버서더의 제출건은 한 지불건으로 묶을 수 없습니다');
+  if (ambIds.length > 1) return err('異なるアンバサダーの活動を一つの案件にまとめることはできません');
 
   const ins = await env.DB.prepare(
-    'INSERT INTO bills (ambassador_id, title, memo) VALUES (?, ?, ?)'
-  ).bind(ambIds[0], title, (body.memo || '').trim() || null).run();
+    `INSERT INTO bills (ambassador_id, title, memo, pay_month, method, gift_codes, transfer_date)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`
+  ).bind(ambIds[0], title, (body.memo || '').trim() || null,
+    pay.payMonth, pay.method, pay.giftCodes.length ? JSON.stringify(pay.giftCodes) : null, pay.transferDate).run();
   const billId = ins.meta.last_row_id;
 
   await env.DB.prepare(

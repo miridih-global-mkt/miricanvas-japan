@@ -5,11 +5,11 @@ INSERT INTO ambassadors (name, token, description) VALUES
   ('テスト太郎', 'test-token-taro-0001', 'Shift AI講師・YouTube発信'),
   ('テスト花子', 'test-token-hanako-02', 'X発信・デザイン系');
 
--- 지불건
-INSERT INTO bills (ambassador_id, title, memo, method, gift_codes, transfer_date, created_at, paid_at) VALUES
-  (1, '2026年4月分', '기업연수 정산', 'transfer', NULL, '2026-05-30', '2026-05-25 03:00:00', '2026-05-30 03:00:00'),
-  (1, '2026年5月分', NULL, 'amazon', '["AMZN-TEST-AAAA-1111","AMZN-TEST-BBBB-2222"]', NULL, '2026-06-25 03:00:00', '2026-06-28 03:00:00'),
-  (1, '2026年6月分', '운영정산 포함', NULL, NULL, NULL, datetime('now'), NULL);  -- 지불전
+-- 리워드 안건 (1·2 = 발송완료, 3 = 발송대기)
+INSERT INTO bills (ambassador_id, title, memo, pay_month, method, gift_codes, transfer_date, sent_at, created_at) VALUES
+  (1, '2026年4月分', '기업연수 정산', '2026-05', 'transfer', NULL, '2026-05-30', '2026-05-30 03:00:00', '2026-05-25 03:00:00'),
+  (1, '2026年5月分', NULL, '2026-06', 'amazon', '["AMZN-TEST-AAAA-1111","AMZN-TEST-BBBB-2222"]', NULL, '2026-06-28 03:00:00', '2026-06-25 03:00:00'),
+  (1, '2026年6月分', '운영정산 포함', '2026-07', NULL, NULL, NULL, NULL, datetime('now'));  -- 発送待ち
 
 -- 太郎: 4월 웨비나(빌1), 5월 콘텐츠(빌2), 6월 콘텐츠+운영정산(빌3=지불전)
 INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount, approved_amount, status, bill_id, created_at, reviewed_at) VALUES

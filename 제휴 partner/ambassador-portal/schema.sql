@@ -11,17 +11,18 @@ CREATE TABLE IF NOT EXISTS ambassadors (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
--- 지불건 (운영자가 제출건을 수동 선택해 생성. method 입력 = 지불완료)
+-- 리워드 안건 (운영자가 활동을 수동 선택해 생성. 발송 전에는 수정·삭제 가능)
 CREATE TABLE IF NOT EXISTS bills (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
-  title TEXT NOT NULL,                          -- 예: "2026年6月分"
+  title TEXT NOT NULL,                          -- 필수. 예: "2026年6月分"
   memo TEXT,
-  method TEXT CHECK (method IN ('amazon','transfer')),  -- NULL = 지불전
+  pay_month TEXT,                               -- 지불월 (YYYY-MM, 선택)
+  method TEXT CHECK (method IN ('amazon','transfer')),  -- 지불방법 (선택, 발송 시 필수)
   gift_codes TEXT,                              -- 아마존: 기프트코드 JSON 배열
   transfer_date TEXT,                           -- 해외송금: 송금일 (YYYY-MM-DD)
+  sent_at TEXT,                                 -- 발송 시각 (NULL = 発送待ち)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  paid_at TEXT,                                 -- 지불내용 입력 시각
   updated_at TEXT
 );
 

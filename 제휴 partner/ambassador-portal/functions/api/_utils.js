@@ -65,17 +65,17 @@ export function deriveActivityDate(type, payload) {
 const CONTENT_PRICES = { ai_slide: 10000, other_feature: 5000, repost: 3000 };
 const CONTENT_MONTHLY_CAP = 5;
 
-export async function calcSuggestedAmount(env, ambassadorId, type, payload, activityDate) {
+export async function calcSuggestedAmount(env, ambassadorId, type, payload, activityDate, excludeId = null) {
   if (type === 'content') {
     const unit = CONTENT_PRICES[payload.category];
     if (unit == null) return null;
-    // 같은 실행월의 기제출 콘텐츠 건수 — 반려 제외 (월 상한 5건)
+    // 같은 실행월의 기제출 콘텐츠 건수 — 반려 제외 (월 상한 5건). 수정 시 자기 자신 제외
     const month = String(activityDate || '').slice(0, 7);
     const row = await env.DB.prepare(
       `SELECT COUNT(*) AS n FROM submissions
        WHERE ambassador_id = ? AND type = 'content' AND status != 'rejected'
-         AND substr(activity_date, 1, 7) = ?`
-    ).bind(ambassadorId, month).first();
+         AND substr(activity_date, 1, 7) = ? AND id != ?`
+    ).bind(ambassadorId, month, excludeId ?? -1).first();
     if ((row?.n ?? 0) >= CONTENT_MONTHLY_CAP) return 0; // 월 상한 초과 → 0엔 제안
     return unit;
   }

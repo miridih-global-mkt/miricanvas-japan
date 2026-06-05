@@ -18,40 +18,57 @@
 
 <div class="container" id="app" style="display:none">
 
-  <!-- サマリー（1カード：種別×期間マトリックス） -->
-  <section class="card" style="margin-top:16px">
-    <table class="sum-table">
-      <thead>
-        <tr><th></th><th>累計</th><th>先月</th><th>今月</th></tr>
-      </thead>
-      <tbody id="sum-body"></tbody>
-    </table>
-    <div class="caption" style="text-align:right;margin-top:6px">金額は承認済みの確定分。コンテンツは月5件まで。</div>
-  </section>
+  <!-- サマリー：金額をドンと見せる3スタット -->
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-label">累計リワード</div>
+      <div class="stat-amount" id="st-all">—</div>
+      <div class="stat-breakdown" id="st-all-bd"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">先月</div>
+      <div class="stat-amount" id="st-last">—</div>
+      <div class="stat-breakdown" id="st-last-bd"></div>
+    </div>
+    <div class="stat hl">
+      <div class="stat-label">今月</div>
+      <div class="stat-amount" id="st-cur">—</div>
+      <div class="stat-breakdown" id="st-cur-bd"></div>
+    </div>
+  </div>
 
-  <!-- タブ：活動報告／リワード確認 -->
-  <div class="mode-tabs">
+  <!-- タブ：活動報告／活動履歴／リワード確認 -->
+  <div class="mode-tabs three">
     <button class="mode-btn active" data-mode="report">📝 活動報告</button>
+    <button class="mode-btn" data-mode="history">📋 活動履歴</button>
     <button class="mode-btn" data-mode="reward">💰 リワード確認</button>
   </div>
 
-  <!-- ════ タブ①：活動報告 ════ -->
+  <!-- ════ タブ①：活動報告（まとめて提出） ════ -->
   <div id="mode-report">
     <section class="card">
-      <!-- 提出ボタン3種 -->
+      <h2>活動報告</h2>
+      <p class="muted">報告したい活動を追加してください。複数まとめて提出できます。</p>
       <div class="submit-row">
-        <button class="submit-btn" data-form="content"><span>✍️</span>コンテンツ報告</button>
-        <button class="submit-btn" data-form="webinar"><span>📸</span>ウェビナー・セミナー報告</button>
-        <button class="submit-btn" data-form="referral"><span>🤝</span>紹介する</button>
+        <button class="submit-btn" data-form="content"><span>✍️</span>＋コンテンツ</button>
+        <button class="submit-btn" data-form="webinar"><span>📸</span>＋ウェビナー・セミナー</button>
+        <button class="submit-btn" data-form="referral"><span>🤝</span>＋紹介</button>
       </div>
+      <div id="draft-list" style="margin-top:14px"></div>
+      <button class="primary" id="btn-submit-all" style="display:none">まとめて提出する</button>
+    </section>
+  </div>
 
-      <div class="card-head" style="margin-top:18px">
+  <!-- ════ タブ②：活動履歴 ════ -->
+  <div id="mode-history" style="display:none">
+    <section class="card">
+      <div class="card-head">
         <h2>活動履歴</h2>
-        <select id="hist-month" class="month-select"><option value="">全期間</option></select>
+        <input type="month" id="hist-month" class="month-select" title="空欄で全期間">
       </div>
       <div class="hist">
         <div class="hist-head">
-          <span>実施日</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span><span class="c">リワード案件</span>
+          <span>実施日</span><span>種別</span><span>内容</span><span class="r">金額</span><span class="c">ステータス</span>
         </div>
         <div id="history-list"></div>
       </div>
@@ -59,14 +76,14 @@
     </section>
   </div>
 
-  <!-- ════ タブ②：リワード確認 ════ -->
+  <!-- ════ タブ③：リワード確認 ════ -->
   <div id="mode-reward" style="display:none">
     <section class="card">
       <h2>リワード確認</h2>
-      <p class="muted">承認済みの活動は、運営側で「リワード案件」にまとめてお支払いします。行をタップすると対象の活動が表示されます。</p>
+      <p class="muted">お渡し済みのリワードです。行をタップすると対象の活動が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="settle-table">
-          <thead><tr><th>作成日</th><th>タイトル</th><th>件数</th><th>金額</th><th>状況</th><th>リワード</th></tr></thead>
+          <thead><tr><th>受領日</th><th>件数</th><th>金額</th><th>リワード</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -82,13 +99,13 @@
   </div>
 </div>
 
-<!-- ════ 提出フォーム（ポップアップ） ════ -->
+<!-- ════ 入力フォーム（ポップアップ）：追加・修正 共通 ════ -->
 
-<!-- ① コンテンツ報告 -->
+<!-- ① コンテンツ -->
 <div class="modal-bg" id="fm-content-bg">
   <div class="modal">
     <button class="close" data-close="fm-content-bg">×</button>
-    <h2>コンテンツ報告</h2>
+    <h2 id="fm-content-title">コンテンツ報告</h2>
     <div class="hint slim">AIスライド関連 1万円／その他機能 5千円／転載 3千円（月5件まで・金額は運営確認後に確定）</div>
     <form id="form-content" class="cform">
       <div class="form-grid">
@@ -112,17 +129,17 @@
         <label class="cfield full">補足（任意）
           <input type="text" name="memo" placeholder="併用AIツールなど"></label>
       </div>
-      <button class="primary" type="submit">送信する</button>
+      <button class="primary" type="submit">リストに追加</button>
     </form>
   </div>
 </div>
 
-<!-- ② ウェビナー・セミナー報告 -->
+<!-- ② ウェビナー・セミナー -->
 <div class="modal-bg" id="fm-webinar-bg">
   <div class="modal">
     <button class="close" data-close="fm-webinar-bg">×</button>
-    <h2>ウェビナー・セミナー報告</h2>
-    <div class="hint slim">発表資料・現場写真・実参加人数が必要です。開催前の事前相談もお忘れなく。<br>併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
+    <h2 id="fm-webinar-title">ウェビナー・セミナー報告</h2>
+    <div class="hint slim">発表資料・現場写真・実参加人数が必要です。併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
     <form id="form-webinar" class="cform">
       <div class="form-grid">
         <label class="cfield full">タイトル・テーマ<span class="req">*</span>
@@ -139,9 +156,9 @@
           <input type="number" name="participants" min="0" required></label>
         <label class="cfield" id="exposure-field" style="visibility:hidden">MiriCanvas紹介時間（分）<span class="req">*</span>
           <input type="number" name="exposure_minutes" min="1"></label>
-        <label class="cfield">発表資料（PDF等）
+        <label class="cfield file-field">発表資料（PDF等）
           <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
-        <label class="cfield">現場写真（複数可）<span class="req">*</span>
+        <label class="cfield file-field">現場写真（複数可）<span class="req">*</span>
           <input type="file" name="photos" multiple accept="image/*" required></label>
         <label class="cfield">併用したAIツール（任意）
           <input type="text" name="ai_tools" placeholder="例：ChatGPT"></label>
@@ -150,7 +167,7 @@
         <label class="consent full"><input type="checkbox" name="photo_consent" value="yes">
           写真の二次利用（広告素材化・顔はモザイク処理）に同意します（任意）</label>
       </div>
-      <button class="primary" type="submit">送信する</button>
+      <button class="primary" type="submit">リストに追加</button>
     </form>
   </div>
 </div>
@@ -159,8 +176,8 @@
 <div class="modal-bg" id="fm-referral-bg">
   <div class="modal">
     <button class="close" data-close="fm-referral-bg">×</button>
-    <h2>お知り合い・コミュニティの紹介</h2>
-    <div class="hint slim">ご成約・共同活動が実現した場合、紹介報酬をお支払いします。<br>個人：SNS合計フォロワー1万人以上目安 ／ コミュニティ：会員1,000名以上目安</div>
+    <h2 id="fm-referral-title">お知り合い・コミュニティの紹介</h2>
+    <div class="hint slim">ご成約・共同活動が実現した場合、紹介報酬をお支払いします。個人：フォロワー1万人以上目安 ／ コミュニティ：会員1,000名以上目安</div>
     <form id="form-referral" class="cform">
       <div class="form-grid">
         <label class="cfield full">紹介の種類<span class="req">*</span>
@@ -206,7 +223,7 @@
         <label class="cfield">紹介日<span class="req">*</span>
           <input type="date" name="referral_date" required></label>
       </div>
-      <button class="primary" type="submit">送信する</button>
+      <button class="primary" type="submit">リストに追加</button>
     </form>
   </div>
 </div>

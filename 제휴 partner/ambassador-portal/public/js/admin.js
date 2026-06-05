@@ -228,32 +228,80 @@ function updateBillBar() {
   $('#' + id).addEventListener('change', loadSubs);
 });
 
-// ── リワード案件作成モーダル ──
-$('#btn-make-bill').addEventListener('click', () => {
-  const sel = SUBS.submissions.filter((s) => SELECTED.has(s.id));
-  const ambNames = [...new Set(sel.map((s) => s.ambassador_name))];
-  if (ambNames.length !== 1) return;
-  const total = sel.reduce((a, s) => a + (s.approved_amount || 0), 0);
-  $('#bill-info').innerHTML = `対象：<b>${escapeHtml(ambNames[0])}</b><br>${sel.length}件 ・ 合計 <b>${yen(total)}</b>`;
-  $('#bill-title').value = '';
-  $('#bill-memo').value = '';
+// ── リワード案件 作成・修正モーダル（共通） ──
+let BILL_MODE = { kind: 'create', id: null };
+
+function billFormValues() {
+  const method = $('#bill-method').value || null;
+  return {
+    title: $('#bill-title').value.trim(),
+    memo: $('#bill-memo').value,
+    pay_month: $('#bill-paymonth').value || null,
+    method,
+    gift_codes: method === 'amazon'
+      ? $('#bill-codes').value.split('\n').map((s) => s.trim()).filter(Boolean) : [],
+    transfer_date: method === 'transfer' ? ($('#bill-date').value || null) : null,
+  };
+}
+
+function toggleBillFields() {
+  const method = $('#bill-method').value;
+  $('#bill-codes-field').style.display = method === 'amazon' ? '' : 'none';
+  $('#bill-date-field').style.display = method === 'transfer' ? '' : 'none';
+}
+$('#bill-method').addEventListener('change', toggleBillFields);
+
+function openBillModal(mode, bill = null) {
+  BILL_MODE = mode;
+  if (mode.kind === 'create') {
+    const sel = SUBS.submissions.filter((s) => SELECTED.has(s.id));
+    const ambNames = [...new Set(sel.map((s) => s.ambassador_name))];
+    if (ambNames.length !== 1) return;
+    const total = sel.reduce((a, s) => a + (s.approved_amount || 0), 0);
+    $('#bill-modal-title').textContent = 'リワード案件の作成';
+    $('#bill-info').innerHTML = `対象：<b>${escapeHtml(ambNames[0])}</b><br>${sel.length}件 ・ 合計 <b>${yen(total)}</b>`;
+    $('#bill-title').value = '';
+    $('#bill-paymonth').value = '';
+    $('#bill-method').value = '';
+    $('#bill-codes').value = '';
+    $('#bill-date').value = '';
+    $('#bill-memo').value = '';
+    $('#bill-submit').textContent = '作成する';
+  } else {
+    $('#bill-modal-title').textContent = 'リワード案件の修正';
+    $('#bill-info').innerHTML = `対象：<b>${escapeHtml(bill.ambassador_name)}</b><br>${bill.count}件 ・ 合計 <b>${yen(bill.total)}</b>`;
+    $('#bill-title').value = bill.title;
+    $('#bill-paymonth').value = bill.pay_month || '';
+    $('#bill-method').value = bill.method || '';
+    $('#bill-codes').value = bill.method === 'amazon' ? bill.gift_codes.join('\n') : '';
+    $('#bill-date').value = bill.transfer_date || '';
+    $('#bill-memo').value = bill.memo || '';
+    $('#bill-submit').textContent = '修正を保存する';
+  }
+  toggleBillFields();
   $('#bill-modal-bg').classList.add('open');
-});
+}
+
+$('#btn-make-bill').addEventListener('click', () => openBillModal({ kind: 'create', id: null }));
 $('#bill-close').addEventListener('click', () => $('#bill-modal-bg').classList.remove('open'));
 $('#bill-modal-bg').addEventListener('click', (e) => { if (e.target === $('#bill-modal-bg')) $('#bill-modal-bg').classList.remove('open'); });
 
 $('#bill-submit').addEventListener('click', async () => {
-  if (!$('#bill-title').value.trim()) return toast('タイトルを入力してください', true);
+  const v = billFormValues();
+  if (!v.title) return toast('タイトルを入力してください', true);
   try {
-    await api('/api/admin/bills', { method: 'POST', body: {
-      submission_ids: [...SELECTED],
-      title: $('#bill-title').value.trim(),
-      memo: $('#bill-memo').value,
-    } });
-    toast('リワード案件を作成しました');
-    $('#bill-modal-bg').classList.remove('open');
-    setSelectMode(false);
-    await loadSubs();
+    if (BILL_MODE.kind === 'create') {
+      await api('/api/admin/bills', { method: 'POST', body: { ...v, submission_ids: [...SELECTED] } });
+      toast('リワード案件を作成しました');
+      $('#bill-modal-bg').classList.remove('open');
+      setSelectMode(false);
+      await loadSubs();
+    } else {
+      await api(`/api/admin/bills/${BILL_MODE.id}`, { method: 'PATCH', body: { ...v, action: 'edit' } });
+      toast('修正しました');
+      $('#bill-modal-bg').classList.remove('open');
+      await loadBills();
+    }
   } catch (e) { toast(e.message, true); }
 });
 
@@ -384,24 +432,29 @@ function renderBills() {
   const tbody = $('#bills-table tbody');
   const { bills, members } = BILLS;
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="muted">リワード案件がありません。活動管理から承認済みの活動を選択して作成してください。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="muted">リワード案件がありません。活動管理から承認済みの活動を選択して作成してください。</td></tr>';
     return;
   }
   tbody.innerHTML = bills.map((b) => {
-    const isPaid = !!b.method;
+    const isSent = !!b.sent_at;
     const items = members.filter((s) => s.bill_id === b.id);
-    const detailRows = items.map((s) => `
-      <div class="settle-detail-row">
-        <span>${fmtDate(actDate(s))}</span>
-        <span><span class="badge type">${TYPE_LABELS[s.type]}</span></span>
-        <span class="h-title">${escapeHtml(memberLine(s))}</span>
-        <span style="text-align:right;font-weight:600">${yen(s.approved_amount)}</span>
-      </div>`).join('');
-    const payDetail = isPaid
+    const childRows = items.map((s) => `
+      <tr class="hoverable">
+        <td style="width:80px">${fmtDate(actDate(s))}</td>
+        <td style="width:180px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
+        <td>${escapeHtml(memberLine(s))}</td>
+        <td style="text-align:right;font-weight:600;width:110px">${yen(s.approved_amount)}</td>
+      </tr>`).join('');
+    const payInfo = b.method
       ? (b.method === 'amazon'
           ? `🎁 Amazonギフト ${b.gift_codes.length}枚`
           : `🏦 海外送金 ${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : ''}`)
-      : '';
+      : '<span class="muted">支払い方法 未定</span>';
+    const ops = isSent
+      ? `<span class="muted" style="font-size:12px">${payInfo}</span>`
+      : `<button class="ghost btn-sm btn-bill-edit" data-id="${b.id}">修正</button>
+         <button class="danger btn-sm btn-bill-del" data-id="${b.id}">削除</button>
+         <button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`;
     return `
     <tr class="clickable bill-row" data-id="${b.id}">
       <td>${fmtDate(b.created_at)}</td>
@@ -409,106 +462,57 @@ function renderBills() {
       <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted">${escapeHtml(b.memo)}</span>` : ''}</td>
       <td>${b.count}件</td>
       <td><b>${yen(b.total)}</b></td>
-      <td><span class="badge ${isPaid ? 'approved' : 'submitted'}">${isPaid ? '支払い済み' : '支払い前'}</span></td>
-      <td style="white-space:nowrap">
-        <button class="ghost btn-sm btn-pay" data-id="${b.id}">${isPaid ? '支払い内容を修正' : '支払い内容を入力'}</button>
-        ${payDetail ? `<br><span class="muted" style="font-size:12px">${payDetail}</span>` : ''}
-      </td>
+      <td>${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
+      <td><span class="badge ${isSent ? 'approved' : 'submitted'}">${isSent ? '発送済み' : '発送待ち'}</span></td>
+      <td style="white-space:nowrap">${ops}</td>
     </tr>
     <tr class="settle-detail" id="bill-detail-${b.id}" style="display:none">
-      <td colspan="7" style="padding:6px 10px 12px">
-        <div class="bill-children">
-          <div class="bc-head">▼ このリワード案件の対象活動（${items.length}件）</div>
-          ${detailRows || '<span class="muted">対象活動がありません</span>'}
-          <div style="margin-top:10px;text-align:right">
-            <button class="ghost btn-sm btn-bill-edit" data-id="${b.id}">タイトル・メモ修正</button>
-            <button class="danger btn-sm btn-bill-del" data-id="${b.id}">案件削除</button>
-          </div>
+      <td colspan="8">
+        <div class="nested-wrap">
+          <table class="nested-table"><tbody>${childRows || '<tr><td class="muted">対象活動がありません</td></tr>'}</tbody></table>
+          ${isSent && b.method === 'amazon' ? `<div class="muted" style="font-size:12px;margin-top:6px">🎁 ${b.gift_codes.map(escapeHtml).join(' / ')}</div>` : ''}
         </div>
       </td>
     </tr>`;
   }).join('');
 
-  // 行クリック → 対象活動の展開＋フォーカス表示
+  // 行クリック → 対象活動の展開（箱が広がるだけ・枠線は付けない）
   tbody.querySelectorAll('.bill-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
       const detail = document.getElementById('bill-detail-' + tr.dataset.id);
       const willOpen = detail.style.display === 'none';
       detail.style.display = willOpen ? '' : 'none';
-      tr.classList.toggle('focused', willOpen);
+      tr.classList.toggle('bill-open', willOpen);
     });
   });
-  tbody.querySelectorAll('.btn-pay').forEach((btn) => {
-    btn.addEventListener('click', () => openPayModal(Number(btn.dataset.id)));
-  });
   tbody.querySelectorAll('.btn-bill-edit').forEach((btn) => {
-    btn.addEventListener('click', async () => {
+    btn.addEventListener('click', () => {
       const b = BILLS.bills.find((x) => x.id === Number(btn.dataset.id));
-      const title = prompt('タイトル', b.title);
-      if (title === null) return;
-      const memo = prompt('メモ', b.memo || '');
-      if (memo === null) return;
-      await api(`/api/admin/bills/${b.id}`, { method: 'PATCH', body: { action: 'edit', title, memo } });
-      toast('更新しました');
-      loadBills();
+      if (b) openBillModal({ kind: 'edit', id: b.id }, b);
     });
   });
   tbody.querySelectorAll('.btn-bill-del').forEach((btn) => {
     btn.addEventListener('click', async () => {
       if (!confirm('このリワード案件を削除しますか？対象活動は未編成に戻ります。')) return;
-      await api(`/api/admin/bills/${btn.dataset.id}`, { method: 'DELETE' });
-      toast('削除しました');
-      loadBills();
+      try {
+        await api(`/api/admin/bills/${btn.dataset.id}`, { method: 'DELETE' });
+        toast('削除しました');
+        loadBills();
+      } catch (e) { toast(e.message, true); }
+    });
+  });
+  tbody.querySelectorAll('.btn-bill-send').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      if (!confirm('発送しますか？発送後はアンバサダーに表示され、修正・削除ができなくなります。')) return;
+      try {
+        await api(`/api/admin/bills/${btn.dataset.id}`, { method: 'PATCH', body: { action: 'send' } });
+        toast('発送しました');
+        loadBills();
+      } catch (e) { toast(e.message, true); }
     });
   });
 }
-
-// ── 支払い内容モーダル（入力／修正 共通・既存内容プリフィル） ──
-let PAY_BILL_ID = null;
-
-function openPayModal(billId) {
-  PAY_BILL_ID = billId;
-  const b = BILLS.bills.find((x) => x.id === billId);
-  if (!b) return;
-  $('#pay-info').innerHTML = `<b>${escapeHtml(b.ambassador_name)}</b> ・ ${escapeHtml(b.title)}<br>${b.count}件 ・ <b>${yen(b.total)}</b>`;
-  const method = b.method || 'amazon';
-  document.querySelector(`input[name=pay_method][value=${method}]`).checked = true;
-  $('#pay-codes').value = b.method === 'amazon' ? b.gift_codes.join('\n') : '';
-  $('#pay-date').value = b.transfer_date || new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
-  $('#pay-submit').textContent = b.method ? '支払い内容を修正する' : '保存する（支払い済みにする）';
-  togglePayFields();
-  $('#pay-modal-bg').classList.add('open');
-}
-
-function togglePayFields() {
-  const method = document.querySelector('input[name=pay_method]:checked').value;
-  $('#pay-codes-field').style.display = method === 'amazon' ? '' : 'none';
-  $('#pay-date-field').style.display = method === 'transfer' ? '' : 'none';
-}
-document.querySelectorAll('input[name=pay_method]').forEach((r) => r.addEventListener('change', togglePayFields));
-
-$('#pay-close').addEventListener('click', () => $('#pay-modal-bg').classList.remove('open'));
-$('#pay-modal-bg').addEventListener('click', (e) => { if (e.target === $('#pay-modal-bg')) $('#pay-modal-bg').classList.remove('open'); });
-
-$('#pay-submit').addEventListener('click', async () => {
-  if (!PAY_BILL_ID) return;
-  const method = document.querySelector('input[name=pay_method]:checked').value;
-  const body = { action: 'payment', method };
-  if (method === 'amazon') {
-    body.gift_codes = $('#pay-codes').value.split('\n').map((s) => s.trim()).filter(Boolean);
-    if (!body.gift_codes.length) return toast('ギフトカード番号を入力してください', true);
-  } else {
-    if (!$('#pay-date').value) return toast('送金日を入力してください', true);
-    body.transfer_date = $('#pay-date').value;
-  }
-  try {
-    await api(`/api/admin/bills/${PAY_BILL_ID}`, { method: 'PATCH', body });
-    toast('保存しました（支払い済み）');
-    $('#pay-modal-bg').classList.remove('open');
-    loadBills();
-  } catch (e) { toast(e.message, true); }
-});
 
 // ══════════ アンバサダー管理 ══════════
 async function loadAmbassadors() {

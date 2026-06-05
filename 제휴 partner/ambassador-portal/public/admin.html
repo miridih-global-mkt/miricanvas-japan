@@ -86,10 +86,10 @@
     <!-- リワード管理 -->
     <section class="card tab-panel" id="panel-bills" style="display:none">
       <h2>リワード管理</h2>
-      <p class="muted">リワード案件は活動管理から承認済みの活動を選択して作成します。行をクリックすると対象活動が表示されます。</p>
+      <p class="muted">リワード案件は活動管理から承認済みの活動を選択して作成します。発送前は修正・削除ができます。行をクリックすると対象活動が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="bills-table">
-          <thead><tr><th>作成日</th><th>アンバサダー</th><th>タイトル</th><th>件数</th><th>合計</th><th>支払い状況</th><th>支払い内容</th></tr></thead>
+          <thead><tr><th>作成日</th><th>アンバサダー</th><th>タイトル</th><th>件数</th><th>合計</th><th>支払い月</th><th>状態</th><th>操作</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -123,26 +123,6 @@
   </div>
 </div>
 
-<!-- 支払い内容モーダル -->
-<div class="modal-bg" id="pay-modal-bg">
-  <div class="modal">
-    <button class="close" id="pay-close">×</button>
-    <h2>支払い内容</h2>
-    <div id="pay-info" class="hint"></div>
-    <label class="field">支払い方法</label>
-    <div class="radio-cards">
-      <label class="radio-card"><input type="radio" name="pay_method" value="amazon" checked>
-        <span><span class="t">Amazonギフト</span><br><span class="d">ギフトカード番号を入力（複数枚可）</span></span></label>
-      <label class="radio-card"><input type="radio" name="pay_method" value="transfer">
-        <span><span class="t">海外送金</span><br><span class="d">送金を実施した日付を記録</span></span></label>
-    </div>
-    <label class="field" id="pay-codes-field">ギフトカード番号（1行に1枚）
-      <textarea id="pay-codes" placeholder="AMZN-XXXX-XXXX-XXXX&#10;AMZN-YYYY-YYYY-YYYY"></textarea></label>
-    <label class="field" id="pay-date-field" style="display:none">送金日
-      <input type="date" id="pay-date"></label>
-    <button class="primary" id="pay-submit">保存</button>
-  </div>
-</div>
 
 <!-- 手動追加（運営精算）モーダル -->
 <div class="modal-bg" id="adj-modal-bg">
@@ -159,13 +139,24 @@
   </div>
 </div>
 
-<!-- リワード案件作成モーダル -->
+<!-- リワード案件 作成・修正モーダル -->
 <div class="modal-bg" id="bill-modal-bg">
   <div class="modal">
     <button class="close" id="bill-close">×</button>
-    <h2>リワード案件の作成</h2>
+    <h2 id="bill-modal-title">リワード案件の作成</h2>
     <div id="bill-info" class="hint"></div>
-    <label class="field">タイトル<input type="text" id="bill-title" placeholder="例：2026年6月分"></label>
+    <label class="field">タイトル<span class="req">*</span><input type="text" id="bill-title" placeholder="例：2026年6月分"></label>
+    <label class="field">支払い月（任意）<input type="month" id="bill-paymonth"></label>
+    <label class="field">支払い方法（任意 — 発送時には必須）
+      <select id="bill-method">
+        <option value="">未定</option>
+        <option value="amazon">Amazonギフト</option>
+        <option value="transfer">海外送金</option>
+      </select></label>
+    <label class="field" id="bill-codes-field" style="display:none">ギフトカード番号（1行に1枚）
+      <textarea id="bill-codes" placeholder="AMZN-XXXX-XXXX-XXXX&#10;AMZN-YYYY-YYYY-YYYY"></textarea></label>
+    <label class="field" id="bill-date-field" style="display:none">送金日
+      <input type="date" id="bill-date"></label>
     <label class="field">メモ（任意）<textarea id="bill-memo"></textarea></label>
     <button class="primary" id="bill-submit">作成する</button>
   </div>
