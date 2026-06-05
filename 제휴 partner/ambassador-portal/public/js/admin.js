@@ -283,7 +283,6 @@ function openBillModal(mode, bill = null) {
 }
 
 $('#btn-make-bill').addEventListener('click', () => openBillModal({ kind: 'create', id: null }));
-$('#bill-close').addEventListener('click', () => $('#bill-modal-bg').classList.remove('open'));
 
 $('#bill-submit').addEventListener('click', async () => {
   const v = billFormValues();
@@ -376,14 +375,15 @@ function openDetail(id) {
 }
 
 function closeModal() { $('#modal-bg').classList.remove('open'); }
-// 下部ボタン行：閉じる（左端）＋追加アクションを均等幅で並べる
+// アクション行（均等幅）— 閉じるは静的な下段ボタンと右上の×が担当
 function setModalActions(extraHtml = '') {
-  $('#modal-actions').innerHTML =
-    '<button type="button" class="big-close" id="modal-close">閉じる</button>' + extraHtml;
-  $('#modal-close').addEventListener('click', closeModal);
+  $('#modal-actions').innerHTML = extraHtml;
 }
-setModalActions();
-// ※ 誤操作防止のため、背景クリックでは閉じない（「閉じる」ボタンのみ）
+// 閉じる・× 共通ハンドラ
+document.querySelectorAll('[data-close]').forEach((btn) => {
+  btn.addEventListener('click', () => document.getElementById(btn.dataset.close).classList.remove('open'));
+});
+// ※ 誤操作防止のため、背景クリックでは閉じない（閉じる・×のみ）
 
 // ══════════ 手動追加（運営精算） ══════════
 $('#btn-adj').addEventListener('click', () => {
@@ -392,7 +392,6 @@ $('#btn-adj').addEventListener('click', () => {
   $('#adj-date').value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
   $('#adj-modal-bg').classList.add('open');
 });
-$('#adj-close').addEventListener('click', () => $('#adj-modal-bg').classList.remove('open'));
 
 $('#adj-submit').addEventListener('click', async () => {
   try {

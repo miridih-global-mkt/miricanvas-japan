@@ -83,7 +83,7 @@
       <p class="muted">お渡し済みのリワードです。行をタップすると詳細が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="settle-table">
-          <thead><tr><th>受領日</th><th>タイトル</th><th>件数</th><th>金額</th></tr></thead>
+          <thead><tr><th>受領日</th><th>タイトル</th><th>件数</th><th>金額</th><th>お渡し方法</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -104,6 +104,7 @@
 <!-- ① コンテンツ -->
 <div class="modal-bg" id="fm-content-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="fm-content-bg">×</button>
     <h2 id="fm-content-title">コンテンツ報告</h2>
     <div class="hint slim">AIスライド関連 1万円／その他機能 5千円／転載 3千円（月5件まで・金額は運営確認後に確定）</div>
     <form id="form-content" class="cform">
@@ -129,16 +130,19 @@
           <input type="text" name="memo" placeholder="併用AIツールなど"></label>
       </div>
       <div class="modal-actions">
-        <button type="button" class="big-close" data-close="fm-content-bg">閉じる</button>
         <button class="primary" type="submit">リストに追加</button>
       </div>
     </form>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="fm-content-bg">閉じる</button>
+    </div>
   </div>
 </div>
 
 <!-- ② ウェビナー・セミナー -->
 <div class="modal-bg" id="fm-webinar-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="fm-webinar-bg">×</button>
     <h2 id="fm-webinar-title">ウェビナー・セミナー報告</h2>
     <div class="hint slim">実参加人数のご報告が必要です（発表資料・現場写真もあればぜひ）。併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
     <form id="form-webinar" class="cform">
@@ -169,16 +173,19 @@
           写真の二次利用（広告素材への活用・顔はモザイク処理）を<b>希望しない</b>場合はチェックしてください</label>
       </div>
       <div class="modal-actions">
-        <button type="button" class="big-close" data-close="fm-webinar-bg">閉じる</button>
         <button class="primary" type="submit">リストに追加</button>
       </div>
     </form>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="fm-webinar-bg">閉じる</button>
+    </div>
   </div>
 </div>
 
 <!-- ③ 紹介 -->
 <div class="modal-bg" id="fm-referral-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="fm-referral-bg">×</button>
     <h2 id="fm-referral-title">お知り合い・コミュニティの紹介</h2>
     <div class="hint slim">ご成約・共同活動が実現した場合、紹介報酬をお支払いします。個人：フォロワー1万人以上目安 ／ コミュニティ：会員1,000名以上目安</div>
     <form id="form-referral" class="cform">
@@ -227,20 +234,24 @@
           <input type="date" name="referral_date" required></label>
       </div>
       <div class="modal-actions">
-        <button type="button" class="big-close" data-close="fm-referral-bg">閉じる</button>
         <button class="primary" type="submit">リストに追加</button>
       </div>
     </form>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="fm-referral-bg">閉じる</button>
+    </div>
   </div>
 </div>
 
 <!-- 汎用ポップアップ（提出内訳・リワード詳細） -->
 <div class="modal-bg" id="p-modal-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="p-modal-bg">×</button>
     <h2 id="p-modal-title"></h2>
     <div id="p-modal-body"></div>
-    <div class="modal-actions" id="p-modal-actions">
-      <button type="button" class="big-close" id="p-modal-close">閉じる</button>
+    <div class="modal-actions" id="p-modal-actions"></div>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="p-modal-bg">閉じる</button>
     </div>
   </div>
 </div>

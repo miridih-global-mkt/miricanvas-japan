@@ -116,11 +116,13 @@
 <!-- 提出詳細モーダル -->
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="modal-bg">×</button>
     <h2 id="modal-title"></h2>
     <div id="modal-body"></div>
     <div id="modal-review"></div>
-    <div class="modal-actions" id="modal-actions">
-      <button type="button" class="big-close" id="modal-close">閉じる</button>
+    <div class="modal-actions" id="modal-actions"></div>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="modal-bg">閉じる</button>
     </div>
   </div>
 </div>
@@ -129,6 +131,7 @@
 <!-- 手動追加（運営精算）モーダル -->
 <div class="modal-bg" id="adj-modal-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="adj-modal-bg">×</button>
     <h2>活動の手動追加（運営精算）</h2>
     <p class="muted">紹介成約の残金など、運営側から計上する項目です。<b>登録と同時に承認されます。</b></p>
     <label class="field">アンバサダー<select id="adj-amb"></select></label>
@@ -137,8 +140,10 @@
     <label class="field">実施日<input type="date" id="adj-date"></label>
     <label class="field">メモ（任意）<textarea id="adj-memo"></textarea></label>
     <div class="modal-actions">
-      <button type="button" class="big-close" id="adj-close">閉じる</button>
       <button class="primary" id="adj-submit">登録する（自動承認）</button>
+    </div>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="adj-modal-bg">閉じる</button>
     </div>
   </div>
 </div>
@@ -146,6 +151,7 @@
 <!-- リワード案件 作成・修正モーダル -->
 <div class="modal-bg" id="bill-modal-bg">
   <div class="modal">
+    <button type="button" class="close-x" data-close="bill-modal-bg">×</button>
     <h2 id="bill-modal-title">リワード案件の作成</h2>
     <div id="bill-info" class="hint"></div>
     <label class="field">タイトル<span class="req">*</span><input type="text" id="bill-title" placeholder="例：2026年6月分"></label>
@@ -162,8 +168,10 @@
       <input type="date" id="bill-date"></label>
     <label class="field">メモ（任意）<textarea id="bill-memo"></textarea></label>
     <div class="modal-actions">
-      <button type="button" class="big-close" id="bill-close">閉じる</button>
       <button class="primary" id="bill-submit">作成する</button>
+    </div>
+    <div class="modal-close-row">
+      <button type="button" class="big-close" data-close="bill-modal-bg">閉じる</button>
     </div>
   </div>
 </div>

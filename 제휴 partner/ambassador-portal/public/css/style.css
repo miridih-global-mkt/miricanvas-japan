@@ -389,19 +389,27 @@ table.list tr.clickable:hover { background: var(--accent-light); }
   background: #fff; border-radius: var(--radius); max-width: 640px; width: 100%;
   padding: 20px; position: relative;
 }
-/* モーダル下部のボタン行：全ボタン均等幅（閉じるは左端） */
+/* モーダル：右上の×、アクション行（均等幅）、その下に全幅の「閉じる」 */
+.close-x {
+  position: absolute; top: 8px; right: 10px;
+  font-size: 22px; line-height: 1; border: none; background: none;
+  color: var(--muted); cursor: pointer; padding: 6px 10px; font-family: inherit;
+}
+.close-x:hover { color: var(--accent); }
 .modal-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.modal-actions:empty { display: none; }
 .modal-actions > * { flex: 1 1 0; min-width: 110px; }
 .modal-actions .primary { margin-top: 0; padding: 12px; width: auto; }
 .modal-actions .danger, .modal-actions .ghost {
   padding: 12px; font-size: 15px; font-weight: 600; border-radius: 8px;
 }
-.modal-actions .big-close {
-  padding: 12px; font-size: 15px; font-weight: 600;
+.modal-close-row { margin-top: 10px; }
+.modal-close-row .big-close {
+  width: 100%; padding: 12px; font-size: 15px; font-weight: 600;
   border: 1px solid var(--border); background: #fff; color: var(--muted);
   border-radius: 8px; cursor: pointer; font-family: inherit;
 }
-.modal-actions .big-close:hover { border-color: var(--accent); color: var(--accent); }
+.modal-close-row .big-close:hover { border-color: var(--accent); color: var(--accent); }
 .kv { display: grid; grid-template-columns: 130px 1fr; gap: 4px 12px; font-size: 13.5px; margin-top: 10px; }
 .kv dt { color: var(--muted); }
 .kv dd { margin: 0; word-break: break-all; }

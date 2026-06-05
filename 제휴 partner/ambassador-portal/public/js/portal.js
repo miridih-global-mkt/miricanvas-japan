@@ -419,7 +419,7 @@ function renderRewards() {
   const tbody = $('#settle-table tbody');
   const bills = DATA.bills || [];
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="4" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
     return;
   }
 
@@ -434,6 +434,7 @@ function renderRewards() {
         <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted" style="font-size:12px">${escapeHtml(b.memo)}</span>` : ''}</td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
+        <td>${b.method === 'amazon' ? '🎁 Amazonギフト' : '🏦 海外送金'}</td>
       </tr>`;
   }).join('');
 
@@ -515,13 +516,11 @@ function openSubmissionDetail(id) {
   }
 }
 
-// ── 汎用モーダル（下部：閉じる＋追加アクションを均等幅で） ──
+// ── 汎用モーダル（アクション行＋その下に全幅の閉じる） ──
 function openModal(title, html, actionsHtml = '') {
   $('#p-modal-title').textContent = title;
   $('#p-modal-body').innerHTML = html;
-  $('#p-modal-actions').innerHTML =
-    '<button type="button" class="big-close" id="p-modal-close">閉じる</button>' + actionsHtml;
-  $('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
+  $('#p-modal-actions').innerHTML = actionsHtml;
   $('#p-modal-bg').classList.add('open');
 }
 
