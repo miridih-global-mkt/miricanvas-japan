@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>セキュリティ｜情報システム部門のための信頼基盤</title>
+  <meta name="description" content="ISO 27001・ISO 27701 認証取得。情報システム担当者のためのエンタープライズ級セキュリティ基盤。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'Outfit', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            display: ['Outfit', 'Pretendard', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#21afbf',
+              soft: 'rgba(33,175,191,0.10)',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    :root { --brand: #21afbf; }
+    body {
+      background-color: #050607;
+      color: #e7eaec;
+    }
+    /* Japanese / CJK text rhythm — applied per skill Korean-text directives */
+    .cjk {
+      word-break: keep-all;
+      line-break: strict;
+      letter-spacing: 0.01em;
+      line-height: 1.65;
+    }
+    .cjk-head {
+      word-break: keep-all;
+      line-break: strict;
+      letter-spacing: -0.01em;
+      line-height: 1.28; /* leading-snug equivalent for CJK headlines */
+    }
+    .supanova-ease { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(2rem); filter: blur(4px); }
+      to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-delay: calc(var(--index, 0) * 80ms); }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .float-orb { animation: float 7s ease-in-out infinite; }
+
+    .mesh {
+      background:
+        radial-gradient(40% 40% at 18% 22%, rgba(33,175,191,0.18) 0%, transparent 60%),
+        radial-gradient(35% 35% at 82% 30%, rgba(33,175,191,0.10) 0%, transparent 60%),
+        radial-gradient(45% 45% at 60% 90%, rgba(33,175,191,0.08) 0%, transparent 60%);
+    }
+    /* Grain overlay */
+    .grain::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 60; pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    input::placeholder { color: rgba(231,234,236,0.35); }
+    input:focus { outline: none; }
+  </style>
+</head>
+<body class="font-sans antialiased grain">
+
+  <!-- Floating glass pill nav -->
+  <nav class="fixed top-0 inset-x-0 z-40 flex justify-center">
+    <div class="mt-4 mx-4 w-full max-w-7xl rounded-full backdrop-blur-xl bg-white/[0.06] border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] px-5 py-3 flex items-center justify-between supanova-ease">
+      <div class="flex items-center gap-2.5">
+        <span class="w-8 h-8 rounded-xl flex items-center justify-center" style="background:var(--brand)">
+          <iconify-icon icon="solar:shield-check-bold" class="text-[#050607] text-lg"></iconify-icon>
+        </span>
+        <span class="font-display font-700 tracking-tight text-[15px]">SecureBridge</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-white/70 cjk">
+        <a href="#trust" class="hover:text-white supanova-ease">セキュリティ</a>
+        <a href="#cert" class="hover:text-white supanova-ease">認証</a>
+        <a href="#contact" class="hover:text-white supanova-ease">お問い合わせ</a>
+      </div>
+      <a href="#contact" class="group flex items-center gap-2 rounded-full pl-5 pr-1.5 py-1.5 text-sm font-600 text-[#050607] supanova-ease hover:scale-[1.02] active:scale-[0.98]" style="background:var(--brand)">
+        <span class="cjk">資料請求</span>
+        <span class="w-7 h-7 rounded-full bg-black/15 flex items-center justify-center supanova-ease group-hover:translate-x-1">
+          <iconify-icon icon="solar:arrow-right-linear" class="text-base"></iconify-icon>
+        </span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO — Editorial split, dark Vantablack Luxe -->
+  <section class="relative min-h-[100dvh] flex items-center overflow-hidden mesh">
+    <div class="absolute -top-24 -left-24 w-[36rem] h-[36rem] rounded-full float-orb pointer-events-none"
+         style="background:radial-gradient(circle, rgba(33,175,191,0.14), transparent 70%)"></div>
+    <div class="absolute bottom-0 right-0 w-[30rem] h-[30rem] rounded-full float-orb pointer-events-none" style="animation-delay:-3s;background:radial-gradient(circle, rgba(33,175,191,0.10), transparent 70%)"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center pt-32 pb-24">
+      <div class="lg:col-span-7">
+        <div class="reveal inline-flex items-center gap-2 rounded-full px-3 py-1 mb-7 bg-brand-soft border border-white/10" style="--index:0">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:var(--brand)"></span>
+          <span class="text-[11px] uppercase tracking-[0.15em] font-500" style="color:var(--brand)">Enterprise Security</span>
+        </div>
+
+        <h1 class="reveal cjk-head font-display font-800 text-4xl md:text-5xl lg:text-6xl text-white" style="--index:1">
+          情報システム部門が、<br>
+          安心して任せられる<br>
+          <span style="color:var(--brand)">セキュリティ基盤</span>を。
+        </h1>
+
+        <p class="reveal cjk mt-7 text-base md:text-lg text-white/60 max-w-[46ch]" style="--index:2">
+          データ保護・アクセス管理・監査対応まで。第三者認証に裏付けられた運用体制で、貴社の機密情報を多層的に守ります。導入から監査対応までを一貫してサポートします。
+        </p>
+
+        <div class="reveal flex flex-col sm:flex-row gap-3 mt-10" style="--index:3">
+          <a href="#contact" class="group flex items-center justify-center gap-2 rounded-full pl-8 pr-2 py-4 text-base font-600 text-[#050607] supanova-ease hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_0_30px_rgba(33,175,191,0.35)]" style="background:var(--brand)">
+            <span class="cjk">無料でセキュリティ資料を受け取る</span>
+            <span class="w-8 h-8 rounded-full bg-black/15 flex items-center justify-center supanova-ease group-hover:translate-x-1">
+              <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+            </span>
+          </a>
+          <a href="#cert" class="flex items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-500 text-white/80 border border-white/15 bg-white/[0.04] supanova-ease hover:bg-white/[0.08]">
+            <iconify-icon icon="solar:document-text-linear" class="text-lg"></iconify-icon>
+            <span class="cjk">認証内容を見る</span>
+          </a>
+        </div>
+
+        <div class="reveal flex items-center gap-8 mt-12" style="--index:4">
+          <div>
+            <div class="font-display font-700 text-2xl text-white">99.98<span class="text-base align-top" style="color:var(--brand)">%</span></div>
+            <div class="cjk text-xs text-white/45 mt-1">稼働率（直近12ヶ月）</div>
+          </div>
+          <div class="w-px h-10 bg-white/10"></div>
+          <div>
+            <div class="font-display font-700 text-2xl text-white">1,840<span class="text-base align-top" style="color:var(--brand)">+</span></div>
+            <div class="cjk text-xs text-white/45 mt-1">導入企業数</div>
+          </div>
+          <div class="w-px h-10 bg-white/10"></div>
+          <div>
+            <div class="font-display font-700 text-2xl text-white">2,560<span class="text-base align-top" style="color:var(--brand)">万件</span></div>
+            <div class="cjk text-xs text-white/45 mt-1">日次暗号化処理</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero visual — double-bezel security panel -->
+      <div class="lg:col-span-5 reveal" style="--index:3">
+        <div class="rounded-[2rem] bg-white/5 ring-1 ring-white/10 p-1.5 supanova-ease">
+          <div class="rounded-[calc(2rem-0.375rem)] bg-[#0b0e10] shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] p-7">
+            <div class="flex items-center justify-between mb-6">
+              <span class="cjk text-xs text-white/50">セキュリティ状態</span>
+              <span class="cjk inline-flex items-center gap-1.5 text-xs font-500 rounded-full px-2.5 py-1 bg-brand-soft" style="color:var(--brand)">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:var(--brand)"></span>保護中
+              </span>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-4 py-3.5">
+                <iconify-icon icon="solar:lock-keyhole-bold" class="text-xl" style="color:var(--brand)"></iconify-icon>
+                <div class="flex-1">
+                  <div class="cjk text-sm text-white/90">通信の暗号化</div>
+                  <div class="cjk text-xs text-white/40">TLS 1.3 / AES-256</div>
+                </div>
+                <iconify-icon icon="solar:check-circle-bold" class="text-lg" style="color:var(--brand)"></iconify-icon>
+              </div>
+              <div class="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-4 py-3.5">
+                <iconify-icon icon="solar:users-group-rounded-bold" class="text-xl" style="color:var(--brand)"></iconify-icon>
+                <div class="flex-1">
+                  <div class="cjk text-sm text-white/90">アクセス権限の管理</div>
+                  <div class="cjk text-xs text-white/40">ロールベース制御 / SSO 対応</div>
+                </div>
+                <iconify-icon icon="solar:check-circle-bold" class="text-lg" style="color:var(--brand)"></iconify-icon>
+              </div>
+              <div class="flex items-center gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-4 py-3.5">
+                <iconify-icon icon="solar:clipboard-list-bold" class="text-xl" style="color:var(--brand)"></iconify-icon>
+                <div class="flex-1">
+                  <div class="cjk text-sm text-white/90">操作ログの監査</div>
+                  <div class="cjk text-xs text-white/40">改ざん防止・長期保管</div>
+                </div>
+                <iconify-icon icon="solar:check-circle-bold" class="text-lg" style="color:var(--brand)"></iconify-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATION SECTION — Asymmetric bento, distinct from hero -->
+  <section id="cert" class="relative py-24 md:py-32 lg:py-40 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl reveal" style="--index:0">
+        <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-6 bg-brand-soft border border-white/10">
+          <span class="text-[11px] uppercase tracking-[0.15em] font-500" style="color:var(--brand)">Certifications</span>
+        </div>
+        <h2 class="cjk-head font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white">
+          第三者認証で裏付けられた、<br><span style="color:var(--brand)">客観的な信頼</span>。
+        </h2>
+        <p class="cjk mt-6 text-base md:text-lg text-white/55 max-w-[52ch]">
+          国際規格に基づく審査を継続的に受審しています。社内基準だけに頼らず、外部監査によって運用品質を証明します。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5 mt-14">
+        <!-- ISO 27001 — large -->
+        <div class="md:col-span-7 reveal" style="--index:1">
+          <div class="h-full rounded-[2rem] bg-white/5 ring-1 ring-white/10 p-1.5 supanova-ease hover:-translate-y-1">
+            <div class="h-full rounded-[calc(2rem-0.375rem)] bg-[#0b0e10] shadow-[inset_0_1px_1px_rgba(255,255,255,0.10)] p-8 flex flex-col">
+              <div class="flex items-start justify-between">
+                <span class="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand-soft">
+                  <iconify-icon icon="solar:shield-keyhole-bold" class="text-2xl" style="color:var(--brand)"></iconify-icon>
+                </span>
+                <span class="font-display font-700 text-white/15 text-2xl">ISO/IEC</span>
+              </div>
+              <h3 class="font-display font-700 text-3xl text-white mt-7">27001</h3>
+              <p class="cjk text-sm font-500 mt-1" style="color:var(--brand)">情報セキュリティマネジメントシステム（ISMS）</p>
+              <p class="cjk text-sm text-white/55 mt-4 leading-relaxed">
+                情報資産の機密性・完全性・可用性を体系的に管理する国際規格。リスクアセスメントに基づき、組織全体でセキュリティ運用を継続的に改善します。
+              </p>
+              <div class="mt-auto pt-7 flex flex-wrap gap-2">
+                <span class="cjk text-xs rounded-full px-3 py-1 bg-white/[0.05] border border-white/10 text-white/70">リスク管理</span>
+                <span class="cjk text-xs rounded-full px-3 py-1 bg-white/[0.05] border border-white/10 text-white/70">継続的改善</span>
+                <span class="cjk text-xs rounded-full px-3 py-1 bg-white/[0.05] border border-white/10 text-white/70">年次審査</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ISO 27701 — smaller -->
+        <div class="md:col-span-5 reveal" style="--index:2">
+          <div class="h-full rounded-[2rem] bg-white/5 ring-1 ring-white/10 p-1.5 supanova-ease hover:-translate-y-1">
+            <div class="h-full rounded-[calc(2rem-0.375rem)] bg-[#0b0e10] shadow-[inset_0_1px_1px_rgba(255,255,255,0.10)] p-8 flex flex-col">
+              <div class="flex items-start justify-between">
+                <span class="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand-soft">
+                  <iconify-icon icon="solar:user-id-bold" class="text-2xl" style="color:var(--brand)"></iconify-icon>
+                </span>
+                <span class="font-display font-700 text-white/15 text-2xl">ISO/IEC</span>
+              </div>
+              <h3 class="font-display font-700 text-3xl text-white mt-7">27701</h3>
+              <p class="cjk text-sm font-500 mt-1" style="color:var(--brand)">プライバシー情報マネジメント（PIMS）</p>
+              <p class="cjk text-sm text-white/55 mt-4 leading-relaxed">
+                個人情報の取り扱いを規律する国際規格。各国のプライバシー法令に対応した管理体制を構築し、説明責任を果たします。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom strip — 3 supporting points -->
+        <div class="md:col-span-4 reveal" style="--index:3">
+          <div class="h-full rounded-3xl bg-white/[0.03] border border-white/10 px-6 py-7 supanova-ease hover:bg-white/[0.06]">
+            <iconify-icon icon="solar:calendar-mark-bold" class="text-2xl" style="color:var(--brand)"></iconify-icon>
+            <h4 class="cjk text-white font-600 mt-4">定期的な外部審査</h4>
+            <p class="cjk text-sm text-white/50 mt-2">認定機関による年次サーベイランスを継続的に受審しています。</p>
+          </div>
+        </div>
+        <div class="md:col-span-4 reveal" style="--index:4">
+          <div class="h-full rounded-3xl bg-white/[0.03] border border-white/10 px-6 py-7 supanova-ease hover:bg-white/[0.06]">
+            <iconify-icon icon="solar:server-square-bold" class="text-2xl" style="color:var(--brand)"></iconify-icon>
+            <h4 class="cjk text-white font-600 mt-4">国内データセンター</h4>
+            <p class="cjk text-sm text-white/50 mt-2">データは国内のデータセンターで分散管理し、冗長構成で保全します。</p>
+          </div>
+        </div>
+        <div class="md:col-span-4 reveal" style="--index:5">
+          <div class="h-full rounded-3xl bg-white/[0.03] border border-white/10 px-6 py-7 supanova-ease hover:bg-white/[0.06]">
+            <iconify-icon icon="solar:document-medicine-bold" class="text-2xl" style="color:var(--brand)"></iconify-icon>
+            <h4 class="cjk text-white font-600 mt-4">監査対応資料の提供</h4>
+            <p class="cjk text-sm text-white/50 mt-2">貴社の社内監査やセキュリティチェックシートに必要な資料をご提供します。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM — full-bleed CTA, distinct layout -->
+  <section id="contact" class="relative py-24 md:py-32 lg:py-40 border-t border-white/5 mesh overflow-hidden">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] rounded-full float-orb pointer-events-none"
+         style="background:radial-gradient(circle, rgba(33,175,191,0.10), transparent 70%)"></div>
+
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
+      <div class="reveal" style="--index:0">
+        <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-6 bg-brand-soft border border-white/10">
+          <span class="text-[11px] uppercase tracking-[0.15em] font-500" style="color:var(--brand)">Contact</span>
+        </div>
+        <h2 class="cjk-head font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white">
+          セキュリティ資料を、<br><span style="color:var(--brand)">3分でお届け</span>します。
+        </h2>
+        <p class="cjk mt-6 text-base md:text-lg text-white/55 max-w-[46ch]">
+          認証範囲・運用体制・監査対応の詳細をまとめた資料をご送付します。情報システム部門の検討に必要な情報を網羅しています。
+        </p>
+        <div class="mt-8 space-y-3">
+          <div class="cjk flex items-center gap-3 text-sm text-white/65">
+            <iconify-icon icon="solar:check-circle-bold" class="text-lg" style="color:var(--brand)"></iconify-icon>
+            営業からの強引な連絡はいたしません
+          </div>
+          <div class="cjk flex items-center gap-3 text-sm text-white/65">
+            <iconify-icon icon="solar:check-circle-bold" class="text-lg" style="color:var(--brand)"></iconify-icon>
+            ご入力情報はISMSに基づき厳重に管理します
+          </div>
+        </div>
+      </div>
+
+      <!-- Double-bezel form card -->
+      <div class="reveal" style="--index:1">
+        <div class="rounded-[2rem] bg-white/5 ring-1 ring-white/10 p-1.5">
+          <div class="rounded-[calc(2rem-0.375rem)] bg-[#0b0e10] shadow-[inset_0_1px_1px_rgba(255,255,255,0.10)] p-7 md:p-8">
+            <form onsubmit="return false">
+              <div class="mb-5">
+                <label for="company" class="cjk flex items-center gap-1.5 text-sm font-500 text-white/80 mb-2">
+                  会社名
+                  <span class="cjk text-[11px] font-600 rounded px-1.5 py-0.5" style="background:var(--brand);color:#050607">必須</span>
+                </label>
+                <input id="company" name="company" type="text" required placeholder="株式会社スターブリッジ"
+                  class="cjk w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-white supanova-ease focus:border-[color:var(--brand)] focus:bg-white/[0.06]">
+              </div>
+
+              <div class="mb-5">
+                <label for="name" class="cjk flex items-center gap-1.5 text-sm font-500 text-white/80 mb-2">
+                  お名前
+                  <span class="cjk text-[11px] font-600 rounded px-1.5 py-0.5" style="background:var(--brand);color:#050607">必須</span>
+                </label>
+                <input id="name" name="name" type="text" required placeholder="情報 太郎"
+                  class="cjk w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-white supanova-ease focus:border-[color:var(--brand)] focus:bg-white/[0.06]">
+              </div>
+
+              <div class="mb-7">
+                <label for="email" class="cjk flex items-center gap-1.5 text-sm font-500 text-white/80 mb-2">
+                  メールアドレス
+                  <span class="cjk text-[11px] font-600 rounded px-1.5 py-0.5" style="background:var(--brand);color:#050607">必須</span>
+                </label>
+                <input id="email" name="email" type="email" required placeholder="taro.joho@starbridge.co.jp"
+                  class="cjk w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-white supanova-ease focus:border-[color:var(--brand)] focus:bg-white/[0.06]">
+              </div>
+
+              <button type="submit"
+                class="group w-full flex items-center justify-center gap-2 rounded-full pl-8 pr-2 py-4 text-base font-600 text-[#050607] supanova-ease hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_0_30px_rgba(33,175,191,0.35)]"
+                style="background:var(--brand)">
+                <span class="cjk">資料を無料で受け取る</span>
+                <span class="w-8 h-8 rounded-full bg-black/15 flex items-center justify-center supanova-ease group-hover:translate-x-1">
+                  <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+                </span>
+              </button>
+
+              <p class="cjk text-[11px] text-white/35 text-center mt-4 leading-relaxed">
+                送信をもって、プライバシーポリシーに同意したものとみなされます。
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal footer -->
+  <footer class="border-t border-white/5 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--brand)">
+          <iconify-icon icon="solar:shield-check-bold" class="text-[#050607]"></iconify-icon>
+        </span>
+        <span class="font-display font-700 text-sm text-white/80">SecureBridge</span>
+      </div>
+      <p class="cjk text-xs text-white/35">© 2026 SecureBridge Inc. ISO/IEC 27001・27701 認証取得済み。</p>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

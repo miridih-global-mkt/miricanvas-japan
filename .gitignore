@@ -1,9 +1,14 @@
 *
 !*/
 !*.html
-!*.md
 !.gitignore
 !.nojekyll
 
-# B2B LP site assets (js/css/pdf under B2B/lp)
+# B2B LP 사이트 에셋 (js/css/pdf) — 사이트 동작에 필요한 것만
 !B2B/lp/**
+# 단, lp 안에서도 md·내부 코드는 비공개 (md는 전 레포 로컬 전용 정책)
+B2B/lp/**/*.md
+B2B/lp/gas/
+
+# 다운로드한 웹페이지 스냅샷 (참고자료, 비공개)
+B2B/資料作成AI*
