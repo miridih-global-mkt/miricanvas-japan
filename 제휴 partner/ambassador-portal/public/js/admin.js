@@ -336,6 +336,7 @@ function openDetail(id) {
 
   if (s.bill_id != null) {
     $('#modal-review').innerHTML = '<p class="muted">リワード案件に含まれている活動です。変更するには、リワード管理で該当案件を削除してください。</p>';
+    setModalActions();
   } else {
     const amount = s.approved_amount ?? s.suggested_amount ?? '';
     $('#modal-review').innerHTML = `
@@ -345,12 +346,12 @@ function openDetail(id) {
       <label class="field">実施日（精算基準日の調整が必要な場合に変更）
         <input type="date" id="rv-date" value="${s.activity_date || ''}"></label>
       <label class="field">運営メモ（差し戻し理由など — アンバサダーに表示されます）<textarea id="rv-note">${escapeHtml(s.admin_note || '')}</textarea></label>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="primary" style="width:auto;margin:0;padding:10px 18px" id="rv-approve">承認する</button>
-        <button class="danger" id="rv-reject">差し戻す</button>
-        ${s.status !== 'submitted' ? '<button class="ghost" id="rv-reopen">確認中に戻す</button>' : ''}
-      </div>
     `;
+    setModalActions(`
+      ${s.status !== 'submitted' ? '<button class="ghost" id="rv-reopen">確認中に戻す</button>' : ''}
+      <button class="danger" id="rv-reject">差し戻す</button>
+      <button class="primary" id="rv-approve">承認する</button>
+    `);
 
     const act = async (action, extra = {}) => {
       try {
@@ -375,7 +376,13 @@ function openDetail(id) {
 }
 
 function closeModal() { $('#modal-bg').classList.remove('open'); }
-$('#modal-close').addEventListener('click', closeModal);
+// 下部ボタン行：閉じる（左端）＋追加アクションを均等幅で並べる
+function setModalActions(extraHtml = '') {
+  $('#modal-actions').innerHTML =
+    '<button type="button" class="big-close" id="modal-close">閉じる</button>' + extraHtml;
+  $('#modal-close').addEventListener('click', closeModal);
+}
+setModalActions();
 // ※ 誤操作防止のため、背景クリックでは閉じない（「閉じる」ボタンのみ）
 
 // ══════════ 手動追加（運営精算） ══════════
@@ -504,12 +511,11 @@ function openBillDetail(b) {
       <tbody>${childRows || '<tr><td colspan="4" class="muted">対象活動がありません</td></tr>'}</tbody>
     </table>
   `;
-  $('#modal-review').innerHTML = isSent
-    ? ''
-    : `<div style="display:flex;gap:8px;margin-top:14px">
-        <button class="primary" id="btn-bill-modify" style="width:auto;margin:0;padding:10px 18px">修正する</button>
-        <button class="danger" id="btn-bill-delete">削除する</button>
-      </div>`;
+  $('#modal-review').innerHTML = '';
+  setModalActions(isSent ? '' : `
+    <button class="danger" id="btn-bill-delete">削除する</button>
+    <button class="primary" id="btn-bill-modify">修正する</button>
+  `);
   if (!isSent) {
     $('#btn-bill-modify').addEventListener('click', () => {
       closeModal();

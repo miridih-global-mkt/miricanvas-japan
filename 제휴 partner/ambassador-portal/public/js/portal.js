@@ -498,9 +498,8 @@ function openSubmissionDetail(id) {
       ${s.status === 'rejected' && s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
     </dl>
     ${files.length ? `<p>📎 ${files.map((f) => `<a href="/api/files/${f.id}?token=${encodeURIComponent(token)}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</p>` : ''}
-    ${canEdit ? `<button class="primary" id="btn-edit-sub" style="margin-top:14px">修正する</button>` : ''}
   `;
-  openModal('提出内容', body);
+  openModal('提出内容', body, canEdit ? '<button class="primary" id="btn-edit-sub">修正する</button>' : '');
 
   if (canEdit) {
     $('#btn-edit-sub').addEventListener('click', () => {
@@ -510,13 +509,15 @@ function openSubmissionDetail(id) {
   }
 }
 
-// ── 汎用モーダル ──
-function openModal(title, html) {
+// ── 汎用モーダル（下部：閉じる＋追加アクションを均等幅で） ──
+function openModal(title, html, actionsHtml = '') {
   $('#p-modal-title').textContent = title;
   $('#p-modal-body').innerHTML = html;
+  $('#p-modal-actions').innerHTML =
+    '<button type="button" class="big-close" id="p-modal-close">閉じる</button>' + actionsHtml;
+  $('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
   $('#p-modal-bg').classList.add('open');
 }
-$('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
 
 // ── タブ切替 ──
 function setMode(mode) {
