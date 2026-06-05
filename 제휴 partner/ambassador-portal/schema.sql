@@ -1,5 +1,6 @@
--- 앰버서더 포털 스키마 (D1 / SQLite) v2
--- v2: activity_date(실행일 기준 정산), payments(지불 기록), adjustment(운영 정산), channel→description
+-- 앰버서더 포털 스키마 (D1 / SQLite) v3
+-- v3: 사전신청 삭제(webinar 단일화), 지불건(bills) 수동 생성 모델, 제출:지불건 = N:1
+--     제출 상태 3종(submitted/approved/rejected) — 지불 여부는 bills가 담당
 
 CREATE TABLE IF NOT EXISTS ambassadors (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,26 +11,41 @@ CREATE TABLE IF NOT EXISTS ambassadors (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- 지불건 (운영자가 제출건을 수동 선택해 생성. method 입력 = 지불완료)
+CREATE TABLE IF NOT EXISTS bills (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
+  title TEXT NOT NULL,                          -- 예: "2026年6月分"
+  memo TEXT,
+  method TEXT CHECK (method IN ('amazon','transfer')),  -- NULL = 지불전
+  gift_codes TEXT,                              -- 아마존: 기프트코드 JSON 배열
+  transfer_date TEXT,                           -- 해외송금: 송금일 (YYYY-MM-DD)
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  paid_at TEXT,                                 -- 지불내용 입력 시각
+  updated_at TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_bills_amb ON bills(ambassador_id);
+
 CREATE TABLE IF NOT EXISTS submissions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
-  type TEXT NOT NULL CHECK (type IN ('content','webinar_pre','webinar_post','referral','adjustment')),
+  type TEXT NOT NULL CHECK (type IN ('content','webinar','referral','adjustment')),
   payload TEXT NOT NULL DEFAULT '{}',           -- 폼 항목 전체 JSON (규정 변경 대비)
-  activity_date TEXT,                           -- 실행일 (YYYY-MM-DD) — 정산 월 합산 기준
-  suggested_amount INTEGER,                     -- 자동 제안 금액(엔), 제안 불가 시 NULL
+  activity_date TEXT,                           -- 실행일 (YYYY-MM-DD)
+  suggested_amount INTEGER,                     -- 자동 제안 금액(엔)
   approved_amount INTEGER,                      -- 운영자 확정 금액(엔)
   status TEXT NOT NULL DEFAULT 'submitted'
-    CHECK (status IN ('submitted','approved','rejected','paid')),
+    CHECK (status IN ('submitted','approved','rejected')),
   admin_note TEXT,
-  linked_submission_id INTEGER REFERENCES submissions(id),  -- 사후보고→사전신청 연결
+  bill_id INTEGER REFERENCES bills(id),         -- 소속 지불건 (N:1, NULL = 미편성)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  reviewed_at TEXT,
-  paid_at TEXT
+  reviewed_at TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_submissions_ambassador ON submissions(ambassador_id);
 CREATE INDEX IF NOT EXISTS idx_submissions_status ON submissions(status);
-CREATE INDEX IF NOT EXISTS idx_submissions_activity ON submissions(activity_date);
+CREATE INDEX IF NOT EXISTS idx_submissions_bill ON submissions(bill_id);
 
 CREATE TABLE IF NOT EXISTS files (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,21 +59,6 @@ CREATE TABLE IF NOT EXISTS files (
 );
 
 CREATE INDEX IF NOT EXISTS idx_files_submission ON files(submission_id);
-
--- 지불 기록 (앰버서더 × 실행월당 1건 — 입력/수정은 upsert)
-CREATE TABLE IF NOT EXISTS payments (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
-  month TEXT NOT NULL,                          -- 실행월 (YYYY-MM)
-  method TEXT NOT NULL CHECK (method IN ('amazon','transfer')),
-  gift_codes TEXT,                              -- 아마존: 기프트코드 JSON 배열
-  transfer_date TEXT,                           -- 해외송금: 송금일 (YYYY-MM-DD)
-  amount INTEGER NOT NULL,
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_payments_amb ON payments(ambassador_id, month);
 
 CREATE TABLE IF NOT EXISTS admin_sessions (
   token TEXT PRIMARY KEY,

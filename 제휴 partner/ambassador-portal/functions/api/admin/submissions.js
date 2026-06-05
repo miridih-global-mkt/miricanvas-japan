@@ -23,8 +23,10 @@ export async function onRequestGet({ request, env }) {
 
   const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
   const { results } = await env.DB.prepare(
-    `SELECT s.*, a.name AS ambassador_name
-     FROM submissions s JOIN ambassadors a ON a.id = s.ambassador_id
+    `SELECT s.*, a.name AS ambassador_name, b.title AS bill_title
+     FROM submissions s
+     JOIN ambassadors a ON a.id = s.ambassador_id
+     LEFT JOIN bills b ON b.id = s.bill_id
      ${where} ORDER BY COALESCE(s.activity_date, s.created_at) DESC, s.id DESC LIMIT 500`
   ).bind(...binds).all();
 
@@ -58,9 +60,9 @@ export async function onRequestPost({ request, env }) {
   const amount = Number(body.amount);
   const title = (body.title || '').trim();
   if (!ambassadorId) return err('ambassador_id required');
-  if (!title) return err('内容(title)を入力してください');
-  if (!Number.isFinite(amount) || amount < 0) return err('金額が不正です');
-  if (!isDate(body.activity_date)) return err('実施日(YYYY-MM-DD)が必要です');
+  if (!title) return err('내용(title)을 입력하세요');
+  if (!Number.isFinite(amount) || amount < 0) return err('금액이 올바르지 않습니다');
+  if (!isDate(body.activity_date)) return err('실시일(YYYY-MM-DD)이 필요합니다');
 
   const amb = await env.DB.prepare('SELECT id FROM ambassadors WHERE id = ?').bind(ambassadorId).first();
   if (!amb) return err('ambassador not found', 404);

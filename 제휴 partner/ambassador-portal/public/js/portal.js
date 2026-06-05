@@ -3,8 +3,7 @@ const token = (location.pathname.match(/\/a\/([^/]+)/) || [])[1];
 
 const TYPE_LABELS = {
   content: 'コンテンツ報告',
-  webinar_pre: 'ウェビナー事前申請',
-  webinar_post: 'ウェビナー事後報告',
+  webinar: 'ウェビナー・セミナー報告',
   referral: '紹介',
   adjustment: '運営精算',
 };
@@ -12,7 +11,6 @@ const STATUS_LABELS = {
   submitted: '確認中',
   approved: '承認済み',
   rejected: '差し戻し',
-  paid: '支払い済み',
 };
 const CATEGORY_LABELS = { ai_slide: 'AIスライド関連', other_feature: 'その他の機能', repost: '転載' };
 const WTYPE_LABELS = { targeted: 'ターゲット向け', general: '不特定多数向け' };
@@ -21,11 +19,10 @@ const TRACK_LABELS = { ai: 'AI・資料作成系', design: 'デザイン系' };
 // payload キーの日本語ラベル（内訳ポップアップ用）
 const FIELD_LABELS = {
   category: 'カテゴリ', url: 'URL', channel: 'チャネル', published_date: '公開日', memo: '補足',
-  title: 'タイトル', event_date: '開催日時', webinar_type: '形式',
-  expected_participants: '予想参加人数', participants: '実参加人数',
-  mc_duration: 'MC講義時間', mc_content: 'MC講義内容', ai_tools: '併用AIツール',
+  title: 'タイトル', event_date: '開催日', webinar_type: '形式',
+  participants: '実参加人数', ai_tools: '併用AIツール',
   exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真二次利用同意',
-  linked_submission_id: '事前申請', referral_kind: '紹介種類', referral_date: '紹介日',
+  referral_kind: '紹介種類', referral_date: '紹介日',
   p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
   c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
   reason: '紹介理由', relation: '関係',
@@ -49,13 +46,6 @@ function actDate(s) {
   return d.toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
 }
 const actMonth = (s) => actDate(s).slice(0, 7);
-
-// 支払予定日 = 実施月の翌月末
-function dueDate(month) {
-  const [y, m] = month.split('-').map(Number);
-  const d = new Date(y, m + 1, 0); // m(1-based)+1の月の0日目 = 翌月末
-  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-}
 
 let toastTimer;
 function toast(msg, isError = false) {
@@ -87,9 +77,7 @@ function summaryLine(s) {
   switch (s.type) {
     case 'content':
       return `${CATEGORY_LABELS[p.category] || ''}・${p.channel || ''}`;
-    case 'webinar_pre':
-      return `${p.title || ''}（${p.event_date ? p.event_date.replace('T', ' ') : ''}）`;
-    case 'webinar_post':
+    case 'webinar':
       return `${p.title || ''}・参加 ${p.participants ?? '?'}名`;
     case 'referral':
       return p.referral_kind === 'community' ? `コミュニティ：${p.c_name || ''}` : `個人：${p.p_name || ''}`;
@@ -100,14 +88,14 @@ function summaryLine(s) {
   }
 }
 
-// 集計：確定金額（承認+支払）と種別件数（差し戻し除く）
+// 集計：確定金額（承認済み）と種別件数（差し戻し除く）
 function calcStats(subs) {
   const st = { amount: 0, content: 0, webinar: 0, referral: 0 };
   for (const s of subs) {
-    if (s.status === 'approved' || s.status === 'paid') st.amount += s.approved_amount || 0;
+    if (s.status === 'approved') st.amount += s.approved_amount || 0;
     if (s.status === 'rejected') continue;
     if (s.type === 'content') st.content++;
-    else if (s.type === 'webinar_pre' || s.type === 'webinar_post') st.webinar++;
+    else if (s.type === 'webinar') st.webinar++;
     else if (s.type === 'referral' || s.type === 'adjustment') st.referral++;
   }
   return st;
@@ -152,12 +140,6 @@ function render() {
   renderHistory();
   renderSettle();
 
-  // 事後報告フォームの事前申請プルダウン
-  const sel = document.querySelector('#form-webinar_post select[name=linked_submission_id]');
-  const pres = DATA.submissions.filter((s) => s.type === 'webinar_pre');
-  sel.innerHTML = '<option value="">（事前申請なし／選択しない）</option>' +
-    pres.map((s) => `<option value="${s.id}">${escapeHtml((s.payload.title || '') + ' / ' + (s.payload.event_date || '').replace('T', ' '))}</option>`).join('');
-
   // 紹介日デフォルト＝今日
   const refDate = document.querySelector('#form-referral input[name=referral_date]');
   if (refDate && !refDate.value) refDate.value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
@@ -177,7 +159,7 @@ function renderHistory() {
 
   list.innerHTML = subs.map((s) => {
     const files = (DATA.files || []).filter((f) => f.submission_id === s.id);
-    const isFixed = s.status === 'approved' || s.status === 'paid';
+    const isFixed = s.status === 'approved';
     const amountHtml = isFixed
       ? yen(s.approved_amount)
       : s.suggested_amount != null
@@ -207,10 +189,10 @@ function renderHistory() {
   // 小計（種別ごと）＋合計
   const groups = [
     ['コンテンツ報告', subs.filter((s) => s.type === 'content')],
-    ['ウェビナー・セミナー', subs.filter((s) => s.type === 'webinar_pre' || s.type === 'webinar_post')],
+    ['ウェビナー・セミナー', subs.filter((s) => s.type === 'webinar')],
     ['紹介・運営精算', subs.filter((s) => s.type === 'referral' || s.type === 'adjustment')],
   ];
-  const confirmed = (arr) => arr.reduce((a, s) => a + ((s.status === 'approved' || s.status === 'paid') ? (s.approved_amount || 0) : 0), 0);
+  const confirmed = (arr) => arr.reduce((a, s) => a + (s.status === 'approved' ? (s.approved_amount || 0) : 0), 0);
   const liveCount = (arr) => arr.filter((s) => s.status !== 'rejected').length;
 
   const rows = groups
@@ -219,24 +201,22 @@ function renderHistory() {
     .join('');
   const totalRow = `<div class="sub-row total"><span>合計${month ? `（${fmtMonth(month)}）` : '（全期間）'}</span><span>${liveCount(subs)}件</span><span>${yen(confirmed(subs))}</span></div>`;
   $('#hist-subtotal').innerHTML = rows + totalRow +
-    '<div class="caption">金額は承認済み・支払い済みの確定分のみ。件数は差し戻しを除く。</div>';
+    '<div class="caption">金額は承認済みの確定分のみ。件数は差し戻しを除く。</div>';
 }
 
-// ── 精算タブ：実施月ごとに1行 ──
+// ── 精算タブ：支払い単位（運営作成）ごとに1行 ──
 function renderSettle() {
   const tbody = $('#settle-table tbody');
-  const confirmed = DATA.submissions.filter((s) => s.status === 'approved' || s.status === 'paid');
-  if (!confirmed.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="muted">確定した精算はまだありません。</td></tr>';
+  const bills = DATA.bills || [];
+  if (!bills.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="muted">精算はまだありません。承認済みの活動は運営側でまとめられ、こちらに表示されます。</td></tr>';
     return;
   }
 
-  const months = [...new Set(confirmed.map(actMonth))].sort().reverse();
-  tbody.innerHTML = months.map((m) => {
-    const items = confirmed.filter((s) => actMonth(s) === m);
+  tbody.innerHTML = bills.map((b) => {
+    const items = DATA.submissions.filter((s) => s.bill_id === b.id);
     const total = items.reduce((a, s) => a + (s.approved_amount || 0), 0);
-    const allPaid = items.every((s) => s.status === 'paid');
-    const pays = (DATA.payments || []).filter((p) => p.month === m);
+    const isPaid = !!b.method;
 
     const detailRows = items.map((s) => `
       <div class="settle-detail-row">
@@ -247,49 +227,52 @@ function renderSettle() {
       </div>`).join('');
 
     return `
-      <tr class="clickable settle-row" data-month="${m}">
-        <td><b>${fmtMonth(m)}</b></td>
+      <tr class="clickable settle-row" data-id="${b.id}">
+        <td>${fmtDate(b.created_at)}</td>
+        <td><b>${escapeHtml(b.title)}</b></td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
-        <td>${dueDate(m)}</td>
-        <td><span class="badge ${allPaid ? 'paid' : 'submitted'}">${allPaid ? '支払い済み' : '支払い前'}</span></td>
-        <td>${pays.length ? `<button class="ghost btn-sm btn-paydetail" data-month="${m}">内容を見る</button>` : '<span class="muted">—</span>'}</td>
+        <td><span class="badge ${isPaid ? 'paid' : 'submitted'}">${isPaid ? '支払い済み' : '支払い前'}</span></td>
+        <td>${isPaid ? `<button class="ghost btn-sm btn-paydetail" data-id="${b.id}">内容を見る</button>` : '<span class="muted">—</span>'}</td>
       </tr>
-      <tr class="settle-detail" id="detail-${m}" style="display:none">
-        <td colspan="6">${detailRows}</td>
+      <tr class="settle-detail" id="detail-${b.id}" style="display:none">
+        <td colspan="6">${detailRows || '<span class="muted">内訳がありません</span>'}</td>
       </tr>`;
   }).join('');
 
   // 行クリック → 内訳トグル
   tbody.querySelectorAll('.settle-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
-      if (e.target.closest('.btn-paydetail')) return; // 支払い内容ボタンは別処理
-      const detail = document.getElementById('detail-' + tr.dataset.month);
+      if (e.target.closest('.btn-paydetail')) return;
+      const detail = document.getElementById('detail-' + tr.dataset.id);
       detail.style.display = detail.style.display === 'none' ? '' : 'none';
     });
   });
   // 支払い内容ポップアップ
   tbody.querySelectorAll('.btn-paydetail').forEach((btn) => {
-    btn.addEventListener('click', () => openPaymentDetail(btn.dataset.month));
+    btn.addEventListener('click', () => openPaymentDetail(Number(btn.dataset.id)));
   });
 }
 
 // ── 支払い内容ポップアップ ──
-function openPaymentDetail(month) {
-  const pays = (DATA.payments || []).filter((p) => p.month === month);
-  const body = pays.map((p) => `
+function openPaymentDetail(billId) {
+  const b = (DATA.bills || []).find((x) => x.id === billId);
+  if (!b) return;
+  const items = DATA.submissions.filter((s) => s.bill_id === b.id);
+  const total = items.reduce((a, s) => a + (s.approved_amount || 0), 0);
+  const body = `
     <dl class="kv">
-      <dt>支払い方法</dt><dd>${p.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[p.method]}</dd>
-      <dt>金額</dt><dd><b>${yen(p.amount)}</b></dd>
-      ${p.method === 'transfer' && p.transfer_date ? `<dt>送金日</dt><dd>${p.transfer_date.replaceAll('-', '/')}</dd>` : ''}
+      <dt>支払い方法</dt><dd>${b.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[b.method]}</dd>
+      <dt>金額</dt><dd><b>${yen(total)}</b></dd>
+      ${b.method === 'transfer' && b.transfer_date ? `<dt>送金日</dt><dd>${b.transfer_date.replaceAll('-', '/')}</dd>` : ''}
     </dl>
-    ${p.method === 'amazon' ? `
+    ${b.method === 'amazon' ? `
     <div class="codes-block">
-      <b>Amazonギフトカード番号（${p.gift_codes.length}枚）</b>
-      <ul>${p.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
+      <b>Amazonギフトカード番号（${b.gift_codes.length}枚）</b>
+      <ul>${b.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
     </div>` : ''}
-  `).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0">');
-  openModal(`支払い内容（${fmtMonth(month)}分）`, body);
+  `;
+  openModal(`支払い内容（${escapeHtml(b.title)}）`, body);
 }
 
 // ── 提出内訳ポップアップ（履歴の行クリック） ──
@@ -304,7 +287,7 @@ function openSubmissionDetail(id) {
       /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(VALUE_LABELS[v] ?? v)
     }</dd>`).join('');
 
-  const isFixed = s.status === 'approved' || s.status === 'paid';
+  const isFixed = s.status === 'approved';
   const body = `
     <p><span class="badge type">${TYPE_LABELS[s.type]}</span> <span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></p>
     <dl class="kv">
@@ -361,8 +344,8 @@ document.querySelectorAll('.back-btn').forEach((btn) => {
   btn.addEventListener('click', showMenu);
 });
 
-// ── 事後報告:形式によって紹介時間フィールド切替 ──
-document.querySelectorAll('#form-webinar_post input[name=webinar_type]').forEach((r) => {
+// ── ウェビナー報告:形式によって紹介時間フィールド切替 ──
+document.querySelectorAll('#form-webinar input[name=webinar_type]').forEach((r) => {
   r.addEventListener('change', () => {
     const isGeneral = r.value === 'general' && r.checked;
     const field = $('#exposure-field');
@@ -404,7 +387,7 @@ async function submitForm(type, form) {
   body.set('token', token);
   body.set('type', type);
   body.set('payload', JSON.stringify(payload));
-  if (type === 'webinar_post') {
+  if (type === 'webinar') {
     for (const f of form.querySelector('[name=photos]').files) body.append('photos', f);
     const slides = form.querySelector('[name=slides]');
     if (slides) for (const f of slides.files) body.append('slides', f);
@@ -429,7 +412,7 @@ async function submitForm(type, form) {
   }
 }
 
-for (const type of ['content', 'webinar_pre', 'webinar_post', 'referral']) {
+for (const type of ['content', 'webinar', 'referral']) {
   const form = $(`#form-${type}`);
   form.querySelector('button.primary').dataset.label = form.querySelector('button.primary').textContent;
   form.addEventListener('submit', (e) => {

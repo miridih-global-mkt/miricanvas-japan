@@ -1,105 +1,104 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>運営管理 | アンバサダーポータル</title>
+<title>운영 관리 | 앰버서더 포털</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<!-- ログイン -->
+<!-- 로그인 -->
 <div class="landing" id="login-view">
   <div class="card landing-card">
-    <h1>運営管理</h1>
+    <h1>운영 관리</h1>
     <form id="login-form">
-      <input type="password" id="login-pw" placeholder="パスワード" required autocomplete="current-password">
-      <button class="primary" type="submit">ログイン</button>
+      <input type="password" id="login-pw" placeholder="비밀번호" required autocomplete="current-password">
+      <button class="primary" type="submit">로그인</button>
     </form>
   </div>
 </div>
 
-<!-- メイン -->
+<!-- 메인 -->
 <div id="main-view" style="display:none">
   <header class="app-header">
     <div class="inner" style="display:flex;justify-content:space-between;align-items:center">
       <div>
-        <h1>運営管理</h1>
-        <div class="sub">アンバサダーポータル</div>
+        <h1>운영 관리</h1>
+        <div class="sub">앰버서더 포털</div>
       </div>
-      <button class="ghost" id="logout-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:#fff">ログアウト</button>
+      <button class="ghost" id="logout-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);color:#fff">로그아웃</button>
     </div>
   </header>
 
   <div class="container">
     <div class="tabs">
-      <button class="tab-btn active" data-tab="subs">提出一覧</button>
-      <button class="tab-btn" data-tab="summary">支払い管理</button>
-      <button class="tab-btn" data-tab="ambs">アンバサダー管理</button>
+      <button class="tab-btn active" data-tab="subs">제출 관리</button>
+      <button class="tab-btn" data-tab="bills">지불 관리</button>
+      <button class="tab-btn" data-tab="ambs">앰버서더 관리</button>
     </div>
 
-    <!-- 提出一覧 -->
+    <!-- 제출 관리 -->
     <section class="card tab-panel" id="panel-subs">
-      <h2>提出一覧</h2>
+      <h2>제출 관리</h2>
       <div class="filters">
-        <div><label>実施月</label><input type="month" id="f-month"></div>
-        <div><label>種別</label>
+        <div><label>실시월</label><input type="month" id="f-month"></div>
+        <div><label>유형</label>
           <select id="f-type">
-            <option value="">すべて</option>
-            <option value="content">コンテンツ報告</option>
-            <option value="webinar_pre">ウェビナー事前申請</option>
-            <option value="webinar_post">ウェビナー事後報告</option>
-            <option value="referral">紹介</option>
-            <option value="adjustment">運営精算</option>
+            <option value="">전체</option>
+            <option value="content">콘텐츠 보고</option>
+            <option value="webinar">웨비나·세미나 보고</option>
+            <option value="referral">소개</option>
+            <option value="adjustment">운영정산</option>
           </select></div>
-        <div><label>ステータス</label>
+        <div><label>상태</label>
           <select id="f-status">
-            <option value="">すべて</option>
-            <option value="submitted">確認中</option>
-            <option value="approved">承認済み</option>
-            <option value="rejected">差し戻し</option>
-            <option value="paid">支払い済み</option>
+            <option value="">전체</option>
+            <option value="submitted">확인중</option>
+            <option value="approved">승인완료</option>
+            <option value="rejected">반려</option>
           </select></div>
-        <div><label>アンバサダー</label><select id="f-amb"><option value="">すべて</option></select></div>
-        <div style="flex:0"><button class="ghost" id="btn-adj">＋運営精算</button></div>
-        <div style="flex:0"><button class="ghost" id="f-csv">CSV出力</button></div>
+        <div><label>앰버서더</label><select id="f-amb"><option value="">전체</option></select></div>
+        <div style="flex:0"><button class="ghost" id="btn-adj">＋운영정산</button></div>
+        <div style="flex:0"><button class="ghost" id="f-csv">CSV</button></div>
+      </div>
+      <div class="bill-bar" id="bill-bar" style="display:none">
+        <span id="bill-bar-info"></span>
+        <button class="primary" id="btn-make-bill" style="width:auto;margin:0;padding:8px 16px">선택 항목으로 지불건 생성</button>
       </div>
       <div class="table-wrap">
         <table class="list" id="subs-table">
-          <thead><tr><th>実施日</th><th>アンバサダー</th><th>種別</th><th>内容</th><th>提案額</th><th>確定額</th><th>ステータス</th></tr></thead>
+          <thead><tr><th style="width:28px"></th><th>실시일</th><th>앰버서더</th><th>유형</th><th>내용</th><th>제안액</th><th>확정액</th><th>상태</th><th>지불</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="hist-sub" id="subs-subtotal"></div>
     </section>
 
-    <!-- 支払い管理 -->
-    <section class="card tab-panel" id="panel-summary" style="display:none">
-      <h2>支払い管理（実施月 × アンバサダー別）</h2>
-      <div class="filters">
-        <div><label>実施月</label><input type="month" id="s-month"></div>
-      </div>
-      <p class="muted">実施日基準で月ごとに合算し、お支払いは<b>翌月末</b>が目安です。月5万円以上は海外送金を推奨表示します。</p>
+    <!-- 지불 관리 -->
+    <section class="card tab-panel" id="panel-bills" style="display:none">
+      <h2>지불 관리</h2>
+      <p class="muted">지불건은 제출 관리에서 승인완료 항목을 선택해 생성합니다. 행을 클릭하면 소속 제출건이 펼쳐집니다.</p>
       <div class="table-wrap">
-        <table class="list" id="summary-table">
-          <thead><tr><th>実施月</th><th>アンバサダー</th><th>件数</th><th>合計</th><th>支払予定</th><th>状況</th><th>支払い内容</th></tr></thead>
+        <table class="list" id="bills-table">
+          <thead><tr><th>생성일</th><th>앰버서더</th><th>제목</th><th>건수</th><th>합계</th><th>지불완료</th><th>지불내용</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
     </section>
 
-    <!-- アンバサダー管理 -->
+    <!-- 앰버서더 관리 -->
     <section class="card tab-panel" id="panel-ambs" style="display:none">
-      <h2>アンバサダー管理</h2>
+      <h2>앰버서더 관리</h2>
       <form id="amb-add" class="filters">
-        <div><label>名前</label><input type="text" id="amb-name" required placeholder="例：けいたろう"></div>
-        <div style="flex:2"><label>説明</label><input type="text" id="amb-desc" placeholder="例：Shift AI講師・YouTube発信"></div>
-        <div style="flex:0"><button class="primary" style="margin-top:0;width:auto;padding:10px 18px" type="submit">登録</button></div>
+        <div><label>이름</label><input type="text" id="amb-name" required placeholder="예: けいたろう"></div>
+        <div style="flex:2"><label>설명</label><input type="text" id="amb-desc" placeholder="예: Shift AI 강사·YouTube 발신"></div>
+        <div style="flex:0"><button class="primary" style="margin-top:0;width:auto;padding:10px 18px" type="submit">등록</button></div>
       </form>
       <div class="table-wrap">
         <table class="list" id="ambs-table">
-          <thead><tr><th>名前</th><th>説明</th><th>提出数</th><th>状態</th><th>専用リンク</th></tr></thead>
+          <thead><tr><th>이름</th><th>설명</th><th style="width:54px"></th><th>제출수</th><th>상태</th><th>전용 링크</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -107,7 +106,7 @@
   </div>
 </div>
 
-<!-- 詳細モーダル -->
+<!-- 제출 상세 모달 -->
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
     <button class="close" id="modal-close">×</button>
@@ -117,39 +116,51 @@
   </div>
 </div>
 
-<!-- 支払いモーダル -->
+<!-- 지불내용 모달 -->
 <div class="modal-bg" id="pay-modal-bg">
   <div class="modal">
     <button class="close" id="pay-close">×</button>
-    <h2>支払い処理</h2>
+    <h2>지불내용</h2>
     <div id="pay-info" class="hint"></div>
-    <label class="field">支払い方法</label>
+    <label class="field">지불 방법</label>
     <div class="radio-cards">
       <label class="radio-card"><input type="radio" name="pay_method" value="amazon" checked>
-        <span><span class="t">Amazonギフト</span><br><span class="d">ギフトカード番号を入力（複数枚可）</span></span></label>
+        <span><span class="t">아마존 기프트</span><br><span class="d">기프트카드 번호 입력 (여러 장 가능)</span></span></label>
       <label class="radio-card"><input type="radio" name="pay_method" value="transfer">
-        <span><span class="t">海外送金</span><br><span class="d">送金を実施した日付を記録</span></span></label>
+        <span><span class="t">해외송금</span><br><span class="d">송금을 실행한 날짜 기록</span></span></label>
     </div>
-    <label class="field" id="pay-codes-field">ギフトカード番号（1行に1枚）
+    <label class="field" id="pay-codes-field">기프트카드 번호 (1줄에 1장)
       <textarea id="pay-codes" placeholder="AMZN-XXXX-XXXX-XXXX&#10;AMZN-YYYY-YYYY-YYYY"></textarea></label>
-    <label class="field" id="pay-date-field" style="display:none">送金日
+    <label class="field" id="pay-date-field" style="display:none">송금일
       <input type="date" id="pay-date"></label>
-    <button class="primary" id="pay-submit">支払いを確定する</button>
+    <button class="primary" id="pay-submit">저장</button>
   </div>
 </div>
 
-<!-- 運営精算モーダル -->
+<!-- 운영정산 모달 -->
 <div class="modal-bg" id="adj-modal-bg">
   <div class="modal">
     <button class="close" id="adj-close">×</button>
-    <h2>運営精算の追加</h2>
-    <p class="muted">紹介成約の残金など、運営側から計上する精算項目です。<b>登録と同時に承認されます。</b></p>
-    <label class="field">アンバサダー<select id="adj-amb"></select></label>
-    <label class="field">内容<input type="text" id="adj-title" placeholder="例：紹介成約の残金（○○さん・初回活動完了）"></label>
-    <label class="field">金額（円）<input type="number" id="adj-amount" min="0"></label>
-    <label class="field">実施日（精算基準日）<input type="date" id="adj-date"></label>
-    <label class="field">メモ（任意）<textarea id="adj-memo"></textarea></label>
-    <button class="primary" id="adj-submit">登録する（自動承認）</button>
+    <h2>운영정산 추가</h2>
+    <p class="muted">소개 잔금 등 운영 측에서 계상하는 정산 항목입니다. <b>등록과 동시에 승인됩니다.</b></p>
+    <label class="field">앰버서더<select id="adj-amb"></select></label>
+    <label class="field">내용<input type="text" id="adj-title" placeholder="예: 소개 성약 잔금 (○○님·첫 활동 완료)"></label>
+    <label class="field">금액 (엔)<input type="number" id="adj-amount" min="0"></label>
+    <label class="field">실시일 (정산 기준일)<input type="date" id="adj-date"></label>
+    <label class="field">메모 (선택)<textarea id="adj-memo"></textarea></label>
+    <button class="primary" id="adj-submit">등록 (자동 승인)</button>
+  </div>
+</div>
+
+<!-- 지불건 생성 모달 -->
+<div class="modal-bg" id="bill-modal-bg">
+  <div class="modal">
+    <button class="close" id="bill-close">×</button>
+    <h2>지불건 생성</h2>
+    <div id="bill-info" class="hint"></div>
+    <label class="field">제목<input type="text" id="bill-title" placeholder="예: 2026年6月分"></label>
+    <label class="field">메모 (선택)<textarea id="bill-memo"></textarea></label>
+    <button class="primary" id="bill-submit">지불건 생성</button>
   </div>
 </div>
 

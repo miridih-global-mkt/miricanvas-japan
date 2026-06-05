@@ -51,11 +51,11 @@ export async function requireAdmin(env, request) {
   return !!row;
 }
 
-// ── 실행일 도출 (정산 월 합산 기준 — 전 폼에 일자 필수) ──
+// ── 실행일 도출 (전 폼에 일자 필수) ──
 export function deriveActivityDate(type, payload) {
   let d = null;
   if (type === 'content') d = payload.published_date;
-  else if (type === 'webinar_pre' || type === 'webinar_post') d = String(payload.event_date || '').slice(0, 10);
+  else if (type === 'webinar') d = String(payload.event_date || '').slice(0, 10);
   else if (type === 'referral') d = payload.referral_date;
   return isDate(d) ? d : null;
 }
@@ -80,7 +80,7 @@ export async function calcSuggestedAmount(env, ambassadorId, type, payload, acti
     return unit;
   }
 
-  if (type === 'webinar_post') {
+  if (type === 'webinar') {
     const participants = Number(payload.participants) || 0;
     if (payload.webinar_type === 'targeted') {
       // 명확한 타겟 대상: 참가자 × 500엔, 10명 미만 지급 불가
@@ -97,6 +97,6 @@ export async function calcSuggestedAmount(env, ambassadorId, type, payload, acti
     return null;
   }
 
-  // webinar_pre(신청), referral(보상안 미확정) → 자동 제안 없음
+  // referral(보상안 미확정) → 자동 제안 없음
   return null;
 }

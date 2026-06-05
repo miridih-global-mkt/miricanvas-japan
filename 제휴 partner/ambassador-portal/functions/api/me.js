@@ -1,4 +1,4 @@
-// GET /api/me?token=xxx — 앰버서더 본인 정보 + 활동내역 + 지불 기록
+// GET /api/me?token=xxx — 앰버서더 본인 정보 + 활동내역 + 지불건
 import { json, err, getAmbassadorByToken, extractToken } from './_utils.js';
 
 export async function onRequestGet({ request, env }) {
@@ -7,7 +7,7 @@ export async function onRequestGet({ request, env }) {
 
   const { results: submissions } = await env.DB.prepare(
     `SELECT id, type, payload, activity_date, suggested_amount, approved_amount, status,
-            admin_note, linked_submission_id, created_at, reviewed_at, paid_at
+            admin_note, bill_id, created_at, reviewed_at
      FROM submissions WHERE ambassador_id = ? ORDER BY COALESCE(activity_date, created_at) DESC, id DESC`
   ).bind(amb.id).all();
 
@@ -24,10 +24,10 @@ export async function onRequestGet({ request, env }) {
        AND substr(activity_date, 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
   ).bind(amb.id).first();
 
-  // 지불 기록 (정산 탭용)
-  const { results: payments } = await env.DB.prepare(
-    `SELECT id, month, method, gift_codes, transfer_date, amount, created_at
-     FROM payments WHERE ambassador_id = ? ORDER BY month DESC, id`
+  // 지불건 (정산 탭용 — method 입력됨 = 지불완료)
+  const { results: bills } = await env.DB.prepare(
+    `SELECT id, title, method, gift_codes, transfer_date, created_at, paid_at
+     FROM bills WHERE ambassador_id = ? ORDER BY created_at DESC, id DESC`
   ).bind(amb.id).all();
 
   return json({
@@ -35,6 +35,6 @@ export async function onRequestGet({ request, env }) {
     submissions: submissions.map(s => ({ ...s, payload: JSON.parse(s.payload || '{}') })),
     files,
     content_count_this_month: capRow?.n ?? 0,
-    payments: payments.map(p => ({ ...p, gift_codes: p.gift_codes ? JSON.parse(p.gift_codes) : [] })),
+    bills: bills.map(b => ({ ...b, gift_codes: b.gift_codes ? JSON.parse(b.gift_codes) : [] })),
   });
 }

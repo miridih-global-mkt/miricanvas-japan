@@ -57,18 +57,10 @@
         </span>
         <span class="mc-arrow">›</span>
       </button>
-      <button class="menu-card" data-form="webinar_pre">
-        <span class="mc-icon">🗓️</span>
-        <span class="mc-body">
-          <span class="mc-title">ウェビナー・セミナー事前申請</span>
-          <span class="mc-desc">開催前の申請・事前相談（開催前に必ずご提出ください）</span>
-        </span>
-        <span class="mc-arrow">›</span>
-      </button>
-      <button class="menu-card" data-form="webinar_post">
+      <button class="menu-card" data-form="webinar">
         <span class="mc-icon">📸</span>
         <span class="mc-body">
-          <span class="mc-title">ウェビナー・セミナー事後報告</span>
+          <span class="mc-title">ウェビナー・セミナー報告</span>
           <span class="mc-desc">開催後の報告（発表資料・現場写真・参加人数の提出）</span>
         </span>
         <span class="mc-arrow">›</span>
@@ -114,46 +106,14 @@
       </form>
     </section>
 
-    <!-- ② ウェビナー事前申請 -->
-    <section class="card form-panel" id="panel-webinar_pre" style="display:none">
+    <!-- ② ウェビナー・セミナー報告 -->
+    <section class="card form-panel" id="panel-webinar" style="display:none">
       <button class="back-btn" type="button">‹ 提出メニューに戻る</button>
-      <h2>ウェビナー・セミナーの事前申請</h2>
-      <div class="hint">開催前に必ず事前申請（事前相談）をお願いします。MiriCanvas講義が30分未満になる場合も、事前にご相談いただければ個別に判断いたします。</div>
-      <form id="form-webinar_pre">
+      <h2>ウェビナー・セミナーの報告</h2>
+      <div class="hint">報酬判断のため、<b>発表資料・現場写真・実際の参加人数</b>のご提出が必要です。<br>※ 開催前の事前相談（Slack等）もお忘れなく。MiriCanvas講義が30分未満になる場合は個別に判断いたします。</div>
+      <form id="form-webinar">
         <label class="field">タイトル・テーマ<span class="req">*</span>
           <input type="text" name="title" required placeholder="例：AI資料作成セミナー"></label>
-        <label class="field">開催日時<span class="req">*</span>
-          <input type="datetime-local" name="event_date" required></label>
-        <label class="field">形式<span class="req">*</span></label>
-        <div class="radio-cards">
-          <label class="radio-card"><input type="radio" name="webinar_type" value="targeted" required>
-            <span><span class="t">明確なターゲット向け</span><br><span class="d">企業研修・特定コミュニティなど対象が明確（参加者×500円、10名以上）</span></span></label>
-          <label class="radio-card"><input type="radio" name="webinar_type" value="general">
-            <span><span class="t">不特定多数向け</span><br><span class="d">展示会・カンファレンス等でのPR（紹介時間により1〜5万円）</span></span></label>
-        </div>
-        <label class="field">予想参加人数<span class="req">*</span>
-          <input type="number" name="expected_participants" min="1" required></label>
-        <label class="field">MiriCanvas講義の予定時間・比重<span class="req">*</span>
-          <input type="text" name="mc_duration" required placeholder="例：全90分中、MiriCanvas 40分"></label>
-        <label class="field">MiriCanvas講義の内容<span class="req">*</span>
-          <textarea name="mc_content" required placeholder="例：AIスライド機能のデモ、テンプレート活用法 など"></textarea></label>
-        <label class="field">併用予定のAIツール（任意）
-          <input type="text" name="ai_tools" placeholder="例：ChatGPT、Gemini、Claude"></label>
-        <div class="hint warn">併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma（判断に迷う場合は事前にご連絡ください）</div>
-        <button class="primary" type="submit">事前申請を送信する</button>
-      </form>
-    </section>
-
-    <!-- ③ ウェビナー事後報告 -->
-    <section class="card form-panel" id="panel-webinar_post" style="display:none">
-      <button class="back-btn" type="button">‹ 提出メニューに戻る</button>
-      <h2>ウェビナー・セミナーの事後報告</h2>
-      <div class="hint">報酬判断のため、<b>発表資料・現場写真・実際の参加人数</b>のご提出が必要です。</div>
-      <form id="form-webinar_post">
-        <label class="field">対応する事前申請
-          <select name="linked_submission_id"><option value="">（事前申請なし／選択しない）</option></select></label>
-        <label class="field">タイトル・テーマ<span class="req">*</span>
-          <input type="text" name="title" required></label>
         <label class="field">開催日<span class="req">*</span>
           <input type="date" name="event_date" required></label>
         <label class="field">形式<span class="req">*</span></label>
@@ -171,13 +131,16 @@
           <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
         <label class="field">現場写真（複数可）<span class="req">*</span>
           <input type="file" name="photos" multiple accept="image/*" required></label>
+        <label class="field">併用したAIツール（任意）
+          <input type="text" name="ai_tools" placeholder="例：ChatGPT、Gemini、Claude"></label>
+        <div class="hint warn">併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma（判断に迷う場合はご連絡ください）</div>
         <label class="field">補足（任意）
           <textarea name="memo" placeholder="参加者の確認方法（Zoom・YouTube等）、その他補足"></textarea></label>
         <label class="radio-card" style="margin-top:14px">
           <input type="checkbox" name="photo_consent" value="yes">
           <span><span class="t">写真の二次利用に同意します（任意）</span><br>
           <span class="d">提供写真を広告素材（CRM・オンライン広告・コンテンツ）として二次利用することがあります。聴衆の顔はモザイク処理を行います。</span></span></label>
-        <button class="primary" type="submit">事後報告を送信する</button>
+        <button class="primary" type="submit">報告を送信する</button>
       </form>
     </section>
 
@@ -258,11 +221,11 @@
   <!-- ════ モード③：精算 ════ -->
   <div id="mode-settle" style="display:none">
     <section class="card">
-      <h2>精算（月別）</h2>
-      <p class="muted">実施日（公開日・開催日など）を基準に月ごとに集計します。お支払いは<b>翌月末</b>予定です。行をタップすると内訳が表示されます。</p>
+      <h2>精算</h2>
+      <p class="muted">承認済みの活動は運営側で精算単位（お支払い）にまとめられます。行をタップすると内訳が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="settle-table">
-          <thead><tr><th>月</th><th>件数</th><th>確定金額</th><th>支払予定</th><th>状況</th><th>支払い内容</th></tr></thead>
+          <thead><tr><th>作成日</th><th>タイトル</th><th>件数</th><th>金額</th><th>状況</th><th>支払い内容</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>

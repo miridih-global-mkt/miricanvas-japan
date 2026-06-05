@@ -2,7 +2,7 @@
 // fields: token, type, payload(JSON string), photos[](file), slides[](file)
 import { json, err, getAmbassadorByToken, calcSuggestedAmount, deriveActivityDate } from './_utils.js';
 
-const TYPES = ['content', 'webinar_pre', 'webinar_post', 'referral'];
+const TYPES = ['content', 'webinar', 'referral'];
 const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB/파일
 const MAX_FILES = 12;
 
@@ -31,16 +31,6 @@ export async function onRequestPost({ request, env }) {
   const activityDate = deriveActivityDate(type, payload);
   if (!activityDate) return err('実施日（公開日・開催日・紹介日）が必要です');
 
-  // 사후보고 → 사전신청 연결 검증 (본인 것 + webinar_pre만)
-  let linkedId = null;
-  if (type === 'webinar_post' && payload.linked_submission_id) {
-    const linked = await env.DB.prepare(
-      "SELECT id FROM submissions WHERE id = ? AND ambassador_id = ? AND type = 'webinar_pre'"
-    ).bind(Number(payload.linked_submission_id), amb.id).first();
-    if (!linked) return err('linked submission not found');
-    linkedId = linked.id;
-  }
-
   // 파일 수집 및 검증
   const fileEntries = [];
   for (const kind of ['photo', 'slide']) {
@@ -55,9 +45,9 @@ export async function onRequestPost({ request, env }) {
   const suggested = await calcSuggestedAmount(env, amb.id, type, payload, activityDate);
 
   const ins = await env.DB.prepare(
-    `INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount, linked_submission_id)
-     VALUES (?, ?, ?, ?, ?, ?)`
-  ).bind(amb.id, type, JSON.stringify(payload), activityDate, suggested, linkedId).run();
+    `INSERT INTO submissions (ambassador_id, type, payload, activity_date, suggested_amount)
+     VALUES (?, ?, ?, ?, ?)`
+  ).bind(amb.id, type, JSON.stringify(payload), activityDate, suggested).run();
   const submissionId = ins.meta.last_row_id;
 
   for (const { kind, file } of fileEntries) {

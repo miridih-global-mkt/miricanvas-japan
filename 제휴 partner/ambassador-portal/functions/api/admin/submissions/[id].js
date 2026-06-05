@@ -1,5 +1,6 @@
 // PATCH /api/admin/submissions/:id — 검토 처리
-// body: {action: 'approve'|'reject'|'paid'|'reopen', approved_amount?, admin_note?, activity_date?}
+// body: {action: 'approve'|'reject'|'reopen', approved_amount?, admin_note?, activity_date?}
+// 지불건(bill)에 편성된 제출은 변경 불가 — 먼저 지불건에서 제외(지불건 삭제) 필요
 import { json, err, requireAdmin, isDate } from '../../_utils.js';
 
 export async function onRequestPatch({ request, env, params }) {
@@ -13,8 +14,9 @@ export async function onRequestPatch({ request, env, params }) {
     return err('JSON body required');
   }
 
-  const sub = await env.DB.prepare('SELECT id, status FROM submissions WHERE id = ?').bind(id).first();
+  const sub = await env.DB.prepare('SELECT id, status, bill_id FROM submissions WHERE id = ?').bind(id).first();
   if (!sub) return err('not found', 404);
+  if (sub.bill_id != null) return err('지불건에 포함된 제출건입니다. 변경하려면 먼저 해당 지불건을 삭제하세요.');
 
   const note = body.admin_note ?? null;
   // 승인 시 실행일 수정 가능 (소개 성사일 등 운영자가 확정)
@@ -27,7 +29,7 @@ export async function onRequestPatch({ request, env, params }) {
       await env.DB.prepare(
         `UPDATE submissions SET status = 'approved', approved_amount = ?,
          admin_note = COALESCE(?, admin_note), activity_date = COALESCE(?, activity_date),
-         reviewed_at = datetime('now'), paid_at = NULL
+         reviewed_at = datetime('now')
          WHERE id = ?`
       ).bind(amount, note, activityDate, id).run();
       break;
@@ -35,20 +37,14 @@ export async function onRequestPatch({ request, env, params }) {
     case 'reject':
       await env.DB.prepare(
         `UPDATE submissions SET status = 'rejected', approved_amount = NULL,
-         admin_note = COALESCE(?, admin_note), reviewed_at = datetime('now'), paid_at = NULL
+         admin_note = COALESCE(?, admin_note), reviewed_at = datetime('now')
          WHERE id = ?`
       ).bind(note, id).run();
-      break;
-    case 'paid':
-      if (sub.status !== 'approved') return err('approved 상태만 지급 처리 가능');
-      await env.DB.prepare(
-        "UPDATE submissions SET status = 'paid', paid_at = datetime('now') WHERE id = ?"
-      ).bind(id).run();
       break;
     case 'reopen':
       await env.DB.prepare(
         `UPDATE submissions SET status = 'submitted', approved_amount = NULL,
-         reviewed_at = NULL, paid_at = NULL WHERE id = ?`
+         reviewed_at = NULL WHERE id = ?`
       ).bind(id).run();
       break;
     default:

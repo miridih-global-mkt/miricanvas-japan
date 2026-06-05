@@ -2,17 +2,15 @@
 import { err, requireAdmin } from '../_utils.js';
 
 const TYPE_LABELS = {
-  content: 'コンテンツ報告',
-  webinar_pre: 'ウェビナー事前申請',
-  webinar_post: 'ウェビナー事後報告',
-  referral: '紹介',
-  adjustment: '運営精算',
+  content: '콘텐츠 보고',
+  webinar: '웨비나·세미나 보고',
+  referral: '소개',
+  adjustment: '운영정산',
 };
 const STATUS_LABELS = {
-  submitted: '確認中',
-  approved: '承認済み',
-  rejected: '差し戻し',
-  paid: '支払い済み',
+  submitted: '확인중',
+  approved: '승인완료',
+  rejected: '반려',
 };
 
 function csvCell(v) {
@@ -35,17 +33,19 @@ export async function onRequestGet({ request, env }) {
   const where = conds.length ? 'WHERE ' + conds.join(' AND ') : '';
 
   const { results } = await env.DB.prepare(
-    `SELECT s.*, a.name AS ambassador_name
-     FROM submissions s JOIN ambassadors a ON a.id = s.ambassador_id
+    `SELECT s.*, a.name AS ambassador_name, b.title AS bill_title
+     FROM submissions s
+     JOIN ambassadors a ON a.id = s.ambassador_id
+     LEFT JOIN bills b ON b.id = s.bill_id
      ${where} ORDER BY COALESCE(s.activity_date, s.created_at)`
   ).bind(...binds).all();
 
-  const header = ['ID', 'アンバサダー', '種別', '実施日', '提出日(UTC)', 'ステータス',
-    '提案金額', '確定金額', '内容(JSON)', '運営メモ'];
+  const header = ['ID', '앰버서더', '유형', '실시일', '제출일(UTC)', '상태',
+    '제안금액', '확정금액', '지불건', '내용(JSON)', '운영메모'];
   const rows = results.map(s => [
     s.id, s.ambassador_name, TYPE_LABELS[s.type] || s.type,
     s.activity_date ?? '', s.created_at, STATUS_LABELS[s.status] || s.status,
-    s.suggested_amount ?? '', s.approved_amount ?? '',
+    s.suggested_amount ?? '', s.approved_amount ?? '', s.bill_title ?? '',
     s.payload, s.admin_note ?? '',
   ].map(csvCell).join(','));
 
