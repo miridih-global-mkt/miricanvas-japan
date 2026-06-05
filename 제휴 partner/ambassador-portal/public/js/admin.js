@@ -559,7 +559,6 @@ async function loadAmbassadors() {
       <td>${escapeHtml(a.name)}</td>
       <td>${escapeHtml(a.description || '')}</td>
       <td><button class="ghost btn-sm btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}">編集</button></td>
-      <td>${a.submission_count}</td>
       <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
       <td style="white-space:nowrap">
         <button class="ghost btn-sm" data-copy="${a.token}">コピー</button>
