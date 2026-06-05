@@ -5,3 +5,5 @@
 node_modules/
 .wrangler/
 .dev.vars
+admin-password.txt
+admin-password.txt

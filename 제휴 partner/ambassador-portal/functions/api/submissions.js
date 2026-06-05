@@ -53,9 +53,8 @@ export async function onRequestPost({ request, env }) {
   for (const { kind, file } of fileEntries) {
     const safeName = file.name.replace(/[^\w.\-ぁ-んァ-ヶ一-龠]/g, '_');
     const key = `submissions/${submissionId}/${crypto.randomUUID()}-${safeName}`;
-    await env.FILES.put(key, file.stream(), {
-      httpMetadata: { contentType: file.type || 'application/octet-stream' },
-    });
+    // Workers KV에 저장 (content_type은 files 테이블에 보관)
+    await env.FILES.put(key, await file.arrayBuffer());
     await env.DB.prepare(
       'INSERT INTO files (submission_id, kind, r2_key, filename, size, content_type) VALUES (?, ?, ?, ?, ?, ?)'
     ).bind(submissionId, kind, key, file.name, file.size, file.type || null).run();

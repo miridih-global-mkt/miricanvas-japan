@@ -18,10 +18,10 @@ export async function onRequestGet({ request, env, params }) {
     if (!amb || amb.id !== row.ambassador_id) return err('forbidden', 403);
   }
 
-  const obj = await env.FILES.get(row.r2_key);
-  if (!obj) return err('file missing in storage', 404);
+  const stream = await env.FILES.get(row.r2_key, 'stream');
+  if (!stream) return err('file missing in storage', 404);
 
-  return new Response(obj.body, {
+  return new Response(stream, {
     headers: {
       'Content-Type': row.content_type || 'application/octet-stream',
       'Content-Disposition': `inline; filename*=UTF-8''${encodeURIComponent(row.filename)}`,

@@ -446,25 +446,28 @@ td.cell-memo { max-width: 140px; overflow: hidden; text-overflow: ellipsis; whit
 .h-date { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
 .h-title { font-size: 13.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .h-amount { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
-.h-amount .est { font-weight: 400; color: var(--muted); font-size: 12px; }
+.h-amount .est { font-weight: 400; color: var(--muted); }
 .hist-extra { padding: 4px 10px 0 10px; }
 .hist-extra .files { font-size: 12.5px; }
 .hist-extra .note { background: var(--red-bg); color: var(--red); border-radius: 6px; padding: 6px 10px; font-size: 12.5px; margin-top: 6px; }
 
 @media (max-width: 640px) {
   .hist-head { display: none; }
-  /* 1行目: 種別+ステータス ／ 2行目: タイトル ／ 3行目: 日付・受領日・金額をコンパクトに */
+  /* 3行構成（列幅は全行で固定 → 縦の整列が崩れない）
+     1行目: [日付][種別チップ]
+     2行目: [タイトル（全幅）]
+     3行目: [金額（左）][ステータス（中央）][受領日（右）] */
   .hist-head + #history-list .hist-row, .hist-row {
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: "type type status" "title title title" "date recv amount";
-    row-gap: 4px;
+    grid-template-columns: 92px 1fr 92px;
+    grid-template-areas: "date type type" "title title title" "amount status recv";
+    row-gap: 6px; column-gap: 8px; align-items: center;
   }
-  .h-type { grid-area: type; }
-  .h-status { grid-area: status; text-align: right; }
-  .h-title { grid-area: title; white-space: normal; }
   .h-date { grid-area: date; }
-  .h-amount { grid-area: amount; text-align: right; }
-  .h-recv { grid-area: recv; text-align: center; font-size: 12px; }
+  .h-type { grid-area: type; justify-self: start; }
+  .h-title { grid-area: title; white-space: normal; }
+  .h-amount { grid-area: amount; text-align: left; font-size: 14px; }
+  .h-status { grid-area: status; justify-self: center; }
+  .h-recv { grid-area: recv; text-align: right; font-size: 12px; }
   .form-grid { grid-template-columns: 1fr; }
 
   /* モーダル：画面内で自然にスクロール、iOSのフォーカスズーム防止 */

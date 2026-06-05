@@ -480,7 +480,7 @@ function renderHistory() {
     const amountHtml = isFixed
       ? yen(s.approved_amount)
       : s.suggested_amount != null
-        ? `<span class="est">目安 ${yen(s.suggested_amount)}</span>`
+        ? `<span class="est">${yen(s.suggested_amount)}</span>`
         : '<span class="est">—</span>';
     // リワード受領日（発送済みの案件に含まれる場合のみ）
     const bill = s.bill_id ? (DATA.bills || []).find((b) => b.id === s.bill_id) : null;

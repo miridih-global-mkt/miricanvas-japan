@@ -2,13 +2,14 @@ name = "mcjp-ambassador-portal"
 compatibility_date = "2026-06-01"
 pages_build_output_dir = "public"
 
-# D1 데이터베이스 (배포 전 `wrangler d1 create ambassador_portal` 후 database_id 교체)
+# D1 데이터베이스
 [[d1_databases]]
 binding = "DB"
 database_name = "ambassador_portal"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "16b874c3-6f90-46b1-8f25-3eddf414b55f"
 
-# R2 버킷 (배포 전 `wrangler r2 bucket create ambassador-portal-files`)
-[[r2_buckets]]
+# 파일 저장소 — Workers KV (무료 1GB, 카드 불필요)
+# ※ 정식 운영 확장 시 R2(10GB)로 마이그레이션 가능 (functions/api/submissions.js·files/[id].js의 put/get 몇 줄만 수정)
+[[kv_namespaces]]
 binding = "FILES"
-bucket_name = "ambassador-portal-files"
+id = "888230edccd949fb97732bb59a74733d"
