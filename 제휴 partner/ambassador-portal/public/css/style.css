@@ -238,7 +238,7 @@ tr.settle-detail > td { background: #f7f8fd; padding-top: 0 !important; }
 .hist { margin-top: 4px; }
 .hist-head, .hist-row {
   display: grid;
-  grid-template-columns: 60px 144px 1fr 90px 80px 96px;
+  grid-template-columns: 60px 100px 1fr 90px 80px 96px;
   gap: 8px; align-items: center;
 }
 .h-recv { text-align: center; font-size: 12.5px; color: var(--muted); }

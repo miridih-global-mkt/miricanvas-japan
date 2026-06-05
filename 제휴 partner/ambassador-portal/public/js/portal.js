@@ -2,10 +2,16 @@
 const token = (location.pathname.match(/\/a\/([^/]+)/) || [])[1];
 
 const TYPE_LABELS = {
+  content: 'コンテンツ',
+  webinar: 'セミナー',
+  referral: '紹介',
+  adjustment: '手動追加',
+};
+// フォームポップアップの見出しはフルネーム
+const FORM_TITLES = {
   content: 'コンテンツ報告',
   webinar: 'ウェビナー・セミナー報告',
-  referral: '紹介',
-  adjustment: '運営精算',
+  referral: 'お知り合い・コミュニティの紹介',
 };
 const STATUS_LABELS = {
   submitted: '確認中',
@@ -237,7 +243,7 @@ function openForm(type, mode, payload = null) {
   // タイトル・ボタン文言・ファイル欄の表示をモードに合わせる
   const isSubEdit = mode.kind === 'sub-edit';
   const isEdit = mode.kind !== 'draft-new';
-  $(`#fm-${type}-title`).textContent = TYPE_LABELS[type] + (isEdit ? 'の修正' : '');
+  $(`#fm-${type}-title`).textContent = FORM_TITLES[type] + (isEdit ? '（修正）' : '');
   form.querySelector('button.primary').textContent = isSubEdit ? '修正を保存する' : isEdit ? '修正してリストに戻す' : 'リストに追加';
 
   // 提出済みの修正ではファイル変更不可（既存ファイルは維持）
@@ -448,7 +454,7 @@ function openRewardDetail(billId) {
   const childRows = items.map((s) => `
     <tr>
       <td style="width:64px">${fmtDate(actDate(s))}</td>
-      <td style="width:160px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
+      <td style="width:110px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
       <td>${escapeHtml(summaryLine(s))}</td>
       <td style="text-align:right;font-weight:600;width:90px">${yen(s.approved_amount)}</td>
     </tr>`).join('');

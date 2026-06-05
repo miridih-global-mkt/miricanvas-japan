@@ -1,9 +1,9 @@
 // 運営管理画面（日本語）
 const TYPE_LABELS = {
-  content: 'コンテンツ報告',
-  webinar: 'ウェビナー・セミナー報告',
+  content: 'コンテンツ',
+  webinar: 'セミナー',
   referral: '紹介',
-  adjustment: '運営精算',
+  adjustment: '手動追加',
 };
 const STATUS_LABELS = {
   submitted: '確認中',
@@ -483,7 +483,7 @@ function openBillDetail(b) {
   const childRows = items.map((s) => `
     <tr>
       <td style="width:72px">${fmtDate(actDate(s))}</td>
-      <td style="width:150px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
+      <td style="width:110px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
       <td>${escapeHtml(memberLine(s))}</td>
       <td style="text-align:right;font-weight:600;width:90px">${yen(s.approved_amount)}</td>
     </tr>`).join('');

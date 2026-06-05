@@ -2,15 +2,15 @@
 import { err, requireAdmin } from '../_utils.js';
 
 const TYPE_LABELS = {
-  content: '콘텐츠 보고',
-  webinar: '웨비나·세미나 보고',
-  referral: '소개',
-  adjustment: '운영정산',
+  content: 'コンテンツ',
+  webinar: 'セミナー',
+  referral: '紹介',
+  adjustment: '手動追加',
 };
 const STATUS_LABELS = {
-  submitted: '확인중',
-  approved: '승인완료',
-  rejected: '반려',
+  submitted: '確認中',
+  approved: '承認済み',
+  rejected: '差し戻し',
 };
 
 function csvCell(v) {
