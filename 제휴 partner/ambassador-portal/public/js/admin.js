@@ -428,25 +428,13 @@ function memberLine(s) {
 
 function renderBills() {
   const tbody = $('#bills-table tbody');
-  const { bills, members } = BILLS;
+  const { bills } = BILLS;
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="muted">リワード案件がありません。活動管理から承認済みの活動を選択して作成してください。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">リワード案件がありません。活動管理から承認済みの活動を選択して作成してください。</td></tr>';
     return;
   }
   tbody.innerHTML = bills.map((b) => {
     const isSent = !!b.sent_at;
-    const items = members.filter((s) => s.bill_id === b.id);
-    const childRows = items.map((s) => `
-      <tr class="hoverable">
-        <td style="width:80px">${fmtDate(actDate(s))}</td>
-        <td style="width:180px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
-        <td>${escapeHtml(memberLine(s))}</td>
-        <td style="text-align:right;font-weight:600;width:110px">${yen(s.approved_amount)}</td>
-      </tr>`).join('');
-    const ops = `<button class="ghost btn-sm btn-bill-detail" data-id="${b.id}">詳細</button>`
-      + (isSent ? '' : `
-         <button class="danger btn-sm btn-bill-del" data-id="${b.id}">削除</button>
-         <button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`);
     return `
     <tr class="clickable bill-row" data-id="${b.id}">
       <td>${fmtDate(b.created_at)}</td>
@@ -455,45 +443,16 @@ function renderBills() {
       <td>${b.count}件</td>
       <td><b>${yen(b.total)}</b></td>
       <td>${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
-      <td style="white-space:nowrap">${ops}</td>
-      <td>${isSent ? fmtDate(b.sent_at) : '<span class="badge submitted">発送待ち</span>'}</td>
-    </tr>
-    <tr class="settle-detail" id="bill-detail-${b.id}" style="display:none">
-      <td colspan="8">
-        <div class="nested-wrap">
-          <table class="nested-table">
-            <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
-            <tbody>${childRows || '<tr><td colspan="4" class="muted">対象活動がありません</td></tr>'}</tbody>
-          </table>
-        </div>
-      </td>
+      <td>${isSent ? fmtDate(b.sent_at) : `<button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`}</td>
     </tr>`;
   }).join('');
 
-  // 行クリック → 対象活動の展開（箱が広がるだけ）
+  // 行クリック → 詳細ポップアップ（対象活動リスト＋修正・削除）
   tbody.querySelectorAll('.bill-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
-      const detail = document.getElementById('bill-detail-' + tr.dataset.id);
-      const willOpen = detail.style.display === 'none';
-      detail.style.display = willOpen ? '' : 'none';
-      tr.classList.toggle('bill-open', willOpen);
-    });
-  });
-  tbody.querySelectorAll('.btn-bill-detail').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const b = BILLS.bills.find((x) => x.id === Number(btn.dataset.id));
+      const b = BILLS.bills.find((x) => x.id === Number(tr.dataset.id));
       if (b) openBillDetail(b);
-    });
-  });
-  tbody.querySelectorAll('.btn-bill-del').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      if (!confirm('このリワード案件を削除しますか？対象活動は未編成に戻ります。')) return;
-      try {
-        await api(`/api/admin/bills/${btn.dataset.id}`, { method: 'DELETE' });
-        toast('削除しました');
-        loadBills();
-      } catch (e) { toast(e.message, true); }
     });
   });
   tbody.querySelectorAll('.btn-bill-send').forEach((btn) => {
@@ -508,37 +467,62 @@ function renderBills() {
   });
 }
 
-// ── リワード案件 詳細モーダル（修正はここから） ──
+// ── リワード案件 詳細ポップアップ（対象活動リスト＋修正・削除） ──
 const METHOD_LABELS = { amazon: 'Amazonギフト', transfer: '海外送金' };
 
 function openBillDetail(b) {
   const isSent = !!b.sent_at;
-  $('#modal-title').innerHTML = `リワード案件の詳細 ${isSent ? '' : '<span class="badge submitted">発送待ち</span>'}`;
+  const items = BILLS.members.filter((s) => s.bill_id === b.id);
+  const childRows = items.map((s) => `
+    <tr>
+      <td style="width:72px">${fmtDate(actDate(s))}</td>
+      <td style="width:150px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
+      <td>${escapeHtml(memberLine(s))}</td>
+      <td style="text-align:right;font-weight:600;width:90px">${yen(s.approved_amount)}</td>
+    </tr>`).join('');
+
+  $('#modal-title').textContent = `リワード案件：${b.title}`;
   $('#modal-body').innerHTML = `
     <dl class="kv">
       <dt>アンバサダー</dt><dd>${escapeHtml(b.ambassador_name)}</dd>
-      <dt>タイトル</dt><dd><b>${escapeHtml(b.title)}</b></dd>
-      <dt>対象</dt><dd>${b.count}件 ・ ${yen(b.total)}</dd>
+      <dt>合計</dt><dd><b>${yen(b.total)}</b>（${b.count}件）</dd>
       <dt>支払い月</dt><dd>${b.pay_month ? fmtMonth(b.pay_month) : '—'}</dd>
       <dt>支払い方法</dt><dd>${b.method ? METHOD_LABELS[b.method] : '未定'}</dd>
       ${b.method === 'transfer' ? `<dt>送金日</dt><dd>${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : '—'}</dd>` : ''}
       ${b.memo ? `<dt>メモ</dt><dd>${escapeHtml(b.memo)}</dd>` : ''}
       <dt>作成日</dt><dd>${fmtDate(b.created_at)}</dd>
-      <dt>発送日</dt><dd>${isSent ? fmtDate(b.sent_at) : '発送待ち'}</dd>
+      <dt>発送日</dt><dd>${isSent ? fmtDate(b.sent_at) : '未発送'}</dd>
     </dl>
     ${b.method === 'amazon' && b.gift_codes.length ? `
     <div class="codes-block">
       <b>Amazonギフトカード番号（${b.gift_codes.length}枚）</b>
       <ul>${b.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
     </div>` : ''}
+    <h3>対象活動（${items.length}件）</h3>
+    <table class="nested-table">
+      <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+      <tbody>${childRows || '<tr><td colspan="4" class="muted">対象活動がありません</td></tr>'}</tbody>
+    </table>
   `;
   $('#modal-review').innerHTML = isSent
-    ? '<p class="muted">発送済みのため修正できません。</p>'
-    : '<button class="primary" id="btn-bill-modify" style="margin-top:14px">修正する</button>';
+    ? ''
+    : `<div style="display:flex;gap:8px;margin-top:14px">
+        <button class="primary" id="btn-bill-modify" style="width:auto;margin:0;padding:10px 18px">修正する</button>
+        <button class="danger" id="btn-bill-delete">削除する</button>
+      </div>`;
   if (!isSent) {
     $('#btn-bill-modify').addEventListener('click', () => {
       closeModal();
       openBillModal({ kind: 'edit', id: b.id }, b);
+    });
+    $('#btn-bill-delete').addEventListener('click', async () => {
+      if (!confirm('このリワード案件を削除しますか？対象活動は未編成に戻ります。')) return;
+      try {
+        await api(`/api/admin/bills/${b.id}`, { method: 'DELETE' });
+        toast('削除しました');
+        closeModal();
+        loadBills();
+      } catch (e) { toast(e.message, true); }
     });
   }
   $('#modal-bg').classList.add('open');

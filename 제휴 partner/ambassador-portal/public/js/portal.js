@@ -413,7 +413,7 @@ function renderRewards() {
   const tbody = $('#settle-table tbody');
   const bills = DATA.bills || [];
   if (!bills.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" class="muted">お渡し済みのリワードはまだありません。</td></tr>';
     return;
   }
 
@@ -422,71 +422,57 @@ function renderRewards() {
     const total = items.reduce((a, s) => a + (s.approved_amount || 0), 0);
     // 受領日：海外送金は送金日、それ以外は発送日
     const receivedDate = (b.method === 'transfer' && b.transfer_date) ? b.transfer_date : b.sent_at;
-
-    const childRows = items.map((s) => `
-      <tr class="hoverable child-act" data-id="${s.id}">
-        <td style="width:64px">${fmtDate(actDate(s))}</td>
-        <td style="width:170px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
-        <td>${escapeHtml(summaryLine(s))}</td>
-        <td style="text-align:right;font-weight:600;width:100px">${yen(s.approved_amount)}</td>
-      </tr>`).join('');
-
     return `
-      <tr class="clickable settle-row" data-id="${b.id}" id="bill-row-${b.id}">
+      <tr class="clickable settle-row" data-id="${b.id}">
         <td>${fmtDate(receivedDate)}</td>
         <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted" style="font-size:12px">${escapeHtml(b.memo)}</span>` : ''}</td>
         <td>${items.length}件</td>
         <td><b>${yen(total)}</b></td>
-        <td><button class="ghost btn-sm btn-paydetail" data-id="${b.id}">詳細確認</button></td>
-      </tr>
-      <tr class="settle-detail" id="detail-${b.id}" style="display:none">
-        <td colspan="5">
-          <div class="nested-wrap">
-            <table class="nested-table">
-              <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
-              <tbody>${childRows || ''}</tbody>
-            </table>
-          </div>
-        </td>
       </tr>`;
   }).join('');
 
+  // 行クリック → リワード詳細ポップアップ
   tbody.querySelectorAll('.settle-row').forEach((tr) => {
-    tr.addEventListener('click', (e) => {
-      if (e.target.closest('.btn-paydetail')) return;
-      const detail = document.getElementById('detail-' + tr.dataset.id);
-      const willOpen = detail.style.display === 'none';
-      detail.style.display = willOpen ? '' : 'none';
-      tr.classList.toggle('bill-open', willOpen);
-    });
-  });
-  tbody.querySelectorAll('.btn-paydetail').forEach((btn) => {
-    btn.addEventListener('click', () => openPaymentDetail(Number(btn.dataset.id)));
-  });
-  tbody.querySelectorAll('.child-act').forEach((row) => {
-    row.addEventListener('click', () => openSubmissionDetail(Number(row.dataset.id)));
+    tr.addEventListener('click', () => openRewardDetail(Number(tr.dataset.id)));
   });
 }
 
-// ── リワード詳細ポップアップ ──
-function openPaymentDetail(billId) {
+// ── リワード詳細ポップアップ（情報＋対象活動リスト） ──
+function openRewardDetail(billId) {
   const b = (DATA.bills || []).find((x) => x.id === billId);
   if (!b) return;
   const items = DATA.submissions.filter((s) => s.bill_id === b.id);
   const total = items.reduce((a, s) => a + (s.approved_amount || 0), 0);
+  const receivedDate = (b.method === 'transfer' && b.transfer_date) ? b.transfer_date : b.sent_at;
+
+  const childRows = items.map((s) => `
+    <tr>
+      <td style="width:64px">${fmtDate(actDate(s))}</td>
+      <td style="width:160px"><span class="badge type">${TYPE_LABELS[s.type]}</span></td>
+      <td>${escapeHtml(summaryLine(s))}</td>
+      <td style="text-align:right;font-weight:600;width:90px">${yen(s.approved_amount)}</td>
+    </tr>`).join('');
+
   const body = `
     <dl class="kv">
+      <dt>受領日</dt><dd>${fmtDate(receivedDate)}</dd>
+      <dt>金額</dt><dd><b>${yen(total)}</b>（${items.length}件）</dd>
       <dt>お渡し方法</dt><dd>${b.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[b.method]}</dd>
-      <dt>金額</dt><dd><b>${yen(total)}</b></dd>
       ${b.method === 'transfer' && b.transfer_date ? `<dt>送金日</dt><dd>${b.transfer_date.replaceAll('-', '/')}</dd>` : ''}
+      ${b.memo ? `<dt>摘要</dt><dd>${escapeHtml(b.memo)}</dd>` : ''}
     </dl>
     ${b.method === 'amazon' ? `
     <div class="codes-block">
       <b>Amazonギフトカード番号（${b.gift_codes.length}枚）</b>
       <ul>${b.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
     </div>` : ''}
+    <h3 style="margin:16px 0 8px;font-size:14px">対象活動（${items.length}件）</h3>
+    <table class="nested-table">
+      <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+      <tbody>${childRows}</tbody>
+    </table>
   `;
-  openModal('リワード詳細', body);
+  openModal(`リワード（${escapeHtml(b.title)}）`, body);
 }
 
 // ── 提出内訳ポップアップ（確認中なら修正可能） ──
