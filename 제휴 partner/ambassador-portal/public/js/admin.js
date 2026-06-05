@@ -443,16 +443,10 @@ function renderBills() {
         <td>${escapeHtml(memberLine(s))}</td>
         <td style="text-align:right;font-weight:600;width:110px">${yen(s.approved_amount)}</td>
       </tr>`).join('');
-    const payInfo = b.method
-      ? (b.method === 'amazon'
-          ? `🎁 Amazonギフト ${b.gift_codes.length}枚`
-          : `🏦 海外送金 ${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : ''}`)
-      : '<span class="muted">支払い方法 未定</span>';
-    const ops = isSent
-      ? `<span class="muted" style="font-size:12px">${payInfo}</span>`
-      : `<button class="ghost btn-sm btn-bill-edit" data-id="${b.id}">修正</button>
+    const ops = `<button class="ghost btn-sm btn-bill-detail" data-id="${b.id}">詳細</button>`
+      + (isSent ? '' : `
          <button class="danger btn-sm btn-bill-del" data-id="${b.id}">削除</button>
-         <button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`;
+         <button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0">発送</button>`);
     return `
     <tr class="clickable bill-row" data-id="${b.id}">
       <td>${fmtDate(b.created_at)}</td>
@@ -461,20 +455,22 @@ function renderBills() {
       <td>${b.count}件</td>
       <td><b>${yen(b.total)}</b></td>
       <td>${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
-      <td><span class="badge ${isSent ? 'approved' : 'submitted'}">${isSent ? '発送済み' : '発送待ち'}</span></td>
       <td style="white-space:nowrap">${ops}</td>
+      <td>${isSent ? fmtDate(b.sent_at) : '<span class="badge submitted">発送待ち</span>'}</td>
     </tr>
     <tr class="settle-detail" id="bill-detail-${b.id}" style="display:none">
       <td colspan="8">
         <div class="nested-wrap">
-          <table class="nested-table"><tbody>${childRows || '<tr><td class="muted">対象活動がありません</td></tr>'}</tbody></table>
-          ${isSent && b.method === 'amazon' ? `<div class="muted" style="font-size:12px;margin-top:6px">🎁 ${b.gift_codes.map(escapeHtml).join(' / ')}</div>` : ''}
+          <table class="nested-table">
+            <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+            <tbody>${childRows || '<tr><td colspan="4" class="muted">対象活動がありません</td></tr>'}</tbody>
+          </table>
         </div>
       </td>
     </tr>`;
   }).join('');
 
-  // 行クリック → 対象活動の展開（箱が広がるだけ・枠線は付けない）
+  // 行クリック → 対象活動の展開（箱が広がるだけ）
   tbody.querySelectorAll('.bill-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
       if (e.target.closest('button')) return;
@@ -484,10 +480,10 @@ function renderBills() {
       tr.classList.toggle('bill-open', willOpen);
     });
   });
-  tbody.querySelectorAll('.btn-bill-edit').forEach((btn) => {
+  tbody.querySelectorAll('.btn-bill-detail').forEach((btn) => {
     btn.addEventListener('click', () => {
       const b = BILLS.bills.find((x) => x.id === Number(btn.dataset.id));
-      if (b) openBillModal({ kind: 'edit', id: b.id }, b);
+      if (b) openBillDetail(b);
     });
   });
   tbody.querySelectorAll('.btn-bill-del').forEach((btn) => {
@@ -510,6 +506,42 @@ function renderBills() {
       } catch (e) { toast(e.message, true); }
     });
   });
+}
+
+// ── リワード案件 詳細モーダル（修正はここから） ──
+const METHOD_LABELS = { amazon: 'Amazonギフト', transfer: '海外送金' };
+
+function openBillDetail(b) {
+  const isSent = !!b.sent_at;
+  $('#modal-title').innerHTML = `リワード案件の詳細 ${isSent ? '' : '<span class="badge submitted">発送待ち</span>'}`;
+  $('#modal-body').innerHTML = `
+    <dl class="kv">
+      <dt>アンバサダー</dt><dd>${escapeHtml(b.ambassador_name)}</dd>
+      <dt>タイトル</dt><dd><b>${escapeHtml(b.title)}</b></dd>
+      <dt>対象</dt><dd>${b.count}件 ・ ${yen(b.total)}</dd>
+      <dt>支払い月</dt><dd>${b.pay_month ? fmtMonth(b.pay_month) : '—'}</dd>
+      <dt>支払い方法</dt><dd>${b.method ? METHOD_LABELS[b.method] : '未定'}</dd>
+      ${b.method === 'transfer' ? `<dt>送金日</dt><dd>${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : '—'}</dd>` : ''}
+      ${b.memo ? `<dt>メモ</dt><dd>${escapeHtml(b.memo)}</dd>` : ''}
+      <dt>作成日</dt><dd>${fmtDate(b.created_at)}</dd>
+      <dt>発送日</dt><dd>${isSent ? fmtDate(b.sent_at) : '発送待ち'}</dd>
+    </dl>
+    ${b.method === 'amazon' && b.gift_codes.length ? `
+    <div class="codes-block">
+      <b>Amazonギフトカード番号（${b.gift_codes.length}枚）</b>
+      <ul>${b.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
+    </div>` : ''}
+  `;
+  $('#modal-review').innerHTML = isSent
+    ? '<p class="muted">発送済みのため修正できません。</p>'
+    : '<button class="primary" id="btn-bill-modify" style="margin-top:14px">修正する</button>';
+  if (!isSent) {
+    $('#btn-bill-modify').addEventListener('click', () => {
+      closeModal();
+      openBillModal({ kind: 'edit', id: b.id }, b);
+    });
+  }
+  $('#modal-bg').classList.add('open');
 }
 
 // ══════════ アンバサダー管理 ══════════

@@ -443,7 +443,12 @@ function renderRewards() {
       </tr>
       <tr class="settle-detail" id="detail-${b.id}" style="display:none">
         <td colspan="5">
-          <div class="nested-wrap"><table class="nested-table"><tbody>${childRows || ''}</tbody></table></div>
+          <div class="nested-wrap">
+            <table class="nested-table">
+              <thead><tr><th>実施日</th><th>種別</th><th>内容</th><th style="text-align:right">金額</th></tr></thead>
+              <tbody>${childRows || ''}</tbody>
+            </table>
+          </div>
         </td>
       </tr>`;
   }).join('');
