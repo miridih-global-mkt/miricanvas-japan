@@ -303,16 +303,12 @@ function renderSummary() {
     return;
   }
   tbody.innerHTML = summary.map((r) => {
-    const pays = payments.filter((p) => p.ambassador_id === r.ambassador_id && p.month === r.month);
-    const payInfo = pays.length
-      ? pays.map((p) => p.method === 'amazon'
-          ? `🎁 ギフト${p.gift_codes.length}枚（${yen(p.amount)}）`
-          : `🏦 海外送金 ${p.transfer_date ? p.transfer_date.replaceAll('-', '/') : ''}（${yen(p.amount)}）`
-        ).join('<br>')
-      : `<span class="muted">${r.overseas_recommended ? '推奨：海外送金' : '推奨：Amazonギフト'}</span>`;
-    const action = r.unpaid_count > 0
-      ? `<button class="ghost btn-pay" data-amb="${r.ambassador_id}" data-month="${r.month}" data-name="${escapeHtml(r.ambassador_name)}" data-unpaid="${r.unpaid_count}">支払い前（${r.unpaid_count}件）→ 支払う</button>`
-      : '<span class="badge paid">支払い済み</span>';
+    const pay = payments.find((p) => p.ambassador_id === r.ambassador_id && p.month === r.month);
+    const isPaid = r.unpaid_count === 0;
+    const status = isPaid
+      ? '<span class="badge paid">支払い済み</span>'
+      : '<span class="badge submitted">支払い前</span>';
+    const payBtn = `<button class="ghost btn-pay" data-amb="${r.ambassador_id}" data-month="${r.month}" data-name="${escapeHtml(r.ambassador_name)}">${pay ? '支払い内容修正' : '支払い内容入力'}</button>`;
     return `
     <tr>
       <td>${fmtMonth(r.month)}</td>
@@ -320,8 +316,8 @@ function renderSummary() {
       <td>${r.count}件</td>
       <td><b>${yen(r.total)}</b>${r.overseas_recommended ? ' <span class="badge flag">5万円以上</span>' : ''}</td>
       <td>${dueDate(r.month)}</td>
-      <td>${payInfo}</td>
-      <td>${action}</td>
+      <td>${status}</td>
+      <td>${payBtn}</td>
     </tr>`;
   }).join('');
 
@@ -331,17 +327,22 @@ function renderSummary() {
 }
 $('#s-month').addEventListener('change', loadSummary);
 
-// ── 支払いモーダル ──
+// ── 支払いモーダル（入力／修正 共通・既存内容はプリフィル） ──
 let PAY_TARGET = null;
 
 function openPayModal(ds) {
   PAY_TARGET = { ambassador_id: Number(ds.amb), month: ds.month };
   const row = SUMMARY.summary.find((r) => r.ambassador_id === Number(ds.amb) && r.month === ds.month);
-  const unpaidAmount = row ? row.total - row.paid_total : 0;
-  $('#pay-info').innerHTML = `<b>${escapeHtml(ds.name)}</b> さん／${fmtMonth(ds.month)}分（支払予定 ${dueDate(ds.month)}）<br>未払い ${ds.unpaid}件・<b>${yen(unpaidAmount)}</b> を支払い済みにします。`;
-  $('#pay-codes').value = '';
-  $('#pay-date').value = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
-  document.querySelector('input[name=pay_method][value=amazon]').checked = true;
+  const pay = SUMMARY.payments.find((p) => p.ambassador_id === Number(ds.amb) && p.month === ds.month);
+
+  $('#pay-info').innerHTML = `<b>${escapeHtml(ds.name)}</b> さん／${fmtMonth(ds.month)}分（支払予定 ${dueDate(ds.month)}）<br>確定 ${row ? row.count : '?'}件・<b>${yen(row ? row.total : null)}</b>${row && row.unpaid_count > 0 ? `<br>確定保存時、未払い ${row.unpaid_count}件が支払い済みになります。` : ''}`;
+
+  // 既存の支払い内容をプリフィル（修正モード）
+  const method = pay ? pay.method : 'amazon';
+  document.querySelector(`input[name=pay_method][value=${method}]`).checked = true;
+  $('#pay-codes').value = pay && pay.method === 'amazon' ? pay.gift_codes.join('\n') : '';
+  $('#pay-date').value = (pay && pay.transfer_date) || new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
+  $('#pay-submit').textContent = pay ? '支払い内容を修正する' : '支払いを確定する';
   togglePayFields();
   $('#pay-modal-bg').classList.add('open');
 }
@@ -388,13 +389,13 @@ async function loadAmbassadors() {
   tbody.innerHTML = ambassadors.map((a) => `
     <tr>
       <td>${escapeHtml(a.name)}</td>
-      <td>${escapeHtml(a.description || '')} <button class="ghost btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}" style="padding:2px 8px;font-size:11px">編集</button></td>
+      <td>${escapeHtml(a.description || '')} <button class="ghost btn-sm btn-edit-desc" data-id="${a.id}" data-desc="${escapeHtml(a.description || '')}">編集</button></td>
       <td>${a.submission_count}</td>
       <td>${a.active ? '<span class="badge approved">有効</span>' : '<span class="badge rejected">無効</span>'}</td>
-      <td><button class="ghost" data-copy="${a.token}">リンクをコピー</button></td>
       <td style="white-space:nowrap">
-        <button class="ghost" data-reissue="${a.id}">リンク再発行</button>
-        <button class="${a.active ? 'danger' : 'ghost'}" data-toggle="${a.id}" data-active="${a.active}">${a.active ? 'リンク無効化' : 'リンク有効化'}</button>
+        <button class="ghost btn-sm" data-copy="${a.token}">コピー</button>
+        <button class="ghost btn-sm" data-reissue="${a.id}">再発行</button>
+        <button class="${a.active ? 'danger' : 'ghost'} btn-sm" data-toggle="${a.id}" data-active="${a.active}">${a.active ? '無効化' : '有効化'}</button>
       </td>
     </tr>`).join('');
 

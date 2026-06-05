@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS files (
 
 CREATE INDEX IF NOT EXISTS idx_files_submission ON files(submission_id);
 
--- 지불 기록 (앰버서더 × 실행월 단위, 잔금 등으로 한 달에 여러 건 가능)
+-- 지불 기록 (앰버서더 × 실행월당 1건 — 입력/수정은 upsert)
 CREATE TABLE IF NOT EXISTS payments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
@@ -53,10 +53,11 @@ CREATE TABLE IF NOT EXISTS payments (
   gift_codes TEXT,                              -- 아마존: 기프트코드 JSON 배열
   transfer_date TEXT,                           -- 해외송금: 송금일 (YYYY-MM-DD)
   amount INTEGER NOT NULL,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT
 );
 
-CREATE INDEX IF NOT EXISTS idx_payments_amb ON payments(ambassador_id, month);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_payments_amb ON payments(ambassador_id, month);
 
 CREATE TABLE IF NOT EXISTS admin_sessions (
   token TEXT PRIMARY KEY,

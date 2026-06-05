@@ -15,6 +15,23 @@ const STATUS_LABELS = {
   paid: '支払い済み',
 };
 const CATEGORY_LABELS = { ai_slide: 'AIスライド関連', other_feature: 'その他の機能', repost: '転載' };
+const WTYPE_LABELS = { targeted: 'ターゲット向け', general: '不特定多数向け' };
+const TRACK_LABELS = { ai: 'AI・資料作成系', design: 'デザイン系' };
+
+// payload キーの日本語ラベル（内訳ポップアップ用）
+const FIELD_LABELS = {
+  category: 'カテゴリ', url: 'URL', channel: 'チャネル', published_date: '公開日', memo: '補足',
+  title: 'タイトル', event_date: '開催日時', webinar_type: '形式',
+  expected_participants: '予想参加人数', participants: '実参加人数',
+  mc_duration: 'MC講義時間', mc_content: 'MC講義内容', ai_tools: '併用AIツール',
+  exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真二次利用同意',
+  linked_submission_id: '事前申請', referral_kind: '紹介種類', referral_date: '紹介日',
+  p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
+  c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
+  reason: '紹介理由', relation: '関係',
+};
+const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり' };
+const METHOD_LABELS = { amazon: 'Amazonギフト', transfer: '海外送金（口座へ）' };
 
 const $ = (s) => document.querySelector(s);
 const yen = (n) => n == null ? '—' : Number(n).toLocaleString('ja-JP') + '円';
@@ -171,7 +188,7 @@ function renderHistory() {
       s.status === 'rejected' && s.admin_note ? `<div class="note">運営より：${escapeHtml(s.admin_note)}</div>` : '',
     ].join('');
     return `<div class="hist-item">
-      <div class="hist-row">
+      <div class="hist-row" data-id="${s.id}">
         <span class="h-date">${fmtDate(actDate(s))}</span>
         <span class="h-type"><span class="badge type">${TYPE_LABELS[s.type]}</span></span>
         <span class="h-title" title="${escapeHtml(summaryLine(s))}">${escapeHtml(summaryLine(s))}</span>
@@ -181,6 +198,11 @@ function renderHistory() {
       ${extra ? `<div class="hist-extra">${extra}</div>` : ''}
     </div>`;
   }).join('');
+
+  // 行クリック → 提出内訳ポップアップ
+  list.querySelectorAll('.hist-row').forEach((row) => {
+    row.addEventListener('click', () => openSubmissionDetail(Number(row.dataset.id)));
+  });
 
   // 小計（種別ごと）＋合計
   const groups = [
@@ -216,29 +238,12 @@ function renderSettle() {
     const allPaid = items.every((s) => s.status === 'paid');
     const pays = (DATA.payments || []).filter((p) => p.month === m);
 
-    // リワード列
-    let reward = '<span class="muted">—</span>';
-    if (pays.length) {
-      reward = pays.map((p) => {
-        if (p.method === 'amazon') {
-          return `<button class="ghost btn-codes" data-month="${m}" data-pay="${p.id}">🎁 ギフトコードを見る（${p.gift_codes.length}枚）</button>`;
-        }
-        return `🏦 海外送金（口座へ）<span class="muted">${p.transfer_date ? ' ' + p.transfer_date.replaceAll('-', '/') : ''}</span>`;
-      }).join('<br>');
-    }
-
     const detailRows = items.map((s) => `
       <div class="settle-detail-row">
         <span>${fmtDate(actDate(s))}</span>
         <span><span class="badge type">${TYPE_LABELS[s.type]}</span></span>
         <span class="h-title">${escapeHtml(summaryLine(s))}</span>
         <span style="text-align:right;font-weight:600">${yen(s.approved_amount)}</span>
-      </div>`).join('');
-
-    const codesBlocks = pays.filter((p) => p.method === 'amazon').map((p) => `
-      <div class="codes-block" id="codes-${p.id}" style="display:none">
-        <b>Amazonギフトカード番号</b>
-        <ul>${p.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
       </div>`).join('');
 
     return `
@@ -248,31 +253,79 @@ function renderSettle() {
         <td><b>${yen(total)}</b></td>
         <td>${dueDate(m)}</td>
         <td><span class="badge ${allPaid ? 'paid' : 'submitted'}">${allPaid ? '支払い済み' : '支払い前'}</span></td>
-        <td>${reward}</td>
+        <td>${pays.length ? `<button class="ghost btn-sm btn-paydetail" data-month="${m}">内容を見る</button>` : '<span class="muted">—</span>'}</td>
       </tr>
       <tr class="settle-detail" id="detail-${m}" style="display:none">
-        <td colspan="6">${detailRows}${codesBlocks}</td>
+        <td colspan="6">${detailRows}</td>
       </tr>`;
   }).join('');
 
   // 行クリック → 内訳トグル
   tbody.querySelectorAll('.settle-row').forEach((tr) => {
     tr.addEventListener('click', (e) => {
-      if (e.target.closest('.btn-codes')) return; // コードボタンは別処理
+      if (e.target.closest('.btn-paydetail')) return; // 支払い内容ボタンは別処理
       const detail = document.getElementById('detail-' + tr.dataset.month);
       detail.style.display = detail.style.display === 'none' ? '' : 'none';
     });
   });
-  // ギフトコード表示トグル
-  tbody.querySelectorAll('.btn-codes').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const detail = document.getElementById('detail-' + btn.dataset.month);
-      const codes = document.getElementById('codes-' + btn.dataset.pay);
-      detail.style.display = '';
-      codes.style.display = codes.style.display === 'none' ? '' : 'none';
-    });
+  // 支払い内容ポップアップ
+  tbody.querySelectorAll('.btn-paydetail').forEach((btn) => {
+    btn.addEventListener('click', () => openPaymentDetail(btn.dataset.month));
   });
 }
+
+// ── 支払い内容ポップアップ ──
+function openPaymentDetail(month) {
+  const pays = (DATA.payments || []).filter((p) => p.month === month);
+  const body = pays.map((p) => `
+    <dl class="kv">
+      <dt>支払い方法</dt><dd>${p.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[p.method]}</dd>
+      <dt>金額</dt><dd><b>${yen(p.amount)}</b></dd>
+      ${p.method === 'transfer' && p.transfer_date ? `<dt>送金日</dt><dd>${p.transfer_date.replaceAll('-', '/')}</dd>` : ''}
+    </dl>
+    ${p.method === 'amazon' ? `
+    <div class="codes-block">
+      <b>Amazonギフトカード番号（${p.gift_codes.length}枚）</b>
+      <ul>${p.gift_codes.map((c) => `<li><code>${escapeHtml(c)}</code></li>`).join('')}</ul>
+    </div>` : ''}
+  `).join('<hr style="border:none;border-top:1px solid var(--border);margin:14px 0">');
+  openModal(`支払い内容（${fmtMonth(month)}分）`, body);
+}
+
+// ── 提出内訳ポップアップ（履歴の行クリック） ──
+function openSubmissionDetail(id) {
+  const s = DATA.submissions.find((x) => x.id === id);
+  if (!s) return;
+  const files = (DATA.files || []).filter((f) => f.submission_id === id);
+
+  const rows = Object.entries(s.payload || {})
+    .filter(([, v]) => v !== '' && v != null)
+    .map(([k, v]) => `<dt>${escapeHtml(FIELD_LABELS[k] || k)}</dt><dd>${
+      /^https?:\/\//.test(String(v)) ? `<a href="${escapeHtml(v)}" target="_blank">${escapeHtml(v)}</a>` : escapeHtml(VALUE_LABELS[v] ?? v)
+    }</dd>`).join('');
+
+  const isFixed = s.status === 'approved' || s.status === 'paid';
+  const body = `
+    <p><span class="badge type">${TYPE_LABELS[s.type]}</span> <span class="badge ${s.status}">${STATUS_LABELS[s.status]}</span></p>
+    <dl class="kv">
+      <dt>実施日</dt><dd>${fmtDate(actDate(s))}</dd>
+      <dt>金額</dt><dd>${isFixed ? `<b>${yen(s.approved_amount)}</b>（確定）` : s.suggested_amount != null ? `目安 ${yen(s.suggested_amount)}（確認中）` : '確認中'}</dd>
+      ${rows}
+      ${s.status === 'rejected' && s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
+    </dl>
+    ${files.length ? `<p>📎 ${files.map((f) => `<a href="/api/files/${f.id}?token=${encodeURIComponent(token)}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</p>` : ''}
+  `;
+  openModal('提出内容', body);
+}
+
+// ── 汎用モーダル ──
+function openModal(title, html) {
+  $('#p-modal-title').textContent = title;
+  $('#p-modal-body').innerHTML = html;
+  $('#p-modal-bg').classList.add('open');
+}
+$('#p-modal-close').addEventListener('click', () => $('#p-modal-bg').classList.remove('open'));
+$('#p-modal-bg').addEventListener('click', (e) => { if (e.target === $('#p-modal-bg')) $('#p-modal-bg').classList.remove('open'); });
 
 function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

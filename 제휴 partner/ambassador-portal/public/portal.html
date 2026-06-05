@@ -262,7 +262,7 @@
       <p class="muted">実施日（公開日・開催日など）を基準に月ごとに集計します。お支払いは<b>翌月末</b>予定です。行をタップすると内訳が表示されます。</p>
       <div class="table-wrap">
         <table class="list" id="settle-table">
-          <thead><tr><th>月</th><th>件数</th><th>確定金額</th><th>支払予定</th><th>状況</th><th>リワード</th></tr></thead>
+          <thead><tr><th>月</th><th>件数</th><th>確定金額</th><th>支払予定</th><th>状況</th><th>支払い内容</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -275,6 +275,15 @@
   <div class="card landing-card">
     <h1>リンクが無効です</h1>
     <p>このリンクは無効か、期限切れです。<br>お手数ですが担当者までご連絡ください。</p>
+  </div>
+</div>
+
+<!-- 汎用ポップアップ（提出内訳・支払い内容） -->
+<div class="modal-bg" id="p-modal-bg">
+  <div class="modal">
+    <button class="close" id="p-modal-close">×</button>
+    <h2 id="p-modal-title"></h2>
+    <div id="p-modal-body"></div>
   </div>
 </div>
 
