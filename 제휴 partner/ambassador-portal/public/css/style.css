@@ -389,13 +389,15 @@ table.list tr.clickable:hover { background: var(--accent-light); }
   background: #fff; border-radius: var(--radius); max-width: 640px; width: 100%;
   padding: 20px; position: relative;
 }
-.modal .close {
-  position: absolute; top: 12px; right: 14px;
-  font-size: 12.5px; font-weight: 600; font-family: inherit;
-  border: 1px solid var(--border); background: #fff; border-radius: 999px;
-  padding: 5px 14px; color: var(--muted); cursor: pointer;
+/* モーダル下部のボタン行：[閉じる][主要アクション] */
+.modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+.modal-actions .primary { flex: 2; margin-top: 0; }
+.modal-actions .big-close {
+  flex: 1; padding: 12px; font-size: 15px; font-weight: 600;
+  border: 1px solid var(--border); background: #fff; color: var(--muted);
+  border-radius: 8px; cursor: pointer; font-family: inherit;
 }
-.modal .close:hover { border-color: var(--accent); color: var(--accent); }
+.modal-actions .big-close:hover { border-color: var(--accent); color: var(--accent); }
 .kv { display: grid; grid-template-columns: 130px 1fr; gap: 4px 12px; font-size: 13.5px; margin-top: 10px; }
 .kv dt { color: var(--muted); }
 .kv dd { margin: 0; word-break: break-all; }

@@ -20,13 +20,13 @@ const FIELD_LABELS = {
   category: 'カテゴリ', url: 'URL', channel: 'チャネル', published_date: '公開日', memo: '補足',
   title: 'タイトル', event_date: '開催日', webinar_type: '形式',
   participants: '実参加人数', ai_tools: '併用AIツール',
-  exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真二次利用同意',
+  exposure_minutes: 'MC紹介時間(分)', photo_consent: '写真の二次利用',
   referral_kind: '紹介種類', referral_date: '紹介日',
   p_name: '名前', p_sns_url: 'SNS URL', p_main_channel: 'メインチャネル', p_track: '得意分野',
   c_name: 'コミュニティ名', c_size: '規模', c_field: '分野', c_owner: '運営者',
   reason: '紹介理由', relation: '関係',
 };
-const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり' };
+const VALUE_LABELS = { ...CATEGORY_LABELS, ...WTYPE_LABELS, ...TRACK_LABELS, person: '個人', community: 'コミュニティ', yes: '同意あり', no: '許可しない' };
 const METHOD_LABELS = { amazon: 'Amazonギフト', transfer: '海外送金（口座へ）' };
 
 const $ = (s) => document.querySelector(s);
@@ -223,7 +223,7 @@ function setFormValues(form, payload) {
   for (const [k, v] of Object.entries(payload)) {
     const el = form.querySelector(`[name="${k}"]`);
     if (!el || el.type === 'file') continue;
-    if (el.type === 'checkbox') el.checked = v === 'yes';
+    if (el.type === 'checkbox') el.checked = v === el.value;
     else el.value = v;
   }
 }
@@ -244,8 +244,6 @@ function openForm(type, mode, payload = null) {
   form.querySelectorAll('.file-field').forEach((el) => {
     el.style.display = isSubEdit ? 'none' : '';
   });
-  const photos = form.querySelector('[name=photos]');
-  if (photos) photos.required = !isSubEdit && !(mode.kind === 'draft-edit');
 
   // 条件付きフィールドの状態を合わせる
   if (type === 'webinar') {

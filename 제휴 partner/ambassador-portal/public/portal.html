@@ -104,7 +104,6 @@
 <!-- ① コンテンツ -->
 <div class="modal-bg" id="fm-content-bg">
   <div class="modal">
-    <button class="close" data-close="fm-content-bg">閉じる</button>
     <h2 id="fm-content-title">コンテンツ報告</h2>
     <div class="hint slim">AIスライド関連 1万円／その他機能 5千円／転載 3千円（月5件まで・金額は運営確認後に確定）</div>
     <form id="form-content" class="cform">
@@ -129,7 +128,10 @@
         <label class="cfield full">補足（任意）
           <input type="text" name="memo" placeholder="併用AIツールなど"></label>
       </div>
-      <button class="primary" type="submit">リストに追加</button>
+      <div class="modal-actions">
+        <button type="button" class="big-close" data-close="fm-content-bg">閉じる</button>
+        <button class="primary" type="submit">リストに追加</button>
+      </div>
     </form>
   </div>
 </div>
@@ -137,9 +139,8 @@
 <!-- ② ウェビナー・セミナー -->
 <div class="modal-bg" id="fm-webinar-bg">
   <div class="modal">
-    <button class="close" data-close="fm-webinar-bg">閉じる</button>
     <h2 id="fm-webinar-title">ウェビナー・セミナー報告</h2>
-    <div class="hint slim">発表資料・現場写真・実参加人数が必要です。併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
+    <div class="hint slim">実参加人数のご報告が必要です（発表資料・現場写真もあればぜひ）。併用OK：ChatGPT・Gemini・Claude ／ NG：Genspark・Gamma</div>
     <form id="form-webinar" class="cform">
       <div class="form-grid">
         <label class="cfield full">タイトル・テーマ<span class="req">*</span>
@@ -158,16 +159,19 @@
           <input type="number" name="exposure_minutes" min="1"></label>
         <label class="cfield file-field">発表資料（PDF等）
           <input type="file" name="slides" multiple accept=".pdf,.ppt,.pptx,.key,image/*"></label>
-        <label class="cfield file-field">現場写真（複数可）<span class="req">*</span>
-          <input type="file" name="photos" multiple accept="image/*" required></label>
+        <label class="cfield file-field">現場写真（複数可・任意）
+          <input type="file" name="photos" multiple accept="image/*"></label>
         <label class="cfield">併用したAIツール（任意）
           <input type="text" name="ai_tools" placeholder="例：ChatGPT"></label>
         <label class="cfield">補足（任意）
           <input type="text" name="memo" placeholder="参加者の確認方法など"></label>
-        <label class="consent full"><input type="checkbox" name="photo_consent" value="yes">
-          写真の二次利用（広告素材化・顔はモザイク処理）に同意します（任意）</label>
+        <label class="consent full"><input type="checkbox" name="photo_consent" value="no">
+          写真の二次利用（広告素材への活用・顔はモザイク処理）を<b>希望しない</b>場合はチェックしてください</label>
       </div>
-      <button class="primary" type="submit">リストに追加</button>
+      <div class="modal-actions">
+        <button type="button" class="big-close" data-close="fm-webinar-bg">閉じる</button>
+        <button class="primary" type="submit">リストに追加</button>
+      </div>
     </form>
   </div>
 </div>
@@ -175,7 +179,6 @@
 <!-- ③ 紹介 -->
 <div class="modal-bg" id="fm-referral-bg">
   <div class="modal">
-    <button class="close" data-close="fm-referral-bg">閉じる</button>
     <h2 id="fm-referral-title">お知り合い・コミュニティの紹介</h2>
     <div class="hint slim">ご成約・共同活動が実現した場合、紹介報酬をお支払いします。個人：フォロワー1万人以上目安 ／ コミュニティ：会員1,000名以上目安</div>
     <form id="form-referral" class="cform">
@@ -223,7 +226,10 @@
         <label class="cfield">紹介日<span class="req">*</span>
           <input type="date" name="referral_date" required></label>
       </div>
-      <button class="primary" type="submit">リストに追加</button>
+      <div class="modal-actions">
+        <button type="button" class="big-close" data-close="fm-referral-bg">閉じる</button>
+        <button class="primary" type="submit">リストに追加</button>
+      </div>
     </form>
   </div>
 </div>
@@ -231,9 +237,11 @@
 <!-- 汎用ポップアップ（提出内訳・リワード詳細） -->
 <div class="modal-bg" id="p-modal-bg">
   <div class="modal">
-    <button class="close" id="p-modal-close">閉じる</button>
     <h2 id="p-modal-title"></h2>
     <div id="p-modal-body"></div>
+    <div class="modal-actions">
+      <button type="button" class="big-close" id="p-modal-close">閉じる</button>
+    </div>
   </div>
 </div>
 
