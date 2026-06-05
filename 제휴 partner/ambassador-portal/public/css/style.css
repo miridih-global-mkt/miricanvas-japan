@@ -227,7 +227,13 @@ input[type=month]::-webkit-calendar-picker-indicator { cursor: pointer; opacity:
   color: #0a6573;
 }
 .hint.warn { background: var(--amber-bg); color: var(--amber); }
-.hint.slim { font-size: 12px; padding: 8px 10px; margin: 8px 0 2px; }
+.hint.slim {
+  font-size: 12.5px; padding: 10px 14px; margin: 8px 0 2px;
+  border-left: 3px solid var(--accent-bright); border-radius: 4px 8px 8px 4px;
+}
+.hint ul { margin: 0; padding-left: 1.25em; }
+.hint li { margin: 2px 0; line-height: 1.6; }
+.hint li b { color: #07505b; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; margin-top: 10px; }
 .form-grid .full { grid-column: 1 / -1; }
 .cfield { display: block; font-size: 12px; font-weight: 600; color: var(--text); }
