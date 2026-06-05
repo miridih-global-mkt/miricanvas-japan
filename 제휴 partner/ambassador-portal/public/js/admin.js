@@ -444,13 +444,14 @@ function renderBills() {
     const isSent = !!b.sent_at;
     return `
     <tr class="clickable bill-row" data-id="${b.id}">
-      <td>${fmtDate(b.created_at)}</td>
-      <td>${escapeHtml(b.ambassador_name)}</td>
-      <td><b>${escapeHtml(b.title)}</b>${b.memo ? `<br><span class="muted">${escapeHtml(b.memo)}</span>` : ''}</td>
-      <td>${b.count}件</td>
-      <td><b>${yen(b.total)}</b></td>
-      <td>${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
-      <td>${isSent ? fmtDate(b.sent_at) : `<button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0;padding:0 14px">発送</button>`}</td>
+      <td style="white-space:nowrap">${fmtDate(b.created_at)}</td>
+      <td style="white-space:nowrap">${escapeHtml(b.ambassador_name)}</td>
+      <td class="cell-title" title="${escapeHtml(b.title)}"><b>${escapeHtml(b.title)}</b></td>
+      <td class="cell-memo" title="${escapeHtml(b.memo || '')}">${b.memo ? escapeHtml(b.memo) : '<span class="muted">—</span>'}</td>
+      <td style="white-space:nowrap">${b.count}件</td>
+      <td style="white-space:nowrap"><b>${yen(b.total)}</b></td>
+      <td style="white-space:nowrap">${b.pay_month ? fmtMonth(b.pay_month) : '<span class="muted">—</span>'}</td>
+      <td style="white-space:nowrap">${isSent ? fmtDate(b.sent_at) : `<button class="primary btn-sm btn-bill-send" data-id="${b.id}" style="width:auto;margin:0;padding:0 14px">発送</button>`}</td>
     </tr>`;
   }).join('');
 
