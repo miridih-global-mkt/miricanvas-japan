@@ -4,3 +4,6 @@
 !*.md
 !.gitignore
 !.nojekyll
+
+# B2B LP site assets (js/css/pdf under B2B/lp)
+!B2B/lp/**
