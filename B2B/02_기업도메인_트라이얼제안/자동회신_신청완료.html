@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+  기업도메인 트라이얼 제안 — 신청 완료 자동회신 메일 (HTML)
+  ※ 폼 7(ご関心) 라우팅에 따라 아래 [A 팀] 또는 [B 개인] 중 하나를 발송하도록 ESP에서 분기.
+     (이 파일은 두 버전을 한 문서에 담은 템플릿 모음 — 실제 발송 시 해당 블록만 사용)
+  플레이스홀더: {{NAME}} 신청자명 / {{TIMEREX_URL}} 예약 / {{SHIRYO_URL}} 자료PDF / {{COUPON_CODE}} 쿠폰 / {{START_URL}} 체험시작 / {{UNSUB_URL}} 配信停止
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お申し込みありがとうございます</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f5f7; font-family:'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,'Yu Gothic',sans-serif; color:#333;">
+
+<!-- ============================================================= -->
+<!-- ▼▼▼  [A] チーム導入を選んだ方向け  ▼▼▼ -->
+<!-- ============================================================= -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;">
+  <tr><td align="center" style="padding:24px 12px;">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#fff; border-radius:10px; overflow:hidden;">
+      <tr><td style="background:#2563eb; height:6px; font-size:0;">&nbsp;</td></tr>
+      <tr><td style="padding:30px 32px; font-size:15px; line-height:1.85;">
+        <p style="margin:0 0 16px;">{{NAME}} 様</p>
+        <p style="margin:0 0 16px;">このたびは「ミリキャンバス B2B導入支援」にお申し込みいただき、誠にありがとうございます。担当のキム・スビンです。</p>
+        <p style="margin:0 0 16px;">チームでのご利用について、<strong>30分ほどのオンラインデモ・ご相談</strong>で、最適な始め方（ワークスペースの発行方法・人数・活用イメージ）をご案内いたします。下記より、ご都合のよい日時をお選びください。</p>
+
+        <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 18px;">
+          <tr><td align="center" bgcolor="#2563eb" style="border-radius:8px;">
+            <a href="{{TIMEREX_URL}}" style="display:inline-block; padding:14px 40px; font-size:16px; font-weight:bold; color:#fff; text-decoration:none;">日時を予約する</a>
+          </td></tr>
+        </table>
+
+        <p style="margin:0 0 8px;">事前に概要をご覧になりたい方は、こちらの資料をご利用ください。</p>
+        <p style="margin:0 0 18px;">▶ <a href="{{SHIRYO_URL}}" style="color:#2563eb;">ミリキャンバス紹介・キャンペーン資料（PDF）</a></p>
+
+        <p style="margin:0 0 4px; font-size:13.5px; color:#555;">※ 契約書・お支払い情報・自動課金は不要です。ご不明な点は、本メールにそのままご返信ください。</p>
+        <p style="margin:18px 0 0;">どうぞよろしくお願いいたします。</p>
+      </td></tr>
+      <tr><td style="padding:0 32px 26px;">
+        <div style="border-top:1px solid #eee; padding-top:16px; font-size:12px; color:#999; line-height:1.7;">
+          株式会社ミリディー（ミリキャンバス 日本事業）／ 担当：キム・スビン<br>
+          配信停止は <a href="{{UNSUB_URL}}" style="color:#999;">こちら</a>
+        </div>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+
+<!-- ============================================================= -->
+<!-- ▼▼▼  [B] 個人体験（Pro 1か月）を選んだ方向け  ▼▼▼ -->
+<!-- ============================================================= -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;">
+  <tr><td align="center" style="padding:24px 12px;">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#fff; border-radius:10px; overflow:hidden;">
+      <tr><td style="background:#2563eb; height:6px; font-size:0;">&nbsp;</td></tr>
+      <tr><td style="padding:30px 32px; font-size:15px; line-height:1.85;">
+        <p style="margin:0 0 16px;">{{NAME}} 様</p>
+        <p style="margin:0 0 16px;">このたびはお申し込みいただき、誠にありがとうございます。担当のキム・スビンです。</p>
+        <p style="margin:0 0 12px;">Proプランを<strong>1か月間無料</strong>でお試しいただけます。下記のクーポンコードをご利用ください（1アカウントにつき1回適用）。</p>
+
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 18px;">
+          <tr><td align="center" style="background:#f0f5ff; border:1px dashed #2563eb; border-radius:8px; padding:16px;">
+            <span style="font-size:13px; color:#666;">クーポンコード</span><br>
+            <span style="font-size:22px; font-weight:bold; letter-spacing:2px; color:#1d4ed8;">{{COUPON_CODE}}</span>
+          </td></tr>
+        </table>
+
+        <p style="margin:0 0 8px; font-weight:bold;">ご利用方法</p>
+        <p style="margin:0 0 18px; font-size:14px; color:#555; line-height:1.8;">
+          ① 下記よりミリキャンバスにログイン<br>
+          ② 有料プラン → クーポンコード入力欄に上記コードを入力するだけ
+        </p>
+
+        <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
+          <tr><td align="center" bgcolor="#2563eb" style="border-radius:8px;">
+            <a href="{{START_URL}}" style="display:inline-block; padding:13px 36px; font-size:15px; font-weight:bold; color:#fff; text-decoration:none;">いますぐ始める</a>
+          </td></tr>
+        </table>
+
+        <p style="margin:0; font-size:13.5px; color:#555;">※ チーム全体でのご利用（最大100名・6か月無料）にご関心が出てきましたら、いつでも本メールにご返信ください。私がご案内いたします。</p>
+        <p style="margin:18px 0 0;">どうぞよろしくお願いいたします。</p>
+      </td></tr>
+      <tr><td style="padding:0 32px 26px;">
+        <div style="border-top:1px solid #eee; padding-top:16px; font-size:12px; color:#999; line-height:1.7;">
+          株式会社ミリディー（ミリキャンバス 日本事業）／ 担当：キム・スビン<br>
+          配信停止は <a href="{{UNSUB_URL}}" style="color:#999;">こちら</a>
+        </div>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+
+</body>
+</html>
