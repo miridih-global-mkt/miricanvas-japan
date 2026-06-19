@@ -41,12 +41,12 @@ export async function onRequestGet({ request, env }) {
   ).bind(...binds).all();
 
   const header = ['ID', '앰버서더', '유형', '실시일', '제출일(UTC)', '상태',
-    '제안금액', '확정금액', '지불건', '내용(JSON)', '운영메모'];
+    '제안금액', '확정금액', '지불건', '내용(JSON)', '連絡事項', '非公開メモ'];
   const rows = results.map(s => [
     s.id, s.ambassador_name, TYPE_LABELS[s.type] || s.type,
     s.activity_date ?? '', s.created_at, STATUS_LABELS[s.status] || s.status,
     s.suggested_amount ?? '', s.approved_amount ?? '', s.bill_title ?? '',
-    s.payload, s.admin_note ?? '',
+    s.payload, s.admin_note ?? '', s.private_note ?? '',
   ].map(csvCell).join(','));
 
   const csv = String.fromCharCode(0xfeff) + header.join(',') + '\n' + rows.join('\n');

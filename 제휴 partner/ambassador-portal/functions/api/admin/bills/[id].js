@@ -25,9 +25,9 @@ export async function onRequestPatch({ request, env, params }) {
     const pay = normalizePayment(body);
     if (pay.error) return err(pay.error);
     await env.DB.prepare(
-      `UPDATE bills SET title = ?, memo = ?, pay_month = ?, method = ?, gift_codes = ?, transfer_date = ?,
+      `UPDATE bills SET title = ?, memo = ?, liaison_note = ?, pay_month = ?, method = ?, gift_codes = ?, transfer_date = ?,
        updated_at = datetime('now') WHERE id = ?`
-    ).bind(title, (body.memo || '').trim() || null, pay.payMonth, pay.method,
+    ).bind(title, (body.memo || '').trim() || null, (body.liaison_note || '').trim() || null, pay.payMonth, pay.method,
       pay.giftCodes.length ? JSON.stringify(pay.giftCodes) : null, pay.transferDate, id).run();
     return json({ ok: true });
   }

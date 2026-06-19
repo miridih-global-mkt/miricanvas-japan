@@ -578,6 +578,7 @@ function openRewardDetail(billId) {
       <dt>金額</dt><dd><b>${yen(total)}</b>（${items.length}件）</dd>
       <dt>お渡し方法</dt><dd>${b.method === 'amazon' ? '🎁 ' : '🏦 '}${METHOD_LABELS[b.method]}</dd>
       ${b.method === 'transfer' && b.transfer_date ? `<dt>送金日</dt><dd>${b.transfer_date.replaceAll('-', '/')}</dd>` : ''}
+      ${b.liaison_note ? `<dt>運営より</dt><dd>${escapeHtml(b.liaison_note)}</dd>` : ''}
     </dl>
     ${b.method === 'amazon' ? `
     <div class="codes-block">
@@ -614,7 +615,7 @@ function openSubmissionDetail(id) {
       <dt>日付</dt><dd>${fmtDate(actDate(s))}</dd>
       <dt>金額</dt><dd>${isFixed ? `<b>${yen(s.approved_amount)}</b>（確定）` : s.suggested_amount != null ? `目安 ${yen(s.suggested_amount)}（確認中）` : '確認中'}</dd>
       ${rows}
-      ${s.status === 'rejected' && s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
+      ${s.admin_note ? `<dt>運営より</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
     </dl>
     ${files.length ? `<p>📎 ${files.map((f) => `<a href="/api/files/${f.id}?token=${encodeURIComponent(token)}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</p>` : ''}
   `;

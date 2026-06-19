@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS bills (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   ambassador_id INTEGER NOT NULL REFERENCES ambassadors(id),
   title TEXT NOT NULL,                          -- 필수. 예: "2026年6月分"
-  memo TEXT,
+  memo TEXT,                                    -- 非公開メモ (운영 내부용, 앰버서더 비노출)
+  liaison_note TEXT,                            -- 連絡事項 (앰버서더 노출)
   pay_month TEXT,                               -- 지불월 (YYYY-MM, 선택)
   method TEXT CHECK (method IN ('amazon','transfer')),  -- 지불방법 (선택, 발송 시 필수)
   gift_codes TEXT,                              -- 아마존: 기프트코드 JSON 배열
@@ -38,7 +39,8 @@ CREATE TABLE IF NOT EXISTS submissions (
   approved_amount INTEGER,                      -- 운영자 확정 금액(엔)
   status TEXT NOT NULL DEFAULT 'submitted'
     CHECK (status IN ('submitted','approved','rejected')),
-  admin_note TEXT,
+  admin_note TEXT,                              -- 連絡事項 (앰버서더 노출)
+  private_note TEXT,                            -- 非公開メモ (운영 내부용, 앰버서더 비노출)
   bill_id INTEGER REFERENCES bills(id),         -- 소속 지불건 (N:1, NULL = 미편성)
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   reviewed_at TEXT

@@ -252,6 +252,7 @@ function billFormValues() {
   return {
     title: $('#bill-title').value.trim(),
     memo: $('#bill-memo').value,
+    liaison_note: $('#bill-liaison').value,
     pay_month: $('#bill-paymonth').value || null,
     method,
     gift_codes: method === 'amazon'
@@ -282,6 +283,7 @@ function openBillModal(mode, bill = null) {
     $('#bill-codes').value = '';
     $('#bill-date').value = '';
     $('#bill-memo').value = '';
+    $('#bill-liaison').value = '';
     $('#bill-submit').textContent = '作成する';
   } else {
     $('#bill-modal-title').textContent = 'リワード案件の修正';
@@ -292,6 +294,7 @@ function openBillModal(mode, bill = null) {
     $('#bill-codes').value = bill.method === 'amazon' ? bill.gift_codes.join('\n') : '';
     $('#bill-date').value = bill.transfer_date || '';
     $('#bill-memo').value = bill.memo || '';
+    $('#bill-liaison').value = bill.liaison_note || '';
     $('#bill-submit').textContent = '修正を保存する';
   }
   toggleBillFields();
@@ -342,7 +345,8 @@ function openDetail(id) {
       <dt>提出日</dt><dd>${fmtDate(actDate({ activity_date: null, created_at: s.created_at }))}</dd>
       ${s.bill_title ? `<dt>リワード案件</dt><dd>${escapeHtml(s.bill_title)}</dd>` : ''}
       ${rows}
-      ${s.admin_note ? `<dt>運営メモ</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
+      ${s.admin_note ? `<dt>連絡事項</dt><dd>${escapeHtml(s.admin_note)}</dd>` : ''}
+      ${s.private_note ? `<dt>非公開メモ</dt><dd class="private">${escapeHtml(s.private_note)}</dd>` : ''}
     </dl>
     ${imgs.length ? `<div class="file-thumbs">${imgs.map((f) => `<a href="/api/files/${f.id}" target="_blank"><img src="/api/files/${f.id}" alt="${escapeHtml(f.filename)}"></a>`).join('')}</div>` : ''}
     ${others.length ? `<p>📎 ${others.map((f) => `<a href="/api/files/${f.id}" target="_blank">${escapeHtml(f.filename)}</a>`).join(' / ')}</p>` : ''}
@@ -357,7 +361,10 @@ function openDetail(id) {
       <h3>審査</h3>
       <label class="field">確定金額（円）<input type="number" id="rv-amount" min="0" value="${amount}"></label>
       <p class="muted">自動提案：${yen(s.suggested_amount)}${s.type === 'referral' ? '（紹介は報酬案確定前のため手動入力）' : ''}</p>
-      <label class="field">運営メモ（差し戻し理由など — アンバサダーに表示されます）<textarea id="rv-note">${escapeHtml(s.admin_note || '')}</textarea></label>
+      <label class="field">連絡事項 <span class="note-tag visible">アンバサダーに表示</span>
+        <textarea id="rv-note" placeholder="差し戻し理由・お礼・次回への依頼など">${escapeHtml(s.admin_note || '')}</textarea></label>
+      <label class="field">非公開メモ <span class="note-tag hidden">運営のみ</span>
+        <textarea id="rv-private" placeholder="社内記録（アンバサダーには表示されません）">${escapeHtml(s.private_note || '')}</textarea></label>
     `;
     setModalActions(`
       ${s.status !== 'submitted' ? '<button class="ghost" id="rv-reopen">確認中に戻す</button>' : ''}
@@ -367,7 +374,7 @@ function openDetail(id) {
 
     const act = async (action, extra = {}) => {
       try {
-        await api(`/api/admin/submissions/${id}`, { method: 'PATCH', body: { action, admin_note: $('#rv-note').value || null, ...extra } });
+        await api(`/api/admin/submissions/${id}`, { method: 'PATCH', body: { action, admin_note: $('#rv-note').value, private_note: $('#rv-private').value, ...extra } });
         toast('更新しました');
         closeModal();
         await loadSubs();
@@ -497,7 +504,8 @@ function openBillDetail(b) {
       <dt>支払い月</dt><dd>${b.pay_month ? fmtMonth(b.pay_month) : '—'}</dd>
       <dt>支払い方法</dt><dd>${b.method ? METHOD_LABELS[b.method] : '未定'}</dd>
       ${b.method === 'transfer' ? `<dt>送金日</dt><dd>${b.transfer_date ? b.transfer_date.replaceAll('-', '/') : '—'}</dd>` : ''}
-      ${b.memo ? `<dt>メモ</dt><dd>${escapeHtml(b.memo)}</dd>` : ''}
+      ${b.liaison_note ? `<dt>連絡事項</dt><dd>${escapeHtml(b.liaison_note)}</dd>` : ''}
+      ${b.memo ? `<dt>非公開メモ</dt><dd class="private">${escapeHtml(b.memo)}</dd>` : ''}
       <dt>作成日</dt><dd>${fmtDate(b.created_at)}</dd>
       <dt>発送日</dt><dd>${isSent ? fmtDate(b.sent_at) : '未発送'}</dd>
     </dl>

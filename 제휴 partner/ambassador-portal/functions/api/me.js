@@ -24,9 +24,9 @@ export async function onRequestGet({ request, env }) {
        AND substr(activity_date, 1, 7) = substr(datetime('now', '+9 hours'), 1, 7)`
   ).bind(amb.id).first();
 
-  // 리워드 안건 (발송된 것만 노출. memo는 운영 내부용이므로 제외)
+  // 리워드 안건 (발송된 것만 노출. memo=非公開メモ는 제외, liaison_note=連絡事項은 노출)
   const { results: bills } = await env.DB.prepare(
-    `SELECT id, title, pay_month, method, gift_codes, transfer_date, sent_at, created_at
+    `SELECT id, title, liaison_note, pay_month, method, gift_codes, transfer_date, sent_at, created_at
      FROM bills WHERE ambassador_id = ? AND sent_at IS NOT NULL
      ORDER BY sent_at DESC, id DESC`
   ).bind(amb.id).all();

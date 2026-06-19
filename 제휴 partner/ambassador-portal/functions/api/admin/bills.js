@@ -76,9 +76,9 @@ export async function onRequestPost({ request, env }) {
   if (ambIds.length > 1) return err('異なるアンバサダーの活動を一つの案件にまとめることはできません');
 
   const ins = await env.DB.prepare(
-    `INSERT INTO bills (ambassador_id, title, memo, pay_month, method, gift_codes, transfer_date)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`
-  ).bind(ambIds[0], title, (body.memo || '').trim() || null,
+    `INSERT INTO bills (ambassador_id, title, memo, liaison_note, pay_month, method, gift_codes, transfer_date)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(ambIds[0], title, (body.memo || '').trim() || null, (body.liaison_note || '').trim() || null,
     pay.payMonth, pay.method, pay.giftCodes.length ? JSON.stringify(pay.giftCodes) : null, pay.transferDate).run();
   const billId = ins.meta.last_row_id;
 

@@ -187,7 +187,10 @@
       <textarea id="bill-codes" placeholder="AMZN-XXXX-XXXX-XXXX&#10;AMZN-YYYY-YYYY-YYYY"></textarea></label>
     <label class="field" id="bill-date-field" style="display:none">送金日
       <input type="date" id="bill-date"></label>
-    <label class="field">メモ（任意）<textarea id="bill-memo"></textarea></label>
+    <label class="field">連絡事項（任意）<span class="note-tag visible">アンバサダーに表示</span>
+      <textarea id="bill-liaison" placeholder="お礼・お支払いに関する連絡など"></textarea></label>
+    <label class="field">非公開メモ（任意）<span class="note-tag hidden">運営のみ</span>
+      <textarea id="bill-memo" placeholder="社内記録（アンバサダーには表示されません）"></textarea></label>
     <div class="modal-actions">
       <button class="primary" id="bill-submit">作成する</button>
     </div>
